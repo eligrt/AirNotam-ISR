@@ -99,10 +99,25 @@ async function scrape() {
   const page = await ctx.newPage();
 
   console.error("Loading IAA page (passing bot-wall)…");
-  await page.goto(SRC, { waitUntil: "networkidle", timeout: TIMEOUT });
-  // Radware challenge clears on a real browser; give it a moment then reload once.
-  await page.waitForTimeout(4000);
-  await page.goto(SRC, { waitUntil: "networkidle", timeout: TIMEOUT });
+  // Use domcontentloaded (fast, reliable) instead of networkidle, which never
+  // fires on this page because of the Radware challenge + analytics keep-alives.
+  await page.goto(SRC, { waitUntil: "domcontentloaded", timeout: TIMEOUT });
+
+  // Radware serves a JS challenge first, then reloads to the real content.
+  // Wait for either: a NOTAM id pattern in the text, retrying with reloads.
+  let ready = false;
+  for (let attempt = 0; attempt < 6 && !ready; attempt++) {
+    await page.waitForTimeout(5000);
+    const txt = await page.evaluate(() => document.body ? document.body.innerText : "");
+    if (/[A-Z]\d{4}\/\d{2}\s+NOTAM/.test(txt)) { ready = true; break; }
+    // not there yet — reload and try again (challenge may have just cleared)
+    try { await page.reload({ waitUntil: "domcontentloaded", timeout: TIMEOUT }); }
+    catch (_) { /* keep trying */ }
+  }
+  if (!ready) {
+    // one last long wait in case content is slow
+    await page.waitForTimeout(8000);
+  }
 
   // The NOTAM rows carry the raw ICAO text. Grab the whole rendered text and
   // extract every (Xnnnn/nn NOTAM...) block. This is robust to layout changes.
