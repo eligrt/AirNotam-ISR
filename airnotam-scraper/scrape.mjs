@@ -90,11 +90,25 @@ function parseNotam(raw) {
 
 // ── Scrape ─────────────────────────────────────────────────────────
 async function scrape() {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    args: [
+      "--disable-blink-features=AutomationControlled",
+      "--no-sandbox",
+      "--disable-dev-shm-usage"
+    ]
+  });
   const ctx = await browser.newContext({
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-               "(KHTML, like Gecko) Chrome/120.0 Safari/537.36",
-    locale: "en-US"
+               "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    locale: "en-US",
+    timezoneId: "Asia/Jerusalem",
+    viewport: { width: 1366, height: 900 },
+    extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9,he;q=0.8" }
+  });
+  // hide navigator.webdriver, a classic bot tell
+  await ctx.addInitScript(() => {
+    Object.defineProperty(navigator, "webdriver", { get: () => undefined });
   });
   const page = await ctx.newPage();
 
@@ -119,9 +133,28 @@ async function scrape() {
     await page.waitForTimeout(8000);
   }
 
-  // The NOTAM rows carry the raw ICAO text. Grab the whole rendered text and
-  // extract every (Xnnnn/nn NOTAM...) block. This is robust to layout changes.
-  const bodyText = await page.evaluate(() => document.body.innerText);
+  // The NOTAM rows carry the raw ICAO text. Grab text from the main page AND
+  // any iframes (some ASP.NET apps render content in a frame).
+  let bodyText = await page.evaluate(() => document.body ? document.body.innerText : "");
+  for (const frame of page.frames()) {
+    try {
+      const t = await frame.evaluate(() => document.body ? document.body.innerText : "");
+      if (t && t.length > bodyText.length) bodyText = bodyText + "\n" + t;
+    } catch (_) {}
+  }
+
+  // ── Diagnostics: help us see what the headless browser actually got ──
+  const title = await page.title().catch(() => "?");
+  const url = page.url();
+  console.error(`--- DIAGNOSTICS ---`);
+  console.error(`final URL : ${url}`);
+  console.error(`title     : ${title}`);
+  console.error(`text length: ${bodyText.length} chars`);
+  const challenge = /radware|reblaze|captcha|access denied|not supported|challenge|please enable javascript|bot/i.test(bodyText);
+  console.error(`looks like a block/challenge page: ${challenge}`);
+  console.error(`first 600 chars of page text:\n${bodyText.slice(0, 600)}`);
+  console.error(`--- END DIAGNOSTICS ---`);
+
   await browser.close();
 
   // Extract NOTAM blocks: start at "(X####/##" and run to the closing ")".
