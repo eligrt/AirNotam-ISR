@@ -1,0 +1,13 @@
+{
+  "name": "airnotam-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes Israeli NOTAMs from the official IAA AeroInfo page into notams.json",
+  "type": "module",
+  "scripts": {
+    "scrape": "node scrape.mjs",
+    "postinstall-note": "run: npx playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}
