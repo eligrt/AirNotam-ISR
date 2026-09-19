@@ -47,10 +47,13 @@ async function fetchText(url, attempt = 1) {
 }
 
 function parseList(html) {
+  // Two independent passes, then pair by document order. More robust than one
+  // combined regex across ~130 rows (avoids non-greedy backtracking issues).
+  const ids = [...html.matchAll(/rowClicked\('(\d+)'\)/g)].map(m => m[1]);
+  const notamNumbers = [...html.matchAll(/class="DivRecordID">([A-Z]\d{4}\/\d{2})</g)].map(m => m[1]);
   const rows = [];
-  const re = /rowClicked\('(\d+)'\)[\s\S]*?class="DivRecordID">([A-Z]\d{4}\/\d{2})</g;
-  let m;
-  while ((m = re.exec(html)) !== null) rows.push({ rowID: m[1], id: m[2] });
+  const n = Math.min(ids.length, notamNumbers.length);
+  for (let i = 0; i < n; i++) rows.push({ rowID: ids[i], id: notamNumbers[i] });
   return rows;
 }
 
