@@ -116,7 +116,18 @@ async function main() {
   const listHtml = await fetchText(LIST_URL);
   const rows = parseList(listHtml);
   console.error(`Found ${rows.length} NOTAMs in list.`);
-  if (!rows.length) throw new Error("No rows parsed from list page — layout changed or blocked.");
+  if (!rows.length) {
+    // Diagnostics: show what we actually received
+    console.error(`--- DIAGNOSTICS ---`);
+    console.error(`list page length: ${listHtml.length} chars`);
+    console.error(`contains 'rowClicked': ${listHtml.includes("rowClicked")}`);
+    console.error(`contains 'DivRecordID': ${listHtml.includes("DivRecordID")}`);
+    console.error(`contains 'perfdrive/radware/captcha': ${/perfdrive|radware|captcha/i.test(listHtml)}`);
+    console.error(`title: ${(listHtml.match(/<title>([\s\S]*?)<\/title>/i) || [,"?"])[1].trim()}`);
+    console.error(`first 800 chars:\n${listHtml.slice(0, 800)}`);
+    console.error(`--- END DIAGNOSTICS ---`);
+    throw new Error("No rows parsed from list page — see diagnostics above.");
+  }
 
   const notams = [];
   for (let i = 0; i < rows.length; i++) {
