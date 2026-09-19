@@ -47,10 +47,10 @@ async function fetchText(url, attempt = 1) {
 }
 
 function parseList(html) {
-  // Two independent passes, then pair by document order. More robust than one
-  // combined regex across ~130 rows (avoids non-greedy backtracking issues).
-  const ids = [...html.matchAll(/rowClicked\('(\d+)'\)/g)].map(m => m[1]);
-  const notamNumbers = [...html.matchAll(/class="DivRecordID">([A-Z]\d{4}\/\d{2})</g)].map(m => m[1]);
+  // The server sends XHTML where apostrophes in onclick are encoded as &#39;
+  // (browsers show them as ' but the raw bytes are the entity). Accept both.
+  const ids = [...html.matchAll(/rowClicked\((?:'|&#39;|&apos;)(\d+)(?:'|&#39;|&apos;)\)/g)].map(m => m[1]);
+  const notamNumbers = [...html.matchAll(/class="DivRecordID">\s*([A-Z]\d{4}\/\d{2})/g)].map(m => m[1]);
   const rows = [];
   const n = Math.min(ids.length, notamNumbers.length);
   for (let i = 0; i < n; i++) rows.push({ rowID: ids[i], id: notamNumbers[i] });
@@ -78,12 +78,19 @@ function parseTimes(text) {
   return { fromDate: b ? toISO(b[1]) : null, toDate: c ? (/perm/i.test(c[1]) ? null : toISO(c[1])) : null };
 }
 
+function decodeEntities(s) {
+  return s
+    .replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ");
+}
+
 function parseDetail(html, fallbackId) {
-  const text = html
+  const text = decodeEntities(html
     .replace(/<style[\s\S]*?<\/style>/gi, "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
+    .replace(/<[^>]+>/g, " "))
     .replace(/\s+/g, " ")
     .trim();
 
@@ -123,11 +130,8 @@ async function main() {
     // Diagnostics: show what we actually received
     console.error(`--- DIAGNOSTICS ---`);
     console.error(`list page length: ${listHtml.length} chars`);
-    console.error(`contains 'rowClicked': ${listHtml.includes("rowClicked")}`);
-    console.error(`contains 'DivRecordID': ${listHtml.includes("DivRecordID")}`);
-    console.error(`contains 'perfdrive/radware/captcha': ${/perfdrive|radware|captcha/i.test(listHtml)}`);
-    console.error(`title: ${(listHtml.match(/<title>([\s\S]*?)<\/title>/i) || [,"?"])[1].trim()}`);
-    console.error(`first 800 chars:\n${listHtml.slice(0, 800)}`);
+    console.error(`rowClicked count (entity-aware): ${(listHtml.match(/rowClicked\((?:'|&#39;|&apos;)\d+/g) || []).length}`);
+    console.error(`DivRecordID count: ${(listHtml.match(/class="DivRecordID">/g) || []).length}`);
     console.error(`--- END DIAGNOSTICS ---`);
     throw new Error("No rows parsed from list page — see diagnostics above.");
   }
