@@ -24,12 +24,6 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install deps
-        working-directory: airnotam-scraper
-        run: |
-          npm install
-          npx playwright install --with-deps chromium
-
       - name: Run scraper
         working-directory: airnotam-scraper
         run: node scrape.mjs
