@@ -1,9 +1,0 @@
-{
-  "name": "airnotam-scraper",
-  "version": "2.0.0",
-  "description": "Scrapes Israeli NOTAMs from the official IAA Mobile AeroInfo pages into notams.json",
-  "type": "module",
-  "scripts": {
-    "scrape": "node scrape.mjs"
-  }
-}
