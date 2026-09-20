@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════
+     AirNotam-ISR · v1.02.007 · built by eligrt
+     ═══════════════════════════════════════ -->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AirNotam-ISR">
+<meta name="theme-color" content="#1c3d6e">
+<title>AirNotam-ISR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{
+  --paper:#f4ecdc;--paper-hi:#fbf6e8;--paper-edge:#e3d4ad;--paper-line:rgba(28,61,110,.055);
+  --ink:#1c3d6e;--ink-dark:#0e2348;--ink-body:#1a1308;--ink-muted:#5a4a3a;--ink-faint:#8a7a5a;
+  --gold:#c8a04a;--gold-deep:#8a6a2a;--gold-lite:#d4b878;
+  --asphalt:#2a2218;--cleared:#1f6f3f;--cleared2:#2d8a52;--stamp-red:#b94a3a;--amber:#f59e0b;
+  --font-ui:'IBM Plex Sans Hebrew','Heebo',-apple-system,system-ui,sans-serif;
+  --font-mono:'JetBrains Mono','Menlo','Courier New',monospace;
+  --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--ink-body);}
+#app{height:100%;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden;
+  background:var(--paper);
+  background-image:repeating-linear-gradient(0deg,transparent 0,transparent 27px,var(--paper-line) 27px,var(--paper-line) 28px);}
+
+/* ── HEADER ── */
+.hdr{flex-shrink:0;background:linear-gradient(180deg,var(--ink-dark),var(--ink));color:var(--paper);
+  padding:14px 16px 12px;border-bottom:3px solid var(--gold);}
+.hdr-title{font-family:var(--font-mono);font-size:22px;font-weight:700;letter-spacing:-.5px;direction:ltr;text-align:left;}
+.hdr-sub{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,236,220,.8);
+  font-family:var(--font-mono);margin-top:2px;direction:ltr;text-align:left;}
+.hdr-meta{font-size:10px;color:rgba(244,236,220,.7);margin-top:6px;font-family:var(--font-mono);direction:ltr;text-align:left;}
+.hdr-meta.err{color:#ffb4a8;}
+.stale-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:middle;}
+.stale-fresh{background:#3fb950;box-shadow:0 0 5px #3fb950;}
+.stale-aging{background:#e3a008;box-shadow:0 0 5px #e3a008;}
+.stale-old{background:#f85149;box-shadow:0 0 6px #f85149;animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.stale-warn{color:#ffb4a8;font-weight:600;}
+
+/* ── FILTER PANEL ── */
+.mode-toggle{display:flex;gap:4px;margin-top:8px;}
+.mode-btn{background:rgba(244,236,220,.12);color:rgba(244,236,220,.7);border:1px solid rgba(244,236,220,.2);
+  border-radius:6px;padding:5px 14px;font-size:12px;font-family:var(--font-mono);cursor:pointer;letter-spacing:.03em;}
+.mode-btn.on{background:var(--gold);color:var(--ink-dark);border-color:var(--gold);font-weight:700;}
+#map{width:100%;background:#aad3df;}
+#map .leaflet-container{height:100%;font-family:var(--font-ui);}
+.filterbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:9px 14px;background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);cursor:pointer;
+  user-select:none;}
+.filterbar:active{background:var(--paper-edge);}
+.fb-summary{font-size:12px;font-family:var(--font-mono);color:var(--ink);letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:rtl;}
+.fb-summary .fb-active{color:var(--gold-deep);font-weight:700;}
+.fb-chevron{font-size:12px;color:var(--ink-faint);transition:transform .18s;flex-shrink:0;}
+.fb-chevron.open{transform:rotate(180deg);}
+.filters{flex-shrink:0;padding:12px 14px;border-bottom:1px solid var(--paper-edge);background:var(--paper-hi);}
+.f-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.f-row:last-child{margin-bottom:0;}
+.f-lbl{font-size:9px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);min-width:74px;}
+.srch{flex:1;min-width:150px;background:var(--paper);border:1px solid var(--paper-edge);border-radius:var(--r);
+  padding:9px 11px;font-size:14px;font-family:var(--font-ui);color:var(--ink-body);}
+.srch:focus{outline:none;border-color:var(--gold);}
+.chip{background:var(--paper);border:1px solid var(--paper-edge);border-radius:20px;padding:6px 12px;
+  font-size:12px;font-family:var(--font-mono);cursor:pointer;color:var(--ink-muted);transition:all .12s;}
+.chip:active{transform:scale(.96);}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--paper);}
+.chip.pre.on{background:var(--gold-deep);border-color:var(--gold-deep);}
+.numin{width:64px;background:var(--paper);border:1px solid var(--paper-edge);border-radius:var(--r);
+  padding:7px 8px;font-size:13px;font-family:var(--font-mono);color:var(--ink-body);text-align:center;}
+.dtin{background:var(--paper);border:1px solid var(--paper-edge);border-radius:var(--r);
+  padding:6px 8px;font-size:12px;font-family:var(--font-mono);color:var(--ink-body);}
+.dtin:focus{outline:none;border-color:var(--gold);}
+.tgl{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;color:var(--ink-muted);}
+.tgl input{width:15px;height:15px;accent-color:var(--ink);}
+.unit{font-size:10px;font-family:var(--font-mono);color:var(--ink-faint);}
+
+/* ── COUNT BAR ── */
+.countbar{flex-shrink:0;padding:8px 16px;font-size:10px;font-family:var(--font-mono);
+  color:var(--ink-muted);letter-spacing:.05em;background:var(--paper);border-bottom:1px solid var(--paper-line);}
+
+/* ── LIST ── */
+.list{flex:1;padding:12px 14px 20px;overflow-y:auto;}
+.group{margin-bottom:20px;}
+.g-head{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;font-family:var(--font-mono);
+  letter-spacing:.05em;text-transform:uppercase;padding-bottom:6px;margin-bottom:10px;
+  border-bottom:2px solid var(--gold-lite);color:var(--ink);}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.g-now .dot{background:var(--cleared);} .g-soon .dot{background:var(--amber);} .g-later .dot{background:var(--ink-faint);}
+
+.card{background:var(--paper-hi);border:1px solid var(--paper-edge);border-radius:var(--r);
+  padding:11px 13px;margin-bottom:9px;box-shadow:0 1px 2px rgba(28,61,110,.06);}
+.card.now{border-inline-start:3px solid var(--cleared);}
+.card.soon{border-inline-start:3px solid var(--amber);}
+.c-head{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:6px;}
+.c-id{font-family:var(--font-mono);font-weight:700;font-size:14px;color:var(--ink-dark);}
+.c-loc{font-family:var(--font-mono);font-size:12px;color:var(--ink);background:rgba(28,61,110,.08);
+  padding:1px 6px;border-radius:4px;}
+.b{font-size:9px;font-family:var(--font-mono);padding:2px 6px;border-radius:10px;
+  border:1px solid var(--paper-edge);color:var(--ink-faint);}
+.b.alt{border-color:var(--gold);color:var(--gold-deep);}
+.b.admin{border-color:var(--stamp-red);color:var(--stamp-red);}
+.b.cat{border-color:var(--ink);color:var(--ink);}
+.b.rad{border-color:var(--ink-faint);}
+.c-text{font-family:var(--font-mono);font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word;
+  color:var(--ink-body);direction:ltr;text-align:left;margin-top:2px;}
+.c-when{font-size:10px;font-family:var(--font-mono);color:var(--ink-muted);margin-top:7px;
+  direction:ltr;text-align:left;border-top:1px dashed var(--paper-edge);padding-top:6px;}
+.empty{text-align:center;color:var(--ink-faint);font-size:13px;padding:30px 10px;}
+
+/* ── FOOTER ── */
+.footer-strip{flex-shrink:0;font-size:9px;font-family:var(--font-mono);color:var(--ink-faint);
+  letter-spacing:.1em;text-transform:uppercase;direction:rtl;border-top:1px solid var(--gold-lite);
+  background:var(--paper-hi);position:relative;padding:9px 14px;text-align:center;}
+.footer-refresh{position:absolute;top:50%;left:14px;transform:translateY(-50%);
+  font-size:11px;color:var(--ink-muted);cursor:pointer;text-decoration:underline;
+  text-underline-offset:2px;opacity:.75;font-family:var(--font-ui);letter-spacing:.02em;}
+.footer-refresh:active{opacity:.4;}
+.disc{flex-shrink:0;font-size:9px;color:var(--ink-faint);padding:8px 16px;background:var(--paper);
+  border-top:1px solid var(--paper-line);line-height:1.5;}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <div class="hdr">
+    <div class="hdr-title">AirNotam-ISR</div>
+    <div class="hdr-sub">Israel NOTAM · LSA / CVFR</div>
+    <div class="mode-toggle">
+      <button class="mode-btn on" id="modeList" onclick="setMode('list')">רשימה</button>
+      <button class="mode-btn" id="modeMap" onclick="setMode('map')">מפה</button>
+    </div>
+    <div class="hdr-meta" id="meta">טוען…</div>
+  </div>
+
+  <div class="filterbar" id="filterbar" onclick="toggleFilters()">
+    <span class="fb-summary" id="fbSummary">מסננים</span>
+    <span class="fb-chevron" id="fbChevron">▾</span>
+  </div>
+
+  <div class="filters" id="filters" style="display:none;">
+    <div class="f-row">
+      <input class="srch" id="search" type="text" placeholder="חיפוש חופשי — טקסט / מספר NOTAM…" autocomplete="off">
+    </div>
+    <div class="f-row">
+      <span class="f-lbl">שדות</span>
+      <span id="fields" style="display:flex;gap:6px;flex-wrap:wrap;"></span>
+    </div>
+    <div class="f-row">
+      <span class="f-lbl">קטגוריה</span>
+      <span id="cats" style="display:flex;gap:6px;flex-wrap:wrap;"></span>
+    </div>
+    <div class="f-row">
+      <span class="f-lbl">חלון זמן</span>
+      <span id="tf" style="display:flex;gap:6px;flex-wrap:wrap;"></span>
+    </div>
+    <div class="f-row" id="customRow" style="display:none;">
+      <span class="f-lbl">טווח (מקומי)</span>
+      <input class="dtin" id="fromDT" type="datetime-local">
+      <span class="unit">עד</span>
+      <input class="dtin" id="tillDT" type="datetime-local">
+    </div>
+    <div class="f-row">
+      <span class="f-lbl">גובה</span>
+      <label class="tgl"><input type="checkbox" id="altOn"> רק מתחת ל־</label>
+      <input class="numin" id="alt" type="number" value="5000" step="500">
+      <span class="unit">ft AMSL</span>
+    </div>
+    <div class="f-row">
+      <label class="tgl"><input type="checkbox" id="showUnknownAlt" checked> כלול NOTAM ללא גובה מוגדר</label>
+      <label class="tgl" style="margin-inline-start:1rem"><input type="checkbox" id="hideAdmin"> הסתר ADMIN (checklist/trigger)</label>
+    </div>
+  </div>
+
+  <div class="countbar" id="count"></div>
+  <div class="list" id="list"></div>
+  <div id="map" style="display:none;flex:1;"></div>
+
+  <div class="disc" id="disc"></div>
+  <div class="footer-strip">
+    <span class="footer-refresh" onclick="load()">רענון</span>
+    <span>AirNotam-ISR · v1.02.007 · built by eligrt</span>
+  </div>
+</div>
+
+<script>
+const FEED="https://raw.githubusercontent.com/eligrt/AirNotam-ISR/main/notams.json";
+const FIELDS=["LLRS","LLMG","LLLL","LLBG","LLER","LLHA"];
+const TIMEFRAMES=[["now","עכשיו",0],["6","6 שעות",6],["24","24 שעות",24],["all","הכל",null],["custom","מותאם","custom"]];
+// Q-code (chars 2-3 of qcode) -> friendly category. First letter after Q groups it.
+const CATS=[
+  ["route","נתיב/מרחב",["QAR","QAE","QAC","QAN","QAL","QAT"]],  // airspace/routes
+  ["ad","שדה/מסלול",["QFA","QMR","QMX","QLP","QLC","QIS","QIC"]],// aerodrome/runway/ILS
+  ["navaid","עזרי ניווט",["QND","QNM","QNL","QNV","QNB"]],       // navaids
+  ["obstacle","מכשולים",["QOB","QOL","QOA","QOT"]],              // obstacles/other ops
+  ["warning","אזהרות",["QW"]],                                   // W... nav warnings (PJE/UAS/fire/frng)
+  ["comms","תקשורת",["QCA","QCC","QSE","QSA"]],                  // comms/radar/services
+  ["gnss","GNSS",["QGW","QGA"]],                                 // GNSS
+];
+function catOf(qcode){
+  if(!qcode)return "other";
+  const q3=qcode.slice(0,3), q2=qcode.slice(0,2);
+  for(const [key,,codes] of CATS){
+    for(const c of codes){ if(c.length===2? q2===c : q3===c) return key; }
+  }
+  return "other";
+}
+function catLabel(key){const f=CATS.find(c=>c[0]===key);return f?f[1]:"אחר";}
+
+let ALL=[];
+const activeFields=new Set();
+const activeCats=new Set();
+let tfMode=null;
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// enrich straight from feed fields — no more raw-text guessing
+function enrich(n){
+  const q=n.qLine||{};
+  const lowerFt = q.lowerLimitFl!=null? parseInt(q.lowerLimitFl,10)*100 : null;
+  const upperFt = q.upperLimitFl!=null? parseInt(q.upperLimitFl,10)*100 : null;
+  return {
+    raw:n,
+    id:n.id||"—",
+    loc:n.location||"", airfield:n.airfield||"",
+    text:n.eText||n.rawText||"",
+    lowerFt, upperFt,
+    lowerStr:n.lowerLimit, upperStr:n.upperLimit, // human strings when present
+    radiusNm: n.position?.radiusNm ?? q.position?.radiusNm ?? null,
+    lat: n.position?.lat ?? q.position?.lat ?? null,
+    lon: n.position?.lon ?? q.position?.lon ?? null,
+    start: n.fromDate? new Date(n.fromDate):null,
+    end: n.toDate? new Date(n.toDate):null,
+    admin: !!n.administrative,
+    type: n.notamType||"", replaces: n.replaces||null,
+    cat: catOf(q.qcode), qcode:q.qcode||""
+  };
+}
+function isActiveNow(e,now){return(!e.start||e.start<=now)&&(!e.end||e.end>now);}
+function timeGroup(e,now){if(isActiveNow(e,now))return"now";if(e.start&&e.start>now)return"soon";return"later";}
+function fmtUTC(d){return d?d.toISOString().slice(0,16).replace("T"," ")+"Z":"—";}
+
+function passFilters(e,now){
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  if(q && !e.text.toLowerCase().includes(q) && !e.id.toLowerCase().includes(q)
+       && !JSON.stringify(e.raw).toLowerCase().includes(q)) return false;
+
+  if(document.getElementById("hideAdmin").checked && e.admin) return false;
+
+  if(activeFields.size){
+    const hay=(e.loc+" "+e.airfield+" "+e.text).toUpperCase();
+    let hit=false; activeFields.forEach(f=>{if(hay.includes(f))hit=true;});
+    if(!hit)return false;
+  }
+  if(activeCats.size && !activeCats.has(e.cat)) return false;
+
+  // time-frame
+  if(tfMode==="custom"){
+    const fv=document.getElementById("fromDT").value, tv=document.getElementById("tillDT").value;
+    const from=fv?new Date(fv):null, till=tv?new Date(tv):null;
+    const s=e.start||new Date(-8.64e15), en=e.end||new Date(8.64e15);
+    if(from&&en<from)return false;
+    if(till&&s>till)return false;
+  }else if(tfMode!==null){
+    const horizon=new Date(now.getTime()+tfMode*3600*1000);
+    const startsInWindow=e.start&&e.start<=horizon;
+    if(!isActiveNow(e,now)&&!startsInWindow)return false;
+    if(e.end&&e.end<now)return false;
+  }
+
+  if(document.getElementById("altOn").checked){
+    const thr=parseFloat(document.getElementById("alt").value)||0;
+    if(e.lowerFt==null){if(!document.getElementById("showUnknownAlt").checked)return false;}
+    else if(e.lowerFt>thr)return false;
+  }
+  return true;
+}
+
+function render(){
+  const now=new Date();
+  const items=ALL.map(enrich).filter(e=>passFilters(e,now));
+  LAST_ITEMS=items;
+  const groups={now:[],soon:[],later:[]};
+  items.forEach(e=>groups[timeGroup(e,now)].push(e));
+  Object.values(groups).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
+
+  document.getElementById("count").textContent=
+    `${items.length}/${ALL.length} · פעיל כעת ${groups.now.length} · צפוי ${groups.soon.length}`;
+  updateFilterSummary(items.length);
+
+  const G=[["now","g-now","פעיל כעת"],["soon","g-soon","צפוי"],["later","g-later","אחר"]];
+  const html=G.map(([k,cls,title])=>{
+    if(!groups[k].length)return"";
+    return`<div class="group ${cls}"><div class="g-head"><span class="dot"></span>${title} · ${groups[k].length}</div>`
+      +groups[k].map(e=>card(e,k)).join("")+`</div>`;
+  }).join("");
+  document.getElementById("list").innerHTML=html||'<div class="empty">אין NOTAMs התואמים לסינון</div>';
+
+  if(currentMode==="map") renderMap();
+}
+
+// ── Map mode ──
+let MAP=null, MAP_LAYER=null, MAP_NOTE=null, LAST_ITEMS=[], currentMode="list";
+
+function setMode(mode){
+  currentMode=mode;
+  const isMap = mode==="map";
+  document.getElementById("list").style.display = isMap? "none":"block";
+  document.getElementById("map").style.display = isMap? "flex":"none";
+  document.getElementById("countbar")?.style && (document.getElementById("count").style.display = isMap?"none":"block");
+  document.getElementById("modeList").classList.toggle("on", !isMap);
+  document.getElementById("modeMap").classList.toggle("on", isMap);
+  if(isMap){ initMap(); renderMap(); }
+}
+
+function initMap(){
+  if(typeof L==="undefined"){
+    document.getElementById("map").innerHTML=
+      '<div style="padding:2rem;text-align:center;color:#5a4a3a;font-family:monospace">מפה לא זמינה (Leaflet לא נטען — בדוק חיבור)</div>';
+    return;
+  }
+  if(MAP) { setTimeout(()=>MAP.invalidateSize(), 50); return; }
+  MAP = L.map("map", { center:[31.5, 35.0], zoom:7, zoomControl:true });
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom:18, attribution:"© OpenStreetMap"
+  }).addTo(MAP);
+  MAP_LAYER = L.layerGroup().addTo(MAP);
+  setTimeout(()=>MAP.invalidateSize(), 50);
+}
+
+function renderMap(){
+  if(!MAP) return;
+  MAP_LAYER.clearLayers();
+  const now=new Date();
+  const colorFor = e => {
+    if(isActiveNow(e,now)) return "#1f6f3f";      // active = green
+    if(e.start&&e.start>now) return "#e3a008";    // upcoming = amber
+    return "#8a7a5a";
+  };
+  // Group NOTAMs that share (almost) the same center, so one click shows all.
+  const groups={};
+  let plotted=0;
+  LAST_ITEMS.forEach(e=>{
+    if(e.lat==null||e.lon==null) return;
+    const key=`${e.lat.toFixed(3)},${e.lon.toFixed(3)}`; // ~100m bucket
+    (groups[key]=groups[key]||[]).push(e);
+    plotted++;
+  });
+
+  Object.values(groups).forEach(list=>{
+    // draw a circle per NOTAM (so different radii still show), but bind ONE
+    // popup listing every NOTAM at this location to whichever we click.
+    const anyActive = list.some(e=>isActiveNow(e,now));
+    const anySoon = list.some(e=>e.start&&e.start>now);
+    const col = anyActive? "#1f6f3f" : anySoon? "#e3a008" : "#8a7a5a";
+    const popupHtml = `<div style="max-height:220px;overflow:auto">`
+      + `<b>${list.length>1?list.length+" NOTAMs כאן":"NOTAM"}</b>`
+      + list.map(e=>{
+          const alt=(e.lowerStr||e.upperStr)?`${e.lowerStr||"?"}–${e.upperStr||"?"}`
+            :(e.lowerFt!=null?`${e.lowerFt}–${e.upperFt==null?'?':e.upperFt}ft`:"גובה ?");
+          return `<div style="border-top:1px solid #ddd;margin-top:5px;padding-top:5px">`
+            +`<b>${esc(e.id)}</b> · ${esc(e.loc||"")}<br>`
+            +`<span style="font-family:monospace;font-size:11px">${esc(e.text.slice(0,160))}</span><br>`
+            +`<small>${esc(alt)} · ${fmtUTC(e.start)}→${fmtUTC(e.end)}</small></div>`;
+        }).join("")
+      + `</div>`;
+
+    // sort so the largest circle is drawn first (smaller on top, all clickable)
+    list.slice().sort((a,b)=>(b.radiusNm||0.5)-(a.radiusNm||0.5)).forEach(e=>{
+      const radiusM=(e.radiusNm||0.5)*1852;
+      const circle=L.circle([e.lat,e.lon],{radius:radiusM,color:col,weight:2,fillColor:col,fillOpacity:0.12});
+      circle.bindPopup(popupHtml,{maxWidth:280});
+      circle.addTo(MAP_LAYER);
+    });
+    // a small center dot to guarantee a reliable click target when circles overlap
+    const c=list[0];
+    L.circleMarker([c.lat,c.lon],{radius:4,color:col,fillColor:col,fillOpacity:1,weight:1})
+      .bindPopup(popupHtml,{maxWidth:280}).addTo(MAP_LAYER);
+  });
+
+  const missing = LAST_ITEMS.length - plotted;
+  if(MAP_NOTE){ MAP.removeControl(MAP_NOTE); MAP_NOTE=null; }
+  MAP_NOTE=L.control({position:"bottomleft"});
+  MAP_NOTE.onAdd=function(){const d=L.DomUtil.create("div");
+    d.style.cssText="background:rgba(255,255,255,.85);padding:3px 7px;border-radius:5px;font-size:11px;font-family:monospace";
+    d.textContent=`${plotted} על המפה${missing>0?" · "+missing+" ללא מיקום":""}`;return d;};
+  MAP_NOTE.addTo(MAP);
+}
+
+
+
+function card(e,k){
+  const altTxt = (e.lowerStr||e.upperStr)
+    ? `${e.lowerStr||"?"}–${e.upperStr||"?"}`
+    : (e.lowerFt!=null? `${e.lowerFt}–${e.upperFt==null?'?':e.upperFt} ft` : "גובה ?");
+  const alt=`<span class="b alt">${esc(altTxt)}</span>`;
+  const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
+  const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
+  const admin=e.admin?`<span class="b admin">ADMIN</span>`:"";
+  const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
+  return`<div class="card ${k}">
+    <div class="c-head"><span class="c-id">${esc(e.id)}</span>
+      ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}
+      ${cat}${alt}${rad}${admin}${repl}</div>
+    <div class="c-text">${esc(e.text)}</div>
+    <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+  </div>`;
+}
+
+function toggleFilters(){
+  const f=document.getElementById("filters");
+  const chev=document.getElementById("fbChevron");
+  const open = f.style.display==="none";
+  f.style.display = open ? "block" : "none";
+  chev.classList.toggle("open", open);
+}
+
+function updateFilterSummary(shown){
+  const parts=[];
+  if(activeFields.size) parts.push([...activeFields].join(","));
+  if(activeCats.size) parts.push([...activeCats].map(catLabel).join(","));
+  const tfLabel=(TIMEFRAMES.find(t=>t[2]===tfMode)||[])[1];
+  if(tfMode!==null && tfLabel) parts.push(tfLabel);
+  if(document.getElementById("altOn").checked) parts.push("<"+ (document.getElementById("alt").value||"?") +"ft");
+  const q=document.getElementById("search").value.trim();
+  if(q) parts.push('"'+q+'"');
+  const summary = parts.length
+    ? `<span class="fb-active">${esc(parts.join(" · "))}</span> · ${shown} תוצאות`
+    : `מסננים · ${shown} תוצאות`;
+  document.getElementById("fbSummary").innerHTML = summary;
+}
+
+function buildChips(){
+  const fb=document.getElementById("fields");
+  FIELDS.forEach(f=>{const el=document.createElement("span");el.className="chip";el.textContent=f;
+    el.onclick=()=>{el.classList.toggle("on");
+      activeFields.has(f)?activeFields.delete(f):activeFields.add(f);render();};fb.appendChild(el);});
+
+  const cb=document.getElementById("cats");
+  CATS.forEach(([key,label])=>{const el=document.createElement("span");el.className="chip";el.textContent=label;
+    el.onclick=()=>{el.classList.toggle("on");
+      activeCats.has(key)?activeCats.delete(key):activeCats.add(key);render();};cb.appendChild(el);});
+
+  const tb=document.getElementById("tf");
+  TIMEFRAMES.forEach(([key,label,h])=>{const el=document.createElement("span");
+    el.className="chip pre"+(h===tfMode?" on":"");el.textContent=label;
+    el.onclick=()=>{tfMode=h;document.querySelectorAll("#tf .chip").forEach(c=>c.classList.remove("on"));
+      el.classList.add("on");
+      const cr=document.getElementById("customRow");
+      if(h==="custom"){cr.style.display="flex";prefillDates();}else{cr.style.display="none";}
+      render();};tb.appendChild(el);});
+}
+function prefillDates(){
+  const f=document.getElementById("fromDT"),t=document.getElementById("tillDT");
+  if(f.value&&t.value)return;
+  const pad=n=>String(n).padStart(2,"0");
+  const fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const now=new Date();f.value=fmt(now);t.value=fmt(new Date(now.getTime()+24*3600*1000));
+}
+
+async function load(){
+  const meta=document.getElementById("meta");meta.textContent="טוען…";meta.className="hdr-meta";
+  try{
+    const res=await fetch(FEED,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);
+    const data=await res.json();ALL=data.notams||[];
+    const gen=data.generatedAt?new Date(data.generatedAt):null;
+    meta.innerHTML=staleLine(gen,data.count??ALL.length);
+    document.getElementById("disc").textContent=
+      "⚠️ כלי עזר בלבד — אמת מול תדריך NOTAM רשמי לפני כל טיסה. מקור: IAA (איסוף עצמאי). "+(data.disclaimer||"");
+    render();
+  }catch(e){meta.className="hdr-meta err";meta.textContent="LOAD ERROR: "+e.message;}
+}
+
+// age judged by generatedAt (when scraped), NOT by fetch time
+function staleLine(gen,count){
+  if(!gen) return `SRC: IAA official (own scraper) · ${count} · <span class="stale-warn">⚠ עדכון לא ידוע</span>`;
+  const mins=Math.round((Date.now()-gen.getTime())/60000);
+  let cls,txt;
+  if(mins<30){cls="stale-fresh";txt="עדכני";}
+  else if(mins<180){cls="stale-aging";txt="מתיישן";}
+  else{cls="stale-old";txt="ישן — בדוק מקור רשמי!";}
+  const ago = mins<60? `${mins} דק'` : `${Math.floor(mins/60)}ש ${mins%60}דק'`;
+  const when=gen.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+  return `<span class="stale-dot ${cls}"></span>SRC: IAA official (own scraper) · ${count} · `
+       + `<span class="${cls==='stale-old'?'stale-warn':''}">גובּה לפני ${ago} (${when}) · ${txt}</span>`;
+}
+
+["search","alt","fromDT","tillDT"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+["altOn","showUnknownAlt","hideAdmin"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+buildChips();load();
+</script>
+</body>
+</html>
