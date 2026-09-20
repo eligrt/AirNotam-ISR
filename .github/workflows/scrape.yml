@@ -2,7 +2,9 @@ name: Scrape NOTAMs
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # GitHub throttles tight schedules; */15 was effectively running ~2h anyway.
+    # Set an honest 2h cadence. Trigger manually via workflow_dispatch when needed.
+    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 permissions:
