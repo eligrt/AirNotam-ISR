@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.02.007 · built by eligrt
+     AirNotam-ISR · v1.02.012 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -26,30 +26,36 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--ink-body);}
-#app{height:100%;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden;
+#app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
   background:var(--paper);
   background-image:repeating-linear-gradient(0deg,transparent 0,transparent 27px,var(--paper-line) 27px,var(--paper-line) 28px);}
 
-/* ── HEADER ── */
-.hdr{flex-shrink:0;background:linear-gradient(180deg,var(--ink-dark),var(--ink));color:var(--paper);
-  padding:14px 16px 12px;border-bottom:3px solid var(--gold);}
-.hdr-title{font-family:var(--font-mono);font-size:22px;font-weight:700;letter-spacing:-.5px;direction:ltr;text-align:left;}
-.hdr-sub{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,236,220,.8);
-  font-family:var(--font-mono);margin-top:2px;direction:ltr;text-align:left;}
-.hdr-meta{font-size:10px;color:rgba(244,236,220,.7);margin-top:6px;font-family:var(--font-mono);direction:ltr;text-align:left;}
-.hdr-meta.err{color:#ffb4a8;}
+/* ── HEADER (AirCheck flight-strip) ── */
+.strip{flex-shrink:0;display:flex;align-items:center;padding:8px 14px;
+  background:var(--ink);color:var(--paper);font-family:var(--font-mono);
+  box-shadow:0 3px 0 var(--ink-dark);position:relative;z-index:10;}
+.strip-clock{display:flex;flex-direction:column;align-items:center;direction:ltr;flex-shrink:0;}
+.strip-clock-lbl{font-size:8px;opacity:.75;letter-spacing:.18em;text-transform:uppercase;line-height:1;}
+.strip-clock-time{font-size:15px;font-weight:700;font-family:var(--font-mono);line-height:1;margin-top:3px;}
+.strip-brand{font-family:var(--font-mono);font-size:15px;font-weight:700;letter-spacing:-.4px;
+  direction:ltr;flex-shrink:0;}
+.strip-actions{display:flex;gap:6px;flex-shrink:0;align-self:center;margin-inline-end:auto;margin-inline-start:12px;}
+.strip-pill{background:transparent;border:1px solid rgba(244,236,220,.3);border-radius:3px;color:var(--paper);
+  font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.02em;padding:5px 10px;cursor:pointer;
+  white-space:nowrap;transition:background .12s;}
+.strip-pill:active{background:rgba(244,236,220,.12);}
+.strip-pill.on{border-color:var(--gold);color:var(--ink-dark);background:var(--gold-lite);}
+.metabar{flex-shrink:0;padding:6px 14px;background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);
+  font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);direction:ltr;text-align:left;}
+.metabar.err{color:var(--stamp-red);}
 .stale-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:middle;}
 .stale-fresh{background:#3fb950;box-shadow:0 0 5px #3fb950;}
 .stale-aging{background:#e3a008;box-shadow:0 0 5px #e3a008;}
 .stale-old{background:#f85149;box-shadow:0 0 6px #f85149;animation:pulse 1.4s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-.stale-warn{color:#ffb4a8;font-weight:600;}
+.stale-warn{color:var(--stamp-red);font-weight:600;}
 
 /* ── FILTER PANEL ── */
-.mode-toggle{display:flex;gap:4px;margin-top:8px;}
-.mode-btn{background:rgba(244,236,220,.12);color:rgba(244,236,220,.7);border:1px solid rgba(244,236,220,.2);
-  border-radius:6px;padding:5px 14px;font-size:12px;font-family:var(--font-mono);cursor:pointer;letter-spacing:.03em;}
-.mode-btn.on{background:var(--gold);color:var(--ink-dark);border-color:var(--gold);font-weight:700;}
 #map{width:100%;background:#aad3df;}
 #map .leaflet-container{height:100%;font-family:var(--font-ui);}
 .filterbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;
@@ -61,7 +67,17 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .fb-summary .fb-active{color:var(--gold-deep);font-weight:700;}
 .fb-chevron{font-size:12px;color:var(--ink-faint);transition:transform .18s;flex-shrink:0;}
 .fb-chevron.open{transform:rotate(180deg);}
-.filters{flex-shrink:0;padding:12px 14px;border-bottom:1px solid var(--paper-edge);background:var(--paper-hi);}
+.filters{flex:1;overflow-y:auto;padding:12px 14px 20px;border-bottom:1px solid var(--paper-edge);background:var(--paper-hi);}
+.f-actions{display:flex;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--paper-edge);}
+.fa-apply{flex:1;background:var(--ink);color:var(--paper);border:none;border-radius:var(--r);
+  padding:12px;font-size:14px;font-weight:600;font-family:var(--font-ui);cursor:pointer;letter-spacing:.02em;}
+.fa-apply:active{background:var(--ink-dark);}
+.fa-reset{background:var(--paper);color:var(--ink-muted);border:1px solid var(--paper-edge);border-radius:var(--r);
+  padding:12px 18px;font-size:13px;font-family:var(--font-ui);cursor:pointer;}
+.fa-reset:active{background:var(--paper-edge);}
+.card-maplink{margin-inline-start:auto;background:none;border:1px solid var(--paper-edge);border-radius:var(--r);
+  color:var(--ink);cursor:pointer;padding:3px 7px;font-size:14px;line-height:1;font-family:var(--font-ui);}
+.card-maplink:active{background:var(--paper-edge);}
 .f-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
 .f-row:last-child{margin-bottom:0;}
 .f-lbl{font-size:9px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;
@@ -133,22 +149,26 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 <body>
 <div id="app">
 
-  <div class="hdr">
-    <div class="hdr-title">AirNotam-ISR</div>
-    <div class="hdr-sub">Israel NOTAM · LSA / CVFR</div>
-    <div class="mode-toggle">
-      <button class="mode-btn on" id="modeList" onclick="setMode('list')">רשימה</button>
-      <button class="mode-btn" id="modeMap" onclick="setMode('map')">מפה</button>
+  <div class="strip">
+    <div class="strip-brand">AirNotam-ISR</div>
+    <div class="strip-actions">
+      <button class="strip-pill" id="modeFilter" onclick="setMode('filter')">סינון</button>
+      <button class="strip-pill on" id="modeList" onclick="setMode('list')">רשימה</button>
+      <button class="strip-pill" id="modeMap" onclick="setMode('map')">מפה</button>
     </div>
-    <div class="hdr-meta" id="meta">טוען…</div>
+    <div class="strip-clock">
+      <span class="strip-clock-lbl">UTC</span>
+      <span class="strip-clock-time" id="utc">--:--</span>
+    </div>
   </div>
+  <div class="metabar hdr-meta" id="meta">טוען…</div>
 
-  <div class="filterbar" id="filterbar" onclick="toggleFilters()">
+  <div class="filterbar" id="filterbar" onclick="setMode('filter')">
     <span class="fb-summary" id="fbSummary">מסננים</span>
-    <span class="fb-chevron" id="fbChevron">▾</span>
+    <span class="fb-chevron" id="fbChevron">⚙</span>
   </div>
 
-  <div class="filters" id="filters" style="display:none;">
+  <div class="filters" id="filterView" style="display:none;">
     <div class="f-row">
       <input class="srch" id="search" type="text" placeholder="חיפוש חופשי — טקסט / מספר NOTAM…" autocomplete="off">
     </div>
@@ -180,6 +200,10 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
       <label class="tgl"><input type="checkbox" id="showUnknownAlt" checked> כלול NOTAM ללא גובה מוגדר</label>
       <label class="tgl" style="margin-inline-start:1rem"><input type="checkbox" id="hideAdmin"> הסתר ADMIN (checklist/trigger)</label>
     </div>
+    <div class="f-actions">
+      <button class="fa-reset" id="filterReset" onclick="resetFilters()">איפוס</button>
+      <button class="fa-apply" id="filterApply" onclick="setMode('list')">הצג <span id="applyCount"></span> תוצאות</button>
+    </div>
   </div>
 
   <div class="countbar" id="count"></div>
@@ -189,7 +213,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
   <div class="disc" id="disc"></div>
   <div class="footer-strip">
     <span class="footer-refresh" onclick="load()">רענון</span>
-    <span>AirNotam-ISR · v1.02.007 · built by eligrt</span>
+    <span>AirNotam-ISR · v1.02.012 · built by eligrt</span>
   </div>
 </div>
 
@@ -311,16 +335,44 @@ function render(){
 
 // ── Map mode ──
 let MAP=null, MAP_LAYER=null, MAP_NOTE=null, LAST_ITEMS=[], currentMode="list";
+let MAP_INDEX={}; // id -> {lat,lon,openPopup:fn}
+
+function focusOnMap(id){
+  setMode("map");
+  const go=()=>{
+    const hit=MAP_INDEX[id];
+    if(!hit){ return; }
+    MAP.setView([hit.lat,hit.lon], 11, {animate:true});
+    hit.openPopup();
+  };
+  // map may need a tick to lay out on first open
+  MAP? setTimeout(go,60) : setTimeout(go,300);
+}
 
 function setMode(mode){
   currentMode=mode;
-  const isMap = mode==="map";
-  document.getElementById("list").style.display = isMap? "none":"block";
+  const isFilter=mode==="filter", isMap=mode==="map", isList=mode==="list";
+  document.getElementById("filterView").style.display = isFilter? "block":"none";
+  document.getElementById("list").style.display = isList? "block":"none";
   document.getElementById("map").style.display = isMap? "flex":"none";
-  document.getElementById("countbar")?.style && (document.getElementById("count").style.display = isMap?"none":"block");
-  document.getElementById("modeList").classList.toggle("on", !isMap);
+  // pinned summary + count belong to the result views, not the filter tab
+  document.getElementById("filterbar").style.display = isFilter? "none":"flex";
+  document.getElementById("count").style.display = isList? "block":"none";
+  document.getElementById("modeFilter").classList.toggle("on", isFilter);
+  document.getElementById("modeList").classList.toggle("on", isList);
   document.getElementById("modeMap").classList.toggle("on", isMap);
   if(isMap){ initMap(); renderMap(); }
+}
+
+function resetFilters(){
+  activeFields.clear(); activeCats.clear(); tfMode=null;
+  document.getElementById("search").value="";
+  document.getElementById("altOn").checked=false;
+  document.getElementById("showUnknownAlt").checked=true;
+  document.getElementById("hideAdmin").checked=false;
+  document.getElementById("customRow").style.display="none";
+  document.querySelectorAll("#fields .chip,#cats .chip,#tf .chip").forEach(c=>c.classList.remove("on"));
+  render();
 }
 
 function initMap(){
@@ -331,8 +383,9 @@ function initMap(){
   }
   if(MAP) { setTimeout(()=>MAP.invalidateSize(), 50); return; }
   MAP = L.map("map", { center:[31.5, 35.0], zoom:7, zoomControl:true });
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom:18, attribution:"© OpenStreetMap"
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    maxZoom:19, subdomains:"abcd",
+    attribution:"© OpenStreetMap © CARTO"
   }).addTo(MAP);
   MAP_LAYER = L.layerGroup().addTo(MAP);
   setTimeout(()=>MAP.invalidateSize(), 50);
@@ -341,6 +394,7 @@ function initMap(){
 function renderMap(){
   if(!MAP) return;
   MAP_LAYER.clearLayers();
+  MAP_INDEX={};
   const now=new Date();
   const colorFor = e => {
     if(isActiveNow(e,now)) return "#1f6f3f";      // active = green
@@ -384,8 +438,10 @@ function renderMap(){
     });
     // a small center dot to guarantee a reliable click target when circles overlap
     const c=list[0];
-    L.circleMarker([c.lat,c.lon],{radius:4,color:col,fillColor:col,fillOpacity:1,weight:1})
+    const dot=L.circleMarker([c.lat,c.lon],{radius:4,color:col,fillColor:col,fillOpacity:1,weight:1})
       .bindPopup(popupHtml,{maxWidth:280}).addTo(MAP_LAYER);
+    // let any card in this group jump here and open the shared popup
+    list.forEach(e=>{ MAP_INDEX[e.id]={lat:c.lat,lon:c.lon,openPopup:()=>dot.openPopup()}; });
   });
 
   const missing = LAST_ITEMS.length - plotted;
@@ -408,21 +464,15 @@ function card(e,k){
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
   const admin=e.admin?`<span class="b admin">ADMIN</span>`:"";
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
+  const hasGeo=e.lat!=null&&e.lon!=null;
+  const mapBtn=hasGeo?`<button class="card-maplink" title="הצג במפה" onclick="focusOnMap('${esc(e.id)}')">⌖</button>`:"";
   return`<div class="card ${k}">
     <div class="c-head"><span class="c-id">${esc(e.id)}</span>
       ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}
-      ${cat}${alt}${rad}${admin}${repl}</div>
+      ${cat}${alt}${rad}${admin}${repl}${mapBtn}</div>
     <div class="c-text">${esc(e.text)}</div>
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
   </div>`;
-}
-
-function toggleFilters(){
-  const f=document.getElementById("filters");
-  const chev=document.getElementById("fbChevron");
-  const open = f.style.display==="none";
-  f.style.display = open ? "block" : "none";
-  chev.classList.toggle("open", open);
 }
 
 function updateFilterSummary(shown){
@@ -438,6 +488,7 @@ function updateFilterSummary(shown){
     ? `<span class="fb-active">${esc(parts.join(" · "))}</span> · ${shown} תוצאות`
     : `מסננים · ${shown} תוצאות`;
   document.getElementById("fbSummary").innerHTML = summary;
+  const ac=document.getElementById("applyCount"); if(ac) ac.textContent=shown;
 }
 
 function buildChips(){
@@ -469,7 +520,7 @@ function prefillDates(){
 }
 
 async function load(){
-  const meta=document.getElementById("meta");meta.textContent="טוען…";meta.className="hdr-meta";
+  const meta=document.getElementById("meta");meta.textContent="טוען…";meta.className="metabar";
   try{
     const res=await fetch(FEED,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);
     const data=await res.json();ALL=data.notams||[];
@@ -478,7 +529,7 @@ async function load(){
     document.getElementById("disc").textContent=
       "⚠️ כלי עזר בלבד — אמת מול תדריך NOTAM רשמי לפני כל טיסה. מקור: IAA (איסוף עצמאי). "+(data.disclaimer||"");
     render();
-  }catch(e){meta.className="hdr-meta err";meta.textContent="LOAD ERROR: "+e.message;}
+  }catch(e){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
 }
 
 // age judged by generatedAt (when scraped), NOT by fetch time
@@ -486,8 +537,10 @@ function staleLine(gen,count){
   if(!gen) return `SRC: IAA official (own scraper) · ${count} · <span class="stale-warn">⚠ עדכון לא ידוע</span>`;
   const mins=Math.round((Date.now()-gen.getTime())/60000);
   let cls,txt;
-  if(mins<30){cls="stale-fresh";txt="עדכני";}
-  else if(mins<180){cls="stale-aging";txt="מתיישן";}
+  // scrape cadence is ~2h (GitHub cron throttles tight intervals), so
+  // "fresh" spans a normal cycle + slack; only flag red when clearly stalled.
+  if(mins<150){cls="stale-fresh";txt="עדכני";}
+  else if(mins<300){cls="stale-aging";txt="מתיישן";}
   else{cls="stale-old";txt="ישן — בדוק מקור רשמי!";}
   const ago = mins<60? `${mins} דק'` : `${Math.floor(mins/60)}ש ${mins%60}דק'`;
   const when=gen.toLocaleString("he-IL",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
@@ -497,6 +550,9 @@ function staleLine(gen,count){
 
 ["search","alt","fromDT","tillDT"].forEach(id=>document.getElementById(id).addEventListener("input",render));
 ["altOn","showUnknownAlt","hideAdmin"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+function tickUTC(){const d=new Date();const p=n=>String(n).padStart(2,"0");
+  const el=document.getElementById("utc");if(el)el.textContent=p(d.getUTCHours())+":"+p(d.getUTCMinutes());}
+tickUTC();setInterval(tickUTC,1000);
 buildChips();load();
 </script>
 </body>
