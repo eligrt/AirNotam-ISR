@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSA Toolbox — Flight Utilities</title>
+<meta name="description" content="ELIGRT's aviation tools — checklists, weight & balance, logbook, and flight planning.">
+<meta property="og:title" content="LSA Toolbox — Flight Utilities">
+<meta property="og:description" content="ELIGRT's aviation tools — checklists, weight & balance, logbook, and flight planning.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eligrt.github.io/LSA-Toolbox/">
+<meta property="og:image" content="https://eligrt.github.io/LSA-Toolbox/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F4EEE1;
+  --cream-2:#EDE4D3;
+  --ink:#2B2620;
+  --ink-soft:#5A5348;
+  --gold:#C69A4A;
+  --gold-deep:#A87C2E;
+  --line:#DDD2BC;
+  --card:#FBF7EE;
+  --shadow:rgba(43,38,32,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Heebo',system-ui,sans-serif;
+  line-height:1.5;
+}
+.wrap{
+  height:100%;margin:0 auto;
+  display:flex;flex-direction:column;
+  padding:clamp(18px,3.5vw,40px) 0 0;
+}
+header{padding:0 clamp(16px,5vw,28px)}
+.content{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0 clamp(16px,5vw,28px) 16px;
+  width:100%;
+}
+.content::-webkit-scrollbar{width:0}
+
+/* PC: constrain to a centered phone-width card, dark surround */
+@media(min-width:600px){
+  html{background:#1a1a1c;}
+  body{
+    max-width:430px;margin:0 auto;
+    border-left:2px solid var(--gold);border-right:2px solid var(--gold);
+    box-shadow:0 0 60px rgba(0,0,0,.6);
+  }
+}
+
+header{
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:34px;
+}
+.brand{text-align:center}
+.emblem{
+  display:block;margin:0 auto 12px;
+  width:clamp(88px,20vw,124px);height:auto;
+}
+h1{
+  font-size:clamp(1.8rem,5vw,2.6rem);
+  font-weight:800;letter-spacing:.02em;line-height:1.05;
+  direction:ltr;
+}
+.tagline{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(.66rem,2vw,.74rem);
+  letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold-deep);direction:ltr;
+  margin-top:13px;padding-inline-start:.34em;
+}
+.sec-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-deep);direction:ltr;
+  display:flex;align-items:center;gap:12px;
+  margin:0 0 16px;
+}
+.sec-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.sec-label.second{margin-top:30px}
+
+.viewport{position:relative;flex:1;display:flex;min-height:0}
+.scroll-fade{
+  position:absolute;left:0;right:0;bottom:0;height:56px;
+  pointer-events:none;z-index:15;
+  background:linear-gradient(to bottom, rgba(251,247,238,0), var(--cream));
+  opacity:1;transition:opacity .35s ease;
+}
+.scroll-btn{
+  position:absolute;left:50%;bottom:10px;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;z-index:16;
+  box-shadow:0 4px 14px rgba(43,38,32,.12);
+  opacity:1;transition:opacity .35s ease,transform .12s ease,box-shadow .18s ease;
+  transform:translateX(-50%);
+  animation:bob 1.8s ease-in-out infinite;
+  -webkit-tap-highlight-color:transparent;padding:0;
+}
+.scroll-btn svg{width:18px;height:18px;stroke:var(--gold-deep);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.scroll-btn:hover{border-color:var(--gold);box-shadow:0 6px 18px rgba(43,38,32,.16)}
+.scroll-btn:active{animation:none;transform:translateX(-50%) scale(.92)}
+.scroll-btn:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+.scroll-fade.hide,.scroll-btn.hide{opacity:0;pointer-events:none}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.scroll-btn{animation:none}}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.card{
+  position:relative;
+  display:flex;flex-direction:column;gap:6px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:11px 12px;
+  text-decoration:none;color:inherit;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0 auto 0 0;width:3px;
+  background:var(--gold);transform:scaleY(0);transform-origin:top;
+  transition:transform .2s ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 26px var(--shadow);
+  border-color:var(--gold);
+}
+.card:hover::before{transform:scaleY(1)}
+.card:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+
+.card-top{display:flex;flex-direction:row-reverse;align-items:flex-start;gap:10px}
+.icon{
+  width:40px;height:40px;flex:none;
+  border-radius:11px;
+  background:var(--cream-2);
+  display:grid;place-items:center;
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+.icon img{width:100%;height:100%;object-fit:cover}
+.icon img.contain{object-fit:contain;padding:2px}
+.icon .glyph{font-size:1.2rem}
+
+/* title sits inline with the icon, at icon height */
+.card-head{
+  display:flex;flex-direction:column;gap:1px;min-width:0;flex:1;
+  overflow:hidden;
+}
+.card h2{
+  font-size:.95rem;font-weight:600;line-height:1.2;
+  direction:ltr;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.card h2.ltr{direction:ltr;text-align:left}
+.card .en{
+  font-family:'IBM Plex Mono',monospace;font-size:.64rem;
+  color:var(--gold-deep);font-weight:500;direction:ltr;letter-spacing:.01em;
+  text-align:left;line-height:1.35;
+}
+.card p{font-size:.78rem;color:var(--ink-soft);line-height:1.4;margin:0;direction:rtl;text-align:right}
+
+/* collapsible description */
+.card-desc{
+  max-height:0;overflow:hidden;
+  transition:max-height .25s ease;
+}
+.more-toggle{
+  display:flex;align-items:center;justify-content:flex-end;gap:5px;
+  width:100%;margin-top:0;padding:2px 2px;
+  background:none;border:none;cursor:pointer;
+  color:var(--gold-deep);
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+.more-toggle span{font-size:.68rem;direction:rtl;}
+.more-toggle svg{
+  width:13px;height:13px;stroke:currentColor;stroke-width:2.5;
+  fill:none;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .2s ease;
+}
+.card.open .more-toggle svg{transform:rotate(180deg)}
+
+/* corner arrow removed — icon now sits top-left */
+.card .go{display:none}
+
+.grid.external .card{padding:11px 12px}
+
+.ribbon{
+  position:absolute;top:14px;left:-34px;z-index:3;
+  transform:rotate(-45deg);
+  background:#A32D2D;color:#FCEBEB;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.62rem;letter-spacing:.16em;font-weight:600;
+  padding:4px 44px;pointer-events:none;
+}
+
+footer{
+  flex-shrink:0;
+  padding:9px 14px 10px;
+  border-top:1px solid #d4b878;
+  background:var(--card);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;color:#8a7a5a;
+  direction:ltr;text-align:center;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+footer a{color:var(--gold-deep);text-decoration:none;text-transform:uppercase}
+
+@media (max-width:560px){
+  .wrap{padding:20px 0 0}
+  header,.content{padding-left:14px;padding-right:14px}
+  .grid,.grid.external{gap:11px}
+  .card,.grid.external .card{padding:11px 11px;gap:6px;border-radius:12px}
+  .icon{width:36px;height:36px;border-radius:10px}
+  .icon .glyph{font-size:1.05rem}
+  .card h2{font-size:.9rem}
+  .card .en{font-size:.58rem}
+  .card p{font-size:.74rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img class="emblem" src="emblem.png" alt="">
+      <h1>LSA TOOLBOX</h1>
+      <div class="tagline">Flight Utilities</div>
+    </div>
+  </header>
+
+  <div class="viewport">
+    <div class="content">
+      <p class="sec-label">ELIGRT's Projects</p>
+      <main class="grid" id="grid-own"></main>
+
+      <p class="sec-label second" id="externalSection">External links</p>
+      <main class="grid external" id="grid-ext"></main>
+    </div>
+    <div class="scroll-fade" id="scrollFade" aria-hidden="true"></div>
+    <button class="scroll-btn" id="scrollBtn" aria-label="Scroll down">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+
+  <footer>LSA Toolbox · v1.48 · built by <a href="https://eligrt.github.io">eligrt</a></footer>
+</div>
+
+<script>
+const OWN = [
+  {
+    title:"AirCheck+",
+    en:"The checklist on top of the checklist",
+    desc:"כל מה שלא נכנס לבד\"ח הרשמי, אבל חייבים להשלים לפני שממריאים (ואחרי שנוחתים...).",
+    url:"https://eligrt.github.io/AirCheck/AirCheck_RD.html",
+    icon:"https://eligrt.github.io/AirCheck/AirCheck_logo_RD.png",
+    glyph:"✈", tag:"CHECKLIST"
+  },
+  {
+    title:"AirCheck POH",
+    en:"Digital handy clickable POH",
+    desc:"גרסת אונליין של הבדּ\"ח - זמינה ונגישה ב\"קליק\".",
+    url:"https://eligrt.github.io/AirCheck-POH/AirCheck_POH_TEST.html",
+    icon:"poh_icon.png",
+    glyph:"📘", tag:"POH", fit:"contain", test:true
+  },
+  {
+    title:"Weight & Balance",
+    en:"AirBalance — Texan 570 & Harmony",
+    desc:"מחשבון משקל ואיזון לאז\"מ.",
+    url:"https://eligrt.github.io/AirBalance/AirBalance.html",
+    icon:"https://eligrt.github.io/AirBalance/WnB_Logo.jpg", glyph:"⚖", tag:"CALC"
+  },
+  {
+    title:"AirLog",
+    en:"Where aviation meets Google Sheet",
+    desc:"הלוגבוק שלך מ-Google Sheet, בכף היד כאפליקציה (רישום טיסות, מעקב כשירות, סטטיסטיקות, יומן ועוד).",
+    url:"https://eligrt.github.io/AirLog/AirLog.html",
+    icon:"https://eligrt.github.io/AirLog/icon-512.png",
+    glyph:"📖", tag:"LOGBOOK"
+  },
+  {
+    title:"Merhav FPL",
+    en:"Purple routes · AZAM",
+    desc:"הגשת תוכנית ל\"טיסת מרחב\" בנתיבי אז\"ם דרומית לבאר שבע באמצ\"ש (\"נתיב סגול\").",
+    url:"https://eligrt.github.io/MERHAV_fpl/PURPLE_Routes_AZAM.html",
+    icon:"merhav_icon.png", glyph:"🟣", tag:"FPL", fit:"contain"
+  },
+  {
+    title:"METAR / TAF",
+    en:"Weather Brief · decoder",
+    desc:"דיווחי מזג אוויר (METAR) ותחזיות (TAF) לשדות בארץ ובחו\"ל (לפי קוד ICAO).",
+    url:"https://eligrt.github.io/AirCheck/AirCheck_METAR.html",
+    icon:"metar_icon.png", glyph:"🌦", tag:"WX", fit:"contain"
+  },
+  {
+    title:"תדרוך נוסע",
+    en:"Pre-flight passenger briefing",
+    desc:"צ'קליסט לתדרוך נוסע לפני טיסה - בטיחות, תקשורת ונוחות.",
+    url:"https://eligrt.github.io/AirCheck/passenger-briefing.html",
+    icon:"briefing_icon.png", glyph:"📋", tag:"PAX", fit:"contain"
+  }
+];
+
+const EXT = [
+  {
+    title:"הגשת תוכנית טיסה",
+    en:"fpl.co.il",
+    url:"https://fpl.co.il/",
+    glyph:"📋", tag:"FPL"
+  },
+  {
+    title:"בדיקת נוטמים",
+    en:"notam · Lior Ben-Horin",
+    url:"https://notam.liorbenhorin.xyz/",
+    glyph:"⚠", tag:"NOTAM"
+  },
+  {
+    title:"מחשבון טיסה CX-3",
+    en:"prepware.com",
+    url:"https://prepware.com/cx3e/index.html",
+    glyph:"➗", tag:"CALC"
+  }
+];
+
+function cardHTML(t){
+  const hasImg = t.icon && t.icon.length;
+  return `
+  <a class="card${t.test?' beta':''}" href="${t.url}" target="_blank" rel="noopener">
+    ${t.test?'<span class="ribbon">BETA</span>':''}
+    <div class="card-top">
+      <span class="icon">
+        ${hasImg?`<img class="${t.fit==='contain'?'contain':''}" src="${t.icon}" alt="" onerror="this.style.display='none';this.parentNode.querySelector('.glyph').style.display='block'">`:''}
+        <span class="glyph"${hasImg?' style="display:none"':''}>${t.glyph||'✈'}</span>
+      </span>
+      <span class="card-head">
+        <h2 class="${/^[A-Za-z]/.test(t.title)?'ltr':''}">${t.title}</h2>
+        ${t.en?`<span class="en">${t.en}</span>`:''}
+      </span>
+    </div>
+    ${t.desc?`
+    <button class="more-toggle" type="button" aria-expanded="false" aria-label="מידע נוסף" onclick="toggleDesc(event,this)">
+      <span>מידע נוסף</span>
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="card-desc"><p>${t.desc}</p></div>`:''}
+  </a>`;
+}
+
+function toggleDesc(e, btn){
+  e.preventDefault();
+  e.stopPropagation();
+  const card = btn.closest('.card');
+  const desc = card.querySelector('.card-desc');
+  const open = card.classList.toggle('open');
+  desc.style.maxHeight = open ? desc.scrollHeight + 'px' : '0px';
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  setTimeout(updateCue, 260);
+}
+
+document.getElementById('grid-own').innerHTML = OWN.map(cardHTML).join('');
+document.getElementById('grid-ext').innerHTML = EXT.map(cardHTML).join('');
+
+const content = document.querySelector('.content');
+const sFade = document.getElementById('scrollFade');
+const sBtn = document.getElementById('scrollBtn');
+function updateCue(){
+  const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 8;
+  const fits = content.scrollHeight <= content.clientHeight + 8;
+  const hide = atBottom || fits;
+  sFade.classList.toggle('hide', hide);
+  sBtn.classList.toggle('hide', hide);
+}
+sBtn.addEventListener('click', ()=>{
+  content.scrollBy({top: content.clientHeight * 0.8, behavior:'smooth'});
+});
+content.addEventListener('scroll', updateCue, {passive:true});
+window.addEventListener('resize', updateCue);
+window.addEventListener('load', updateCue);
+updateCue();
+</script>
+</body>
+</html>
