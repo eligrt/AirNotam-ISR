@@ -1,9 +1,111 @@
 {
-  "generatedAt": "2026-09-22T11:23:24.939Z",
+  "generatedAt": "2026-09-22T16:45:24.176Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 114,
+  "count": 116,
   "notams": [
+    {
+      "id": "C1988/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-23T21:00:00.000Z",
+      "toDate": "2026-09-25T03:07:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWCLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "027",
+        "position": {
+          "lat": 32.7,
+          "lon": 35.316667,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL",
+      "position": {
+        "lat": 32.7,
+        "lon": 35.316667,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C1988/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/027/3242N03519E001 A) LLLL B) 2609232100 C) 2609250307 E) CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL)",
+      "rowID": "2061562"
+    },
+    {
+      "id": "A0772/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-09-22T17:00:00.000Z",
+      "toDate": "2026-09-23T01:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0772/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609221700 C) 2609230130 E) RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.)",
+      "rowID": "2061551"
+    },
+    {
+      "id": "C1987/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-28T03:00:00.000Z",
+      "toDate": "2026-09-28T05:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWLLW",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 30.933333,
+          "lon": 34.683333,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "HOT-AIR BALLOON WILL TAKE PLACE AT ASHELIM/SDE-BOKER. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 2,500FT AMSL 305855N0344402E 305646N0344642E 305421N0344631E 305253N0343751E 305636N0343545E. CTN ADZ. F) GND G) 2500FT AMSL",
+      "position": {
+        "lat": 30.933333,
+        "lon": 34.683333,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C1987/26 NOTAMN Q) LLLL/QWLLW/IV/NBO/W /000/025/3056N03441E006 A) LLLL B) 2609280300 C) 2609280500 E) HOT-AIR BALLOON WILL TAKE PLACE AT ASHELIM/SDE-BOKER. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 2,500FT AMSL 305855N0344402E 305646N0344642E 305421N0344631E 305253N0343751E 305636N0343545E. CTN ADZ. F) GND G) 2500FT AMSL)",
+      "rowID": "2061506"
+    },
     {
       "id": "C1986/26",
       "location": "LLLL",
@@ -1121,40 +1223,6 @@
       "replaces": null,
       "rawText": "C1937/26 NOTAMN Q) LLLL/QACLC/IV/NBO/AE/000/020/3211N03451E004 A) LLHZ B) 2610081030 C) 2610081330 E) CTR CLSD TO ALL FLT, DUE EMERG DRILL. CLOSURE EXP TO BE EXTENDED.)",
       "rowID": "2059115"
-    },
-    {
-      "id": "A0750/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-09-22T17:00:00.000Z",
-      "toDate": "2029-06-23T01:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0750/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609221700 C) 2906230130 E) RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.)",
-      "rowID": "2058827"
     },
     {
       "id": "C1921/26",
