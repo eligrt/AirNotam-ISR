@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-21T23:09:23.324Z",
+  "generatedAt": "2026-09-22T04:32:14.000Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 117,
+  "count": 116,
   "notams": [
     {
       "id": "C1982/26",
@@ -339,21 +339,6 @@
       "replaces": null,
       "rawText": "A0764/26 NOTAMN Q) LLLL/QANLT/I /NBO/E /050/600/3156N03501E027 A) LLLL B) 2609220001 C) 2612312359 E) ATS RTE L53 CLSD BTN ABIMI-BGN. TFC WITH DEP FM AD WITHIN AMMAN FIR SHALL FILE H24 TALMI DCT TAPUZ BTN 11,000-16,000FT. TFC WITH DEP FM LLER, LLNV, LLOV AND LLRM ONLY SHALL FILE H24 GOBRI DCT TAPUZ BTN 11,000-16,000FT. MIL FLT OVERFLYING FM AMMAN FIR TO NICOSIA FIR SHALL FILE H24 TALMI DCT TAPUZ ABV 17,000FT. MIL FLT OVERFLYING FM LLER, LLNV, LLOV AND LLRM TO NICOSIA FIR SHALL FILE H24 GOBRI DCT TAPUZ ABV 17,000FT.)",
       "rowID": "2059994"
-    },
-    {
-      "id": "A0763/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-17T12:21:00.000Z",
-      "toDate": "2026-09-21T23:59:00.000Z",
-      "qLine": null,
-      "eText": "ATS RTE L53 BTN TALMI-TAPUZ AVBL H24 BTN 11,000-16,000FT FOR TFC WITH DEP FM AD WITHIN AMMAN FIR, LLER, LLNV, LLOV AND LLRM ONLY, AVBL H24 ABV 17,000FT FOR MIL TFC ONLY.",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0763/26 NOTAMN Q) LLLL/QANLT/I /NBO/E /050/600/3156N03501E027 A) LLLL B) 2609171221 C) 2609212359 E) ATS RTE L53 BTN TALMI-TAPUZ AVBL H24 BTN 11,000-16,000FT FOR TFC WITH DEP FM AD WITHIN AMMAN FIR, LLER, LLNV, LLOV AND LLRM ONLY, AVBL H24 ABV 17,000FT FOR MIL TFC ONLY.)",
-      "rowID": "2059992"
     },
     {
       "id": "A0762/26",
