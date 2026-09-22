@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.02.040 · built by eligrt
+     AirNotam-ISR · v1.02.045 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -48,10 +48,12 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
   font-size:11px;font-weight:700;padding:5px 14px;border-radius:18px;cursor:pointer;transition:.15s;white-space:nowrap;}
 .vtoggle button.on{background:var(--gold-lite);color:var(--ink-dark);}
 .vt-cnt{font-size:10px;font-weight:700;opacity:.85;font-family:var(--font-ui);}
-.metabar{flex-shrink:0;padding:6px 14px;background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);
-  font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);direction:ltr;text-align:left;}
+.metabar{flex-shrink:0;padding:7px 14px;background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);direction:rtl;text-align:right;
+  display:flex;align-items:center;gap:7px;}
 .metabar.err{color:var(--stamp-red);}
-.stale-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:middle;}
+.metabar .mb-txt{line-height:1.4;}
+.stale-dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;}
 .stale-fresh{background:#3fb950;box-shadow:0 0 5px #3fb950;}
 .stale-aging{background:#e3a008;box-shadow:0 0 5px #e3a008;}
 .stale-old{background:#f85149;box-shadow:0 0 6px #f85149;animation:pulse 1.4s ease-in-out infinite;}
@@ -81,14 +83,17 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 
 /* stage holds result + curtain */
 .stage{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column;}
-.scrim{position:absolute;inset:0;background:rgba(14,35,72,.4);opacity:0;pointer-events:none;transition:opacity .3s;z-index:40;}
+.scrim{position:absolute;inset:0;background:rgba(14,35,72,.4);opacity:0;pointer-events:none;transition:opacity .3s;z-index:900;}
 .scrim.open{opacity:1;pointer-events:auto;}
-.curtain{position:absolute;top:0;left:0;right:0;z-index:50;width:100%;background:var(--paper-hi);
+.curtain{position:absolute;top:0;left:0;right:0;z-index:950;width:100%;background:var(--paper-hi);
   border-radius:0 0 16px 16px;box-shadow:0 12px 30px rgba(0,0,0,.35);
   display:flex;flex-direction:column;overflow:hidden;
   max-height:0;transition:max-height .45s cubic-bezier(.4,0,.2,1);}
 .curtain.open{max-height:var(--curtain-h,90%);}
-.curtain-handle{width:36px;height:4px;border-radius:2px;background:var(--paper-edge);margin:8px auto 2px;flex-shrink:0;}
+.curtain-grip{flex-shrink:0;padding:10px 0 6px;cursor:grab;touch-action:none;display:flex;justify-content:center;}
+.curtain-grip:active{cursor:grabbing;}
+.curtain-handle{width:36px;height:4px;border-radius:2px;background:var(--paper-edge);}
+.curtain.dragging{transition:none;}
 .curtain-body{overflow-y:auto;padding:10px 16px 4px;}
 .curtain-foot{display:flex;gap:10px;padding:12px 16px;border-top:1.5px solid var(--paper-edge);background:var(--paper-hi);flex-shrink:0;}
 .fa-apply{flex:1;background:var(--gold);color:var(--ink-dark);border:none;border-radius:var(--r);
@@ -106,14 +111,15 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .c-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;direction:ltr;}
 .c-top .c-head{flex:1;margin-bottom:0;}
 .c-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:0;direction:ltr;justify-content:flex-start;}
-.pu-listbtn,.pu-hidebtn{background:none;border:1px solid #ccc;border-radius:6px;cursor:pointer;
-  padding:2px 8px;font-size:11px;line-height:1.3;white-space:nowrap;font-family:inherit;
-  display:inline-flex;align-items:center;gap:4px;}
+.pu-listbtn,.pu-hidebtn{background:none;border:1px solid #ccc;border-radius:8px;cursor:pointer;
+  padding:7px 11px;font-size:13px;line-height:1.3;white-space:nowrap;font-family:inherit;font-weight:600;
+  min-height:34px;display:inline-flex;align-items:center;gap:4px;}
 .pu-listbtn{color:#1f6f3f;border-color:#bcdccb;}
 .pu-listbtn:active{background:#e6f2ea;}
 .pu-hidebtn{color:#b94a3a;border-color:#e6c4bc;}
 .pu-hidebtn:active{background:#f6e7e3;}
-.leaflet-popup-content{overflow-x:hidden;}
+.leaflet-popup-content{overflow-x:hidden;box-sizing:border-box;}
+.leaflet-popup-content .pu-hidebtn{margin-right:1px;}
 .card-flash{animation:cardFlash 1.6s ease-out;}
 @keyframes cardFlash{0%{box-shadow:0 0 0 3px #1f6f3f;}100%{box-shadow:0 0 0 0 transparent;}}
 .c-foot{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:7px;direction:ltr;
@@ -193,6 +199,14 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .adv-body{display:none;padding:0 14px 14px;}
 .adv.open .adv-body{display:block;}
 .f-lbl2{font-size:11px;font-weight:700;color:var(--ink-faint);margin:12px 0 8px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-mono);}
+.f-lbl2-row{display:flex;align-items:center;gap:8px;margin:12px 0 8px;}
+.f-lbl2-row .f-lbl2{margin:0;}
+.cat-tools{margin-inline-start:auto;display:flex;gap:6px;}
+.cat-tool{background:var(--paper);border:1px solid var(--paper-edge);border-radius:12px;
+  color:var(--ink-muted);font-family:var(--font-ui);font-size:11px;font-weight:700;
+  padding:3px 9px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;}
+.cat-tool .cbx{font-size:13px;line-height:1;}
+.cat-tool:active{background:var(--paper-edge);}
 .chips-wrap{display:flex;flex-wrap:wrap;gap:6px;}
 .adv-tgl{margin-top:14px;}
 .chip-admin{font-family:var(--font-mono);letter-spacing:.05em;border-style:dashed;color:var(--ink-faint);}
@@ -271,11 +285,13 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 /* ── FOOTER ── */
 .footer-strip{flex-shrink:0;font-size:9px;font-family:var(--font-mono);color:var(--ink-faint);
   letter-spacing:.1em;text-transform:uppercase;direction:rtl;border-top:1px solid var(--gold-lite);
-  background:var(--paper-hi);position:relative;padding:9px 14px;text-align:center;}
-.footer-refresh{position:absolute;top:50%;left:14px;transform:translateY(-50%);
-  font-size:11px;color:var(--ink-muted);cursor:pointer;text-decoration:underline;
-  text-underline-offset:2px;opacity:.75;font-family:var(--font-ui);letter-spacing:.02em;}
-.footer-refresh:active{opacity:.4;}
+  background:var(--paper-hi);padding:8px 14px;display:flex;align-items:center;gap:10px;}
+.footer-refresh{flex-shrink:0;font-size:11px;color:var(--ink-muted);cursor:pointer;
+  opacity:.85;font-family:var(--font-ui);letter-spacing:.02em;text-transform:none;
+  display:inline-flex;align-items:center;gap:5px;}
+.footer-refresh svg{width:12px;height:12px;}
+.footer-refresh .rtime{font-family:var(--font-mono);font-weight:700;color:var(--ink);}
+.footer-build{flex:1;text-align:center;}
 
 /* ── one-time-per-day disclaimer ── */
 .disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:120;display:none;
@@ -353,7 +369,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 
     <div class="scrim" id="scrim" onclick="closeCurtain()"></div>
     <div class="curtain" id="curtain">
-      <div class="curtain-handle"></div>
+      <div class="curtain-grip" id="curtainGrip"><div class="curtain-handle"></div></div>
       <div class="curtain-body">
         <div class="f-search">
           <input class="srch" id="search" type="text" placeholder="🔍  חיפוש חופשי: טקסט / מספר NOTAM / ICAO…" autocomplete="off">
@@ -400,7 +416,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
           <div class="fsec-head"><span class="fsec-title">תצוגה במפה</span><span class="fsec-hint">מפה</span></div>
           <div class="region" id="mapSeg">
             <button class="region-btn on" data-map="geo"><span class="rn">מופיע במפה <span class="mseg-cnt" id="cntGeo"></span></span><span class="rd">עם מיקום</span></button>
-            <button class="region-btn on" data-map="nogeo"><span class="rn">ללא מיקום <span class="mseg-cnt" id="cntNoGeo"></span></span><span class="rd">לא ניתן לצייר</span></button>
+            <button class="region-btn on" data-map="nogeo"><span class="rn">ללא מיקום <span class="mseg-cnt" id="cntNoGeo"></span></span><span class="rd">לא ניתן להציג על מפה</span></button>
           </div>
         </div>
 
@@ -410,7 +426,13 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
           <div class="adv-body">
             <div class="f-lbl2">שדות תעופה</div>
             <span id="fields" class="chips-wrap"></span>
-            <div class="f-lbl2">קטגוריה</div>
+            <div class="f-lbl2-row">
+              <div class="f-lbl2">קטגוריה</div>
+              <div class="cat-tools">
+                <button class="cat-tool" onclick="selectAllCats()" title="בחר את כל הקטגוריות"><span class="cbx">☑</span> הכל</button>
+                <button class="cat-tool" onclick="clearAllCats()" title="בטל את כל הקטגוריות"><span class="cbx">☐</span> נקה</button>
+              </div>
+            </div>
             <span id="cats" class="chips-wrap"></span>
           </div>
         </div>
@@ -423,8 +445,11 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
   </div>
 
   <div class="footer-strip">
-    <span class="footer-refresh" onclick="load()">רענון</span>
-    <span>AirNotam-ISR · v1.02.040 · built by eligrt</span>
+    <span class="footer-refresh" onclick="load()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/></svg>
+      רענון · <span class="rtime" id="refreshTime">--:--</span>
+    </span>
+    <span class="footer-build">AirNotam-ISR · v1.02.045 · built by eligrt</span>
   </div>
 </div>
 
@@ -433,8 +458,10 @@ const FEED="https://raw.githubusercontent.com/eligrt/AirNotam-ISR/main/notams.js
 const FIELDS=["LLRS","LLMG","LLLL","LLBG","LLER","LLHA"];
 // Q-code (chars 2-3 of qcode) -> friendly category. First letter after Q groups it.
 const CATS=[
-  ["route","נתיב/מרחב",["QAR","QAE","QAC","QAN","QAL","QAT"]],  // airspace/routes
-  ["ad","שדה/מסלול",["QFA","QMR","QMX","QLP","QLC","QIS","QIC"]],// aerodrome/runway/ILS
+  ["ats","נתיבי ATS",["QAR","QAE","QAC","QAT"]],                 // ATS routes/airways (IFR-oriented)
+  ["route","מרחב אווירי",["QAN","QAL"]],                          // airspace (activation/limits)
+  ["ils","ILS/גישה מכשירים",["QIS","QIC","QIG","QIL","QIM","QIN","QIT","QIU","QIX","QGL"]], // ILS/instrument approach (IFR)
+  ["ad","שדה/מסלול",["QFA","QMR","QMX","QLP","QLC"]],            // aerodrome/runway
   ["navaid","עזרי ניווט",["QND","QNM","QNL","QNV","QNB"]],       // navaids
   ["obstacle","מכשולים",["QOB","QOL","QOA","QOT"]],              // obstacles/other ops
   ["warning","אזהרות",["QW"]],                                   // W... nav warnings (PJE/UAS/fire/frng)
@@ -455,6 +482,7 @@ let ALL=[];
 // Deselect-to-hide model: pills start ON (shown); toggling one OFF adds it to a hidden set.
 const hiddenFields=new Set();  // field codes the user has turned OFF
 const hiddenCats=new Set();    // category keys the user has turned OFF
+const CATS_OFF_BY_DEFAULT=["ats"]; // categories that start hidden (IFR-oriented, off for VFR pilots)
 let showAdmin=false;           // ADMIN chip: starts OFF (admin hidden); ON shows admin NOTAMs
 const regionOn=new Set(["north","south"]); // both halves on by default = whole country
 const mapOn=new Set(["geo","nogeo"]); // both on by default: show mappable + non-mappable
@@ -492,7 +520,7 @@ function isActiveNow(e,now){return(!e.start||e.start<=now)&&(!e.end||e.end>now);
 function timeGroup(e,now){if(isActiveNow(e,now))return"now";if(e.start&&e.start>now)return"soon";return"later";}
 function fmtUTC(d){return d?d.toISOString().slice(0,16).replace("T"," ")+"Z":"-";}
 
-function passFilters(e,now){
+function passFilters(e,now,ignoreMap){
   const q=document.getElementById("search").value.trim().toLowerCase();
   if(q && !e.text.toLowerCase().includes(q) && !e.id.toLowerCase().includes(q)
        && !JSON.stringify(e.raw).toLowerCase().includes(q)) return false;
@@ -525,7 +553,7 @@ function passFilters(e,now){
 
   // map display: two independent toggles (mappable / non-mappable), both on by
   // default. Deselect-to-hide, mirroring region. Both off = show all (no empty screen).
-  if(mapOn.size===1){
+  if(!ignoreMap && mapOn.size===1){
     const hasGeo=e.lat!=null&&e.lon!=null;
     if(hasGeo&&!mapOn.has("geo"))return false;
     if(!hasGeo&&!mapOn.has("nogeo"))return false;
@@ -565,8 +593,11 @@ function render(){
   const nHidden=items.filter(e=>hiddenNotams.has(e.id)).length;
   const onMap=items.filter(e=>e.lat!=null&&e.lon!=null&&!hiddenNotams.has(e.id)).length;
   const mc=document.getElementById("mapCnt"); if(mc) mc.textContent="("+onMap+")";
-  const geoN=items.filter(e=>e.lat!=null&&e.lon!=null).length;
-  const noGeoN=items.length-geoN;
+  // Segment counts ignore the map toggle itself, so each pill shows how many
+  // NOTAMs it represents even while it's turned OFF (like the region pills).
+  const mapScope=ALL.map(enrich).filter(e=>passFilters(e,now,true));
+  const geoN=mapScope.filter(e=>e.lat!=null&&e.lon!=null).length;
+  const noGeoN=mapScope.length-geoN;
   const cg=document.getElementById("cntGeo"); if(cg) cg.textContent="("+geoN+")";
   const cng=document.getElementById("cntNoGeo"); if(cng) cng.textContent="("+noGeoN+")";
   document.getElementById("count").innerHTML=
@@ -656,6 +687,7 @@ function focusOnList(id){
 }
 
 function setView(v){
+  if(v!==currentView) closeCurtain();
   currentView=v;
   const isMap=v==="map", isList=v==="list";
   document.getElementById("list").style.display = isList? "block":"none";
@@ -683,17 +715,69 @@ function closeCurtain(){
 function toggleCurtain(){
   document.getElementById("curtain").classList.contains("open")?closeCurtain():openCurtain();
 }
+// swipe to close: drag the grip down; swipe up on filter button to open
+(function(){
+  const SWIPE=40;
+  function bindSwipe(el,onUp,onDown){
+    if(!el) return;
+    let y0=null,t0=0,active=false;
+    el.addEventListener("touchstart",e=>{y0=e.touches[0].clientY;t0=Date.now();active=true;},{passive:true});
+    el.addEventListener("touchend",e=>{
+      if(!active||y0===null) return; active=false;
+      const dy=e.changedTouches[0].clientY-y0, dt=Date.now()-t0;
+      if(dt>700) return;
+      if(dy<=-SWIPE&&onUp) onUp();
+      else if(dy>=SWIPE&&onDown) onDown();
+      y0=null;
+    },{passive:true});
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    // grip: swipe down closes
+    bindSwipe(document.getElementById("curtainGrip"),null,closeCurtain);
+    // filter button: swipe up opens (tap still toggles)
+    bindSwipe(document.getElementById("fbBtn"),openCurtain,null);
+  });
+})();
+
+// map a category chip's visible label back to its key (CATS + the "other" pill)
+function catKeyForLabel(label){
+  const hit=CATS.find(c=>c[1]===label);
+  if(hit)return hit[0];
+  return label==="אחר"?"__other__":null;
+}
+function selectAllCats(){
+  hiddenCats.clear();
+  document.querySelectorAll("#cats .chip").forEach(c=>c.classList.add("on"));
+  render();
+}
+function clearAllCats(){
+  document.querySelectorAll("#cats .chip").forEach(c=>{
+    c.classList.remove("on");
+    const k=catKeyForLabel(c.textContent); if(k)hiddenCats.add(k);
+  });
+  render();
+}
+
+function applyDefaultCatState(){
+  hiddenCats.clear();
+  CATS_OFF_BY_DEFAULT.forEach(k=>hiddenCats.add(k));
+  document.querySelectorAll("#cats .chip").forEach(c=>{
+    const off=CATS_OFF_BY_DEFAULT.some(k=>catLabel(k)===c.textContent);
+    c.classList.toggle("on",!off);
+  });
+}
 
 function resetAdvanced(e){
   if(e){e.preventDefault();e.stopPropagation();}
-  hiddenFields.clear(); hiddenCats.clear(); showAdmin=false;
-  document.querySelectorAll("#fields .chip,#cats .chip").forEach(c=>c.classList.add("on"));
+  hiddenFields.clear(); showAdmin=false;
+  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
+  applyDefaultCatState();
   const ac=document.getElementById("adminChip"); if(ac) ac.classList.remove("on");
   render();
 }
 
 function resetFilters(){
-  hiddenFields.clear(); hiddenCats.clear(); showAdmin=false;
+  hiddenFields.clear(); showAdmin=false;
   regionOn.clear(); regionOn.add("north"); regionOn.add("south");
   mapOn.clear(); mapOn.add("geo"); mapOn.add("nogeo");
   timeMode="72";
@@ -705,7 +789,8 @@ function resetFilters(){
   document.querySelectorAll("#mapSeg .region-btn").forEach(b=>b.classList.add("on"));
   document.getElementById("altSel").value="0";
   document.getElementById("showUnknownAlt").checked=true;
-  document.querySelectorAll("#fields .chip,#cats .chip").forEach(c=>c.classList.add("on"));
+  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
+  applyDefaultCatState();
   const ac2=document.getElementById("adminChip"); if(ac2) ac2.classList.remove("on");
   render();
 }
@@ -753,7 +838,7 @@ function renderMap(){
     const anyActive = list.some(e=>isActiveNow(e,now));
     const anySoon = list.some(e=>e.start&&e.start>now);
     const col = anyActive? "#1f6f3f" : anySoon? "#e3a008" : "#8a7a5a";
-    const popupHtml = `<div dir="ltr" style="max-height:220px;max-width:100%;overflow-y:auto;overflow-x:hidden;text-align:left">`
+    const popupHtml = `<div dir="ltr" style="max-height:220px;max-width:100%;overflow-y:auto;overflow-x:hidden;text-align:left;padding-right:2px;box-sizing:border-box">`
       + list.map(e=>{
           const alt=(e.lowerStr||e.upperStr)?`${e.lowerStr||"?"}-${e.upperStr||"?"}`
             :(e.lowerFt!=null?`${e.lowerFt}-${e.upperFt==null?'?':e.upperFt}ft`:"גובה ?");
@@ -762,16 +847,18 @@ function renderMap(){
           const long=txt.length>160;
           const shortTxt=long?txt.slice(0,160):txt;
           return `<div style="margin-top:6px">`
-            +`<div style="display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid #ddd">`
-              +`<b style="white-space:nowrap">NOTAM <span style="color:#aaa">|</span> ${esc(e.id)}</b>`
-              +`<span style="flex:1"></span>`
-              +`<button class="pu-listbtn" title="מעבר לנוטם בתצוגת הרשימה" onclick="focusOnList('${esc(e.id)}')">עבור לרשימה ☰</button>`
-              +`<button class="pu-hidebtn" title="הסרת הנוטם מהמפה (ניתן להחזיר דרך הרשימה)" onclick="hideFromMapPopup('${esc(e.id)}',event)">הסתר ✕</button>`
+            +`<div style="display:flex;align-items:center;gap:6px">`
+              +`<b style="white-space:nowrap;font-size:13px">NOTAM <span style="color:#aaa">|</span> ${esc(e.id)}</b>`
             +`</div>`
+            +`<div style="display:flex;gap:8px;margin-top:8px">`
+              +`<button class="pu-listbtn" style="flex:1" title="מעבר לנוטם בתצוגת הרשימה" onclick="focusOnList('${esc(e.id)}')">עבור לרשימה ☰</button>`
+              +`<button class="pu-hidebtn" style="flex:1" title="הסרת הנוטם מהמפה (ניתן להחזיר דרך הרשימה)" onclick="hideFromMapPopup('${esc(e.id)}',event)">הסתר ✕</button>`
+            +`</div>`
+            +`<div style="border-bottom:1px solid #ddd;margin:8px 0 0"></div>`
             +`<div style="padding-top:5px">`
               +`<small style="color:#555">${esc(e.loc||"")}</small><br>`
-              +`<span style="font-family:monospace;font-size:11px;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word">${esc(shortTxt)}</span>`
-              +(long?`<span class="pu-more" style="font-family:monospace;font-size:11px;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;display:none">${esc(txt.slice(160))}</span>`
+              +`<span style="font-family:monospace;font-size:12.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word">${esc(shortTxt)}</span>`
+              +(long?`<span class="pu-more" style="font-family:monospace;font-size:12.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;display:none">${esc(txt.slice(160))}</span>`
                 +`<a class="pu-toggle" style="display:block;font-size:11px;color:#1f6f3f;cursor:pointer;margin-top:2px" onclick="var m=this.previousElementSibling,o=this.textContent.indexOf('▾')>=0;m.style.display=o?'inline':'none';this.textContent=o?'הצג פחות ▴':'הצג עוד ▾'">הצג עוד ▾</a>`:``)
               +`<br><small>${esc(alt)} · ${fmtUTC(e.start)}→${fmtUTC(e.end)}</small>`
             +`</div></div>`;
@@ -782,13 +869,13 @@ function renderMap(){
     list.slice().sort((a,b)=>(b.radiusNm||0.5)-(a.radiusNm||0.5)).forEach(e=>{
       const radiusM=(e.radiusNm||0.5)*1852;
       const circle=L.circle([e.lat,e.lon],{radius:radiusM,color:col,weight:2,fillColor:col,fillOpacity:0.12});
-      circle.bindPopup(popupHtml,{maxWidth:280});
+      circle.bindPopup(popupHtml,{maxWidth:300,minWidth:250});
       circle.addTo(MAP_LAYER);
     });
     // a small center dot to guarantee a reliable click target when circles overlap
     const c=list[0];
     const dot=L.circleMarker([c.lat,c.lon],{radius:4,color:col,fillColor:col,fillOpacity:1,weight:1})
-      .bindPopup(popupHtml,{maxWidth:280}).addTo(MAP_LAYER);
+      .bindPopup(popupHtml,{maxWidth:300,minWidth:250}).addTo(MAP_LAYER);
     // let any card in this group jump here and open the shared popup
     list.forEach(e=>{ MAP_INDEX[e.id]={lat:c.lat,lon:c.lon,openPopup:()=>dot.openPopup()}; });
   });
@@ -888,7 +975,10 @@ function buildChips(){
   addField("__other__","אחר");
 
   const cb=document.getElementById("cats");
-  const addCat=(key,label)=>{const el=document.createElement("span");el.className="chip on";el.textContent=label;
+  const addCat=(key,label)=>{const el=document.createElement("span");
+    const startOff=CATS_OFF_BY_DEFAULT.includes(key);
+    el.className=startOff?"chip":"chip on";el.textContent=label;
+    if(startOff)hiddenCats.add(key);
     el.onclick=()=>{const off=el.classList.toggle("on")===false;
       off?hiddenCats.add(key):hiddenCats.delete(key);render();};cb.appendChild(el);};
   CATS.forEach(([key,label])=>addCat(key,label));
@@ -959,22 +1049,32 @@ async function load(){
     const data=await res.json();ALL=data.notams||[];
     const gen=data.generatedAt?new Date(data.generatedAt):null;
     meta.innerHTML=staleLine(gen,data.count??ALL.length);
+    const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date());
     // disclaimer popup handled by showDisc() (once per calendar day)
     render();
   }catch(e){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
 }
 
 // age judged by generatedAt (when scraped), NOT by fetch time
+function fmtLocalHM(d){
+  // Israel local time (Asia/Jerusalem), 24h HH:MM, regardless of device timezone
+  try{
+    return new Intl.DateTimeFormat("he-IL",{timeZone:"Asia/Jerusalem",hour:"2-digit",minute:"2-digit",hour12:false}).format(d);
+  }catch(_){
+    return d.toTimeString().slice(0,5);
+  }
+}
 function staleLine(gen,count){
-  if(!gen) return `<span class="stale-dot stale-old"></span>IAA · <span class="stale-warn">עדכון לא ידוע</span>`;
+  if(!gen) return `<span class="stale-dot stale-old"></span><span class="mb-txt">בסיס נתוני נוטאם IAA · <span class="stale-warn">עדכון לא ידוע</span></span>`;
   const mins=Math.round((Date.now()-gen.getTime())/60000);
-  let cls,txt;
-  if(mins<150){cls="stale-fresh";txt="עדכני";}
-  else if(mins<300){cls="stale-aging";txt="מתיישן";}
-  else{cls="stale-old";txt="ישן, בדוק מקור רשמי";}
-  const ago = mins<60? `לפני ${mins} דק'` : `לפני ${Math.floor(mins/60)}ש׳`;
-  return `<span class="stale-dot ${cls}"></span>IAA · עודכן ${ago} · `
-       + `<span class="${cls==='stale-old'?'stale-warn':''}">${txt}</span>`;
+  let cls,warn="";
+  if(mins<150){cls="stale-fresh";}
+  else if(mins<300){cls="stale-aging";}
+  else{cls="stale-old";warn=` · <span class="stale-warn">ישן, בדוק מקור רשמי</span>`;}
+  const ago = mins<60? `לפני ${mins} דק'` : `לפני ${Math.floor(mins/60)} שע'`;
+  const hm=fmtLocalHM(gen);
+  return `<span class="stale-dot ${cls}"></span>`
+       + `<span class="mb-txt">בסיס נתוני נוטאם IAA עדכני לשעה ${hm} LT (${ago})${warn}</span>`;
 }
 
 // ── Scroll cue (chevron) — replaces the scrollbar on the list ──
