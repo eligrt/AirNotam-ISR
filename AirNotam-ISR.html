@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.02.048 · built by eligrt
+     AirNotam-ISR · v1.02.049 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AirNotam-ISR">
@@ -27,13 +27,16 @@
   --r:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--ink-body);}
+html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--ink-body);
+  overflow:hidden;position:fixed;width:100%;overscroll-behavior:none;
+  -webkit-overflow-scrolling:touch;touch-action:manipulation;}
 #app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
   background:var(--paper);
   background-image:repeating-linear-gradient(0deg,transparent 0,transparent 27px,var(--paper-line) 27px,var(--paper-line) 28px);}
 
 /* ── HEADER (AirCheck flight-strip) ── */
 .strip{flex-shrink:0;display:flex;align-items:center;padding:8px 14px;position:relative;
+  padding-top:max(8px, env(safe-area-inset-top, 8px));
   background:var(--ink);color:var(--paper);font-family:var(--font-mono);
   box-shadow:0 3px 0 var(--ink-dark);position:relative;z-index:10;}
 .strip-clock{display:flex;flex-direction:column;align-items:center;direction:ltr;flex-shrink:0;margin-inline-end:auto;}
@@ -89,7 +92,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .curtain.snap{transition:height .5s cubic-bezier(.22,.61,.36,1);}
 .curtain.snap-tap{transition:height .6s cubic-bezier(.4,0,.2,1);}
 .curtain-body{flex:1;overflow:hidden;padding:10px 16px 4px;min-height:0;}
-.curtain.is-open .curtain-body{overflow-y:auto;}
+.curtain.is-open .curtain-body{overflow-y:auto;overscroll-behavior:contain;}
 .curtain-foot{display:flex;gap:10px;padding:12px 16px;border-top:1.5px solid var(--paper-edge);background:var(--paper-hi);flex-shrink:0;}
 
 /* grip: single always-visible element, rides the curtain's bottom edge at translateY(h).
@@ -236,7 +239,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .cb-dot.cb-soon{background:var(--amber);}
 
 /* ── LIST ── */
-.list{flex:1;padding:12px 14px 20px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;}
+.list{flex:1;padding:12px 14px 20px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;overscroll-behavior:contain;}
 .list::-webkit-scrollbar{width:0;height:0;}
 .curtain-body::-webkit-scrollbar{width:0;}
 .curtain-body{scrollbar-width:none;}
@@ -290,16 +293,19 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 /* ── FOOTER ── */
 .footer-strip{flex-shrink:0;font-size:9px;font-family:var(--font-mono);color:var(--ink-faint);
   letter-spacing:.1em;text-transform:uppercase;direction:rtl;border-top:1px solid var(--gold-lite);
-  background:var(--paper-hi);padding:8px 14px;display:flex;align-items:center;gap:10px;}
+  background:var(--paper-hi);padding:8px 14px;display:flex;align-items:center;gap:10px;
+  padding-bottom:max(8px, env(safe-area-inset-bottom, 8px));}
 .footer-refresh{flex-shrink:0;font-size:11px;color:var(--ink-muted);cursor:pointer;
   opacity:.85;font-family:var(--font-ui);letter-spacing:.02em;text-transform:none;
-  display:inline-flex;align-items:center;gap:5px;}
-.footer-refresh svg{width:12px;height:12px;}
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 10px;margin:-6px -4px;border-radius:10px;min-height:34px;}
+.footer-refresh:active{background:var(--paper-edge);opacity:1;}
+.footer-refresh svg{width:14px;height:14px;flex-shrink:0;}
 .footer-refresh .rtime{font-family:var(--font-mono);font-weight:700;color:var(--ink);}
 .footer-build{flex:1;text-align:center;}
 
 /* ── one-time-per-day disclaimer ── */
-.disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:120;display:none;
+.disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:1000;display:none;
   align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(2px);}
 .disc.show{display:flex;}
 .disc .dcard{background:var(--paper);border:2px solid var(--ink);border-radius:14px;max-width:344px;width:100%;
@@ -450,11 +456,11 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
   </div>
 
   <div class="footer-strip">
-    <span class="footer-refresh" onclick="load()">
+    <span class="footer-refresh" onclick="load(true)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/></svg>
       רענון · <span class="rtime" id="refreshTime">--:--</span>
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.02.048 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.02.049 · built by eligrt</span>
   </div>
 </div>
 
@@ -1137,7 +1143,7 @@ document.querySelectorAll("#mapSeg .region-btn").forEach(b=>b.addEventListener("
 document.getElementById("advHead").addEventListener("click",()=>
   document.getElementById("adv").classList.toggle("open"));
 
-async function load(){
+async function load(manual){
   const meta=document.getElementById("meta");meta.textContent="טוען…";meta.className="metabar";
   try{
     const res=await fetch(FEED,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);
@@ -1145,8 +1151,9 @@ async function load(){
     const gen=data.generatedAt?new Date(data.generatedAt):null;
     meta.innerHTML=staleLine(gen,data.count??ALL.length);
     const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date());
-    // disclaimer popup handled by showDisc() (once per calendar day)
     render();
+    // a manual refresh re-shows the daily disclaimer (fresh data → re-acknowledge)
+    if(manual){ try{localStorage.removeItem(DISC_KEY);}catch(e){} showDisc(); }
   }catch(e){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
 }
 
