@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.02.045 · built by eligrt
+     AirNotam-ISR · v1.02.048 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -76,26 +76,37 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .fb-removed{font-size:10px;font-family:var(--font-mono);color:var(--ink-faint);
   text-decoration:line-through;text-decoration-color:var(--stamp-red);opacity:.75;
   border:1px solid var(--paper-edge);border-radius:8px;padding:1px 6px;direction:ltr;}
-.fb-btn{display:flex;align-items:center;gap:6px;background:var(--ink);color:var(--paper);border:none;border-radius:20px;
-  padding:7px 14px;font-family:var(--font-ui);font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;}
-.fb-btn:active{background:var(--ink-dark);}
-.fb-cnt{background:var(--gold-lite);color:var(--ink-dark);border-radius:10px;padding:1px 7px;font-family:var(--font-mono);font-size:11px;}
 
 /* stage holds result + curtain */
 .stage{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column;}
-.scrim{position:absolute;inset:0;background:rgba(14,35,72,.4);opacity:0;pointer-events:none;transition:opacity .3s;z-index:900;}
-.scrim.open{opacity:1;pointer-events:auto;}
-.curtain{position:absolute;top:0;left:0;right:0;z-index:950;width:100%;background:var(--paper-hi);
-  border-radius:0 0 16px 16px;box-shadow:0 12px 30px rgba(0,0,0,.35);
-  display:flex;flex-direction:column;overflow:hidden;
-  max-height:0;transition:max-height .45s cubic-bezier(.4,0,.2,1);}
-.curtain.open{max-height:var(--curtain-h,90%);}
-.curtain-grip{flex-shrink:0;padding:10px 0 6px;cursor:grab;touch-action:none;display:flex;justify-content:center;}
-.curtain-grip:active{cursor:grabbing;}
-.curtain-handle{width:36px;height:4px;border-radius:2px;background:var(--paper-edge);}
-.curtain.dragging{transition:none;}
-.curtain-body{overflow-y:auto;padding:10px 16px 4px;}
+.scrim{position:absolute;inset:0;background:rgba(14,35,72,.4);opacity:0;pointer-events:none;z-index:900;}
+.scrim.snap{transition:opacity .6s cubic-bezier(.4,0,.2,1);}
+
+/* curtain body: clipped panel from the top, height driven live by JS (drag) */
+.curtain{position:absolute;top:0;left:0;right:0;z-index:950;width:100%;height:0;overflow:hidden;
+  background:var(--paper-hi);box-shadow:0 14px 30px rgba(0,0,0,.30);
+  display:flex;flex-direction:column;}
+.curtain.snap{transition:height .5s cubic-bezier(.22,.61,.36,1);}
+.curtain.snap-tap{transition:height .6s cubic-bezier(.4,0,.2,1);}
+.curtain-body{flex:1;overflow:hidden;padding:10px 16px 4px;min-height:0;}
+.curtain.is-open .curtain-body{overflow-y:auto;}
 .curtain-foot{display:flex;gap:10px;padding:12px 16px;border-top:1.5px solid var(--paper-edge);background:var(--paper-hi);flex-shrink:0;}
+
+/* grip: single always-visible element, rides the curtain's bottom edge at translateY(h).
+   At h=0 it rests at the top as the closed "pull me" handle. */
+.curtain-grip{position:absolute;top:0;left:0;right:0;z-index:960;height:30px;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);
+  border-radius:0 0 18px 18px;box-shadow:0 8px 16px rgba(0,0,0,.16);
+  cursor:grab;touch-action:none;user-select:none;will-change:transform;--op:0;}
+.curtain-grip.snap{transition:transform .5s cubic-bezier(.22,.61,.36,1);}
+.curtain-grip.snap-tap{transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.curtain-grip:active{cursor:grabbing;}
+.curtain-grip .cg-bar{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);}
+.curtain-grip .cg-cv{font-size:10px;color:var(--gold-deep);line-height:1;transform:rotate(calc(var(--op) * 180deg));}
+/* idle "drag me down" hint: chevrons bounce downward (idle only fires when closed) */
+.curtain-grip.idle .cg-cv{animation:cgJump 1.25s ease-in-out infinite;}
+@keyframes cgJump{0%,100%{transform:translateY(0);opacity:.7;}50%{transform:translateY(4px);opacity:1;}}
 .fa-apply{flex:1;background:var(--gold);color:var(--ink-dark);border:none;border-radius:var(--r);
   padding:13px;font-size:15px;font-weight:700;font-family:var(--font-ui);cursor:pointer;letter-spacing:.02em;}
 .fa-apply:active{filter:brightness(.94);}
@@ -120,8 +131,8 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .pu-hidebtn:active{background:#f6e7e3;}
 .leaflet-popup-content{overflow-x:hidden;box-sizing:border-box;}
 .leaflet-popup-content .pu-hidebtn{margin-right:1px;}
-.card-flash{animation:cardFlash 1.6s ease-out;}
-@keyframes cardFlash{0%{box-shadow:0 0 0 3px #1f6f3f;}100%{box-shadow:0 0 0 0 transparent;}}
+.card-flash{animation:cardFlash 1.1s ease-in-out infinite;}
+@keyframes cardFlash{0%,100%{box-shadow:0 0 0 3px rgba(31,111,63,.95);}50%{box-shadow:0 0 0 3px rgba(31,111,63,.15);}}
 .c-foot{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:7px;direction:ltr;
   border-top:1px dashed var(--paper-edge);}
 .c-foot .c-when{flex:1;text-align:left;}
@@ -190,18 +201,12 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 .adv{border:1.5px solid var(--paper-edge);border-radius:var(--r);overflow:hidden;background:var(--paper);margin-bottom:4px;}
 .adv-head{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;user-select:none;}
 .adv-head .ah-title{font-size:14px;font-weight:700;color:var(--ink-muted);}
-.adv-head .ah-chev{transition:transform .15s;color:var(--ink-faint);}
+.adv-head .ah-chev{transition:transform .15s;color:var(--ink-faint);margin-inline-start:auto;}
 .adv.open .ah-chev{transform:rotate(180deg);}
-.adv-default{margin-inline-start:auto;background:none;border:1px solid var(--paper-edge);border-radius:12px;
-  color:var(--gold-deep);font-family:var(--font-ui);font-size:11px;font-weight:700;padding:3px 10px;cursor:pointer;
-  white-space:nowrap;}
-.adv-default:active{background:var(--paper-edge);}
+.adv-tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-bottom:10px;border-bottom:1px dashed var(--paper-edge);}
 .adv-body{display:none;padding:0 14px 14px;}
 .adv.open .adv-body{display:block;}
 .f-lbl2{font-size:11px;font-weight:700;color:var(--ink-faint);margin:12px 0 8px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-mono);}
-.f-lbl2-row{display:flex;align-items:center;gap:8px;margin:12px 0 8px;}
-.f-lbl2-row .f-lbl2{margin:0;}
-.cat-tools{margin-inline-start:auto;display:flex;gap:6px;}
 .cat-tool{background:var(--paper);border:1px solid var(--paper-edge);border-radius:12px;
   color:var(--ink-muted);font-family:var(--font-ui);font-size:11px;font-weight:700;
   padding:3px 9px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;}
@@ -351,7 +356,6 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
   <div class="filterbar" id="filterbar">
     <div class="fb-row1">
       <span class="fb-summary" id="fbSummary">מסננים</span>
-      <button class="fb-btn" id="fbBtn" onclick="toggleCurtain()">⚙ סינון</button>
     </div>
     <div class="fb-removed-row" id="fbRemoved"></div>
   </div>
@@ -369,7 +373,6 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 
     <div class="scrim" id="scrim" onclick="closeCurtain()"></div>
     <div class="curtain" id="curtain">
-      <div class="curtain-grip" id="curtainGrip"><div class="curtain-handle"></div></div>
       <div class="curtain-body">
         <div class="f-search">
           <input class="srch" id="search" type="text" placeholder="🔍  חיפוש חופשי: טקסט / מספר NOTAM / ICAO…" autocomplete="off">
@@ -422,17 +425,16 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
 
         <!-- ADVANCED -->
         <div class="adv" id="adv">
-          <div class="adv-head" id="advHead"><span class="ah-title">⚙ מסננים מתקדמים</span><button class="adv-default" id="advDefault" onclick="resetAdvanced(event)" title="החזר לברירת מחדל">↺ ברירת מחדל</button><span class="ah-chev">▾</span></div>
+          <div class="adv-head" id="advHead"><span class="ah-title">⚙ מסננים מתקדמים</span><span class="ah-chev">▾</span></div>
           <div class="adv-body">
+            <div class="adv-tools">
+              <button class="cat-tool" onclick="selectAllAdv(event)" title="בחר הכל"><span class="cbx">☑</span> הכל</button>
+              <button class="cat-tool" onclick="clearAllAdv(event)" title="בטל הכל"><span class="cbx">☐</span> נקה</button>
+              <button class="cat-tool" onclick="resetAdvanced(event)" title="החזר לברירת מחדל">↺ ברירת מחדל</button>
+            </div>
             <div class="f-lbl2">שדות תעופה</div>
             <span id="fields" class="chips-wrap"></span>
-            <div class="f-lbl2-row">
-              <div class="f-lbl2">קטגוריה</div>
-              <div class="cat-tools">
-                <button class="cat-tool" onclick="selectAllCats()" title="בחר את כל הקטגוריות"><span class="cbx">☑</span> הכל</button>
-                <button class="cat-tool" onclick="clearAllCats()" title="בטל את כל הקטגוריות"><span class="cbx">☐</span> נקה</button>
-              </div>
-            </div>
+            <div class="f-lbl2">קטגוריה</div>
             <span id="cats" class="chips-wrap"></span>
           </div>
         </div>
@@ -442,6 +444,9 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
         <button class="fa-apply" id="filterApply" onclick="closeCurtain()">הצג <span id="applyCount2"></span> תוצאות</button>
       </div>
     </div>
+    <div class="curtain-grip idle" id="curtainGrip">
+      <span class="cg-cv">▾</span><span class="cg-bar"></span><span class="cg-cv">▾</span>
+    </div>
   </div>
 
   <div class="footer-strip">
@@ -449,7 +454,7 @@ html,body{height:100%;background:#1a1a1c;font-family:var(--font-ui);color:var(--
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/></svg>
       רענון · <span class="rtime" id="refreshTime">--:--</span>
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.02.045 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.02.048 · built by eligrt</span>
   </div>
 </div>
 
@@ -660,6 +665,32 @@ function focusOnMap(id){
   MAP? setTimeout(go,60) : setTimeout(go,300);
 }
 
+// green pulse on a card: keeps pulsing until the user interacts (scroll/tap/key) or a safety cap
+let _flashCard=null, _flashStop=null;
+function startCardFlash(card,listEl){
+  // clear any previous flash
+  if(_flashStop) _flashStop();
+  card.classList.add("card-flash");
+  _flashCard=card;
+  const stop=()=>{
+    if(_flashCard){ _flashCard.classList.remove("card-flash"); _flashCard=null; }
+    listEl.removeEventListener("scroll",onScroll);
+    listEl.removeEventListener("pointerdown",stop);
+    window.removeEventListener("keydown",stop);
+    clearTimeout(cap);
+    _flashStop=null;
+  };
+  // ignore the programmatic smooth-scroll that we just triggered: only stop on a *later* scroll
+  let armed=false;
+  setTimeout(()=>{armed=true;},900);
+  const onScroll=()=>{ if(armed) stop(); };
+  listEl.addEventListener("scroll",onScroll,{passive:true});
+  listEl.addEventListener("pointerdown",stop,{passive:true});
+  window.addEventListener("keydown",stop);
+  const cap=setTimeout(stop,12000); // safety: never pulse forever
+  _flashStop=stop;
+}
+
 function focusOnList(id){
   MAP&&MAP.closePopup();
   setView("list");
@@ -678,8 +709,7 @@ function focusOnList(id){
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       const target=card.offsetTop-(listEl.clientHeight/2)+(card.offsetHeight/2);
       listEl.scrollTo({top:Math.max(0,target),behavior:"smooth"});
-      card.classList.add("card-flash");
-      setTimeout(()=>card.classList.remove("card-flash"),1700);
+      startCardFlash(card,listEl);
       try{updateScrollCue();}catch(_){}
     }));
   };
@@ -701,41 +731,94 @@ function setView(v){
 }
 
 // ── Curtain (filter) ──
-function openCurtain(){
-  const cur=document.getElementById("curtain");
-  const stage=document.getElementById("stage").getBoundingClientRect();
-  cur.style.setProperty("--curtain-h", Math.round(stage.height*0.96)+"px");
-  cur.classList.add("open");
-  document.getElementById("scrim").classList.add("open");
-}
-function closeCurtain(){
-  document.getElementById("curtain").classList.remove("open");
-  document.getElementById("scrim").classList.remove("open");
-}
-function toggleCurtain(){
-  document.getElementById("curtain").classList.contains("open")?closeCurtain():openCurtain();
-}
-// swipe to close: drag the grip down; swipe up on filter button to open
+// ── Curtain (filter) — drag-to-open drawer ──
 (function(){
-  const SWIPE=40;
-  function bindSwipe(el,onUp,onDown){
-    if(!el) return;
-    let y0=null,t0=0,active=false;
-    el.addEventListener("touchstart",e=>{y0=e.touches[0].clientY;t0=Date.now();active=true;},{passive:true});
-    el.addEventListener("touchend",e=>{
-      if(!active||y0===null) return; active=false;
-      const dy=e.changedTouches[0].clientY-y0, dt=Date.now()-t0;
-      if(dt>700) return;
-      if(dy<=-SWIPE&&onUp) onUp();
-      else if(dy>=SWIPE&&onDown) onDown();
-      y0=null;
-    },{passive:true});
+  const GRIPH=30;
+  let stage,curtain,grip,scrim;
+  let H=0,h=0,isOpen=false;
+  let dragging=false,startY=0,startH=0,lastY=0,lastT=0,vel=0,moved=false;
+
+  function els(){
+    stage=stage||document.getElementById("stage");
+    curtain=curtain||document.getElementById("curtain");
+    grip=grip||document.getElementById("curtainGrip");
+    scrim=scrim||document.getElementById("scrim");
   }
+  function measure(){
+    els();
+    const sh=stage.getBoundingClientRect().height;
+    const byFraction=Math.round(sh*0.84);
+    const byMargin=Math.round(sh-GRIPH-28);
+    H=Math.max(120,Math.min(byFraction,byMargin));
+  }
+  function setH(val){
+    h=Math.max(0,Math.min(H,val));
+    const frac=H?h/H:0;
+    curtain.style.height=h+"px";
+    grip.style.transform="translateY("+h+"px)";
+    grip.style.setProperty("--op",frac.toFixed(3));
+    scrim.style.opacity=(frac*0.9).toFixed(3);
+    scrim.style.pointerEvents=frac>0.02?"auto":"none";
+    grip.classList.toggle("idle",h<=0.5 && !dragging);
+  }
+  function snap(toOpen,gentle){
+    els(); measure();
+    isOpen=toOpen;
+    const cls=gentle?"snap-tap":"snap";
+    curtain.classList.add(cls); grip.classList.add(cls); scrim.classList.add("snap");
+    curtain.classList.remove("is-open");
+    void curtain.offsetHeight;
+    setH(toOpen?H:0);
+    clearTimeout(snap._t);
+    const dur=gentle?620:520;
+    snap._t=setTimeout(()=>{
+      curtain.classList.remove("snap","snap-tap"); grip.classList.remove("snap","snap-tap");
+      scrim.classList.remove("snap");
+      if(toOpen) curtain.classList.add("is-open");
+    },dur);
+  }
+  function down(y){
+    els();
+    dragging=true; moved=false;
+    startY=y; startH=h; lastY=y; lastT=performance.now(); vel=0;
+    curtain.classList.remove("snap","snap-tap"); grip.classList.remove("snap","snap-tap");
+    scrim.classList.remove("snap"); grip.classList.remove("idle");
+  }
+  function move(y){
+    if(!dragging) return;
+    const dy=y-startY;
+    if(Math.abs(dy)>4) moved=true;
+    setH(startH+dy);
+    const now=performance.now(),dt=now-lastT;
+    if(dt>0) vel=(y-lastY)/dt;
+    lastY=y; lastT=now;
+  }
+  function end(){
+    if(!dragging) return;
+    dragging=false;
+    if(!moved){ snap(!isOpen,true); return; }   // tap → gentle
+    const V=0.35;
+    if(vel>V) return snap(true);
+    if(vel<-V) return snap(false);
+    snap(h>H*0.5);
+  }
+
+  // public API (kept for existing callers: setView, focusOnMap, apply/reset buttons)
+  window.openCurtain=function(){ snap(true,true); };
+  window.closeCurtain=function(){ snap(false,true); };
+  window.toggleCurtain=function(){ snap(!isOpen,true); };
+
   document.addEventListener("DOMContentLoaded",function(){
-    // grip: swipe down closes
-    bindSwipe(document.getElementById("curtainGrip"),null,closeCurtain);
-    // filter button: swipe up opens (tap still toggles)
-    bindSwipe(document.getElementById("fbBtn"),openCurtain,null);
+    els(); measure(); setH(0); grip.classList.add("idle");
+    grip.addEventListener("touchstart",e=>{ down(e.touches[0].clientY); },{passive:true});
+    grip.addEventListener("touchmove",e=>{ if(dragging){ e.preventDefault(); move(e.touches[0].clientY);} },{passive:false});
+    grip.addEventListener("touchend",end);
+    grip.addEventListener("touchcancel",end);
+    grip.addEventListener("mousedown",e=>{ down(e.clientY); e.preventDefault(); });
+    window.addEventListener("mousemove",e=>{ if(dragging) move(e.clientY); });
+    window.addEventListener("mouseup",end);
+    scrim.addEventListener("click",()=>snap(false,true));
+    window.addEventListener("resize",()=>{ measure(); setH(isOpen?H:0); });
   });
 })();
 
@@ -745,12 +828,24 @@ function catKeyForLabel(label){
   if(hit)return hit[0];
   return label==="אחר"?"__other__":null;
 }
-function selectAllCats(){
+function selectAllAdv(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  // airfields on
+  hiddenFields.clear();
+  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
+  // categories on
   hiddenCats.clear();
   document.querySelectorAll("#cats .chip").forEach(c=>c.classList.add("on"));
   render();
 }
-function clearAllCats(){
+function clearAllAdv(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  // airfields off
+  document.querySelectorAll("#fields .chip").forEach(c=>{
+    c.classList.remove("on");
+    const code=c.textContent==="אחר"?"__other__":c.textContent; hiddenFields.add(code);
+  });
+  // categories off
   document.querySelectorAll("#cats .chip").forEach(c=>{
     c.classList.remove("on");
     const k=catKeyForLabel(c.textContent); if(k)hiddenCats.add(k);
