@@ -1,9 +1,349 @@
 {
-  "generatedAt": "2026-09-24T16:58:58.022Z",
+  "generatedAt": "2026-09-24T21:25:01.507Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 129,
+  "count": 137,
   "notams": [
+    {
+      "id": "C2042/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-25T05:30:00.000Z",
+      "toDate": "2026-09-25T13:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "035",
+        "position": {
+          "lat": 32.55,
+          "lon": 35.283333,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL",
+      "position": {
+        "lat": 32.55,
+        "lon": 35.283333,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2042/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/035/3233N03517E002 A) LLLL B) 2609250530 C) 2609251300 E) UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL)",
+      "rowID": "2062423"
+    },
+    {
+      "id": "C2040/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-06T07:00:00.000Z",
+      "toDate": "2026-10-06T11:40:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "035",
+        "upperLimitFl": "040",
+        "position": {
+          "lat": 31.316667,
+          "lon": 35.2,
+          "radiusNm": 14,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD, TFC WILL BE DIVERTED VIA MZDOT SOKET-MYTAR-TARAD-ARRAD-HATRU-ZOHAR. MMORR-ARRAD-LLMZ.",
+      "position": {
+        "lat": 31.316667,
+        "lon": 35.2,
+        "radiusNm": 14,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2040/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /035/040/3119N03512E014 A) LLLL B) 2610060700 C) 2610061140 D) 0700-0740 1050-1140 E) CVFR RTE CLSD, TFC WILL BE DIVERTED VIA MZDOT SOKET-MYTAR-TARAD-ARRAD-HATRU-ZOHAR. MMORR-ARRAD-LLMZ.)",
+      "rowID": "2062421"
+    },
+    {
+      "id": "C2039/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T04:30:00.000Z",
+      "toDate": "2026-10-06T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "110",
+        "position": {
+          "lat": 31.283333,
+          "lon": 34.716667,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE AIRSPACE TEIMAN CLSD. F) GND G) 11000FT AMSL",
+      "position": {
+        "lat": 31.283333,
+        "lon": 34.716667,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2039/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610050430 C) 2610061200 D) DAILY 0430-1200 E) PJE AIRSPACE TEIMAN CLSD. F) GND G) 11000FT AMSL)",
+      "rowID": "2062420"
+    },
+    {
+      "id": "C2038/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-29T16:30:00.000Z",
+      "toDate": "2026-09-29T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 31.616667,
+          "lon": 34.866667,
+          "radiusNm": 7,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD NOAAM-GOVRN-ZHRYA.",
+      "position": {
+        "lat": 31.616667,
+        "lon": 34.866667,
+        "radiusNm": 7,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2038/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3137N03452E007 A) LLLL B) 2609291630 C) 2609291900 E) CVFR RTE CLSD NOAAM-GOVRN-ZHRYA.)",
+      "rowID": "2062419"
+    },
+    {
+      "id": "C2037/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-29T17:00:00.000Z",
+      "toDate": "2026-09-29T22:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "035",
+        "upperLimitFl": "045",
+        "position": {
+          "lat": 30.616667,
+          "lon": 35,
+          "radiusNm": 11,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.",
+      "position": {
+        "lat": 30.616667,
+        "lon": 35,
+        "radiusNm": 11,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2037/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /035/045/3037N03500E011 A) LLLL B) 2609291700 C) 2609292200 E) CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.)",
+      "rowID": "2062417"
+    },
+    {
+      "id": "C2036/26",
+      "location": "LLMZ",
+      "locationDescription": "Metzada",
+      "fromDate": "2026-09-29T14:00:00.000Z",
+      "toDate": "2026-10-02T07:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALT",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT. OPS OF HEL BY PPR FM AIRSTRIP OPR ONLY.",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2036/26 NOTAMN Q) LLLL/QFALT/IV/NBO/A /000/999/3120N03523E005 A) LLMZ B) 2609291400 C) 2610020700 D) DAILY 1400-0700 E) AIRSTRIP CLSD TO ALL FLT. OPS OF HEL BY PPR FM AIRSTRIP OPR ONLY.)",
+      "rowID": "2062408"
+    },
+    {
+      "id": "C2035/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-25T03:00:00.000Z",
+      "toDate": "2026-10-02T15:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELP",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.016667,
+          "lon": 34.533333,
+          "radiusNm": 16,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHIVTA (BSVTA).",
+      "position": {
+        "lat": 31.016667,
+        "lon": 34.533333,
+        "radiusNm": 16,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2035/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/020/3101N03432E016 A) LLLL B) 2609250300 C) 2610021550 D) SEP 25 0300-1550, OCT 02 0300-1550 E) ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHIVTA (BSVTA).)",
+      "rowID": "2062403"
+    },
+    {
+      "id": "C2032/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-27T03:00:00.000Z",
+      "toDate": "2026-10-01T15:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.016667,
+          "lon": 34.533333,
+          "radiusNm": 16,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE CLSD SHIVTA (BSVTA).",
+      "position": {
+        "lat": 31.016667,
+        "lon": 34.533333,
+        "radiusNm": 16,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2032/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3101N03432E016 A) LLLL B) 2609270300 C) 2610011550 D) DAILY 0300-1550 E) ULTRALIGHT BUBBLE CLSD SHIVTA (BSVTA).)",
+      "rowID": "2062399"
+    },
+    {
+      "id": "C2031/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-27T03:00:00.000Z",
+      "toDate": "2026-09-28T15:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 30.716667,
+          "lon": 34.516667,
+          "radiusNm": 80,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE CLSD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).",
+      "position": {
+        "lat": 30.716667,
+        "lon": 34.516667,
+        "radiusNm": 80,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2031/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609270300 C) 2609281550 D) DAILY 0300-1550 E) ULTRALIGHT BUBBLE CLSD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).)",
+      "rowID": "2062397"
+    },
+    {
+      "id": "C2030/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-25T03:00:00.000Z",
+      "toDate": "2026-10-02T15:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELP",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 30.716667,
+          "lon": 34.516667,
+          "radiusNm": 80,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).",
+      "position": {
+        "lat": 30.716667,
+        "lon": 34.516667,
+        "radiusNm": 80,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2030/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609250300 C) 2610021550 D) SEP 25-26 30 DAILY 0300-1550, 29 0300-1330, OCT 01-02 DAILY 0300-1550 E) ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).)",
+      "rowID": "2062388"
+    },
     {
       "id": "C2029/26",
       "location": "LLLL",
@@ -173,40 +513,6 @@
       "replaces": null,
       "rawText": "C2026/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/025/3057N03456E002 A) LLLL B) 2610040310 C) 2610081600 D) DAILY 0310-1600 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 2,500FT AMSL. CTN ADZ. F) GND G) 2500FT AMSL)",
       "rowID": "2062328"
-    },
-    {
-      "id": "C2025/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T05:30:00.000Z",
-      "toDate": "2026-09-25T11:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "035",
-        "position": {
-          "lat": 32.55,
-          "lon": 35.283333,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL",
-      "position": {
-        "lat": 32.55,
-        "lon": 35.283333,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2025/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/035/3233N03517E002 A) LLLL B) 2609250530 C) 2609251130 E) UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL)",
-      "rowID": "2062314"
     },
     {
       "id": "C2024/26",
@@ -1295,40 +1601,6 @@
       "replaces": null,
       "rawText": "C1983/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/010/3224N03454E001 A) LLLL B) 2609220737 C) 2610152059 E) UAS/UAV ACT WILL TAKE PLACE AT EMEK HEFER, FM GND UP TO 30M AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 950FT AMSL 322407N0345354E 322407N0345357E 322405N0345357E 322405N0345355E. CTN ADZ. F) GND G) 950FT AMSL)",
       "rowID": "2061441"
-    },
-    {
-      "id": "C1982/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-24T16:30:00.000Z",
-      "toDate": "2026-09-24T19:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "025",
-        "upperLimitFl": "030",
-        "position": {
-          "lat": 31.616667,
-          "lon": 34.866667,
-          "radiusNm": 7,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD NOAAM-GOVRN-ZHRYA.",
-      "position": {
-        "lat": 31.616667,
-        "lon": 34.866667,
-        "radiusNm": 7,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1982/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3137N03452E007 A) LLLL B) 2609241630 C) 2609241900 E) CVFR RTE CLSD NOAAM-GOVRN-ZHRYA.)",
-      "rowID": "2060066"
     },
     {
       "id": "C1981/26",
