@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-24T21:25:01.507Z",
+  "generatedAt": "2026-09-25T00:24:49.728Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 137,
+  "count": 136,
   "notams": [
     {
       "id": "C2042/26",
@@ -1601,40 +1601,6 @@
       "replaces": null,
       "rawText": "C1983/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/010/3224N03454E001 A) LLLL B) 2609220737 C) 2610152059 E) UAS/UAV ACT WILL TAKE PLACE AT EMEK HEFER, FM GND UP TO 30M AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 950FT AMSL 322407N0345354E 322407N0345357E 322405N0345357E 322405N0345355E. CTN ADZ. F) GND G) 950FT AMSL)",
       "rowID": "2061441"
-    },
-    {
-      "id": "C1981/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-24T16:30:00.000Z",
-      "toDate": "2026-09-24T22:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "035",
-        "upperLimitFl": "045",
-        "position": {
-          "lat": 30.616667,
-          "lon": 35,
-          "radiusNm": 11,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.",
-      "position": {
-        "lat": 30.616667,
-        "lon": 35,
-        "radiusNm": 11,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1981/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /035/045/3037N03500E011 A) LLLL B) 2609241630 C) 2609242200 E) CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.)",
-      "rowID": "2060065"
     },
     {
       "id": "A0764/26",
