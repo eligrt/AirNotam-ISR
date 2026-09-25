@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.001 · built by eligrt
+     AirNotam-ISR · v1.04.002 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -632,6 +632,28 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 .pu-g .g-a{font-size:12.5px;margin-top:2px;}
 .pu-g .g-a b{font-family:var(--font-mono);font-weight:600;}
 .pu-g .g-n{font-size:12px;color:var(--ink-muted);margin-top:1px;}
+
+/* v1.04.002: map layers panel, tile status word, iPhone full-screen */
+#app{position:fixed;top:0;right:0;bottom:0;left:0;height:auto;max-width:none;margin:0 auto;}
+@media (min-width:600px){#app{max-width:430px;}}
+.sp-head{padding-top:max(14px, calc(env(safe-area-inset-top, 0px) + 8px));}
+.vh-f{color:var(--info-gold);} .tile.on .vh-f{color:var(--gold-deep);}
+.leaflet-control-attribution{direction:ltr;text-align:left;}
+.gis-ctl{position:relative;}
+.gis-ctl .gp{display:none;position:absolute;top:0;left:calc(100% + 8px);width:250px;overflow-y:auto;
+  background:var(--paper-hi);border:1px solid var(--paper-edge);border-radius:8px;padding:6px 4px 8px;
+  box-shadow:0 2px 0 var(--paper-edge),0 8px 22px rgba(14,35,72,.22);direction:rtl;text-align:right;font-family:var(--font-ui);}
+.gis-ctl.open .gp{display:block;}
+.gp-sec{font-size:11px;font-weight:700;color:var(--ink-faint);padding:6px 8px 2px;letter-spacing:.02em;}
+.gp-src{font-size:10.5px;color:var(--ink-muted);padding:0 8px 4px;}
+.gp-hr{border-top:1px dashed var(--paper-edge);margin:6px 6px 2px;}
+.gis-ctl .gp-row{display:flex;align-items:center;gap:8px;padding:6px 8px;font-size:13px;color:var(--ink-body);cursor:pointer;border-radius:5px;line-height:1.25;}
+.gp-row:active{background:rgba(200,160,74,.14);}
+.gis-ctl .gp-row input{width:18px;height:18px;margin:0;accent-color:var(--ink);flex:none;}
+.gis-ctl .gp-row .gp-t{flex:1;min-width:0;}
+.gp-row small{display:block;font-size:10.5px;color:var(--ink-muted);}
+.gp-row small.gst-err{color:var(--stamp-red);font-weight:600;}
+.gp-row .gsw{margin:0;flex:none;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -728,19 +750,10 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
     <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span></button>
   </div></div>
   <div class="fdlg" id="viw" onclick="if(event.target===this)closeCurtain('viw')"><div class="fcard rcard" role="dialog" aria-labelledby="viwTtl">
-    <div class="r-head"><div class="fttl" id="viwTtl">תצוגה</div><div class="r-big" id="viwBig"></div></div>
+    <div class="r-head"><div class="fttl" id="viwTtl">תצוגת NOTAMs</div><div class="r-big" id="viwBig"></div></div>
     <label class="r-opt r-chk" id="optTimeLbl"><span>הצג גם NOTAMs מחוץ לזמני הטיסה<small id="optTimeSub"></small></span><input type="checkbox" id="optTime"></label>
     <label class="r-opt r-chk" id="optRouteLbl"><span>הצג גם NOTAMs הרחוקים ממסדרון המסלול<small id="optRouteSub"></small></span><input type="checkbox" id="optRoute"></label>
     <label class="r-opt r-chk"><span>הצג גם NOTAMs שסימנתי כ"לא רלוונטי לי"<small id="optIrrSub"></small></span><input type="checkbox" id="optIrr"></label>
-    <div class="r-sec"><div class="r-sec-ttl">שכבות מפה</div><div class="r-sec-sub">מקור: רת"א, נתוני GIS 2020-2023</div></div>
-    <label class="r-opt r-chk"><span><i class="gsw " style="background:#8a6a2a22;border-color:#8a6a2a"></i>הצג מרחבים מבוקרים (CTR/ATZ/CTA)<small id="gst_ctr"></small></span><input type="checkbox" id="gis_ctr"></label>
-    <label class="r-opt r-chk"><span><i class="gsw dsh" style="border-color:#7a6448"></i>הצג TMA<small id="gst_tma"></small></span><input type="checkbox" id="gis_tma"></label>
-    <label class="r-opt r-chk"><span><i class="gsw " style="background:#7b2d8e22;border-color:#7b2d8e"></i>הצג אזורים מוגבלים (P/R/D)<small id="gst_prd"></small></span><input type="checkbox" id="gis_prd"></label>
-    <label class="r-opt r-chk"><span><i class="gsw ln" style="border-color:#1f6f3f"></i>הצג נתיבי ספורטיבית<small id="gst_sport"></small></span><input type="checkbox" id="gis_sport"></label>
-    <label class="r-opt r-chk"><span><i class="gsw ln" style="border-color:#c2410c"></i>הצג נתיבי CVFR<small id="gst_cvfr"></small></span><input type="checkbox" id="gis_cvfr"></label>
-    <label class="r-opt r-chk"><span><i class="gsw dsh" style="border-color:#4d5a1f"></i>הצג נתיבי IFR<small id="gst_ifr"></small></span><input type="checkbox" id="gis_ifr"></label>
-    <label class="r-opt r-chk"><span><i class="gsw " style="background:#7cb34255;border-color:#5d8f2f"></i>הצג שמורות טבע (רט"ג)<small id="gst_ratag"></small></span><input type="checkbox" id="gis_ratag"></label>
-    <label class="r-opt r-chk"><span><i class="gsw ln" style="border-color:#1a1308"></i>הצג מסלולי המראה ונחיתה<small id="gst_rwy"></small></span><input type="checkbox" id="gis_rwy"></label>
     <button type="button" class="fgrip" id="g_viw" aria-label="סגור"><span></span></button>
   </div></div>
   <div class="draw-bar" id="drawBar">
@@ -791,7 +804,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.001 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.002 · built by eligrt</span>
   </div>
 </div>
 
@@ -960,9 +973,8 @@ function renderHints(){
   rh.classList.toggle("dim",!hasR);
   const tot=ENR.filter(e=>!e.admin).length;
   const ic=(k,on,t)=>`<i class="t-ic${on?" on":""}" title="${t}">${IC[k]}</i>`;
-  document.getElementById("viwHint").innerHTML=
-    ic("clock",timeMode==="flight"&&flightValid(FLIGHT),"מוצגים רק NOTAMs בזמני הטיסה")+ic("route",ROUTE_ONLY&&hasR,"מוצגים רק NOTAMs ליד המסלול")+ic("grey",!SHOW_IRR,"מוסתרים NOTAMs שסימנתי כלא רלוונטיים")
-;
+  const filtered=(timeMode==="flight"&&flightValid(FLIGHT))||(ROUTE_ONLY&&hasR)||!SHOW_IRR;
+  document.getElementById("viwHint").innerHTML= filtered? '<span class="vh-f">מסונן</span>' : 'הכל מוצג';
   const shown=LAST_ITEMS.filter(e=>!offMap(e.id)).length;
   const vb=document.getElementById("viwBig"); if(vb) vb.textContent=`${shown}/${tot} מוצגים`;
 }
@@ -1177,6 +1189,7 @@ function listUnreview(id){unmarkReviewed(id);render();}
 function listIrr(id){markIrrelevant(id);render();}
 
 // ── Map ──
+let MAP_BASES=null, MAP_BASE=null;
 let MAP=null, MAP_LAYER=null, MAP_NOTE=null, currentView="map";
 let MAP_INDEX={}, CIRCLES={}, GROUPS={};
 const ST_STYLE={
@@ -1215,9 +1228,9 @@ function initMap(){
   const BASES={"פשוטה":gray,"OSM":osm,"טופוגרפית":topo};
   let pick="פשוטה";
   try{pick=localStorage.getItem("airnotam_base2")||pick;}catch(e){}
-  (BASES[pick]||gray).addTo(MAP);
-  L.control.layers(BASES,null,{position:"topleft"}).addTo(MAP);
-  MAP.on("baselayerchange",ev=>{try{localStorage.setItem("airnotam_base2",ev.name);}catch(e){}});
+  if(!BASES[pick]) pick="פשוטה";
+  BASES[pick].addTo(MAP);
+  MAP_BASES=BASES; MAP_BASE=pick;
   ROUTE_LAYER=L.layerGroup().addTo(MAP);
   MAP.on("zoomend",drawRoute);
   MAP.on("click",drawClick);
@@ -1677,11 +1690,12 @@ const GIS_VER="2023a";
 const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy"];
 const GIS_DEF={ctr:1,tma:1,prd:1,sport:1,cvfr:0,ifr:0,ratag:0,rwy:1};
 // muted palette: never NOTAM red / blue / grey
-const GIS_COL={CTR:"#8a6a2a",ATZ:"#b8912f",CTA:"#a0784a",TMA:"#7a6448",P:"#7b2d8e",R:"#9b59b6",D:"#b58ac4",
-  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f6f3f",cvfr:"#c2410c",ifr:"#4d5a1f",rwy:"#1a1308"};
+const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#7b2d8e",R:"#9b59b6",D:"#b58ac4",
+  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f6f3f",cvfr:"#14532d",ifr:"#4d5a1f",rwy:"#1a1308"};
 const GIS_PT_ZOOM=9;
 let GIS_ON={}; try{GIS_ON=JSON.parse(localStorage.getItem("airnotam_gis")||"{}")||{};}catch(e){GIS_ON={};}
-const GIS={lay:{},pts:{},idx:{},busy:{},R:{}};
+const GIS={lay:{},pts:{},idx:{},busy:{},R:{},sty:{}};
+const GIS_FILL_ZOOM=9; let GIS_FILLED=null;
 const gisOn=id=> id in GIS_ON ? !!GIS_ON[id] : !!GIS_DEF[id];
 function gisSave(){ try{localStorage.setItem("airnotam_gis",JSON.stringify(GIS_ON));}catch(e){} }
 function gisStatus(id,txt,err){ const s=document.getElementById("gst_"+id); if(!s) return; s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
@@ -1692,14 +1706,45 @@ function gisInitUi(){
     cb.addEventListener("change",()=>{ GIS_ON[id]=cb.checked; gisSave(); gisStatus(id,""); gisApply(id); });
   });
 }
+
+function gisPanel(){
+  const ctl=L.control({position:"topleft"});
+  ctl.onAdd=()=>{
+    const d=L.DomUtil.create("div","leaflet-control-layers leaflet-control gis-ctl");
+    const bases=Object.keys(MAP_BASES).map(n=>`<label class="gp-row"><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}><span class="gp-t">${n}</span></label>`).join("");
+    d.innerHTML='<a class="leaflet-control-layers-toggle" href="#" role="button" aria-label="שכבות"></a>'
+      +'<div class="gp"><div class="gp-sec">מפת רקע</div>'+bases
+      +'<div class="gp-hr"></div><div class="gp-sec">שכבות מפה</div><div class="gp-src">מקור: רת"א, נתוני GIS 2020-2023</div>'
+      +'<label class="gp-row"><input type="checkbox" id="gis_ctr"><i class="gsw " style="background:#2a221814;border-color:#2a2218"></i><span class="gp-t">מרחבים מבוקרים (CTR/ATZ/CTA)<small id="gst_ctr"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_tma"><i class="gsw dsh" style="border-color:#4a3f33"></i><span class="gp-t">TMA<small id="gst_tma"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_prd"><i class="gsw " style="background:#7b2d8e22;border-color:#7b2d8e"></i><span class="gp-t">אזורים מוגבלים (P/R/D)<small id="gst_prd"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_sport"><i class="gsw ln" style="border-color:#1f6f3f"></i><span class="gp-t">נתיבי ספורטיבית<small id="gst_sport"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_cvfr"><i class="gsw dsh" style="border-color:#14532d"></i><span class="gp-t">נתיבי CVFR<small id="gst_cvfr"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_ifr"><i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i><span class="gp-t">נתיבי IFR<small id="gst_ifr"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_ratag"><i class="gsw " style="background:#7cb34255;border-color:#5d8f2f"></i><span class="gp-t">שמורות טבע (רט"ג)<small id="gst_ratag"></small></span></label><label class="gp-row"><input type="checkbox" id="gis_rwy"><i class="gsw ln" style="border-color:#1a1308"></i><span class="gp-t">מסלולי המראה ונחיתה<small id="gst_rwy"></small></span></label>'+'</div>';
+    L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d);
+    d.querySelector(".leaflet-control-layers-toggle").addEventListener("click",ev=>{ ev.preventDefault(); gisPanelToggle(); });
+    d.querySelectorAll('input[name="gpBase"]').forEach(r=>r.addEventListener("change",()=>{
+      MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP);
+      try{localStorage.setItem("airnotam_base2",MAP_BASE);}catch(e){}
+    }));
+    GIS_PANEL=d; return d;
+  };
+  ctl.addTo(MAP);
+  gisInitUi();
+}
+let GIS_PANEL=null;
+function gisPanelOpen(){ return !!(GIS_PANEL&&GIS_PANEL.classList.contains("open")); }
+function gisPanelToggle(force){
+  if(!GIS_PANEL) return;
+  const o=force===undefined? !gisPanelOpen() : force;
+  GIS_PANEL.classList.toggle("open",o);
+  if(o){ MAP.closePopup(); const gp=GIS_PANEL.querySelector(".gp"); gp.style.maxHeight=(MAP.getSize().y-24)+"px"; }
+}
 function gisInitMap(){
   [["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gln",356],["gpt",357]].forEach(([n,z])=>{
     const pn=MAP.createPane("g_"+n); pn.style.zIndex=z; pn.style.pointerEvents="none";
     GIS.R[n]=L.canvas({pane:"g_"+n});
   });
-  MAP.attributionControl.addAttribution('שכבות: רת"א GIS');
-  MAP.on("zoomend",gisPts);
-  MAP.on("click",ev=>{ if(!DRAWING) openAt(ev.latlng); });
+  MAP.attributionControl.addAttribution('<span dir="rtl" style="white-space:nowrap">שכבות: רת"א GIS</span>');
+  MAP.on("zoomend",()=>{ gisPts(); gisFill(); });
+  MAP.on("click",ev=>{ if(gisPanelOpen()){ gisPanelToggle(false); return; } if(!DRAWING) openAt(ev.latlng); });
+  MAP.on("movestart",()=>{ if(gisPanelOpen()) gisPanelToggle(false); });
+  gisPanel(); gisFill();
   GIS_IDS.forEach(gisApply);
 }
 async function gisApply(id){
@@ -1707,6 +1752,10 @@ async function gisApply(id){
   if(!gisOn(id)){ if(GIS.lay[id]) MAP.removeLayer(GIS.lay[id]); gisPts(); return; }
   if(!GIS.lay[id]){
     if(GIS.busy[id]) return;
+    if(location.protocol==="file:"){
+      gisStatus(id,"זמין רק כשהאפליקציה פתוחה מהאתר",true);
+      const cb=document.getElementById("gis_"+id); if(cb) cb.checked=false; return;
+    }
     GIS.busy[id]=true; gisStatus(id,"טוען…");
     try{
       const r=await fetch(`gis/${id}.json?v=${GIS_VER}`);
@@ -1729,9 +1778,12 @@ function gisBuild(id,d){
     const col=p=> id==="ctr"?(GIS_COL[p.k]||GIS_COL.CTR) : id==="prd"?(GIS_COL[p.k]||GIS_COL.P) : id==="tma"?GIS_COL.TMA : GIS_COL.ratag;
     const sty=f=>{ const c=col(f.properties);
       return id==="ratag"?{color:c,weight:.6,fillColor:GIS_COL.ratagF,fillOpacity:.22}
-           : id==="tma"?{color:c,weight:1.2,dashArray:"6 4",fillColor:c,fillOpacity:.03}
-           : {color:c,weight:1.4,dashArray:(f.properties.k==="CTA"?"5 3":null),fillColor:c,fillOpacity:.07}; };
-    GIS.lay[id]=L.geoJSON(d,{pane:"g_"+id,renderer:GIS.R[id],interactive:false,style:sty});
+           : id==="tma"?{color:c,weight:1,dashArray:"10 6",fillColor:c,fillOpacity:.025}
+           : id==="ctr"?{color:c,weight:1.3,dashArray:(f.properties.k==="ATZ"?"5 3":f.properties.k==="CTA"?"1.5 3.5":null),fillColor:c,fillOpacity:.05}
+           : {color:c,weight:1.4,fillColor:c,fillOpacity:.07}; };
+    const zsty=f=>{ const s=sty(f); if(MAP.getZoom()<GIS_FILL_ZOOM) s.fillOpacity=0; return s; };
+    GIS.sty[id]=zsty;
+    GIS.lay[id]=L.geoJSON(d,{pane:"g_"+id,renderer:GIS.R[id],interactive:false,style:zsty});
     d.features.forEach(f=>{ const g=f.geometry, polys=g.type==="Polygon"?[g.coordinates]:g.coordinates;
       idx.push({k:"poly",bb:gisBbox(polys.flat(2)),polys,p:f.properties,c:col(f.properties)}); });
     return;
@@ -1739,7 +1791,7 @@ function gisBuild(id,d){
   const lineC= id==="rwy"?GIS_COL.rwy : GIS_COL[id];
   const lines= id==="rwy"? d : d.r;
   GIS.lay[id]=L.geoJSON(lines,{pane:id==="rwy"?"g_rwy":"g_gln",renderer:GIS.R[id==="rwy"?"rwy":"gln"],interactive:false,
-    style:{color:lineC,weight:id==="rwy"?4.5:2.2,opacity:.85,dashArray:id==="ifr"?"7 5":null,lineCap:id==="rwy"?"butt":"round"}});
+    style:{color:lineC,weight:id==="rwy"?4.5:2.2,opacity:.85,dashArray:id==="ifr"?"2 5":id==="cvfr"?"9 4":null,lineCap:id==="rwy"?"butt":"round"}});
   lines.features.forEach(f=>{ const g=f.geometry, parts=g.type==="LineString"?[g.coordinates]:g.coordinates;
     idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c:lineC}); });
   if(d.p){
@@ -1750,6 +1802,10 @@ function gisBuild(id,d){
         return L.circleMarker(ll,o); }});
     d.p.features.forEach(f=>{ const [x,y]=f.geometry.coordinates; idx.push({k:"pt",x,y,p:f.properties,c:lineC,src:id}); });
   }
+}
+function gisFill(){
+  const f=MAP.getZoom()>=GIS_FILL_ZOOM; if(f===GIS_FILLED) return; GIS_FILLED=f;
+  Object.keys(GIS.sty).forEach(id=>GIS.lay[id]&&GIS.lay[id].setStyle(GIS.sty[id]));
 }
 function gisPts(){
   if(!MAP) return; const z=MAP.getZoom()>=GIS_PT_ZOOM;
@@ -1797,8 +1853,6 @@ function gisHtml(ll){
   });
   return out? `<div class="pu-gdiv">מרחב אוויר בנקודה זו</div>`+out : "";
 }
-gisInitUi();
-
 // ── boot ──
 FLIGHT=loadFlight();
 if(flightValid(FLIGHT)) timeMode="flight";
