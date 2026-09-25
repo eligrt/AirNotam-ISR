@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-25T00:24:49.728Z",
+  "generatedAt": "2026-09-25T07:34:13.139Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 136,
+  "count": 133,
   "notams": [
     {
       "id": "C2042/26",
@@ -683,74 +683,6 @@
       "replaces": null,
       "rawText": "A0783/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/003/3200N03454E001 A) LLBG B) 2610050500 C) 2610051000 E) CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.)",
       "rowID": "2062285"
-    },
-    {
-      "id": "C2023/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T04:30:00.000Z",
-      "toDate": "2026-09-25T05:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 32.7,
-          "lon": 35.35,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.",
-      "position": {
-        "lat": 32.7,
-        "lon": 35.35,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2023/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3242N03521E006 A) LLLL B) 2609250430 C) 2609250530 E) ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.)",
-      "rowID": "2062276"
-    },
-    {
-      "id": "C2022/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T04:30:00.000Z",
-      "toDate": "2026-09-25T05:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 32.733333,
-          "lon": 35.4,
-          "radiusNm": 4,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA AT KFAR-TAVOR WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 324711N0352345E 324209N0352606E 324118N0352338E 324624N0352133E. CTN ADZ.",
-      "position": {
-        "lat": 32.733333,
-        "lon": 35.4,
-        "radiusNm": 4,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2022/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3244N03524E004 A) LLLL B) 2609250430 C) 2609250530 E) AN AREA AT KFAR-TAVOR WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 324711N0352345E 324209N0352606E 324118N0352338E 324624N0352133E. CTN ADZ.)",
-      "rowID": "2062275"
     },
     {
       "id": "C2021/26",
@@ -1465,40 +1397,6 @@
       "replaces": null,
       "rawText": "C1998/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610020600 C) 2610021100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
       "rowID": "2061826"
-    },
-    {
-      "id": "C1990/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-23T06:23:00.000Z",
-      "toDate": "2026-09-25T06:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "027",
-        "position": {
-          "lat": 32.7,
-          "lon": 35.316667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL",
-      "position": {
-        "lat": 32.7,
-        "lon": 35.316667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1990/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/027/3242N03519E001 A) LLLL B) 2609230623 C) 2609250600 E) CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL)",
-      "rowID": "2061800"
     },
     {
       "id": "C1987/26",
