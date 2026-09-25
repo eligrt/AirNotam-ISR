@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.02.059 · built by eligrt
+     AirNotam-ISR · v1.03.015 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -87,6 +87,268 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
   text-decoration:line-through;text-decoration-color:#ff9a8f;opacity:.85;
   border:1px solid #47679a;border-radius:8px;padding:1px 6px;direction:ltr;}
 
+
+/* ── v1.03: flight bar + flight dialog ── */
+.flightbar{flex-shrink:0;background:var(--info-block);border-top:1px solid rgba(255,255,255,.08);
+  padding:7px 14px 8px;display:flex;flex-direction:column;gap:6px;direction:rtl;}
+.fl-row{display:flex;align-items:center;gap:9px;}
+.fl-ico{width:16px;height:16px;flex:none;}
+.fl-txt{flex:1;min-width:0;font-size:12px;color:var(--info-ink);line-height:1.35;}
+.fl-txt b{font-weight:700;}
+.fl-txt .mono{font-family:var(--font-mono);}
+.fl-txt .fl-grace{color:var(--info-gold);font-weight:600;}
+.fl-txt .fl-none{color:var(--info-ink-muted);}
+.fl-edit{border:none;background:none;color:var(--info-gold);font-family:var(--font-ui);font-size:12px;font-weight:700;
+  padding:6px 2px;cursor:pointer;white-space:nowrap;}
+.fl-seg{display:flex;background:rgba(0,0,0,.22);border:1px solid rgba(244,236,220,.22);border-radius:16px;padding:2px;}
+.fl-seg button{flex:1;border:none;background:transparent;color:var(--info-ink-muted);font-family:var(--font-ui);
+  font-size:11.5px;font-weight:700;padding:6px 8px;border-radius:14px;cursor:pointer;}
+.fl-seg button.on{background:var(--gold-lite);color:var(--ink-dark);}
+.fl-seg button:disabled{opacity:.45;cursor:default;}
+.fdlg{position:absolute;inset:0;z-index:1300;display:flex;align-items:flex-start;justify-content:center;
+  background:rgba(14,35,72,0);visibility:hidden;transition:background .35s ease,visibility 0s linear .45s;}
+.fdlg.show{visibility:visible;background:rgba(14,35,72,.55);transition:background .35s ease;}
+.fdlg .fcard{transform:translateY(-105%);transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.fdlg.show .fcard{transform:translateY(0);}
+.fdlg .fcard.drag{transition:none;}
+.fgrip{align-self:stretch;height:26px;margin:-4px -16px -16px;border:none;background:none;cursor:grab;touch-action:none;
+  display:flex;align-items:center;justify-content:center;}
+.fgrip span{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);}
+.fdlg .fcard{background:var(--paper);width:100%;max-width:430px;border-bottom:3px solid var(--gold);border-radius:0 0 14px 14px;
+  box-shadow:0 10px 24px rgba(14,35,72,.3);padding:14px 16px 16px;
+  display:flex;flex-direction:column;gap:12px;direction:rtl;max-height:92%;overflow-y:auto;box-sizing:border-box;}
+.fdlg .fttl{font-size:19px;font-weight:700;color:var(--ink-dark);}
+.fdlg .fsub{font-size:12px;color:var(--ink-muted);margin-top:2px;}
+.fdlg .frow{display:flex;gap:10px;}
+.fdlg label.fld{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:4px;font-size:11.5px;font-weight:600;color:var(--ink-muted);}
+.fdlg label.fld input{width:100%;min-width:0;box-sizing:border-box;height:44px;border:1px solid var(--paper-edge);border-radius:6px;
+  background:var(--paper-hi);padding:0 10px;font-family:var(--font-mono);font-size:15px;color:var(--ink-body);}
+.fdlg .fglbl{font-size:11.5px;font-weight:600;color:var(--ink-muted);}
+.fdlg .fglbl span{font-weight:400;}
+.fdlg .fgrace{display:flex;gap:6px;}
+.fdlg .fgrace button{flex:1;height:40px;border-radius:6px;border:1px solid var(--paper-edge);background:var(--paper-hi);
+  color:var(--ink);font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer;}
+.fdlg .fgrace button.on{background:var(--ink);border-color:var(--ink);color:var(--paper-hi);}
+.fdlg .fcalc{font-size:12.5px;color:var(--ink);background:#e9dfc6;border-radius:6px;padding:7px 10px;}
+.fdlg .fcalc b{font-family:var(--font-mono);}
+.fdlg .ferr{font-size:12px;color:var(--stamp-red);font-weight:600;display:none;}
+.fdlg .fbtns{display:flex;gap:10px;margin-top:4px;}
+.fdlg .fbtns button{height:50px;border-radius:6px;font-family:var(--font-ui);font-size:15px;font-weight:700;cursor:pointer;}
+.fdlg .fgo{flex:2;border:none;background:var(--gold);color:var(--ink-dark);}
+.fdlg .fskip{flex:1;border:1px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink-muted);font-size:13px !important;}
+.map-nogeo{background:var(--ink);color:var(--paper-hi);border:none;border-radius:8px;padding:8px 11px;font-family:var(--font-ui);
+  font-size:12px;box-shadow:0 2px 8px rgba(14,35,72,.3);cursor:pointer;text-align:right;direction:rtl;line-height:1.35;}
+.map-nogeo b{color:var(--info-gold);}
+.map-nogeo .mn-sub{color:var(--info-ink-muted);font-size:11px;}
+
+
+/* ── v1.03.001: review states ── */
+.fl-prog{display:flex;align-items:center;gap:10px;}
+.fl-prog .pg-txt{font-size:12px;color:var(--info-ink);white-space:nowrap;}
+.fl-prog .pg-n{font-family:var(--font-mono);font-weight:700;}
+.fl-prog .pg-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden;}
+.fl-prog .pg-bar i{display:block;height:100%;width:0;background:var(--info-accent);transition:width .35s ease;}
+.fl-prog.done .pg-txt b{color:#9fe0b0;}
+.fl-prog.done .pg-bar i{background:#6fcf8a;}
+.upd{display:none;position:absolute;top:8px;left:10px;right:10px;z-index:1200;background:var(--paper-hi);border:1.5px solid var(--amber);
+  border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.18);padding:7px 10px;align-items:center;gap:8px;direction:rtl;font-size:12.5px;color:var(--ink-body);}
+.upd.show{display:flex;}
+.upd span{flex:1;}
+.upd button{height:36px;border:none;border-radius:6px;background:var(--ink);color:var(--paper-hi);font-family:var(--font-ui);font-weight:700;font-size:12.5px;padding:0 14px;cursor:pointer;}
+.map-legend{background:rgba(251,246,232,.92);border-radius:6px;padding:4px 8px;display:flex;gap:9px;font-size:10.5px;color:var(--ink-muted);direction:rtl;font-family:var(--font-ui);}
+.map-legend span{display:inline-flex;align-items:center;gap:4px;}
+.lg{width:10px;height:10px;border-radius:50%;display:inline-block;}
+.lg-new{background:rgba(185,74,58,.35);border:2px solid #b94a3a;}
+.lg-ok{background:rgba(59,111,184,.3);border:2px dashed #26497e;}
+.lg-irr{background:rgba(154,154,154,.3);border:2px dotted #6b6b6b;}
+.irr-tgl{background:rgba(251,246,232,.95);border-radius:6px;padding:5px 8px;font-size:11.5px;color:var(--ink);direction:rtl;font-family:var(--font-ui);display:flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.irr-tgl input{margin:0;accent-color:var(--ink);}
+/* popup */
+.pu-wrap{max-height:300px;overflow-y:auto;overflow-x:hidden;direction:rtl;padding-left:6px;
+  scrollbar-width:thin;scrollbar-color:var(--gold-lite) transparent;}
+.pu-wrap::-webkit-scrollbar{width:5px;}
+.pu-wrap::-webkit-scrollbar-track{background:transparent;}
+.pu-wrap::-webkit-scrollbar-thumb{background:var(--gold-lite);border-radius:3px;}
+.pu-wrap::-webkit-scrollbar-button{display:none;height:0;}
+.pu-cnt{font-size:11px;font-weight:700;color:var(--ink-muted);margin-bottom:2px;}
+.pu-item{border-top:1px solid var(--paper-edge);padding:9px 0 10px;overflow:hidden;
+  transition:opacity .22s ease,height .3s ease .12s,padding .3s ease .12s,border-color .3s ease;}
+.pu-item:first-of-type,.pu-cnt+.pu-item{border-top:none;}
+.pu-item.pu-gone{opacity:0;height:0 !important;padding-top:0;padding-bottom:0;border-color:transparent;}
+.pu-item.pu-fade{opacity:0;}
+.pu-item.pu-flash{animation:puFlash .9s ease;}
+@keyframes puFlash{0%{background:rgba(38,73,126,.18);}100%{background:transparent;}}
+.pu-top{display:flex;align-items:center;justify-content:space-between;gap:8px;direction:ltr;}
+.pu-id{font-family:var(--font-mono);font-size:14px;color:var(--ink-dark);}
+.pu-st{font-size:10.5px;font-weight:700;color:#fff;border-radius:9px;padding:2px 8px;white-space:nowrap;}
+.pu-s-new .pu-st{background:#b94a3a;} .pu-s-chg .pu-st{background:#b94a3a;} .pu-s-ok .pu-st{background:#26497e;} .pu-s-irr .pu-st{background:#8a8a8a;}
+.pu-upd{margin-top:6px;font-size:11.5px;font-weight:600;color:#7a2418;background:#f6e3df;border-radius:5px;padding:5px 8px;}
+.pu-done-irr{color:#6b6b6b;}
+.pu-meta{font-size:11px;color:var(--ink-muted);margin-top:3px;direction:rtl;}
+.pu-txt{font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--ink);direction:ltr;text-align:left;margin-top:5px;
+  white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;}
+.pu-tg{color:var(--ink);cursor:pointer;font-family:var(--font-ui);font-size:11px;font-weight:700;}
+.pu-when{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-muted);direction:ltr;text-align:left;margin-top:4px;}
+.pu-acts{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.pu-acts button{font-family:var(--font-ui);cursor:pointer;border-radius:6px;text-align:right;}
+.pu-ok,.pu-hide{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 11px;min-height:44px;justify-content:center;}
+.pu-ok{background:#26497e;color:#fbf6e8;border:none;}
+.pu-ok b{font-size:13.5px;} .pu-ok small{font-size:10.5px;color:#d6e0ee;}
+.pu-hide{background:var(--paper);color:var(--ink-muted);border:1px solid var(--paper-edge);}
+.pu-hide b{font-size:12.5px;} .pu-hide small{font-size:10.5px;}
+.pu-lnk{background:none;border:none;color:var(--ink);font-size:12px;font-weight:700;padding:6px 2px;align-self:flex-start;}
+.pu-done{font-size:13px;font-weight:700;color:#26497e;}
+/* list cards by status */
+.card.st-new{border-inline-start:4px solid #b94a3a;}
+.card.st-chg{border-inline-start:4px solid #b94a3a;}
+.card.st-ok{border-inline-start:4px solid #26497e;}
+.card.st-irr{opacity:.6;filter:grayscale(.7);}
+.c-st{font-size:10.5px;font-weight:700;color:#fff;border-radius:9px;padding:2px 8px;white-space:nowrap;font-family:var(--font-ui);}
+.st-new .c-st{background:#b94a3a;} .st-chg .c-st{background:#b94a3a;} .st-ok .c-st{background:#26497e;} .st-irr .c-st{background:#8a8a8a;}
+.b.geo{border-color:#26497e;color:#26497e;} .b.nogeo{border-color:var(--ink-faint);color:var(--ink-muted);}
+.c-when{margin-top:6px;}
+.c-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:9px;padding-top:8px;border-top:1px dashed var(--paper-edge);direction:rtl;}
+.c-act{font-family:var(--font-ui);font-size:12.5px;font-weight:700;border-radius:6px;padding:0 12px;height:36px;cursor:pointer;}
+.c-go{background:none;border:1.5px solid #26497e;color:#26497e;}
+.c-ok{background:#26497e;border:none;color:#fbf6e8;}
+.c-hide{background:var(--paper);border:1px solid var(--paper-edge);color:var(--ink-muted);}
+.c-link{background:none;border:none;color:var(--ink);padding:0 6px;}
+.c-done{font-size:12.5px;font-weight:700;color:#26497e;margin-inline-end:4px;}
+.g-new .dot{background:#b94a3a;} .g-chg .dot{background:#b94a3a;} .g-ok .dot{background:#26497e;} .g-irr .dot{background:#8a8a8a;}
+
+/* compact header (v1.03.003) */
+.metabar.hdr-meta{padding:3px 14px;font-size:10.5px;}
+.flightbar{padding:4px 12px 6px;gap:3px;}
+.fl-edit{padding:3px 2px;}
+.fl-row2{display:flex;align-items:center;gap:10px;}
+.fl-row2 .fl-prog{flex:1;min-width:0;}
+.fl-row2 .fl-seg{flex:none;}
+.fl-seg button{padding:4px 10px;font-size:11px;flex:none;}
+
+/* readiness button + curtain (v1.03.005) */
+.rdy-btn{display:flex;align-items:center;gap:9px;width:100%;border:1px solid rgba(244,236,220,.22);background:rgba(0,0,0,.18);
+  border-radius:8px;padding:5px 10px;cursor:pointer;font-family:var(--font-ui);direction:rtl;color:var(--info-ink);}
+.rdy-btn .pg-txt{font-size:12px;font-weight:700;white-space:nowrap;}
+.rdy-btn .pg-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden;}
+.rdy-btn .pg-bar i{display:block;height:100%;width:0;background:var(--info-accent);transition:width .35s ease;}
+.rdy-btn .pg-n{font-family:var(--font-mono);font-size:12px;font-weight:700;}
+.rdy-btn .rdy-chev{color:var(--info-gold);font-size:11px;}
+.rdy-btn.done .pg-txt{color:#9fe0b0;} .rdy-btn.done .pg-bar i{background:#6fcf8a;}
+.rcard{gap:10px !important;}
+.r-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+.r-big{font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--ink);}
+.r-bar{height:8px;border-radius:4px;background:#e3d4ad;overflow:hidden;}
+.r-bar i{display:block;height:100%;width:0;background:#26497e;transition:width .35s;}
+.r-rows{display:flex;flex-direction:column;gap:6px;}
+.r-row{display:flex;align-items:center;gap:10px;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:8px;
+  padding:9px 12px;font-family:var(--font-ui);font-size:13px;color:var(--ink-body);cursor:pointer;text-align:right;}
+.r-row .rr-n{font-family:var(--font-mono);font-weight:700;font-size:15px;min-width:26px;text-align:center;}
+.r-row .rr-t{flex:1;} .r-row .rr-t small{display:block;font-size:11px;color:var(--ink-muted);}
+.r-row .rr-go{color:var(--gold-deep);font-weight:700;font-size:12px;white-space:nowrap;}
+.r-row.warn{border-color:#e0b4ab;background:#fbeeea;} .r-row.warn .rr-n{color:#b94a3a;}
+.r-row.ok .rr-n{color:#1f6f3f;}
+.r-sec{font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:.04em;margin-top:2px;border-top:1px dashed var(--paper-edge);padding-top:8px;}
+.r-route{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;align-items:stretch;}
+.r-route button{width:100%;padding:0 6px !important;height:42px !important;}
+.r-route button{height:38px;border-radius:6px;font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer;padding:0 12px;
+  border:1.5px solid var(--ink);background:var(--paper-hi);color:var(--ink);}
+.r-route button.pri{background:var(--ink);color:var(--paper-hi);}
+.r-route button:disabled{opacity:.4;cursor:default;}
+.r-route button.del{border-color:var(--paper-edge);color:var(--ink-muted);font-weight:600;}
+.r-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink-body);}
+.r-opt small{display:block;font-size:11px;color:var(--ink-muted);}
+.r-chk{cursor:pointer;} .r-chk input{width:20px;height:20px;accent-color:var(--ink);flex:none;}
+.r-chk.dis{opacity:.45;pointer-events:none;}
+.r-seg{background:#e9dfc6 !important;border-color:var(--paper-edge) !important;}
+.r-seg button{color:var(--ink-muted) !important;}
+.r-seg button.on{background:var(--ink) !important;color:var(--paper-hi) !important;}
+/* route drawing */
+.draw-bar{display:none;position:absolute;left:10px;right:10px;bottom:12px;z-index:1250;background:var(--ink);color:var(--paper-hi);
+  border-radius:10px;padding:9px 11px;box-shadow:0 3px 14px rgba(14,35,72,.35);direction:rtl;flex-direction:column;gap:7px;}
+.draw-bar.show{display:flex;}
+.db-txt{font-size:12.5px;}
+.db-btns{display:flex;gap:6px;}
+.db-btns button{flex:1;height:40px;border-radius:6px;border:1px solid rgba(244,236,220,.35);background:transparent;color:var(--paper-hi);
+  font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer;}
+.db-btns .db-done{background:var(--gold);color:var(--ink-dark);border:none;}
+.drawing .leaflet-interactive{pointer-events:none !important;}
+.drawing .leaflet-container{cursor:crosshair !important;}
+.b.rt{border-color:var(--gold-deep);color:var(--gold-deep);}
+.pu-rt{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:var(--gold-deep);}
+
+
+/* 3 header tiles (v1.03.007) */
+.tiles{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:6px;}
+.tile{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0;border:1px solid rgba(244,236,220,.22);
+  background:rgba(0,0,0,.18);border-radius:8px;padding:4px 8px 5px;cursor:pointer;font-family:var(--font-ui);direction:rtl;
+  color:var(--info-ink);text-align:right;position:relative;}
+.tile.on{background:var(--paper);border-color:var(--paper);color:var(--ink);border-radius:8px 8px 0 0;}
+.tile.on::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:var(--paper);}
+.tile .t-lbl{font-size:10.5px;font-weight:700;opacity:.85;white-space:nowrap;}
+.tile .t-val{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;min-height:16px;white-space:nowrap;overflow:hidden;}
+.tile .t-val.dim{opacity:.55;font-weight:500;}
+.tile .pg-bar{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden;min-width:20px;}
+.tile.on .pg-bar{background:#e3d4ad;}
+.tile .pg-bar i{display:block;height:100%;width:0;background:var(--info-accent);transition:width .35s;}
+.tile.on .pg-bar i{background:#26497e;}
+.tile .pg-n{font-family:var(--font-mono);font-size:11.5px;}
+.t-dot{display:none;width:7px;height:7px;border-radius:50%;background:#ff6b5e;box-shadow:0 0 5px rgba(255,107,94,.8);flex:none;}
+.t-ic{display:inline-flex;width:17px;height:17px;opacity:.35;}
+.t-ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.t-ic.on{opacity:1;color:var(--info-gold);}
+.tile.on .t-ic.on{color:var(--gold-deep);}
+.t-cnt{font-family:var(--font-mono);font-size:11px;margin-inline-start:auto;}
+.tile.done .t-lbl{color:#9fe0b0;opacity:1;} .tile.done .pg-bar i{background:#6fcf8a;}
+.flightbar .tiles + *{margin-top:0;}
+
+.r-expl{font-size:12.5px;color:var(--ink-muted);line-height:1.5;}
+.r-expl b{color:var(--ink);}
+.r-big small{font-family:var(--font-ui);font-size:11px;color:var(--ink-muted);font-weight:600;}
+.rr-t b{font-size:13.5px;}
+.rr-bar{display:block;height:5px;border-radius:3px;background:#e3d4ad;overflow:hidden;margin-top:5px;}
+.rr-bar i{display:block;height:100%;background:#26497e;}
+.r-row .rr-n{min-width:44px;font-size:14px;}
+.r-row.warn .rr-n{color:#b94a3a;} .r-row.ok .rr-n{color:#1f6f3f;}
+.r-row.ok .rr-bar i{background:#1f6f3f;}
+.fl-edit.on{background:var(--paper);color:var(--ink);border-radius:6px;padding:3px 8px;}
+
+/* v1.03.009: modal + settings */
+.amodal{position:absolute;inset:0;z-index:3000;background:rgba(14,35,72,.6);display:none;align-items:center;justify-content:center;padding:20px;}
+.amodal.show{display:flex;}
+.am-card{background:var(--paper);border:2px solid var(--ink);border-radius:14px;width:100%;max-width:320px;padding:18px 18px 14px;direction:rtl;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);display:flex;flex-direction:column;gap:8px;}
+.am-ttl{font-size:17px;font-weight:700;color:var(--ink-dark);}
+.am-txt{font-size:13px;color:var(--ink-muted);line-height:1.5;}
+.am-btns{display:flex;gap:8px;margin-top:8px;}
+.am-btns button{flex:1;height:46px;border-radius:8px;font-family:var(--font-ui);font-size:14px;font-weight:700;cursor:pointer;}
+.am-ok{border:none;background:var(--ink);color:var(--paper-hi);}
+.am-ok.danger{background:var(--stamp-red);}
+.am-no{border:1px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink-muted);}
+.setp{position:absolute;inset:0;z-index:2500;background:var(--paper);display:flex;flex-direction:column;direction:rtl;
+  transform:translateX(-100%);transition:transform .35s cubic-bezier(.22,.61,.36,1);visibility:hidden;}
+.setp.show{transform:none;visibility:visible;}
+.sp-head{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;background:var(--ink);color:var(--paper);
+  padding:14px 14px calc(14px);box-shadow:0 3px 0 var(--ink-dark);}
+.sp-ttl{font-size:18px;font-weight:700;}
+.sp-x{border:1px solid rgba(244,236,220,.35);background:none;color:var(--paper);border-radius:8px;height:36px;padding:0 12px;
+  font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer;}
+.sp-body{flex:1;overflow-y:auto;padding:12px 14px 24px;display:flex;flex-direction:column;gap:8px;}
+.sp-sec{font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:.04em;margin-top:8px;}
+.sp-danger{color:var(--stamp-red);border-top:1px dashed var(--paper-edge);padding-top:12px;margin-top:14px;}
+.sp-row{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:right;border:1px solid var(--paper-edge);
+  background:var(--paper-hi);border-radius:8px;padding:11px 13px;font-family:var(--font-ui);color:var(--ink-body);cursor:pointer;}
+.sp-row b{font-size:14px;color:var(--ink);} .sp-row small{font-size:11.5px;color:var(--ink-muted);line-height:1.45;}
+.sp-row small a{color:var(--gold-deep);font-weight:700;}
+.sp-static{cursor:default;}
+.sp-red b{color:var(--stamp-red);}
+.sp-corr{width:100%;margin-top:6px;display:flex;gap:6px;}
+.sp-corr button{flex:1;height:40px;border-radius:6px;border:1px solid var(--paper-edge);background:var(--paper);color:var(--ink);
+  font-family:var(--font-mono);font-size:13px;font-weight:700;cursor:pointer;}
+.sp-corr button.on{background:var(--ink);border-color:var(--ink);color:var(--paper-hi);}
+.footer-refresh{font-size:12px;}
+
+.r-head-inl{justify-content:flex-start;gap:10px;}
+.r-stat{font-size:12.5px;color:var(--ink-muted);}
 /* stage holds result + curtain */
 .stage{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column;}
 .scrim{position:absolute;inset:0;background:rgba(14,35,72,.4);opacity:0;pointer-events:none;z-index:900;}
@@ -102,7 +364,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 .curtain-body{flex:1;overflow:hidden;padding:10px 16px 4px;min-height:0;}
 .curtain.is-open .curtain-body{overflow-y:auto;overscroll-behavior:contain;}
 .curtain-foot{display:flex;gap:10px;padding:12px 16px;border-top:1.5px solid var(--paper-edge);background:var(--paper-hi);flex-shrink:0;position:relative;z-index:2;}
-/* curtain scroll cue — same bobbing chevron as the list, anchored to the body's bottom (above the apply bar) */
+/* curtain scroll cue - same bobbing chevron as the list, anchored to the body's bottom (above the apply bar) */
 .curtain-cue-fade,.curtain-cue-btn{position:absolute;}
 .curtain-cue-fade{left:0;right:0;bottom:0;height:46px;z-index:15;pointer-events:none;
   background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi));}
@@ -318,7 +580,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 .footer-build{flex:1;text-align:center;}
 
 /* ── one-time-per-day disclaimer ── */
-.disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:1000;display:none;
+.disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:2800;display:none;
   align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(2px);}
 .disc.show{display:flex;}
 .disc .dcard{background:var(--paper);border:2px solid var(--ink);border-radius:14px;max-width:344px;width:100%;
@@ -378,11 +640,34 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
     <div class="dbtn"><button onclick="closeDisc()">הבנתי</button></div>
   </div></div></div>
 
+
+  <div class="amodal" id="amodal" onclick="if(event.target===this)amodalClose(false)"><div class="am-card" role="alertdialog" aria-labelledby="amTtl" aria-describedby="amTxt">
+    <div class="am-ttl" id="amTtl"></div><div class="am-txt" id="amTxt"></div>
+    <div class="am-btns"><button type="button" class="am-ok" id="amOk" onclick="amodalClose(true)"></button><button type="button" class="am-no" onclick="amodalClose(false)">ביטול</button></div>
+  </div></div>
+
+  <div class="setp" id="setp" role="dialog" aria-labelledby="setTtl">
+    <div class="sp-head"><div class="sp-ttl" id="setTtl">הגדרות</div><button type="button" class="sp-x" onclick="closeSettings()">✕ סגור</button></div>
+    <div class="sp-body">
+      <div class="sp-sec">רענון</div>
+      <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
+      <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
+      <div class="sp-sec">מסלול</div>
+      <div class="sp-row sp-static"><b>רוחב המסדרון מכל צד של הקו</b><small>NOTAMs בתוך המסדרון נחשבים "לאורך המסלול"</small>
+        <div class="fgrace sp-corr" id="corrSeg"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
+      <div class="sp-sec">משוב</div>
+      <div class="sp-row sp-static"><b>הבחנת בתקלה או שיש לך רעיון?</b><small><a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב">אשמח שתעדכן</a></small></div>
+      <div class="sp-sec sp-danger">איפוס</div>
+      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל בדיקה מחדש</b><small>כל ה-NOTAMs יחזרו ל"טרם נבדק". זמני הטיסה והמסלול נשמרים.</small></button>
+      <button type="button" class="sp-row sp-red" onclick="setFullReset()"><b>איפוס מלא של האפליקציה</b></button>
+    </div>
+  </div>
+
   <div class="strip">
     <div class="strip-brand">AirNotam-ISR</div>
     <div class="vtoggle">
-      <button class="on" id="vList" onclick="setView('list')">רשימה</button>
-      <button id="vMap" onclick="setView('map')">מפה <span class="vt-cnt" id="mapCnt"></span></button>
+      <button class="on" id="vMap" onclick="setView('map')">מפה <span class="vt-cnt" id="mapCnt"></span></button>
+      <button id="vList" onclick="setView('list')">רשימה</button>
     </div>
     <div class="strip-clock">
       <span class="strip-clock-lbl">UTC</span>
@@ -390,15 +675,73 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
     </div>
   </div>
   <div class="metabar hdr-meta" id="meta">טוען…</div>
-
-  <div class="filterbar" id="filterbar">
-    <div class="fb-row1">
-      <span class="fb-summary" id="fbSummary">מסננים</span>
+  <div class="flightbar" id="flightbar">
+    <div class="fl-row"><svg class="fl-ico" viewBox="0 0 24 24" fill="none" stroke="#e6c878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10h4a2 2 0 0 1 0 4h-4l-4 7h-3l2 -7h-4l-2 2h-3l2 -4l-2 -4h3l2 2h4l-2 -7h3z"/></svg><div class="fl-txt" id="flTxt"><span class="fl-none">לא הוגדרה טיסה</span></div>
+      <button class="fl-edit" id="flEdit" onclick="toggleFlightDlg()">הגדר זמני טיסה</button></div>
+    <div class="tiles">
+      <button type="button" class="tile" id="t_rdy" onclick="toggleCurtain('rdy')">
+        <span class="t-lbl" id="progTxt">מוכנות לטיסה</span>
+        <span class="t-val"><span class="pg-bar"><i id="progBar"></i></span><span class="pg-n" id="progN">0/0</span><i class="t-dot" id="rdyDot"></i></span>
+      </button>
+      <button type="button" class="tile" id="t_rte" onclick="toggleCurtain('rte')">
+        <span class="t-lbl">מסלול</span><span class="t-val" id="rteHint">אין מסלול</span>
+      </button>
+      <button type="button" class="tile" id="t_viw" onclick="toggleCurtain('viw')">
+        <span class="t-lbl">תצוגה</span><span class="t-val" id="viwHint"></span>
+      </button>
     </div>
-    <div class="fb-removed-row" id="fbRemoved"></div>
   </div>
 
   <div class="stage" id="stage">
+  <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
+    <div class="r-head"><div class="fttl" id="rdyTtl">מוכנות לטיסה</div><div class="r-big"><span id="rdyBig"></span> <small>נבדקו</small></div></div>
+    <div class="r-bar"><i id="rdyBar"></i></div>
+    <div class="r-rows" id="rdyRows"></div>
+    <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span></button>
+  </div></div>
+  <div class="fdlg" id="rte" onclick="if(event.target===this)closeCurtain('rte')"><div class="fcard rcard" role="dialog" aria-labelledby="rteTtl">
+    <div><div class="r-head r-head-inl"><div class="fttl" id="rteTtl">מסלול</div><div class="r-big r-stat" id="rteStat"></div></div><div class="fsub" id="rteSub"></div></div>
+    <div class="r-route" id="rdyRoute"></div>
+    <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span></button>
+  </div></div>
+  <div class="fdlg" id="viw" onclick="if(event.target===this)closeCurtain('viw')"><div class="fcard rcard" role="dialog" aria-labelledby="viwTtl">
+    <div class="r-head"><div class="fttl" id="viwTtl">תצוגת NOTAMs</div><div class="r-big" id="viwBig"></div></div>
+    <label class="r-opt r-chk" id="optTimeLbl"><span>הצג גם NOTAMs מחוץ לזמני הטיסה<small id="optTimeSub"></small></span><input type="checkbox" id="optTime"></label>
+    <label class="r-opt r-chk" id="optRouteLbl"><span>הצג גם NOTAMs הרחוקים ממסדרון המסלול<small id="optRouteSub"></small></span><input type="checkbox" id="optRoute"></label>
+    <label class="r-opt r-chk"><span>הצג גם NOTAMs שסימנתי כ"לא רלוונטי לי"<small id="optIrrSub"></small></span><input type="checkbox" id="optIrr"></label>
+    <button type="button" class="fgrip" id="g_viw" aria-label="סגור"><span></span></button>
+  </div></div>
+  <div class="draw-bar" id="drawBar">
+    <div class="db-txt" id="drawTxt">הקש על המפה כדי להוסיף נקודה</div>
+    <div class="db-btns">
+      <button type="button" onclick="drawUndo()">בטל נקודה</button>
+      <button type="button" onclick="drawClear()">נקה</button>
+      <button type="button" class="db-done" onclick="drawDone()">סיים</button>
+    </div>
+  </div>
+  <div class="fdlg" id="fdlg" onclick="if(event.target===this)skipFlight()"><div class="fcard" role="dialog" aria-labelledby="fdlgTtl">
+    <div><div class="fttl" id="fdlgTtl">מתי אתה טס?</div>
+      <div class="fsub">חלון הטיסה קובע אילו NOTAMs רלוונטיים לבדיקה</div></div>
+    <div class="frow"><label class="fld">תאריך<input type="date" id="fDate"></label></div>
+    <div class="frow">
+      <label class="fld">המראה מתוכננת (LT)<input type="time" id="fTkof"></label>
+      <label class="fld">נחיתה מתוכננת (LT)<input type="time" id="fLdg"></label>
+    </div>
+    <div>
+      <div class="fglbl">מרווח ביטחון לפני ואחרי <span>(מומלץ, לעיכובים ושינויי תוכנית)</span></div>
+      <div class="fgrace" id="fGrace" style="margin-top:5px">
+        <button data-g="2" class="on">2 שעות</button><button data-g="3">3 שעות</button><button data-g="5">5 שעות</button>
+      </div>
+    </div>
+    <div class="fcalc" id="fCalc"></div>
+    <div class="ferr" id="fErr"></div>
+    <div class="fbtns">
+      <button class="fgo" onclick="saveFlight()">שמור והצג</button>
+      <button class="fskip" onclick="skipFlight()">דלג, הצג הכל</button>
+    </div>
+    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
+  </div></div>
+    <div class="upd" id="upd"><span id="updTxt"></span><button type="button" onclick="applyPending()">רענן</button></div>
     <div class="countbar" id="count"></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
@@ -409,106 +752,23 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
 
-    <div class="scrim" id="scrim" onclick="closeCurtain()"></div>
-    <div class="curtain" id="curtain">
-      <div class="curtain-body-wrap">
-      <div class="curtain-body">
-        <div class="f-search">
-          <input class="srch" id="search" type="text" placeholder="🔍  חיפוש חופשי: טקסט / מספר NOTAM / ICAO…" autocomplete="off">
-        </div>
-
-        <!-- TIME -->
-        <div class="fsec">
-          <div class="fsec-head"><span class="fsec-title">מתי?</span><span class="fsec-hint">זמן</span></div>
-          <div class="seg" id="timeSeg">
-            <button class="seg-btn on" data-time="72">72 שעות<span class="sub">מעכשיו</span></button>
-            <button class="seg-btn" data-time="range">טווח<span class="sub">תאריכים</span></button>
-            <button class="seg-btn" data-time="all">הכל<span class="sub">ללא סינון</span></button>
-          </div>
-          <div class="manual-range" id="manualRange">
-            <label>מ־ <input class="dtin" id="fromDT" type="datetime-local"></label>
-            <label>עד <input class="dtin" id="tillDT" type="datetime-local"></label>
-          </div>
-        </div>
-
-        <!-- REGION -->
-        <div class="fsec">
-          <div class="fsec-head"><span class="fsec-title">איפה?</span><span class="fsec-hint">אזור</span></div>
-          <div class="region" id="regionSeg">
-            <button class="region-btn on" data-region="north"><span class="rn">צפון</span><span class="rd">מאשדוד וצפונה</span></button>
-            <button class="region-btn on" data-region="south"><span class="rn">דרום</span><span class="rd">מתל־יונה ודרומה</span></button>
-          </div>
-        </div>
-
-        <!-- ALTITUDE -->
-        <div class="fsec">
-          <div class="fsec-head"><span class="fsec-title">גובה</span><span class="fsec-hint">תקרה</span></div>
-          <select class="dd" id="altSel">
-            <option value="0">ללא הגבלת גובה</option>
-            <option value="1000">עד 1,000ft</option>
-            <option value="3000">עד 3,000ft</option>
-            <option value="5000">עד 5,000ft</option>
-            <option value="10000">עד 10,000ft</option>
-          </select>
-          <label class="chk"><input type="checkbox" id="showUnknownAlt" checked> כלול NOTAM ללא גובה מוגדר</label>
-        </div>
-
-        <!-- MAP DISPLAY -->
-        <div class="fsec">
-          <div class="fsec-head"><span class="fsec-title">תצוגה במפה</span><span class="fsec-hint">מפה</span></div>
-          <div class="region" id="mapSeg">
-            <button class="region-btn on" data-map="geo"><span class="rn">מופיע במפה <span class="mseg-cnt" id="cntGeo"></span></span><span class="rd">עם מיקום</span></button>
-            <button class="region-btn on" data-map="nogeo"><span class="rn">ללא מיקום <span class="mseg-cnt" id="cntNoGeo"></span></span><span class="rd">לא ניתן להציג על מפה</span></button>
-          </div>
-        </div>
-
-        <!-- ADVANCED -->
-        <div class="adv" id="adv">
-          <div class="adv-head" id="advHead"><span class="ah-title">⚙ מסננים מתקדמים</span><span class="ah-chev">▾</span></div>
-          <div class="adv-body">
-            <div class="adv-tools">
-              <button class="cat-tool" onclick="selectAllAdv(event)" title="בחר הכל"><span class="cbx">☑</span> הכל</button>
-              <button class="cat-tool" onclick="clearAllAdv(event)" title="בטל הכל"><span class="cbx">☐</span> נקה</button>
-              <button class="cat-tool" onclick="resetAdvanced(event)" title="החזר לברירת מחדל">↺ ברירת מחדל</button>
-            </div>
-            <div class="f-lbl2">שדות תעופה</div>
-            <span id="fields" class="chips-wrap"></span>
-            <div class="f-lbl2">קטגוריה</div>
-            <span id="cats" class="chips-wrap"></span>
-          </div>
-        </div>
-      </div>
-      <div class="scroll-fade curtain-cue-fade hide" id="curtainFade" aria-hidden="true"></div>
-      <button class="scroll-btn curtain-cue-btn hide" id="curtainBtn" aria-label="גלול למטה">
-        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      </div>
-      <div class="curtain-foot">
-        <button class="fa-reset" id="filterReset" onclick="resetFilters()">איפוס</button>
-        <button class="fa-apply" id="filterApply" onclick="closeCurtain()">הצג <span id="applyCount2"></span> תוצאות</button>
-      </div>
-    </div>
-    <div class="curtain-grip idle" id="curtainGrip">
-      <span class="cg-cv">▾</span><span class="cg-bar"></span><span class="cg-cv">▾</span>
-    </div>
   </div>
 
   <div class="footer-strip">
-    <span class="footer-refresh" onclick="load(true)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/></svg>
-      רענון · <span class="rtime" id="refreshTime">--:--</span>
+    <span class="footer-refresh" onclick="openSettings()" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.02.059 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.03.015 · built by eligrt</span>
   </div>
 </div>
 
 <script>
 const FEED="https://raw.githubusercontent.com/eligrt/AirNotam-ISR/main/notams.json";
-const FIELDS=["LLRS","LLMG","LLLL","LLBG","LLER","LLHA"];
 // Q-code (chars 2-3 of qcode) -> friendly category. First letter after Q groups it.
 const CATS=[
-  ["ats","נתיבי ATS",["QAR","QAE","QAC","QAT"]],                 // ATS routes/airways (IFR-oriented)
-  ["route","מרחב אווירי",["QAN","QAL"]],                          // airspace (activation/limits)
+  ["airspace","מרחב אווירי",["QAC","QAE","QAT","QAF","QAZ","QAD","QAL","QR"]], // ICAO: CTR/CTA/TMA/FIR/ATZ/ADIZ + restricted/danger (QR*) - incl. IAA training areas, UL bubbles, border strips
+  ["route","נתיבים (כולל CVFR)",["QAR","QAN","QAP","QAX"]],      // ICAO: ATS/RNAV routes, reporting points, intersections - IAA uses QAR for CVFR routes
   ["ils","ILS/גישה מכשירים",["QIS","QIC","QIG","QIL","QIM","QIN","QIT","QIU","QIX","QGL"]], // ILS/instrument approach (IFR)
   ["ad","שדה/מסלול",["QFA","QMR","QMX","QLP","QLC"]],            // aerodrome/runway
   ["navaid","עזרי ניווט",["QND","QNM","QNL","QNV","QNB"]],       // navaids
@@ -527,34 +787,24 @@ function catOf(qcode){
 }
 function catLabel(key){const f=CATS.find(c=>c[0]===key);return f?f[1]:"אחר";}
 
-let ALL=[];
-// Deselect-to-hide model: pills start ON (shown); toggling one OFF adds it to a hidden set.
-const hiddenFields=new Set();  // field codes the user has turned OFF
-const hiddenCats=new Set();    // category keys the user has turned OFF
-const CATS_OFF_BY_DEFAULT=["ats"]; // categories that start hidden (IFR-oriented, off for VFR pilots)
-let showAdmin=false;           // ADMIN chip: starts OFF (admin hidden); ON shows admin NOTAMs
-const regionOn=new Set(["north","south"]); // both halves on by default = whole country
-const mapOn=new Set(["geo","nogeo"]); // both on by default: show mappable + non-mappable
-let timeMode="72";             // "72" (next 72h) | "range" (manual dates) | "all"
-const hiddenNotams=new Set();  // session-only: NOTAM ids the user dismissed (greyed in list, gone from map)
-const expandedGroups=new Set(); // which time-groups are expanded (empty = all collapsed on load)
-// region boundaries (lat °N) with overlap so nothing on the line is missed
-const REGION={ north:31.79 /* Ashdod */, south:31.97 /* TYONA תל־יונה */ };
+
+const BIG_NM=25;              // Q-line radius above this = regional/FIR-wide → listed, not drawn
+let ALL=[], ENR=[], ENR_BY_ID={};
+let timeMode="all";           // "flight" (planned window incl. grace) | "all"
+const expandedGroups=new Set(["chg","new"]);
 
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function hashStr(t){let h=5381;for(let i=0;i<t.length;i++){h=((h<<5)+h+t.charCodeAt(i))|0;}return (h>>>0).toString(36);}
 
-// enrich straight from feed fields — no more raw-text guessing
 function enrich(n){
   const q=n.qLine||{};
   const lowerFt = q.lowerLimitFl!=null? parseInt(q.lowerLimitFl,10)*100 : null;
   const upperFt = q.upperLimitFl!=null? parseInt(q.upperLimitFl,10)*100 : null;
-  return {
-    raw:n,
-    id:n.id||"-",
+  const e={
+    raw:n, id:n.id||"-",
     loc:n.location||"", airfield:n.airfield||"",
     text:n.eText||n.rawText||"",
-    lowerFt, upperFt,
-    lowerStr:n.lowerLimit, upperStr:n.upperLimit, // human strings when present
+    lowerFt, upperFt, lowerStr:n.lowerLimit, upperStr:n.upperLimit,
     radiusNm: n.position?.radiusNm ?? q.position?.radiusNm ?? null,
     lat: n.position?.lat ?? q.position?.lat ?? null,
     lon: n.position?.lon ?? q.position?.lon ?? null,
@@ -562,128 +812,291 @@ function enrich(n){
     end: n.toDate? new Date(n.toDate):null,
     admin: !!n.administrative,
     type: n.notamType||"", replaces: n.replaces||null,
-    cat: catOf(q.qcode), qcode:q.qcode||""
+    cat: catOf(q.qcode), qcode:q.qcode||"",
+    hash: hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""))
   };
+  e.big = e.radiusNm!=null && e.radiusNm>BIG_NM;
+  e.geo = e.lat!=null && e.lon!=null && !e.big;
+  return e;
 }
 function isActiveNow(e,now){return(!e.start||e.start<=now)&&(!e.end||e.end>now);}
-function timeGroup(e,now){if(isActiveNow(e,now))return"now";if(e.start&&e.start>now)return"soon";return"later";}
 function fmtUTC(d){return d?d.toISOString().slice(0,16).replace("T"," ")+"Z":"-";}
+function altTxt(e){
+  return (e.lowerStr||e.upperStr)? `${e.lowerStr||"?"}-${e.upperStr||"?"}`
+    : (e.lowerFt!=null? `${e.lowerFt}-${e.upperFt==null?'?':e.upperFt}ft` : "גובה ?");
+}
 
-function passFilters(e,now,ignoreMap){
-  const q=document.getElementById("search").value.trim().toLowerCase();
-  if(q && !e.text.toLowerCase().includes(q) && !e.id.toLowerCase().includes(q)
-       && !JSON.stringify(e.raw).toLowerCase().includes(q)) return false;
+// ── review state, kept on this device (persists across flights) ──
+// REVIEW[id] = {h:hash, t:ms, x:1 if "not relevant to me"}. A changed NOTAM (hash differs, or a NOTAMR
+// of something already marked) comes back red as "עודכן" so the pilot re-validates it.
+const REVIEW_KEY='airnotam_review';
+let REVIEW={};
+try{REVIEW=JSON.parse(localStorage.getItem(REVIEW_KEY)||"{}")||{};}catch(e){REVIEW={};}
+let SHOW_IRR=true; try{SHOW_IRR=localStorage.getItem("airnotam_show_irr")!=="0";}catch(e){}
+try{localStorage.removeItem("airnotam_hidden");}catch(e){}        // retired per-flight hide
+function saveReview(){
+  const cut=Date.now()-400*864e5;
+  for(const k in REVIEW){ if(!REVIEW[k]||REVIEW[k].t<cut) delete REVIEW[k]; }
+  try{localStorage.setItem(REVIEW_KEY,JSON.stringify(REVIEW));}catch(e){}
+}
+function statusOf(e){
+  const r=REVIEW[e.id];
+  if(r) return r.h===e.hash? (r.x?"irr":"ok") : "chg";
+  if(e.replaces && REVIEW[e.replaces]) return "chg";
+  return "new";
+}
+function offMap(id){const e=ENR_BY_ID[id]; return !!e && !SHOW_IRR && statusOf(e)==="irr";}
+function isPending(e){const s=statusOf(e); return s==="new"||s==="chg";}
+function markReviewed(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now()}; saveReview();}
+function markIrrelevant(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now(),x:1}; saveReview();}
+function unmarkReviewed(id){delete REVIEW[id]; saveReview();}
+function setShowIrr(v){SHOW_IRR=v; try{localStorage.setItem("airnotam_show_irr",v?"1":"0");}catch(e){} const c=document.getElementById("optIrr"); if(c) c.checked=v; render();}
+const ST_LBL={new:"טרם נבדק",chg:"עודכן, בדוק שוב",ok:"נבדק",irr:"לא רלוונטי לי"};
 
-  if(!showAdmin && e.admin) return false;
-
-  // fields: NOTAM shows unless every field it matches is turned OFF.
-  // A NOTAM matching no listed field is governed by the "other" pill.
-  const hay=(e.loc+" "+e.airfield+" "+e.text).toUpperCase();
-  const matched=FIELDS.filter(f=>hay.includes(f));
-  if(matched.length){
-    const anyOn=matched.some(f=>!hiddenFields.has(f));
-    if(!anyOn)return false;
-  }else{
-    if(hiddenFields.has("__other__"))return false;
-  }
-
-  // category: hidden if its category pill is OFF. "other" cat uses the other pill.
-  const catKey=(e.cat&&e.cat!=="other")?e.cat:"__other__";
-  if(hiddenCats.has(catKey))return false;
-
-  // region: two overlapping halves (both on = whole country). A coord-bearing
-  // NOTAM shows if it falls in ANY enabled half. No-coord NOTAMs always pass.
-  // Both off is treated as "show all" (no empty screen).
-  if(regionOn.size===1 && e.lat!=null){
-    const inN=e.lat>=REGION.north, inS=e.lat<=REGION.south;
-    const visible=(regionOn.has("north")&&inN)||(regionOn.has("south")&&inS);
-    if(!visible)return false;
-  }
-
-  // map display: two independent toggles (mappable / non-mappable), both on by
-  // default. Deselect-to-hide, mirroring region. Both off = show all (no empty screen).
-  if(!ignoreMap && mapOn.size===1){
-    const hasGeo=e.lat!=null&&e.lon!=null;
-    if(hasGeo&&!mapOn.has("geo"))return false;
-    if(!hasGeo&&!mapOn.has("nogeo"))return false;
-  }
-
-  // time
-  if(timeMode==="range"){
-    const fv=document.getElementById("fromDT").value, tv=document.getElementById("tillDT").value;
-    const from=fv?new Date(fv):null, till=tv?new Date(tv):null;
-    const s=e.start||new Date(-8.64e15), en=e.end||new Date(8.64e15);
-    if(from&&en<from)return false;
-    if(till&&s>till)return false;
-  }else if(timeMode==="72"){
-    const horizon=new Date(now.getTime()+72*3600*1000);
-    const startsInWindow=e.start&&e.start<=horizon;
-    if(!isActiveNow(e,now)&&!startsInWindow)return false;
-    if(e.end&&e.end<now)return false;
-  } // "all" → no time filter
-
-  // altitude (dropdown ceiling; 0 = no limit)
-  const ceil=parseInt(document.getElementById("altSel").value,10)||0;
-  if(ceil>0){
-    if(e.lowerFt==null){if(!document.getElementById("showUnknownAlt").checked)return false;}
-    else if(e.lowerFt>ceil)return false;
+function passFilters(e){
+  if(e.admin) return false;                      // admin/checklist NOTAMs stay out
+  if(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)) return false;   // no-location items always pass
+  if(timeMode==="flight"){
+    const w=flightWindow(FLIGHT);
+    if(w){
+      if(e.start&&e.start>w.to)return false;
+      if(e.end&&e.end<w.from)return false;
+    }
   }
   return true;
 }
 
-function render(){
-  const now=new Date();
-  const items=ALL.map(enrich).filter(e=>passFilters(e,now));
+// ── render list + counters (+ map unless skipMap) ──
+let LAST_ITEMS=[];
+function render(opts){
+  opts=opts||{};
+  const items=ENR.filter(passFilters);
   LAST_ITEMS=items;
-  const groups={now:[],soon:[],later:[]};
-  items.forEach(e=>groups[timeGroup(e,now)].push(e));
-  Object.values(groups).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
+  const S={new:[],chg:[],ok:[],irr:[]};
+  items.forEach(e=>S[statusOf(e)].push(e));
+  Object.values(S).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
 
-  const nHidden=items.filter(e=>hiddenNotams.has(e.id)).length;
-  const onMap=items.filter(e=>e.lat!=null&&e.lon!=null&&!hiddenNotams.has(e.id)).length;
+  const onMap=items.filter(e=>e.geo&&!offMap(e.id)).length;
+  const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
   const mc=document.getElementById("mapCnt"); if(mc) mc.textContent="("+onMap+")";
-  // Segment counts ignore the map toggle itself, so each pill shows how many
-  // NOTAMs it represents even while it's turned OFF (like the region pills).
-  const mapScope=ALL.map(enrich).filter(e=>passFilters(e,now,true));
-  const geoN=mapScope.filter(e=>e.lat!=null&&e.lon!=null).length;
-  const noGeoN=mapScope.length-geoN;
-  const cg=document.getElementById("cntGeo"); if(cg) cg.textContent="("+geoN+")";
-  const cng=document.getElementById("cntNoGeo"); if(cng) cng.textContent="("+noGeoN+")";
   document.getElementById("count").innerHTML=
-    `<div class="cb-line">${items.length} נוטמים · ${onMap} ניתנים להצגה במפה`
-      + (nHidden? ` · ${nHidden} בהתעלמות` : "") + `</div>`;
-  updateFilterSummary(items.length);
+    `<div class="cb-line">${items.length} נוטמים · ${onMap} במפה · ${noGeo} ללא מיקום במפה</div>`;
+  updateProgress(items.length, S.ok.length+S.irr.length);
+  READY.irr=S.irr.length;
 
-  const G=[["now","g-now","פעיל כעת"],["soon","g-soon","טרם החלו"],["later","g-later","אחר"]];
-  const html=G.map(([k,cls,title])=>{
-    if(!groups[k].length)return"";
+  const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נבדקו"],["ok","נבדקו"],["irr","סימנתי כלא רלוונטיים לי"]];
+  const html=G.map(([k,title])=>{
+    if(!S[k].length||(k==="irr"&&!SHOW_IRR))return"";
     const open=expandedGroups.has(k);
-    return`<div class="group ${cls}${open?' open':''}" data-grp="${k}">`
+    return`<div class="group g-${k}${open?' open':''}" data-grp="${k}">`
       +`<button class="g-head" type="button" onclick="toggleGroup('${k}')" aria-expanded="${open?'true':'false'}">`
-        +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${groups[k].length}</span>`
+        +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${S[k].length}</span>`
         +`<span class="g-chev">▾</span></button>`
-      +`<div class="g-body">`+groups[k].map(e=>card(e,k)).join("")+`</div></div>`;
+      +`<div class="g-body">`+S[k].map(e=>card(e,k)).join("")+`</div></div>`;
   }).join("");
-  document.getElementById("list").innerHTML=html||'<div class="empty">אין NOTAMs התואמים לסינון</div>';
+  document.getElementById("list").innerHTML=html||'<div class="empty">אין NOTAMs בחלון הזמן הנוכחי</div>';
 
-  if(currentView==="map") renderMap();
+  if(!opts.skipMap && currentView==="map") renderMap();
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
 }
-
-// ── Map mode ──
-let MAP=null, MAP_LAYER=null, MAP_NOTE=null, LAST_ITEMS=[], currentView="list";
-let MAP_INDEX={}; // id -> {lat,lon,openPopup:fn}
-
-function toggleHidden(id){
-  hiddenNotams.has(id)? hiddenNotams.delete(id) : hiddenNotams.add(id);
-  render();                       // re-render list (grey/un-grey) + map (drop/redraw)
+let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
+function updateProgress(total,done){
+  const items=LAST_ITEMS;
+  READY.total=total; READY.done=done;
+  READY.geoPend=items.filter(e=>e.geo&&!offMap(e.id)&&isPending(e)).length;
+  READY.noGeo=items.filter(e=>!e.geo).length;
+  READY.noGeoPend=items.filter(e=>!e.geo&&isPending(e)).length;
+  READY.chg=items.filter(e=>statusOf(e)==="chg").length;
+  READY.geoTot=items.filter(e=>e.geo).length;
+  READY.geoDone=READY.geoTot-items.filter(e=>e.geo&&isPending(e)).length;
+  READY.noGeoDone=READY.noGeo-READY.noGeoPend;
+  const all=total>0&&done>=total, pct=total? Math.round(100*done/total):0;
+  document.getElementById("progTxt").textContent= all? "✓ מוכן לטיסה" : "מוכנות לטיסה";
+  document.getElementById("rdyDot").style.display= (!all && (READY.noGeoPend||READY.chg))? "inline-block":"none";
+  document.getElementById("progN").textContent=`${done}/${total}`;
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("t_rdy").classList.toggle("done",all);
+  renderReady();
 }
+const IC={
+  clock:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/></svg>',
+  route:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19l6-7 4 3 6-9"/></svg>',
+  grey:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" stroke-dasharray="2 3"/></svg>'};
+function renderHints(){
+  const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint");
+  rh.innerHTML= hasR? `<bdi>${routeLenNm().toFixed(0)}NM</bdi>` : "אין מסלול";
+  rh.classList.toggle("dim",!hasR);
+  const tot=ENR.filter(e=>!e.admin).length;
+  const ic=(k,on,t)=>`<i class="t-ic${on?" on":""}" title="${t}">${IC[k]}</i>`;
+  document.getElementById("viwHint").innerHTML=
+    ic("clock",timeMode==="flight"&&flightValid(FLIGHT),"מוצגים רק NOTAMs בזמני הטיסה")+ic("route",ROUTE_ONLY&&hasR,"מוצגים רק NOTAMs ליד המסלול")+ic("grey",!SHOW_IRR,"מוסתרים NOTAMs שסימנתי כלא רלוונטיים")
+;
+  const shown=LAST_ITEMS.filter(e=>!offMap(e.id)).length;
+  const vb=document.getElementById("viwBig"); if(vb) vb.textContent=`${shown}/${tot} מוצגים`;
+}
+function renderReady(){
+  try{renderHints();}catch(_){}
+  const R=READY, big=document.getElementById("rdyBig"); if(!big) return;
+  big.textContent=`${R.done}/${R.total}`;
+  document.getElementById("rdyBar").style.width=(R.total?Math.round(100*R.done/R.total):0)+"%";
+  const pct=(a,b)=>b?Math.round(100*a/b):100;
+  const row=(title,done,tot,go,fn)=>{
+    const left=tot-done, ok=!left;
+    return `<button type="button" class="r-row ${ok?"ok":"warn"}" onclick="${fn}">
+      <span class="rr-t"><b>${title}</b><small>${ok?"✓ הכל נבדק":`נותרו ${left} לבדיקה`}</small>
+        <span class="rr-bar"><i style="width:${pct(done,tot)}%"></i></span></span>
+      <span class="rr-n">${done}/${tot}</span><span class="rr-go">${go}</span></button>`;
+  };
+  let h=`<div class="r-expl">עבור על כל NOTAM וסמן <b>"קראתי"</b> או <b>"לא רלוונטי לי"</b>. כשהכל מסומן, אתה מוכן לטיסה.</div>`;
+  h+=row("על המפה",R.geoDone,R.geoTot,"למפה ›","readyGo('map')");
+  h+=row("ללא מיקום במפה",R.noGeoDone,R.noGeo,"לרשימה ›","readyGo('list')");
+  if(R.chg) h+=`<button type="button" class="r-row warn" onclick="readyGo('list')"><span class="rr-t"><b>עודכנו מאז שבדקת</b><small>סומנו בעבר, צריך לבדוק שוב (כלולים למעלה)</small></span><span class="rr-n">${R.chg}</span><span class="rr-go">לרשימה ›</span></button>`;
+  document.getElementById("rdyRows").innerHTML=h;
+  document.getElementById("optIrrSub").textContent=R.irr? `${R.irr} סומנו, מוצגים באפור` : "עדיין לא סימנת";
+  const hasR=ROUTE.length>=2;
+  document.getElementById("optRouteLbl").classList.toggle("dis",!hasR);
+  document.getElementById("optRouteSub").textContent= hasR? `רוחב המסדרון ${2*CORR_NM}NM (ניתן לשנות בתפריט הגדרות)` : "סמן מסלול כדי להפעיל";
+  document.getElementById("optRoute").checked=!(ROUTE_ONLY&&hasR);
+  const fv=flightValid(FLIGHT), fw=flightWindow(FLIGHT);
+  document.getElementById("optTimeLbl").classList.toggle("dis",!fv);
+  document.getElementById("optTimeSub").innerHTML= fv? `זמני הטיסה: <bdi dir="ltr">${hm(fw.from)}-${hm(fw.to)}</bdi>` : "הגדר זמני טיסה כדי להפעיל";
+  document.getElementById("optTime").checked= !(fv&&timeMode==="flight");
+  document.getElementById("optIrr").checked=SHOW_IRR;
+  const CW=2*CORR_NM;   // full corridor width (both sides)
+  document.getElementById("rteStat").textContent= hasR? `${ROUTE.length} נקודות · ${routeLenNm().toFixed(0)}NM` : "";
+  document.getElementById("rteSub").textContent=`לאורך המסלול יסומן "מסדרון" ברוחב ${CW}NM לאיתור קל של נוטמים בגזרתו`;
+  document.getElementById("rdyRoute").innerHTML = hasR
+    ? `<button type="button" onclick="startDraw()">✎ ערוך מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" onclick="clearRoute()">מחק מסלול</button>`
+    : `<button type="button" onclick="startDraw()">✎ סמן מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" disabled>מחק מסלול</button>`;
+}
+const CURTAINS=["rdy","rte","viw"];
+function openCurtain(id){
+  CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); renderReady();
+  document.getElementById(id).classList.add("show"); document.getElementById("t_"+id).classList.add("on");
+}
+function closeCurtain(id){
+  const d=document.getElementById(id); if(!d) return;
+  d.querySelector(".fcard").style.transform=""; d.classList.remove("show");
+  const t=document.getElementById("t_"+id); if(t) t.classList.remove("on");
+}
+function toggleCurtain(id){ document.getElementById(id).classList.contains("show")? closeCurtain(id) : openCurtain(id); }
+function closeReady(){ closeCurtain("rdy"); }
+function readyGo(v){
+  closeReady();
+  if(v==="list"){ expandedGroups.add("new"); expandedGroups.add("chg"); setView("list"); render(); }
+  else setView("map");
+}
+function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); }
+document.getElementById("optIrr").addEventListener("change",ev=>setShowIrr(ev.target.checked));
+document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(!ev.target.checked));
+document.getElementById("optTime").addEventListener("change",ev=>{ timeMode= ev.target.checked? "all" : "flight"; renderFlightBar(); render(); });
 
-function hideFromMapPopup(id,e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  MAP&&MAP.closePopup();
-  hiddenNotams.add(id);
-  render();
+// ── route: tap points on the map, 3NM corridor each side ──
+const ROUTE_KEY="airnotam_route";
+let CORR_NM=3; try{CORR_NM=+localStorage.getItem("airnotam_corr")||3;}catch(e){}
+let ROUTE=[], ROUTE_ONLY=false, DRAWING=false, ROUTE_LAYER=null;
+try{ROUTE=JSON.parse(localStorage.getItem(ROUTE_KEY)||"[]")||[];}catch(e){ROUTE=[];}
+try{ROUTE_ONLY=localStorage.getItem("airnotam_route_only")==="1";}catch(e){}
+function saveRoute(){try{localStorage.setItem(ROUTE_KEY,JSON.stringify(ROUTE));}catch(e){}}
+function setRouteOnly(v){ROUTE_ONLY=v; try{localStorage.setItem("airnotam_route_only",v?"1":"0");}catch(e){} render();}
+// distance (NM) from a point to the route line: flat projection around the point (fine at Israel scale)
+function distToRouteNm(lat,lon){
+  if(!ROUTE.length) return Infinity;
+  const k=Math.cos(lat*Math.PI/180), P=([a,b])=>[(b-lon)*60*k,(a-lat)*60];   // NM, origin at the point
+  if(ROUTE.length===1){const [x,y]=P(ROUTE[0]);return Math.hypot(x,y);}
+  let best=Infinity;
+  for(let i=0;i<ROUTE.length-1;i++){
+    const [x1,y1]=P(ROUTE[i]), [x2,y2]=P(ROUTE[i+1]), dx=x2-x1, dy=y2-y1, L2=dx*dx+dy*dy;
+    const t=L2? Math.max(0,Math.min(1,-(x1*dx+y1*dy)/L2)) : 0;
+    best=Math.min(best,Math.hypot(x1+t*dx,y1+t*dy));
+  }
+  return best;
+}
+// gap between the NOTAM's circle edge and the route (0 = touches/crosses)
+function routeGap(e){ if(!e.geo||ROUTE.length<2) return null; return Math.max(0,distToRouteNm(e.lat,e.lon)-(e.radiusNm||0)); }
+function inCorridor(e){ const g=routeGap(e); return g==null || g<=CORR_NM; }
+function routeLenNm(){let d=0;for(let i=0;i<ROUTE.length-1;i++){const [a,b]=ROUTE[i],[c,f]=ROUTE[i+1],k=Math.cos((a+c)/2*Math.PI/180);d+=Math.hypot((f-b)*60*k,(c-a)*60);}return d;}
+function routeTag(e){ const g=routeGap(e); if(g==null) return ""; return g<=0? "חוצה את המסלול" : g.toFixed(1)+"NM מהמסלול"; }
+function drawRoute(){
+  if(!MAP||!ROUTE_LAYER) return;
+  ROUTE_LAYER.clearLayers();
+  if(!ROUTE.length) return;
+  const ll=ROUTE.map(p=>L.latLng(p[0],p[1]));
+  if(ll.length>=2){
+    // corridor = the line drawn 2x3NM wide with round caps/joins (true buffer shape), width in pixels for this zoom
+    const lat=ll[0].lat, mpp=40075016.686*Math.cos(lat*Math.PI/180)/Math.pow(2,MAP.getZoom()+8);
+    const w=Math.max(4,2*CORR_NM*1852/mpp);
+    L.polyline(ll,{color:"#c8a04a",weight:w,opacity:.2,lineCap:"round",lineJoin:"round",interactive:false}).addTo(ROUTE_LAYER);
+    L.polyline(ll,{color:"#8a6a2a",weight:3,opacity:.95,interactive:false}).addTo(ROUTE_LAYER);
+  }
+  ll.forEach((p,i)=>L.circleMarker(p,{radius:i===0||i===ll.length-1?6:4,color:"#8a6a2a",weight:2,fillColor:"#fbf6e8",fillOpacity:1,interactive:false}).addTo(ROUTE_LAYER));
+}
+function drawUi(){
+  try{renderHints();}catch(_){}
+  document.getElementById("drawTxt").textContent= ROUTE.length? `${ROUTE.length} נקודות · ${routeLenNm().toFixed(0)}NM · הקש להוספת נקודה` : "הקש על המפה כדי להוסיף נקודה (המראה, נקודות דרך, נחיתה)";
+}
+function startDraw(){
+  closeCurtains(); setView("map");
+  DRAWING=true; MAP.closePopup(); MAP.doubleClickZoom.disable();
+  document.getElementById("map").classList.add("drawing");
+  document.getElementById("drawBar").classList.add("show");
+  drawUi(); drawRoute();
+}
+function drawClick(ev){
+  if(!DRAWING) return;
+  ROUTE.push([+ev.latlng.lat.toFixed(5),+ev.latlng.lng.toFixed(5)]);
+  drawUi(); drawRoute();
+}
+function drawUndo(){ ROUTE.pop(); drawUi(); drawRoute(); }
+let _amRes=null;
+function appConfirm(o){
+  document.getElementById("amTtl").textContent=o.title||"";
+  document.getElementById("amTxt").textContent=o.text||"";
+  const ok=document.getElementById("amOk"); ok.textContent=o.ok||"אישור"; ok.classList.toggle("danger",o.danger!==false);
+  document.getElementById("amodal").classList.add("show");
+  return new Promise(r=>{_amRes=r;});
+}
+function amodalClose(v){ document.getElementById("amodal").classList.remove("show"); if(_amRes){const r=_amRes;_amRes=null;r(v);} }
+async function drawClear(){
+  if(ROUTE.length && !(await appConfirm({title:"לנקות את נקודות המסלול?",text:"כל הנקודות שסימנת יימחקו ותוכל לסמן מחדש.",ok:"נקה"}))) return;
+  ROUTE=[]; drawUi(); drawRoute();
+}
+function drawDone(){
+  DRAWING=false; MAP.doubleClickZoom.enable();
+  document.getElementById("map").classList.remove("drawing");
+  document.getElementById("drawBar").classList.remove("show");
+  if(ROUTE.length<2){ ROUTE=[]; }
+  saveRoute();
+  if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
+  render(); drawRoute();
+}
+// GPX: route (rtept) > track (trkpt) > waypoints (wpt). Tracks are thinned to ~0.5NM spacing.
+function pickGpx(){
+  let inp=document.getElementById("gpxIn");
+  if(!inp){ inp=document.createElement("input"); inp.type="file"; inp.id="gpxIn"; inp.accept=".gpx,application/gpx+xml,application/xml,text/xml";
+    inp.style.display="none"; document.body.appendChild(inp);
+    inp.addEventListener("change",()=>{ const f=inp.files&&inp.files[0]; inp.value=""; if(f) f.text().then(loadGpx).catch(()=>alert("לא הצלחתי לקרוא את הקובץ")); }); }
+  inp.click();
+}
+async function loadGpx(txt){
+  let doc; try{ doc=new DOMParser().parseFromString(txt,"application/xml"); }catch(e){ doc=null; }
+  if(!doc||doc.getElementsByTagName("parsererror").length){ alert("קובץ GPX לא תקין"); return; }
+  const grab=tag=>[...doc.getElementsByTagName(tag)].map(n=>[parseFloat(n.getAttribute("lat")),parseFloat(n.getAttribute("lon"))]).filter(p=>isFinite(p[0])&&isFinite(p[1]));
+  let pts=grab("rtept"); if(pts.length<2) pts=grab("trkpt"); if(pts.length<2) pts=grab("wpt");
+  if(pts.length<2){ alert("לא נמצא מסלול בקובץ (צריך לפחות 2 נקודות)"); return; }
+  const out=[pts[0]];
+  const nm=(a,b)=>Math.hypot((b[1]-a[1])*60*Math.cos(a[0]*Math.PI/180),(b[0]-a[0])*60);
+  for(let i=1;i<pts.length-1;i++){ if(nm(out[out.length-1],pts[i])>=0.5) out.push(pts[i]); }
+  out.push(pts[pts.length-1]);
+  if(ROUTE.length>=2 && !(await appConfirm({title:"להחליף את המסלול?",text:"המסלול הקיים יוחלף במסלול מהקובץ.",ok:"החלף מסלול"}))) return;
+  ROUTE=out.map(p=>[+p[0].toFixed(5),+p[1].toFixed(5)]); saveRoute();
+  ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){}
+  closeCurtains(); setView("map"); render(); drawRoute();
+  try{ MAP.fitBounds(L.latLngBounds(ROUTE.map(q=>L.latLng(q[0],q[1]))).pad(.15)); }catch(e){}
+}
+async function clearRoute(){
+  if(!(await appConfirm({title:"למחוק את המסלול?",text:"המסלול יימחק ויוצגו שוב NOTAMs מכל הארץ.",ok:"מחק מסלול"}))) return;
+  ROUTE=[]; saveRoute(); ROUTE_ONLY=false; render(); drawRoute();
 }
 
 function toggleGroup(k){
@@ -696,20 +1109,247 @@ function toggleGroup(k){
   try{updateScrollCue();}catch(_){}
 }
 
-function focusOnMap(id){
-  if(hiddenNotams.has(id)) return;
-  closeCurtain();
-  setView("map");
-  const go=()=>{
-    const hit=MAP_INDEX[id];
-    if(!hit){ return; }
-    MAP.setView([hit.lat,hit.lon], 11, {animate:true});
-    hit.openPopup();
-  };
-  MAP? setTimeout(go,60) : setTimeout(go,300);
+function card(e,st){
+  const alt=`<span class="b alt">${esc(altTxt(e))}</span>`;
+  const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
+  const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
+  const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
+  const rt=routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
+  const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
+  const id=esc(e.id);
+  const mapBtn=`<button class="c-act c-go" onclick="focusOnMap('${id}')">⌖ הצג הנוטאם על מפה</button>`;
+  const irrBtn=`<button class="c-act c-hide" onclick="listIrr('${id}')">לא רלוונטי לי</button>`;
+  const undo=`<button class="c-act c-link" onclick="listUnreview('${id}')">בטל סימון</button>`;
+  let acts="";
+  if(st==="new"||st==="chg"){
+    acts = e.geo ? mapBtn : `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+irrBtn;
+  }else if(st==="ok"){
+    acts = `<span class="c-done">✓ נבדק</span>`+(e.geo?mapBtn:"")+undo+irrBtn;
+  }else{
+    acts = (e.geo?mapBtn:"")+undo;
+  }
+  return`<div class="card st-${st}" data-nid="${id}">
+    <div class="c-top">
+      <div class="c-head"><span class="c-id">${id}</span>
+        ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
+      <span class="c-st">${ST_LBL[st]}</span>
+    </div>
+    <div class="c-badges">${cat}${alt}${rad}${geoB}${rt}${repl}</div>
+    <div class="c-text">${esc(e.text)}</div>
+    <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+    <div class="c-acts">${acts}</div>
+  </div>`;
+}
+function listReview(id){markReviewed(id);render();}
+function listUnreview(id){unmarkReviewed(id);render();}
+function listIrr(id){markIrrelevant(id);render();}
+
+// ── Map ──
+let MAP=null, MAP_LAYER=null, MAP_NOTE=null, currentView="map";
+let MAP_INDEX={}, CIRCLES={}, GROUPS={};
+const ST_STYLE={
+  new:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:2.5,dashArray:null},
+  chg:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:4,dashArray:null},
+  irr:{color:"#6b6b6b",fillColor:"#9a9a9a",fillOpacity:.18,weight:2,dashArray:"2 4"},
+  ok: {color:"#26497e",fillColor:"#3b6fb8",fillOpacity:.2,weight:2.5,dashArray:"6 4"}
+};
+const ST_ORDER={irr:-1,ok:0,chg:1,new:2};   // draw reviewed first, unreviewed on top
+function groupStatus(ids){
+  const st=ids.map(id=>statusOf(ENR_BY_ID[id]));
+  return st.includes("new")?"new":st.includes("chg")?"chg":st.includes("ok")?"ok":"irr";
 }
 
-// green pulse on a card: keeps pulsing until the user interacts (scroll/tap/key) or a safety cap
+function initMap(){
+  if(typeof L==="undefined"){
+    document.getElementById("map").innerHTML=
+      '<div style="padding:2rem;text-align:center;color:#5a4a3a;font-family:monospace">מפה לא זמינה (Leaflet לא נטען, בדוק חיבור)</div>';
+    return;
+  }
+  if(MAP) { setTimeout(()=>MAP.invalidateSize(), 50); return; }
+  MAP = L.map("map", { center:[31.5, 35.0], zoom:7, zoomControl:true });
+  // Basemaps (keyless). OSM standard needs a Referer (tile policy 2026) → explicit referrerPolicy.
+  const osm=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    maxZoom:19, referrerPolicy:"strict-origin-when-cross-origin",
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+  const topo=L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",{
+    maxZoom:17, subdomains:"abc",
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, SRTM | © <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'});
+  // Lean default: Esri light-gray canvas (keyless, no Referer needed, works from file:// too)
+  const EA='Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors';
+  const gray=L.layerGroup([
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxNativeZoom:16,maxZoom:18,attribution:EA}),
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",{maxNativeZoom:16,maxZoom:18})
+  ]);
+  const BASES={"פשוטה":gray,"OSM":osm,"טופוגרפית":topo};
+  let pick="פשוטה";
+  try{pick=localStorage.getItem("airnotam_base2")||pick;}catch(e){}
+  (BASES[pick]||gray).addTo(MAP);
+  L.control.layers(BASES,null,{position:"topleft"}).addTo(MAP);
+  MAP.on("baselayerchange",ev=>{try{localStorage.setItem("airnotam_base2",ev.name);}catch(e){}});
+  ROUTE_LAYER=L.layerGroup().addTo(MAP);
+  MAP.on("zoomend",drawRoute);
+  MAP.on("click",drawClick);
+  const leg=L.control({position:"topright"});
+  leg.onAdd=()=>{const d=L.DomUtil.create("div","map-legend");
+    d.innerHTML='<span><i class="lg lg-new"></i>טרם נבדק</span><span><i class="lg lg-ok"></i>נבדק</span><span><i class="lg lg-irr"></i>לא רלוונטי לי</span>';return d;};
+  leg.addTo(MAP);
+  MAP_LAYER = L.layerGroup().addTo(MAP);
+  setTimeout(()=>MAP.invalidateSize(), 50);
+}
+
+function renderMap(){
+  if(!MAP) return;
+  MAP.closePopup();
+  MAP_LAYER.clearLayers();
+  MAP_INDEX={}; CIRCLES={}; GROUPS={};
+  LAST_ITEMS.forEach(e=>{
+    if(!e.geo||offMap(e.id)) return;
+    const key=`${e.lat.toFixed(3)},${e.lon.toFixed(3)}`;   // ~100m bucket
+    (GROUPS[key]=GROUPS[key]||{ids:[],lat:e.lat,lon:e.lon}).ids.push(e.id);
+  });
+  const keys=Object.keys(GROUPS).sort((a,b)=>ST_ORDER[groupStatus(GROUPS[a].ids)]-ST_ORDER[groupStatus(GROUPS[b].ids)]);
+  keys.forEach(key=>{
+    const g=GROUPS[key];
+    g.ids.slice().sort((a,b)=>(ENR_BY_ID[b].radiusNm||0.5)-(ENR_BY_ID[a].radiusNm||0.5)).forEach(id=>{
+      const e=ENR_BY_ID[id];
+      const sty=Object.assign({radius:(e.radiusNm||0.5)*1852},ST_STYLE[statusOf(e)]);
+      if(ROUTE.length>=2 && !inCorridor(e)){ sty.opacity=.45; sty.fillOpacity=(sty.fillOpacity||.2)*.4; }   // outside corridor → faded
+      const c=L.circle([e.lat,e.lon],sty);
+      c.on("click",ev=>{ L.DomEvent.stop(ev); openAt(ev.latlng); });
+      c.addTo(MAP_LAYER); CIRCLES[id]=c;
+    });
+    const gs=ST_STYLE[groupStatus(g.ids)];
+    g.dot=L.circleMarker([g.lat,g.lon],{radius:5,color:gs.color,fillColor:gs.color,fillOpacity:1,weight:1})
+      .on("click",ev=>{ L.DomEvent.stop(ev); openAt(L.latLng(g.lat,g.lon)); }).addTo(MAP_LAYER);
+    g.ids.forEach(id=>{ MAP_INDEX[id]={key}; });
+  });
+  const em=document.getElementById("mapEmpty");
+  if(em){
+    if(!keys.length){ em.textContent="אין NOTAMs עם מיקום בחלון הזמן הנוכחי."; em.style.display="flex"; }
+    else em.style.display="none";
+  }
+}
+
+// popup: one card per NOTAM at this spot
+function puItem(e){
+  const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
+  const irrB=`<button class="pu-hide" onclick="puIrr('${id}',event)"><b>לא רלוונטי לי</b><small>יסומן באפור ולא יטריד שוב, עד שיעודכן</small></button>`;
+  const acts = st==="ok"  ? `<span class="pu-done">✓ נבדק</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`+irrB
+             : st==="irr" ? `<span class="pu-done pu-done-irr">לא רלוונטי לי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`
+             : `<button class="pu-ok" onclick="puReview('${id}',event)"><b>✓ קראתי, לקחתי בחשבון</b><small>נשאר במפה בכחול</small></button>`+irrB;
+  return `<div class="pu-item pu-s-${st}" data-nid="${id}">
+    <div class="pu-top"><b class="pu-id">${id}</b><span class="pu-st">${ST_LBL[st]}</span></div>
+    <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
+    ${routeTag(e)?`<span class="pu-rt">${routeTag(e)}</span>`:""}
+    <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';this.closest('.leaflet-popup')&&MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
+    <div class="pu-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+    ${st==="chg"?`<div class="pu-upd">הנוטאם עודכן מאז שסימנת אותו. קרא שוב ובדוק שהסימון עדיין נכון</div>`:""}
+    <div class="pu-acts">${acts}
+      <button class="pu-lnk" onclick="focusOnList('${id}')">☰ הצג ברשימת כל ה-NOTAMs</button>
+    </div>
+  </div>`;
+}
+// every drawn NOTAM whose circle covers the tapped point goes into ONE popup
+let POP_IDS=[];
+function idsAt(ll){
+  return Object.keys(CIRCLES).filter(id=>{const c=CIRCLES[id];return MAP.distance(ll,c.getLatLng())<=c.getRadius()*1.02+30;});
+}
+function openAt(ll,firstId){
+  if(DRAWING) return;
+  let ids=idsAt(ll);
+  if(firstId && !ids.includes(firstId) && CIRCLES[firstId]) ids.push(firstId);
+  if(!ids.length) return;
+  const rank=id=>{const s=statusOf(ENR_BY_ID[id]);return s==="new"||s==="chg"?0:s==="ok"?1:2;};
+  ids.sort((a,b)=> (a===firstId?-1:b===firstId?1:0) || rank(a)-rank(b) || (ENR_BY_ID[a].radiusNm||0)-(ENR_BY_ID[b].radiusNm||0));
+  POP_IDS=ids;
+  const node=document.createElement("div"); node.innerHTML=popupHtml(ids);   // a live node, so update() keeps our in-place edits
+  L.popup({maxWidth:310,minWidth:260,autoPanPadding:[20,40]}).setLatLng(ll).setContent(node).openOn(MAP);
+}
+function popupHtml(ids){
+  return `<div class="pu-wrap">${ids.length>1?`<div class="pu-cnt">${ids.length} NOTAMs בנקודה זו</div>`:""}`
+    + ids.map(id=>puItem(ENR_BY_ID[id])).join("") + `</div>`;
+}
+function popPending(){ return POP_IDS.filter(x=>!offMap(x)&&isPending(ENR_BY_ID[x])).length; }
+function popCount(){
+  const live=POP_IDS.filter(x=>!offMap(x)).length, cnt=document.querySelector('.leaflet-popup-content .pu-cnt');
+  if(cnt){ if(live>1) cnt.textContent=`${live} NOTAMs בנקודה זו`; else cnt.remove(); }
+}
+function puEl(id){return document.querySelector('.leaflet-popup-content .pu-item[data-nid="'+CSS.escape(id)+'"]');}
+function refreshGroupLook(key){
+  const g=GROUPS[key]; if(!g) return;
+  const live=g.ids.filter(id=>!offMap(id));
+  const gs=ST_STYLE[groupStatus(live.length?live:g.ids)];
+  g.dot.setStyle({color:gs.color,fillColor:gs.color});
+  popCount();
+}
+function puReview(id,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  markReviewed(id);
+  const e=ENR_BY_ID[id], el=puEl(id);
+  if(CIRCLES[id]) CIRCLES[id].setStyle(ST_STYLE.ok);
+  if(el){ const t=document.createElement("div"); t.innerHTML=puItem(e).trim(); const n=t.firstChild;
+    n.classList.add("pu-flash"); el.replaceWith(n); }
+  const k=MAP_INDEX[id]&&MAP_INDEX[id].key; refreshGroupLook(k);
+  // popup stays open while anything in it is still pending; closes once it's all handled
+  if(!popPending()) setTimeout(()=>MAP.closePopup(),450); else { MAP._popup&&MAP._popup.update(); scrollToNextPending(id); }
+  render({skipMap:true});
+}
+function scrollToNextPending(afterId){
+  const nx=POP_IDS.find(x=>x!==afterId&&!offMap(x)&&isPending(ENR_BY_ID[x])); const el=nx&&puEl(nx);
+  const w=document.querySelector(".leaflet-popup-content .pu-wrap");
+  if(el&&w) setTimeout(()=>w.scrollTo({top:el.offsetTop-w.offsetTop-4,behavior:"smooth"}),120);
+}
+function puUnreview(id,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  unmarkReviewed(id);
+  const e=ENR_BY_ID[id], el=puEl(id);
+  if(CIRCLES[id]) CIRCLES[id].setStyle(ST_STYLE[statusOf(e)]);
+  if(el){ const t=document.createElement("div"); t.innerHTML=puItem(e).trim(); el.replaceWith(t.firstChild); }
+  refreshGroupLook(MAP_INDEX[id]&&MAP_INDEX[id].key);
+  MAP._popup&&MAP._popup.update();
+  render({skipMap:true});
+}
+function puIrr(id,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  markIrrelevant(id);
+  if(SHOW_IRR){                                   // stays on the map, greyed
+    const e=ENR_BY_ID[id], el=puEl(id);
+    if(CIRCLES[id]) CIRCLES[id].setStyle(ST_STYLE.irr);
+    if(el){ const t=document.createElement("div"); t.innerHTML=puItem(e).trim(); el.replaceWith(t.firstChild); }
+    const k=MAP_INDEX[id]&&MAP_INDEX[id].key; refreshGroupLook(k);
+    if(!popPending()) setTimeout(()=>MAP.closePopup(),450); else { MAP._popup&&MAP._popup.update(); scrollToNextPending(id); }
+    render({skipMap:true}); return;
+  }
+  const key=MAP_INDEX[id]&&MAP_INDEX[id].key, g=GROUPS[key];
+  const live=POP_IDS.filter(x=>!offMap(x));
+  const el=puEl(id);
+  const finish=()=>{
+    if(CIRCLES[id]){ MAP_LAYER.removeLayer(CIRCLES[id]); delete CIRCLES[id]; }
+    if(g&&g.dot&&!g.ids.some(x=>!offMap(x))) MAP_LAYER.removeLayer(g.dot);
+    if(!live.length||!popPending()) setTimeout(()=>MAP.closePopup(), live.length?300:0);
+    else { refreshGroupLook(key); MAP._popup&&MAP._popup.update(); }
+    render({skipMap:true});
+  };
+  if(!el||!live.length){ if(el) el.classList.add("pu-fade"); setTimeout(finish, el?260:0); return; }
+  // animate: fade out, then collapse so the items below glide up into place
+  el.style.height=el.offsetHeight+"px";
+  el.getBoundingClientRect();
+  el.classList.add("pu-gone");
+  setTimeout(()=>{ el.remove(); finish(); },420);
+}
+
+function focusOnMap(id){
+  if(offMap(id)) setShowIrr(true);
+  if(ROUTE_ONLY && ENR_BY_ID[id] && !inCorridor(ENR_BY_ID[id])) setRouteOnly(false);
+  setView("map");
+  const go=()=>{
+    const hit=MAP_INDEX[id], c=CIRCLES[id];
+    if(!hit||!c) return;
+    MAP.fitBounds(c.getBounds(),{padding:[40,40],maxZoom:13,animate:true});
+    setTimeout(()=>openAt(c.getLatLng(),id),380);
+  };
+  setTimeout(go, MAP?80:320);
+}
 let _flashCard=null, _flashStop=null;
 function startCardFlash(card,listEl){
   // clear any previous flash
@@ -725,9 +1365,8 @@ function startCardFlash(card,listEl){
     _flashStop=null;
   };
   // ignore the programmatic smooth-scroll that we just triggered: only stop on a *later* scroll
-  let armed=false;
-  setTimeout(()=>{armed=true;},900);
-  const onScroll=()=>{ if(armed) stop(); };
+  let armed=false, settle=setTimeout(()=>{armed=true;},450);
+  const onScroll=()=>{ if(armed) return stop(); clearTimeout(settle); settle=setTimeout(()=>{armed=true;},250); };
   listEl.addEventListener("scroll",onScroll,{passive:true});
   listEl.addEventListener("pointerdown",stop,{passive:true});
   window.addEventListener("keydown",stop);
@@ -760,8 +1399,10 @@ function focusOnList(id){
   setTimeout(()=>attempt(6),90);
 }
 
+
 function setView(v){
-  if(v!==currentView) closeCurtain();
+  if(v!==currentView) closeCurtains();
+  if(DRAWING && v!=="map") drawDone();
   currentView=v;
   const isMap=v==="map", isList=v==="list";
   document.getElementById("list").style.display = isList? "block":"none";
@@ -770,439 +1411,60 @@ function setView(v){
   document.getElementById("count").style.display= isList? "block":"none";
   document.getElementById("vList").classList.toggle("on", isList);
   document.getElementById("vMap").classList.toggle("on", isMap);
-  if(isMap){ initMap(); renderMap(); }
+  if(isMap){ initMap(); renderMap(); drawRoute(); }
   try{updateScrollCue();}catch(_){}
 }
 
-// ── Curtain (filter) ──
-// ── Curtain (filter) — drag-to-open drawer ──
-(function(){
-  const GRIPH=30;
-  let stage,curtain,grip,scrim;
-  let H=0,h=0,isOpen=false;
-  let dragging=false,startY=0,startH=0,lastY=0,lastT=0,vel=0,moved=false;
-
-  function els(){
-    stage=stage||document.getElementById("stage");
-    curtain=curtain||document.getElementById("curtain");
-    grip=grip||document.getElementById("curtainGrip");
-    scrim=scrim||document.getElementById("scrim");
-  }
-  function measure(){
-    els();
-    const sh=stage.getBoundingClientRect().height;
-    const byFraction=Math.round(sh*0.84);
-    const byMargin=Math.round(sh-GRIPH-28);
-    H=Math.max(120,Math.min(byFraction,byMargin));
-  }
-  function setH(val){
-    h=Math.max(0,Math.min(H,val));
-    const frac=H?h/H:0;
-    curtain.style.height=h+"px";
-    grip.style.transform="translateY("+h+"px)";
-    grip.style.setProperty("--op",frac.toFixed(3));
-    scrim.style.opacity=(frac*0.9).toFixed(3);
-    scrim.style.pointerEvents=frac>0.02?"auto":"none";
-    grip.classList.toggle("idle",h<=0.5 && !dragging);
-  }
-  function snap(toOpen,gentle){
-    els(); measure();
-    isOpen=toOpen;
-    const cls=gentle?"snap-tap":"snap";
-    curtain.classList.add(cls); grip.classList.add(cls); scrim.classList.add("snap");
-    curtain.classList.remove("is-open");
-    void curtain.offsetHeight;
-    setH(toOpen?H:0);
-    clearTimeout(snap._t);
-    const dur=gentle?620:520;
-    snap._t=setTimeout(()=>{
-      curtain.classList.remove("snap","snap-tap"); grip.classList.remove("snap","snap-tap");
-      scrim.classList.remove("snap");
-      if(toOpen) curtain.classList.add("is-open");
-      window.curtainIsOpen=toOpen;
-      try{updateScrollCue();}catch(_){}
-      try{updateCurtainCue();}catch(_){}
-    },dur);
-    window.curtainIsOpen=toOpen;
-    try{updateScrollCue();}catch(_){}
-  }
-  function down(y){
-    els();
-    dragging=true; moved=false;
-    startY=y; startH=h; lastY=y; lastT=performance.now(); vel=0;
-    curtain.classList.remove("snap","snap-tap"); grip.classList.remove("snap","snap-tap");
-    scrim.classList.remove("snap"); grip.classList.remove("idle");
-  }
-  function move(y){
-    if(!dragging) return;
-    const dy=y-startY;
-    if(Math.abs(dy)>4) moved=true;
-    setH(startH+dy);
-    const now=performance.now(),dt=now-lastT;
-    if(dt>0) vel=(y-lastY)/dt;
-    lastY=y; lastT=now;
-  }
-  function end(){
-    if(!dragging) return;
-    dragging=false;
-    if(!moved){ snap(!isOpen,true); return; }   // tap → gentle
-    const V=0.35;
-    if(vel>V) return snap(true);
-    if(vel<-V) return snap(false);
-    snap(h>H*0.5);
-  }
-
-  // public API (kept for existing callers: setView, focusOnMap, apply/reset buttons)
-  window.openCurtain=function(){ snap(true,true); };
-  window.closeCurtain=function(){ snap(false,true); };
-  window.toggleCurtain=function(){ snap(!isOpen,true); };
-
-  document.addEventListener("DOMContentLoaded",function(){
-    els(); measure(); setH(0); grip.classList.add("idle");
-    grip.addEventListener("touchstart",e=>{ down(e.touches[0].clientY); },{passive:true});
-    grip.addEventListener("touchmove",e=>{ if(dragging){ e.preventDefault(); move(e.touches[0].clientY);} },{passive:false});
-    grip.addEventListener("touchend",end);
-    grip.addEventListener("touchcancel",end);
-    grip.addEventListener("mousedown",e=>{ down(e.clientY); e.preventDefault(); });
-    window.addEventListener("mousemove",e=>{ if(dragging) move(e.clientY); });
-    window.addEventListener("mouseup",end);
-    scrim.addEventListener("click",()=>snap(false,true));
-    window.addEventListener("resize",()=>{ measure(); setH(isOpen?H:0); });
-  });
-})();
-
-// map a category chip's visible label back to its key (CATS + the "other" pill)
-function catKeyForLabel(label){
-  const hit=CATS.find(c=>c[1]===label);
-  if(hit)return hit[0];
-  return label==="אחר"?"__other__":null;
-}
-function selectAllAdv(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  // airfields on
-  hiddenFields.clear();
-  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
-  // categories on
-  hiddenCats.clear();
-  document.querySelectorAll("#cats .chip").forEach(c=>c.classList.add("on"));
+// ── data: device snapshot, frozen until the pilot refreshes ──
+const SNAP_KEY='airnotam_snapshot';
+const SNAP_MAX_AGE=12*3600*1000;          // older snapshot → take the fresh feed automatically
+let SNAP=null, PENDING=null;
+function readSnap(){try{return JSON.parse(localStorage.getItem(SNAP_KEY)||"null");}catch(e){return null;}}
+function applyData(data,save,savedAt){
+  ALL=data.notams||[];
+  ENR=ALL.map(enrich); ENR_BY_ID={}; ENR.forEach(e=>{ENR_BY_ID[e.id]=e;});
+  SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,savedAt:savedAt||Date.now()};
+  if(save){try{localStorage.setItem(SNAP_KEY,JSON.stringify(SNAP));}catch(e){}}
+  const gen=SNAP.generatedAt?new Date(SNAP.generatedAt):null;
+  document.getElementById("meta").className="metabar hdr-meta";
+  document.getElementById("meta").innerHTML=staleLine(gen,SNAP.count);
+  const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
+  PENDING=null; showUpdate(null);
   render();
 }
-function clearAllAdv(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  // airfields off
-  document.querySelectorAll("#fields .chip").forEach(c=>{
-    c.classList.remove("on");
-    const code=c.textContent==="אחר"?"__other__":c.textContent; hiddenFields.add(code);
-  });
-  // categories off
-  document.querySelectorAll("#cats .chip").forEach(c=>{
-    c.classList.remove("on");
-    const k=catKeyForLabel(c.textContent); if(k)hiddenCats.add(k);
-  });
-  render();
+function diffFeeds(oldN,newN){
+  const o={}; oldN.forEach(n=>{o[n.id]=hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""));});
+  let add=0,chg=0; const seen=new Set();
+  newN.forEach(n=>{seen.add(n.id); const h=hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""));
+    if(!(n.id in o)) add++; else if(o[n.id]!==h) chg++;});
+  const del=oldN.filter(n=>!seen.has(n.id)).length;
+  return {add,chg,del};
 }
-
-function applyDefaultCatState(){
-  hiddenCats.clear();
-  CATS_OFF_BY_DEFAULT.forEach(k=>hiddenCats.add(k));
-  document.querySelectorAll("#cats .chip").forEach(c=>{
-    const off=CATS_OFF_BY_DEFAULT.some(k=>catLabel(k)===c.textContent);
-    c.classList.toggle("on",!off);
-  });
+function showUpdate(d){
+  const u=document.getElementById("upd");
+  if(!d){u.classList.remove("show");return;}
+  const parts=[]; if(d.add)parts.push(`${d.add} חדשים`); if(d.chg)parts.push(`${d.chg} שונו`); if(d.del)parts.push(`${d.del} בוטלו`);
+  document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
+  u.classList.add("show");
 }
-
-function resetAdvanced(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  hiddenFields.clear(); showAdmin=false;
-  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
-  applyDefaultCatState();
-  const ac=document.getElementById("adminChip"); if(ac) ac.classList.remove("on");
-  render();
-}
-
-function resetFilters(){
-  hiddenFields.clear(); showAdmin=false;
-  regionOn.clear(); regionOn.add("north"); regionOn.add("south");
-  mapOn.clear(); mapOn.add("geo"); mapOn.add("nogeo");
-  timeMode="72";
-  document.getElementById("search").value="";
-  document.querySelectorAll("#timeSeg .seg-btn").forEach(b=>b.classList.toggle("on",b.dataset.time==="72"));
-  document.getElementById("manualRange").classList.remove("open");
-  document.getElementById("fromDT").value=""; document.getElementById("tillDT").value="";
-  document.querySelectorAll("#regionSeg .region-btn").forEach(b=>b.classList.add("on"));
-  document.querySelectorAll("#mapSeg .region-btn").forEach(b=>b.classList.add("on"));
-  document.getElementById("altSel").value="0";
-  document.getElementById("showUnknownAlt").checked=true;
-  document.querySelectorAll("#fields .chip").forEach(c=>c.classList.add("on"));
-  applyDefaultCatState();
-  const ac2=document.getElementById("adminChip"); if(ac2) ac2.classList.remove("on");
-  render();
-}
-
-function initMap(){
-  if(typeof L==="undefined"){
-    document.getElementById("map").innerHTML=
-      '<div style="padding:2rem;text-align:center;color:#5a4a3a;font-family:monospace">מפה לא זמינה (Leaflet לא נטען, בדוק חיבור)</div>';
-    return;
-  }
-  if(MAP) { setTimeout(()=>MAP.invalidateSize(), 50); return; }
-  MAP = L.map("map", { center:[31.5, 35.0], zoom:7, zoomControl:true });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    maxZoom:19, subdomains:"abcd",
-    attribution:"© OpenStreetMap © CARTO"
-  }).addTo(MAP);
-  MAP_LAYER = L.layerGroup().addTo(MAP);
-  setTimeout(()=>MAP.invalidateSize(), 50);
-}
-
-function renderMap(){
-  if(!MAP) return;
-  MAP_LAYER.clearLayers();
-  MAP_INDEX={};
-  const now=new Date();
-  const colorFor = e => {
-    if(isActiveNow(e,now)) return "#1f6f3f";      // active = green
-    if(e.start&&e.start>now) return "#e3a008";    // upcoming = amber
-    return "#8a7a5a";
-  };
-  // Group NOTAMs that share (almost) the same center, so one click shows all.
-  const groups={};
-  let plotted=0;
-  LAST_ITEMS.forEach(e=>{
-    if(e.lat==null||e.lon==null) return;
-    if(hiddenNotams.has(e.id)) return;   // dismissed NOTAMs are not drawn
-    const key=`${e.lat.toFixed(3)},${e.lon.toFixed(3)}`; // ~100m bucket
-    (groups[key]=groups[key]||[]).push(e);
-    plotted++;
-  });
-
-  Object.values(groups).forEach(list=>{
-    // draw a circle per NOTAM (so different radii still show), but bind ONE
-    // popup listing every NOTAM at this location to whichever we click.
-    const anyActive = list.some(e=>isActiveNow(e,now));
-    const anySoon = list.some(e=>e.start&&e.start>now);
-    const col = anyActive? "#1f6f3f" : anySoon? "#e3a008" : "#8a7a5a";
-    const popupHtml = `<div dir="ltr" style="max-height:220px;max-width:100%;overflow-y:auto;overflow-x:hidden;text-align:left;padding-right:2px;box-sizing:border-box">`
-      + list.map(e=>{
-          const alt=(e.lowerStr||e.upperStr)?`${e.lowerStr||"?"}-${e.upperStr||"?"}`
-            :(e.lowerFt!=null?`${e.lowerFt}-${e.upperFt==null?'?':e.upperFt}ft`:"גובה ?");
-          const ph=hiddenNotams.has(e.id);
-          const txt=e.text||"";
-          const long=txt.length>160;
-          const shortTxt=long?txt.slice(0,160):txt;
-          return `<div style="margin-top:6px">`
-            +`<div style="display:flex;align-items:center;gap:6px">`
-              +`<b style="white-space:nowrap;font-size:13px">NOTAM <span style="color:#aaa">|</span> ${esc(e.id)}</b>`
-            +`</div>`
-            +`<div style="display:flex;gap:8px;margin-top:8px">`
-              +`<button class="pu-listbtn" style="flex:1" title="מעבר לנוטם בתצוגת הרשימה" onclick="focusOnList('${esc(e.id)}')">עבור לרשימה ☰</button>`
-              +`<button class="pu-hidebtn" style="flex:1" title="הסרת הנוטם מהמפה (ניתן להחזיר דרך הרשימה)" onclick="hideFromMapPopup('${esc(e.id)}',event)">הסתר ✕</button>`
-            +`</div>`
-            +`<div style="border-bottom:1px solid #ddd;margin:8px 0 0"></div>`
-            +`<div style="padding-top:5px">`
-              +`<small style="color:#555">${esc(e.loc||"")}</small><br>`
-              +`<span style="font-family:monospace;font-size:12.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word">${esc(shortTxt)}</span>`
-              +(long?`<span class="pu-more" style="font-family:monospace;font-size:12.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;display:none">${esc(txt.slice(160))}</span>`
-                +`<a class="pu-toggle" style="display:block;font-size:11px;color:#1f6f3f;cursor:pointer;margin-top:2px" onclick="var m=this.previousElementSibling,o=this.textContent.indexOf('▾')>=0;m.style.display=o?'inline':'none';this.textContent=o?'הצג פחות ▴':'הצג עוד ▾'">הצג עוד ▾</a>`:``)
-              +`<br><small>${esc(alt)} · ${fmtUTC(e.start)}→${fmtUTC(e.end)}</small>`
-            +`</div></div>`;
-        }).join("")
-      + `</div>`;
-
-    // sort so the largest circle is drawn first (smaller on top, all clickable)
-    list.slice().sort((a,b)=>(b.radiusNm||0.5)-(a.radiusNm||0.5)).forEach(e=>{
-      const radiusM=(e.radiusNm||0.5)*1852;
-      const circle=L.circle([e.lat,e.lon],{radius:radiusM,color:col,weight:2,fillColor:col,fillOpacity:0.12});
-      circle.bindPopup(popupHtml,{maxWidth:300,minWidth:250});
-      circle.addTo(MAP_LAYER);
-    });
-    // a small center dot to guarantee a reliable click target when circles overlap
-    const c=list[0];
-    const dot=L.circleMarker([c.lat,c.lon],{radius:4,color:col,fillColor:col,fillOpacity:1,weight:1})
-      .bindPopup(popupHtml,{maxWidth:300,minWidth:250}).addTo(MAP_LAYER);
-    // let any card in this group jump here and open the shared popup
-    list.forEach(e=>{ MAP_INDEX[e.id]={lat:c.lat,lon:c.lon,openPopup:()=>dot.openPopup()}; });
-  });
-
-  const missing = LAST_ITEMS.length - plotted;
-  if(MAP_NOTE){ MAP.removeControl(MAP_NOTE); MAP_NOTE=null; }
-  MAP_NOTE=L.control({position:"bottomleft"});
-  MAP_NOTE.onAdd=function(){const d=L.DomUtil.create("div");
-    d.style.cssText="background:rgba(255,255,255,.85);padding:3px 7px;border-radius:5px;font-size:11px;font-family:monospace";
-    d.textContent=`${plotted} על המפה${missing>0?" · "+missing+" ללא מיקום":""}`;return d;};
-  MAP_NOTE.addTo(MAP);
-
-  // adaptive empty-map message: distinguishes "geo toggle off" from "nothing matches"
-  const em=document.getElementById("mapEmpty");
-  if(em){
-    if(plotted===0){
-      em.textContent = !mapOn.has("geo")
-        ? "לא נבחרו NOTAM לתצוגה במפה. הפעל \u201eמופיע במפה\u201d בסינון."
-        : "אין NOTAM עם מיקום בסינון הנוכחי.";
-      em.style.display="flex";
-    }else{
-      em.style.display="none";
-    }
-  }
-}
-
-
-
-function card(e,k){
-  const altTxt = (e.lowerStr||e.upperStr)
-    ? `${e.lowerStr||"?"}-${e.upperStr||"?"}`
-    : (e.lowerFt!=null? `${e.lowerFt}-${e.upperFt==null?'?':e.upperFt} ft` : "גובה ?");
-  const alt=`<span class="b alt">${esc(altTxt)}</span>`;
-  const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
-  const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
-  const admin=e.admin?`<span class="b admin">ADMIN</span>`:"";
-  const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
-  const hasGeo=e.lat!=null&&e.lon!=null;
-  const hidden=hiddenNotams.has(e.id);
-  const mapBtn=hasGeo?`<button class="card-maplink${hidden?' is-disabled':''}" title="${hidden?'מוסתר, הפעל תצוגה כדי לעבור':'הצג במפה'}"${hidden?' disabled':` onclick="focusOnMap('${esc(e.id)}')"`}><span class="cml-pin">◎</span> הצג במפה</button>`:"";
-  const mapSwitch=`<label class="map-switch" title="${hidden?'מתעלם, הפעל להצגה במפה':'מוצג במפה, לחץ להתעלמות'}">
-    <span class="ms-lbl">התעלם</span>
-    <span class="ms-track${hidden?' off':''}" onclick="toggleHidden('${esc(e.id)}')"></span>
-  </label>`;
-  const badges=`${cat}${alt}${rad}${admin}${repl}`;
-  return`<div class="card ${k}${hidden?' card-dimmed':''}" data-nid="${esc(e.id)}">
-    <div class="c-top">
-      <div class="c-head"><span class="c-id">${esc(e.id)}</span>
-        ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
-      ${mapBtn}
-    </div>
-    <div class="c-badges">${badges}</div>
-    <div class="c-text">${esc(e.text)}</div>
-    <div class="c-foot"><span class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</span>${mapSwitch}</div>
-  </div>`;
-}
-
-function updateFilterSummary(shown){
-  const parts=[];
-  const q=document.getElementById("search").value.trim();
-  if(q) parts.push('"'+esc(q)+'"');
-  // time
-  if(timeMode==="range") parts.push("טווח");
-  else if(timeMode==="all") parts.push("כל הזמנים");
-  else parts.push("72 שעות");
-  // region
-  if(regionOn.size===1) parts.push(regionOn.has("north")?"צפון":"דרום");
-  else parts.push("כל הארץ");
-  // altitude
-  const ceil=parseInt(document.getElementById("altSel").value,10)||0;
-  parts.push(ceil>0? "≤"+ceil.toLocaleString()+"ft" : "כל הגבהים");
-  if(showAdmin) parts.push("ADMIN");
-  // removed fields/cats — shown grayed + strikethrough (the opposite of active)
-  const removed=[
-    ...[...hiddenFields].map(f=>f==="__other__"?"אחר":f),
-    ...[...hiddenCats].map(k=>k==="__other__"?"אחר":catLabel(k))
-  ];
-  let html=`<span class="fb-active">${esc(parts.join(" · "))}</span>`;
-  document.getElementById("fbSummary").innerHTML = html;
-  const rem=document.getElementById("fbRemoved");
-  if(rem){
-    rem.innerHTML = removed.length
-      ? `<span class="fbr-lbl">מוסתר:</span>`+removed.map(r=>`<span class="fb-removed">${esc(r)}</span>`).join("")
-      : "";
-    rem.style.display = removed.length? "flex":"none";
-  }
-  const ac=document.getElementById("applyCount"); if(ac) ac.textContent=shown;
-  const ac2=document.getElementById("applyCount2"); if(ac2) ac2.textContent=shown;
-}
-
-function buildChips(){
-  const fb=document.getElementById("fields");
-  const addField=(code,label)=>{const el=document.createElement("span");el.className="chip on";el.textContent=label;
-    el.onclick=()=>{const off=el.classList.toggle("on")===false;
-      off?hiddenFields.add(code):hiddenFields.delete(code);render();};fb.appendChild(el);};
-  FIELDS.forEach(f=>addField(f,f));
-  addField("__other__","אחר");
-
-  const cb=document.getElementById("cats");
-  const addCat=(key,label)=>{const el=document.createElement("span");
-    const startOff=CATS_OFF_BY_DEFAULT.includes(key);
-    el.className=startOff?"chip":"chip on";el.textContent=label;
-    if(startOff)hiddenCats.add(key);
-    el.onclick=()=>{const off=el.classList.toggle("on")===false;
-      off?hiddenCats.add(key):hiddenCats.delete(key);render();};cb.appendChild(el);};
-  CATS.forEach(([key,label])=>addCat(key,label));
-  addCat("__other__","אחר");
-
-  // ADMIN chip: starts OFF (admin hidden); ON shows admin NOTAMs
-  const ael=document.createElement("span");ael.className="chip chip-admin";ael.id="adminChip";ael.textContent="ADMIN";
-  ael.onclick=()=>{showAdmin=!showAdmin;ael.classList.toggle("on",showAdmin);render();};
-  cb.appendChild(ael);
-}
-function prefillManual(){
-  const f=document.getElementById("fromDT"),t=document.getElementById("tillDT");
-  if(f.value&&t.value)return;
-  const pad=n=>String(n).padStart(2,"0");
-  const fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  const now=new Date();f.value=fmt(now);t.value=fmt(new Date(now.getTime()+24*3600*1000));
-}
-
-// search + toggles
-document.getElementById("search").addEventListener("input",render);
-document.getElementById("showUnknownAlt").addEventListener("change",render);
-document.getElementById("altSel").addEventListener("change",render);
-
-// TIME segmented (72 / range / all)
-document.querySelectorAll("#timeSeg .seg-btn").forEach(b=>b.addEventListener("click",()=>{
-  timeMode=b.dataset.time;
-  document.querySelectorAll("#timeSeg .seg-btn").forEach(x=>x.classList.remove("on"));
-  b.classList.add("on");
-  const mr=document.getElementById("manualRange");
-  if(timeMode==="range"){mr.classList.add("open");prefillManual();}else{mr.classList.remove("open");}
-  render();
-}));
-["fromDT","tillDT"].forEach(id=>document.getElementById(id).addEventListener("input",render));
-
-// REGION: two independent halves, both on by default. Toggling flips membership.
-document.querySelectorAll("#regionSeg .region-btn").forEach(b=>b.addEventListener("click",()=>{
-  const k=b.dataset.region;
-  if(regionOn.has(k)){
-    // don't allow the last one off into a weird empty state — turning the 2nd off
-    // is allowed and treated as "all" by passFilters, so just toggle freely.
-    regionOn.delete(k);
-  }else{
-    regionOn.add(k);
-  }
-  b.classList.toggle("on",regionOn.has(k));
-  render();
-}));
-// MAP DISPLAY: two independent toggles, both on by default. Same deselect-to-hide as region.
-document.querySelectorAll("#mapSeg .region-btn").forEach(b=>b.addEventListener("click",()=>{
-  const k=b.dataset.map;
-  if(mapOn.has(k)){
-    mapOn.delete(k); // free toggle, same as region — both-off shows empty list
-  }else{
-    mapOn.add(k);
-  }
-  b.classList.toggle("on",mapOn.has(k));
-  render();
-}));
-
-// ADVANCED accordion
-document.getElementById("advHead").addEventListener("click",()=>{
-  document.getElementById("adv").classList.toggle("open");
-  try{setTimeout(updateCurtainCue,60);}catch(_){}
-});
-
+function applyPending(){ if(PENDING) applyData(PENDING,true); }
 async function load(manual){
-  const meta=document.getElementById("meta");meta.textContent="טוען…";meta.className="metabar";
+  const meta=document.getElementById("meta");
+  if(!SNAP){meta.textContent="טוען…";meta.className="metabar";}
   try{
     const res=await fetch(FEED,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);
-    const data=await res.json();ALL=data.notams||[];
-    const gen=data.generatedAt?new Date(data.generatedAt):null;
-    meta.innerHTML=staleLine(gen,data.count??ALL.length);
-    const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date());
-    render();
-    // a manual refresh re-shows the daily disclaimer (fresh data → re-acknowledge)
-    if(manual){ try{localStorage.removeItem(DISC_KEY);}catch(e){} showDisc(); }
-  }catch(e){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
+    const data=await res.json();
+    const stale=!SNAP || (Date.now()-(SNAP.savedAt||0))>SNAP_MAX_AGE;
+    if(manual||stale){ applyData(data,true); }
+    else if(data.generatedAt!==SNAP.generatedAt){
+      PENDING=data; const d=diffFeeds(SNAP.notams||[],data.notams||[]);
+      if(d.add||d.chg||d.del) showUpdate(d); else applyData(data,true);
+    }
+  }catch(e){
+    if(!SNAP){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
+  }
 }
 
-// age judged by generatedAt (when scraped), NOT by fetch time
 function fmtLocalHM(d){
   // Israel local time (Asia/Jerusalem), 24h HH:MM, regardless of device timezone
   try{
@@ -1224,36 +1486,21 @@ function staleLine(gen,count){
        + `<span class="mb-txt">בסיס נתוני נוטאם IAA עדכני לשעה ${hm} LT (${ago})${warn}</span>`;
 }
 
-// ── Scroll cue (chevron) — replaces the scrollbar on the list ──
+
+// ── Scroll cue (chevron) on the list ──
 const _list=document.getElementById("list");
 const _sFade=document.getElementById("scrollFade");
 const _sBtn=document.getElementById("scrollBtn");
-const _cFade=document.getElementById("curtainFade");
-const _cBtn=document.getElementById("curtainBtn");
-const _cBody=document.querySelector(".curtain-body");
 function updateScrollCue(){
-  const mapView=currentView==="map";
-  const curtainOpen=!!window.curtainIsOpen;
   const atBottom=_list.scrollTop+_list.clientHeight>=_list.scrollHeight-8;
   const fits=_list.scrollHeight<=_list.clientHeight+8;
-  const hide=mapView||curtainOpen||atBottom||fits;
+  const hide=currentView==="map"||atBottom||fits;
   _sFade.classList.toggle("hide",hide);
   _sBtn.classList.toggle("hide",hide);
 }
-function updateCurtainCue(){
-  if(!_cBody){return;}
-  const open=!!window.curtainIsOpen;
-  const atBottom=_cBody.scrollTop+_cBody.clientHeight>=_cBody.scrollHeight-8;
-  const fits=_cBody.scrollHeight<=_cBody.clientHeight+8;
-  const hide=!open||atBottom||fits;
-  _cFade.classList.toggle("hide",hide);
-  _cBtn.classList.toggle("hide",hide);
-}
 _sBtn.addEventListener("click",()=>_list.scrollBy({top:_list.clientHeight*0.8,behavior:"smooth"}));
 _list.addEventListener("scroll",updateScrollCue,{passive:true});
-if(_cBtn)_cBtn.addEventListener("click",()=>_cBody.scrollBy({top:_cBody.clientHeight*0.8,behavior:"smooth"}));
-if(_cBody)_cBody.addEventListener("scroll",updateCurtainCue,{passive:true});
-window.addEventListener("resize",()=>{updateScrollCue();updateCurtainCue();});
+window.addEventListener("resize",updateScrollCue);
 
 function tickUTC(){const d=new Date();const p=n=>String(n).padStart(2,"0");
   const el=document.getElementById("utc");if(el)el.textContent=p(d.getUTCHours())+":"+p(d.getUTCMinutes());}
@@ -1265,8 +1512,141 @@ function discToday(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()
 function showDisc(){let last=null;try{last=localStorage.getItem(DISC_KEY);}catch(e){}
   if(last!==discToday())document.getElementById('disc').classList.add('show');}
 function closeDisc(){document.getElementById('disc').classList.remove('show');
-  try{localStorage.setItem(DISC_KEY,discToday());}catch(e){}}
-buildChips();setView("list");load();showDisc();
+  try{localStorage.setItem(DISC_KEY,discToday());}catch(e){}
+  maybeAskFlight();}
+
+// ── v1.03: planned flight window (kept on device) ──
+const FLIGHT_KEY='airnotam_flight';
+let FLIGHT=null;              // {date:"YYYY-MM-DD", tkof:"HH:MM", ldg:"HH:MM", grace:2}
+let fGrace=2;
+function loadFlight(){try{const f=JSON.parse(localStorage.getItem(FLIGHT_KEY)||"null");return f&&f.date&&f.tkof&&f.ldg?f:null;}catch(e){return null;}}
+function flightWindow(f){
+  if(!f)return null;
+  const t=new Date(`${f.date}T${f.tkof}:00`), l=new Date(`${f.date}T${f.ldg}:00`);
+  if(isNaN(t)||isNaN(l))return null;
+  if(l<=t) l.setDate(l.getDate()+1);            // landing after midnight
+  const g=(f.grace||2)*3600*1000;
+  return {tkof:t, ldg:l, from:new Date(t.getTime()-g), to:new Date(l.getTime()+g)};
+}
+function flightValid(f){const w=flightWindow(f);return !!(w&&w.to>new Date());}
+const _pad=n=>String(n).padStart(2,"0");
+const hm=d=>_pad(d.getHours())+":"+_pad(d.getMinutes());
+function dayLbl(d){
+  let wd="";try{wd=new Intl.DateTimeFormat("he-IL",{weekday:"short"}).format(d).replace("יום ","");}catch(_){}
+  return (wd?wd+" ":"")+_pad(d.getDate())+"/"+_pad(d.getMonth()+1);
+}
+function renderFlightBar(){
+  const txt=document.getElementById("flTxt"), ed=document.getElementById("flEdit");
+  const w=flightWindow(FLIGHT), ok=flightValid(FLIGHT);
+  if(ok){
+    txt.innerHTML=`<b>${esc(dayLbl(w.tkof))}</b> · <span class="mono">${hm(w.tkof)}-${hm(w.ldg)}</span> LT <span class="fl-grace">±${FLIGHT.grace} ש׳</span>`;
+    ed.textContent="עריכה";
+  }else{
+    txt.innerHTML=`<span class="fl-none">${FLIGHT?"זמני הטיסה שהוגדרו כבר עברו":"לא הוגדרו זמני טיסה"}</span>`;
+    ed.textContent="הגדר זמני טיסה";
+    if(timeMode==="flight") timeMode="all";
+  }
+  try{renderHints();}catch(_){}
+  try{renderReady();}catch(_){}
+}
+function readDlg(){
+  return {date:document.getElementById("fDate").value, tkof:document.getElementById("fTkof").value,
+          ldg:document.getElementById("fLdg").value, grace:fGrace};
+}
+function updateCalc(){
+  const w=flightWindow(readDlg()), c=document.getElementById("fCalc");
+  const same=w&&w.from.toDateString()===w.to.toDateString();
+  c.innerHTML = w ? `ייבדקו NOTAMs שבתוקף בין <b><bdi>${hm(w.from)}</bdi></b> ל-<b><bdi>${hm(w.to)}</bdi></b> LT`
+                    + (same? "" : `, <bdi>${esc(dayLbl(w.from))}</bdi> עד <bdi>${esc(dayLbl(w.to))}</bdi>`)
+                  : "מלא תאריך, המראה ונחיתה";
+}
+function openFlightDlg(){
+  try{CURTAINS.forEach(closeCurtain);}catch(_){}
+  const f=FLIGHT||(()=>{const n=new Date();n.setMinutes(0,0,0);n.setHours(n.getHours()+1);
+    const l=new Date(n.getTime()+2*3600*1000);
+    return {date:`${n.getFullYear()}-${_pad(n.getMonth()+1)}-${_pad(n.getDate())}`,tkof:hm(n),ldg:hm(l),grace:2};})();
+  document.getElementById("fDate").value=f.date;
+  document.getElementById("fTkof").value=f.tkof;
+  document.getElementById("fLdg").value=f.ldg;
+  fGrace=f.grace||2;
+  document.querySelectorAll("#fGrace button").forEach(b=>b.classList.toggle("on",+b.dataset.g===fGrace));
+  document.getElementById("fErr").style.display="none";
+  updateCalc();
+  document.getElementById("fdlg").classList.add("show");
+  document.getElementById("flEdit").classList.add("on");
+}
+function openSettings(){ closeCurtains(); renderSettings(); document.getElementById("setp").classList.add("show"); }
+function closeSettings(){ document.getElementById("setp").classList.remove("show"); }
+function renderSettings(){ document.querySelectorAll("#corrSeg button").forEach(b=>b.classList.toggle("on",+b.dataset.c===CORR_NM)); }
+document.querySelectorAll("#corrSeg button").forEach(b=>b.addEventListener("click",()=>{
+  CORR_NM=+b.dataset.c; try{localStorage.setItem("airnotam_corr",String(CORR_NM));}catch(e){}
+  renderSettings(); render(); try{drawRoute();}catch(_){}
+}));
+function setRefreshData(){ closeSettings(); load(true); }
+async function setReloadApp(){
+  try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
+  const u=new URL(location.href); u.searchParams.set("r",Date.now().toString(36)); location.replace(u.toString());
+}
+async function setRestartReview(){
+  if(!(await appConfirm({title:"להתחיל בדיקה מחדש?",text:'כל ה-NOTAMs יחזרו ל"טרם נבדק". זמני הטיסה והמסלול נשמרים.',ok:"התחל בדיקה מחדש"}))) return;
+  REVIEW={}; saveReview(); closeSettings(); render();
+}
+async function setFullReset(){
+  if(!(await appConfirm({title:"איפוס מלא של האפליקציה?",text:"לא ניתן לבטל.",ok:"איפוס מלא"}))) return;
+  try{ Object.keys(localStorage).filter(k=>k.startsWith("airnotam")).forEach(k=>localStorage.removeItem(k)); }catch(e){}
+  const u=new URL(location.href); u.searchParams.delete("r"); location.replace(u.toString());
+}
+function toggleFlightDlg(){
+  if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
+  else openFlightDlg();
+}
+function closeFlightDlg(){ const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
+function curtainGrip(gripId,dlgId,onClose){
+  const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
+  let y0=null, dy=0;
+  g.addEventListener("pointerdown",e=>{y0=e.clientY;dy=0;card.classList.add("drag");g.setPointerCapture(e.pointerId);});
+  g.addEventListener("pointermove",e=>{ if(y0==null)return; dy=Math.min(0,e.clientY-y0); card.style.transform=`translateY(${dy}px)`; });
+  const end=()=>{ if(y0==null)return; y0=null; card.classList.remove("drag"); card.style.transform="";
+    if(dy<-40||Math.abs(dy)<4) onClose(); };   // drag up or tap → close
+  g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
+}
+curtainGrip("fGrip","fdlg",()=>skipFlight());
+CURTAINS.forEach(c=>curtainGrip("g_"+c,c,()=>closeCurtain(c)));
+function saveFlight(){
+  const f=readDlg(), err=document.getElementById("fErr");
+  if(!flightWindow(f)){err.textContent="חסר תאריך או שעה";err.style.display="block";return;}
+  if(!flightValid(f)){err.textContent="חלון הטיסה כבר עבר, בדוק תאריך ושעות";err.style.display="block";return;}
+  FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
+  timeMode="flight"; closeFlightDlg(); renderFlightBar(); render();
+}
+function skipFlight(){
+  closeFlightDlg();
+  if(!flightValid(FLIGHT)) timeMode="all";
+  renderFlightBar(); render();
+}
+document.querySelectorAll("#fGrace button").forEach(b=>b.addEventListener("click",()=>{
+  fGrace=+b.dataset.g;
+  document.querySelectorAll("#fGrace button").forEach(x=>x.classList.toggle("on",x===b));
+  updateCalc();
+}));
+["fDate","fTkof","fLdg"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{
+  document.getElementById("fErr").style.display="none";updateCalc();}));
+// ask for the flight once the disclaimer is out of the way
+function maybeAskFlight(){
+  if(document.getElementById("disc").classList.contains("show"))return;
+  if(!flightValid(FLIGHT)) openFlightDlg();
+}
+
+
+// ── boot ──
+FLIGHT=loadFlight();
+if(flightValid(FLIGHT)) timeMode="flight";
+renderFlightBar();
+(function(){ const s=readSnap(); if(s&&s.notams){ applyData(s,false,s.savedAt); } })();
+setView("map");
+load();
+setInterval(()=>load(false), 15*60*1000);
+showDisc();maybeAskFlight();
 </script>
 </body>
 </html>
