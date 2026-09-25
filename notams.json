@@ -1,42 +1,42 @@
 {
-  "generatedAt": "2026-09-25T07:34:13.139Z",
+  "generatedAt": "2026-09-25T18:26:55.382Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 133,
+  "count": 132,
   "notams": [
     {
-      "id": "C2042/26",
+      "id": "C2043/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T05:30:00.000Z",
-      "toDate": "2026-09-25T13:00:00.000Z",
+      "fromDate": "2026-09-27T03:00:00.000Z",
+      "toDate": "2026-09-28T15:50:00.000Z",
       "qLine": {
         "fir": "LLLL",
-        "qcode": "QWULW",
+        "qcode": "QARLC",
         "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
+        "purpose": "NBO",
+        "scope": "E",
         "lowerLimitFl": "000",
-        "upperLimitFl": "035",
+        "upperLimitFl": "004",
         "position": {
-          "lat": 32.55,
-          "lon": 35.283333,
-          "radiusNm": 2,
+          "lat": 32.066667,
+          "lon": 34.75,
+          "radiusNm": 10,
           "source": "q_line"
         }
       },
-      "eText": "UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL",
+      "eText": "ULTRALIGHT WEEKEND RTE CLSD TYONA-SHFAM. TYONA-SHEFC-SOREK.",
       "position": {
-        "lat": 32.55,
-        "lon": 35.283333,
-        "radiusNm": 2,
+        "lat": 32.066667,
+        "lon": 34.75,
+        "radiusNm": 10,
         "source": "q_line"
       },
       "administrative": false,
       "notamType": "N",
       "replaces": null,
-      "rawText": "C2042/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/035/3233N03517E002 A) LLLL B) 2609250530 C) 2609251300 E) UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 3,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 3500FT AMSL)",
-      "rowID": "2062423"
+      "rawText": "C2043/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /000/004/3204N03445E010 A) LLLL B) 2609270300 C) 2609281550 D) DAILY 0300-1550 E) ULTRALIGHT WEEKEND RTE CLSD TYONA-SHFAM. TYONA-SHEFC-SOREK.)",
+      "rowID": "2062682"
     },
     {
       "id": "C2040/26",
@@ -1295,40 +1295,6 @@
       "replaces": null,
       "rawText": "C2002/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/028/3057N03456E002 A) LLLL B) 2609270310 C) 2610011610 D) DAILY 0310-1610 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 250M AGL. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 2,800FT AMSL. CTN ADZ. F) GND G) 2800FT AMSL)",
       "rowID": "2061855"
-    },
-    {
-      "id": "C2000/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T05:00:00.000Z",
-      "toDate": "2026-09-25T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "110",
-        "position": {
-          "lat": 31.283333,
-          "lon": 34.716667,
-          "radiusNm": 4,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL",
-      "position": {
-        "lat": 31.283333,
-        "lon": 34.716667,
-        "radiusNm": 4,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2000/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2609250500 C) 2609251100 E) PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL)",
-      "rowID": "2061843"
     },
     {
       "id": "C1999/26",
