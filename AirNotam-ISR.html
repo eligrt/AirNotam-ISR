@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.03.015 · built by eligrt
+     AirNotam-ISR · v1.03.017 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -254,7 +254,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
   border:1.5px solid var(--ink);background:var(--paper-hi);color:var(--ink);}
 .r-route button.pri{background:var(--ink);color:var(--paper-hi);}
 .r-route button:disabled{opacity:.4;cursor:default;}
-.r-route button.del{border-color:var(--paper-edge);color:var(--ink-muted);font-weight:600;}
+.r-route button.del{border-color:var(--stamp-red);color:var(--stamp-red);font-weight:700;}
 .r-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink-body);}
 .r-opt small{display:block;font-size:11px;color:var(--ink-muted);}
 .r-chk{cursor:pointer;} .r-chk input{width:20px;height:20px;accent-color:var(--ink);flex:none;}
@@ -283,7 +283,10 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
   background:rgba(0,0,0,.18);border-radius:8px;padding:4px 8px 5px;cursor:pointer;font-family:var(--font-ui);direction:rtl;
   color:var(--info-ink);text-align:right;position:relative;}
 .tile.on{background:var(--paper);border-color:var(--paper);color:var(--ink);border-radius:8px 8px 0 0;}
-.tile.on::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:var(--paper);}
+.tile.on::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-9px;height:10px;background:var(--paper);}
+.tile:focus{outline:none;}
+.tile:focus-visible:not(.on){outline:2px solid var(--info-gold);outline-offset:1px;}
+.tile.on{border-bottom-color:var(--paper);box-shadow:none;}
 .tile .t-lbl{font-size:10.5px;font-weight:700;opacity:.85;white-space:nowrap;}
 .tile .t-val{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;min-height:16px;white-space:nowrap;overflow:hidden;}
 .tile .t-val.dim{opacity:.55;font-weight:500;}
@@ -759,7 +762,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.03.015 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.03.017 · built by eligrt</span>
   </div>
 </div>
 
