@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.014 · built by eligrt
+     AirNotam-ISR · v1.04.015 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -788,6 +788,40 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
   box-shadow:0 2px 8px rgba(14,35,72,.35);}
 @keyframes snapMiss{from{transform:scale(.4);opacity:1}to{transform:scale(1.3);opacity:.2}}
 .footer-strip{padding-right:30px !important;padding-left:30px !important;}
+
+/* v1.04.015: update review */
+.upd{cursor:pointer;}
+.upd-sub{display:block;font-size:11px;font-weight:600;color:var(--ink-muted);margin-top:1px;}
+.u-tag{display:inline-block;font-family:var(--font-ui);font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin-inline-start:6px;vertical-align:2px;letter-spacing:0;}
+.u-new{background:#b94a3a;color:#fff;} .u-mod{background:var(--gold);color:var(--ink-dark);} .u-can{background:#6b6b6b;color:#fff;}
+.diff{margin:6px 0 4px;border:1px dashed var(--gold-lite);border-radius:6px;padding:7px 9px;background:rgba(200,160,74,.07);}
+.diff .dl{font-size:11px;font-weight:700;color:var(--ink-muted);margin-bottom:2px;font-family:var(--font-ui);}
+.diff .old{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-faint);text-decoration:line-through;margin-bottom:6px;direction:ltr;text-align:left;}
+.diff .c-text{direction:ltr;text-align:left;}
+.card.st-can{border-inline-start-color:#6b6b6b !important;opacity:.9;}
+.card.st-can .c-text{color:var(--ink-faint);text-decoration:line-through;}
+.card.st-can .c-st{background:#6b6b6b;color:#fff;}
+.rv-top{position:absolute;inset:0;z-index:2400;background:rgba(14,35,72,.45);}
+.rv-top[hidden]{display:none;}
+.rv-t{position:absolute;top:0;left:0;right:0;background:var(--paper);border-radius:0 0 14px 14px;border-top:1.5px solid var(--amber);
+  box-shadow:0 8px 24px rgba(0,0,0,.28);display:flex;flex-direction:column;direction:rtl;}
+.rv-head{padding:10px 16px 8px;border-bottom:1px solid var(--paper-edge);}
+.rv-ttl{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:16px;color:var(--ink-dark);}
+.rv-ttl small{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);font-weight:600;}
+.rv-dots{display:flex;gap:4px;margin-top:8px;}
+.rv-dots i{flex:1;height:4px;border-radius:2px;background:var(--paper-edge);} .rv-dots i.cur{background:var(--gold);}
+.rv-body{height:46vh;overflow-y:auto;padding:12px 14px;scrollbar-width:none;}
+.rv-body::-webkit-scrollbar{width:0;height:0;}
+.rv-body.more{-webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent);mask-image:linear-gradient(to bottom,#000 84%,transparent);}
+.rv-body .card{margin:0;}
+.rv-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px;border-top:1px solid var(--paper-edge);}
+.rv-nav button{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:8px;height:38px;padding:0 12px;
+  font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
+.rv-nav button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+.rv-nav .later{border:none;background:none;color:var(--ink-muted);font-weight:600;}
+.rv-grip{display:block;border:none;background:none;padding:6px 0 9px;width:100%;cursor:pointer;}
+.rv-grip span{display:block;width:38px;height:4px;border-radius:2px;background:var(--paper-edge);margin:0 auto;}
+.pu-id .u-tag{font-size:10px;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -923,7 +957,15 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
     </div>
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
   </div></div>
-    <div class="upd" id="upd"><span id="updTxt"></span><button type="button" onclick="applyPending()">רענן</button></div>
+    <div class="upd" id="upd" onclick="applyPending()"><span id="updTxt"></span><button type="button">רענן</button></div>
+    <div class="rv-top" id="rvTop" hidden onclick="if(event.target===this)rvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
+      <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
+      <div class="rv-body" id="rvBody"></div>
+      <div class="rv-nav"><button type="button" onclick="rvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
+        <button type="button" class="later" onclick="rvClose()">אסיים אחר כך</button>
+        <button type="button" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+      <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span></button>
+    </div></div>
     <div class="lsearch" id="lsearch" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
     <div class="countbar" id="count"></div>
     <div class="list" id="list"></div>
@@ -942,7 +984,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.014 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.015 · built by eligrt</span>
   </div>
 </div>
 
@@ -1058,7 +1100,10 @@ function render(opts){
   LAST_ITEMS=items;
   const S={new:[],chg:[],ok:[],irr:[]};
   items.forEach(e=>S[statusOf(e)].push(e));
+  // newly arrived NOTAMs join the top group until handled
+  S.new=S.new.filter(e=>{ if(UPD[e.id]&&UPD[e.id].t==="new"){ S.chg.push(e); return false; } return true; });
   Object.values(S).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
+  const GHOSTS=Object.keys(UPD).filter(id=>UPD[id].t==="can");
 
   const onMap=items.filter(e=>e.geo&&!offMap(e.id)).length;
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
@@ -1073,13 +1118,13 @@ function render(opts){
   const q=(LQ||"").trim().toUpperCase();
   if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>((e.id||"")+" "+(e.loc||"")+" "+(e.text||"")+" "+(e.raw||"")).toUpperCase().includes(q)); });
   const html=G.map(([k,title])=>{
-    if(!S[k].length||(k==="irr"&&!SHOW_IRR))return"";
+    if((!S[k].length&&!(k==="chg"&&GHOSTS.length&&!q))||(k==="irr"&&!SHOW_IRR))return"";
     const open=q? true : expandedGroups.has(k);
     return`<div class="group g-${k}${open?' open':''}" data-grp="${k}">`
       +`<button class="g-head" type="button" onclick="toggleGroup('${k}')" aria-expanded="${open?'true':'false'}">`
-        +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${S[k].length}</span>`
+        +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${S[k].length+(k==="chg"&&!q?GHOSTS.length:0)}</span>`
         +`<span class="g-chev">▾</span></button>`
-      +`<div class="g-body">`+S[k].map(e=>card(e,k)).join("")+`</div></div>`;
+      +`<div class="g-body">`+S[k].map(e=>card(e,k)).join("")+(k==="chg"&&!q?GHOSTS.map(ghostCard).join(""):"")+`</div></div>`;
   }).join("");
   document.getElementById("list").innerHTML=html||(q?'':'<div class="empty">אין NOTAMs בחלון הזמן הנוכחי</div>');
 
@@ -1423,16 +1468,29 @@ function card(e,st){
   }
   return`<div class="card st-${st}" data-nid="${id}">
     <div class="c-top">
-      <div class="c-head"><span class="c-id">${id}</span>
+      <div class="c-head"><span class="c-id">${id}</span>${updTag(e.id)}
         ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
       <span class="c-st">${ST_LBL[st]}</span>
     </div>
     <div class="c-badges">${cat}${alt}${rad}${geoB}${rt}${repl}</div>
-    <div class="c-text">${esc(e.text)}</div>
+    ${(UPD[e.id]&&UPD[e.id].t==="mod"&&UPD[e.id].old)
+      ? `<div class="diff"><div class="dl">לפני העדכון:</div><div class="old">${esc(UPD[e.id].old.eText||UPD[e.id].old.rawText||"")}</div><div class="dl">עכשיו:</div><div class="c-text">${esc(e.text)}</div></div>`
+      : `<div class="c-text">${esc(e.text)}</div>`}
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     <div class="c-acts">${acts}</div>
   </div>`;
 }
+function ghostCard(id){
+  const u=UPD[id]; if(!u||!u.old) return "";
+  const e=enrich(u.old), i=esc(id);
+  return `<div class="card st-can" data-nid="${i}">
+    <div class="c-top"><div class="c-head"><span class="c-id">${i}</span>${updTag(id)}${e.loc?`<span class="c-loc">${esc(e.loc)}</span>`:""}</div><span class="c-st">בוטל</span></div>
+    <div class="c-text">${esc(e.text)}</div>
+    <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+    <div class="c-acts"><button class="c-act c-ok" onclick="updAck('${i}')">הבנתי</button></div>
+  </div>`;
+}
+function updAck(id){ delete UPD[id]; saveUpd(); render({skipMap:true}); rvRender(); }
 function listReview(id){markReviewed(id);render();}
 function listUnreview(id){unmarkReviewed(id);render();}
 function listIrr(id){markIrrelevant(id);render();}
@@ -1536,7 +1594,7 @@ function puItem(e){
              : st==="irr" ? `<span class="pu-done pu-done-irr">לא רלוונטי לי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`
              : `<button class="pu-ok" onclick="puReview('${id}',event)"><b>✓ קראתי, לקחתי בחשבון</b><small>נשאר במפה בכחול</small></button>`+irrB;
   return `<div class="pu-item pu-s-${st}" data-nid="${id}">
-    <div class="pu-top"><b class="pu-id">${id}</b><span class="pu-st">${ST_LBL[st]}</span></div>
+    <div class="pu-top"><b class="pu-id">${id}${updTag(e.id)}</b><span class="pu-st">${ST_LBL[st]}</span></div>
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
     ${routeTag(e)?`<span class="pu-rt">${routeTag(e)}</span>`:""}
     <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';this.closest('.leaflet-popup')&&MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
@@ -1725,7 +1783,41 @@ const SNAP_KEY='airnotam_snapshot';
 const SNAP_MAX_AGE=12*3600*1000;          // older snapshot → take the fresh feed automatically
 let SNAP=null, PENDING=null;
 function readSnap(){try{return JSON.parse(localStorage.getItem(SNAP_KEY)||"null");}catch(e){return null;}}
+// UPD: {id:{t:"new"|"mod"|"can", old:<raw notam before the change>}} kept on the device until each item is handled
+const UPD_KEY="airnotam_upd";
+let UPD={}; try{UPD=JSON.parse(localStorage.getItem(UPD_KEY)||"{}")||{};}catch(e){UPD={};}
+function saveUpd(){ try{localStorage.setItem(UPD_KEY,JSON.stringify(UPD));}catch(e){} }
+function nHash(n){ return hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||"")); }
+function trackUpdates(oldN,newN){
+  const prev={}; oldN.forEach(n=>{prev[n.id]=n;});
+  const now={}; newN.forEach(n=>{now[n.id]=n;});
+  const replaced=new Set();
+  newN.forEach(n=>{
+    if(!(n.id in prev)){
+      if(n.replaces && prev[n.replaces]){ replaced.add(n.replaces);
+        UPD[n.id]= REVIEW[n.replaces]? {t:"mod",old:prev[n.replaces]} : {t:"new"}; delete UPD[n.replaces]; }
+      else UPD[n.id]={t:"new"};
+    }else if(nHash(prev[n.id])!==nHash(n) && REVIEW[n.id]){ UPD[n.id]={t:"mod",old:prev[n.id]}; }
+  });
+  oldN.forEach(n=>{
+    if(now[n.id]||replaced.has(n.id)) return;
+    if(REVIEW[n.id]) UPD[n.id]={t:"can",old:n}; else delete UPD[n.id];
+  });
+  saveUpd();
+}
+// entries disappear once handled: new/updated → reviewed or marked not relevant
+function updTidy(){
+  let ch=false;
+  for(const id in UPD){ const u=UPD[id];
+    if(u.t==="can"){ if(ENR_BY_ID[id]){ delete UPD[id]; ch=true; } continue; }
+    const e=ENR_BY_ID[id]; if(!e){ delete UPD[id]; ch=true; continue; }
+    const s=statusOf(e); if(s==="ok"||s==="irr"){ delete UPD[id]; ch=true; } }
+  if(ch) saveUpd();
+}
+function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
+  return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
 function applyData(data,save,savedAt){
+  if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
   ALL=data.notams||[];
   ENR=ALL.map(enrich); ENR_BY_ID={}; ENR.forEach(e=>{ENR_BY_ID[e.id]=e;});
   SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,savedAt:savedAt||Date.now()};
@@ -1735,6 +1827,7 @@ function applyData(data,save,savedAt){
   document.getElementById("meta").innerHTML=staleLine(gen,SNAP.count);
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
   PENDING=null; showUpdate(null);
+  updTidy();
   render();
 }
 function diffFeeds(oldN,newN){
@@ -1749,10 +1842,10 @@ function showUpdate(d){
   const u=document.getElementById("upd");
   if(!d){u.classList.remove("show");return;}
   const parts=[]; if(d.add)parts.push(`${d.add} ${d.add===1?"חדש":"חדשים"}`); if(d.chg)parts.push(`${d.chg} ${d.chg===1?"שונה":"שונו"}`); if(d.del)parts.push(`${d.del} ${d.del===1?"בוטל":"בוטלו"}`);
-  document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
+  document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}<small class="upd-sub">הקש כדי לסקור את השינויים</small>`;
   u.classList.add("show");
 }
-function applyPending(){ if(PENDING) applyData(PENDING,true); }
+function applyPending(){ if(PENDING) applyData(PENDING,true); rvOpen(); }
 async function load(manual){
   const meta=document.getElementById("meta");
   if(!SNAP){meta.textContent="טוען…";meta.className="metabar";}
@@ -2199,6 +2292,36 @@ function diagLine(){
 document.getElementById("snapSw").addEventListener("click",()=>setSnap(!SNAP_ON));
 
 document.getElementById("lq").addEventListener("input",ev=>{ LQ=ev.target.value; render({skipMap:true}); });
+
+// review of what changed: updated first, then new, then cancelled
+let RV_I=0, RV_ON=false;
+function rvQueue(){
+  const o={mod:0,new:1,can:2};
+  return Object.keys(UPD).filter(id=> UPD[id].t==="can" || (ENR_BY_ID[id] && isPending(ENR_BY_ID[id])))
+    .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
+}
+function rvOpen(){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; document.getElementById("rvTop").hidden=false; rvRender(); }
+function rvClose(){ RV_ON=false; document.getElementById("rvTop").hidden=true; }
+function rvStep(d){ const n=rvQueue().length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; rvRender(); }
+function rvRender(){
+  if(!RV_ON) return;
+  updTidy(); const Q=rvQueue();
+  if(!Q.length) return rvClose();
+  if(RV_I>=Q.length) RV_I=Q.length-1;
+  const id=Q[RV_I], e=ENR_BY_ID[id];
+  document.getElementById("rvCnt").textContent=`${RV_I+1} מתוך ${Q.length}`;
+  document.getElementById("rvDots").innerHTML=Q.map((_,i)=>`<i class="${i===RV_I?"cur":""}"></i>`).join("");
+  const b=document.getElementById("rvBody");
+  b.innerHTML= UPD[id].t==="can"? ghostCard(id) : card(e,statusOf(e));
+  b.scrollTop=0; requestAnimationFrame(()=>b.classList.toggle("more", b.scrollHeight>b.clientHeight+4));
+}
+document.getElementById("rvBody").addEventListener("scroll",ev=>{ const b=ev.target; b.classList.toggle("more", b.scrollTop+b.clientHeight < b.scrollHeight-4); },{passive:true});
+// after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
+document.getElementById("rvBody").addEventListener("click",ev=>{
+  const a=ev.target.closest(".c-act"); if(!a) return;
+  if(a.classList.contains("c-go")){ rvClose(); return; }
+  setTimeout(rvRender,60);
+});
 
 // ── boot ──
 FLIGHT=loadFlight();
