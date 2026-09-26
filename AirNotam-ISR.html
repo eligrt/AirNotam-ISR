@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.012 · built by eligrt
+     AirNotam-ISR · v1.04.013 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AirNotam-ISR">
@@ -30,10 +30,10 @@
   --r:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(--font-ui);color:var(--ink-body);
-  overflow:hidden;position:fixed;width:100%;overscroll-behavior:none;
+html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);color:var(--ink-body);
+  overflow:hidden;overscroll-behavior:none;
   -webkit-overflow-scrolling:touch;touch-action:manipulation;}
-#app{height:100%;height:100dvh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
+#app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
   background:var(--paper);
   background-image:repeating-linear-gradient(0deg,transparent 0,transparent 27px,var(--paper-line) 27px,var(--paper-line) 28px);}
 
@@ -166,9 +166,9 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 /* popup */
 .pu-wrap{max-height:300px;overflow-y:auto;overflow-x:hidden;direction:rtl;padding-left:6px;
   scrollbar-width:thin;scrollbar-color:var(--gold-lite) transparent;}
-.pu-wrap::-webkit-scrollbar{width:5px;}
-.pu-wrap::-webkit-scrollbar-track{background:transparent;}
-.pu-wrap::-webkit-scrollbar-thumb{background:var(--gold-lite);border-radius:3px;}
+.pu-wrap::-webkit-scrollbar{width:0;height:0;}
+.pu-wrap{scrollbar-width:none !important;padding-left:0 !important;}
+.pu-wrap.more{-webkit-mask-image:linear-gradient(to bottom,#000 82%,transparent);mask-image:linear-gradient(to bottom,#000 82%,transparent);}
 .pu-wrap::-webkit-scrollbar-button{display:none;height:0;}
 .pu-cnt{font-size:11px;font-weight:700;color:var(--ink-muted);margin-bottom:2px;}
 .pu-item{border-top:1px solid var(--paper-edge);padding:9px 0 10px;overflow:hidden;
@@ -634,8 +634,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 .pu-g .g-n{font-size:12px;color:var(--ink-muted);margin-top:1px;}
 
 /* v1.04.002: map layers panel, tile status word, iPhone full-screen */
-#app{position:fixed;top:0;right:0;bottom:0;left:0;height:auto;max-width:none;margin:0 auto;}
-@media (min-width:600px){#app{max-width:430px;}}
+@media (max-width:599px){#app{max-width:none;}}
 .sp-head{padding-top:max(14px, calc(env(safe-area-inset-top, 0px) + 8px));}
 .vh-f{color:var(--info-gold);} .tile.on .vh-f{color:var(--gold-deep);}
 .leaflet-control-attribution{direction:ltr;text-align:left;}
@@ -750,9 +749,12 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 /* v1.04.009: banner in the flow, list search, route markers */
 .upd{position:relative !important;top:auto !important;left:auto !important;right:auto !important;margin:8px 10px 0;flex-shrink:0;}
 .lsearch{flex-shrink:0;padding:8px 14px 0;}
-.lsearch input{width:100%;height:38px;border:1px solid var(--paper-edge);border-radius:9px;background:#fff;padding:0 12px;
-  font-family:var(--font-ui);font-size:15px;color:var(--ink-dark);direction:rtl;outline:none;-webkit-appearance:none;appearance:none;}
-.lsearch input:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(28,61,110,.12);}
+.lsearch{position:relative;}
+.lsearch input{width:100%;height:40px;border:1px solid var(--paper-edge);border-radius:6px;background:var(--paper-hi);padding:0 34px 0 10px;
+  font-family:var(--font-mono);font-size:15px;color:var(--ink-body);direction:rtl;outline:none;-webkit-appearance:none;appearance:none;}
+.lsearch input::placeholder{font-family:var(--font-ui);color:var(--ink-faint);font-size:14px;}
+.lsearch input:focus{border-color:var(--gold);}
+.lsearch svg{position:absolute;right:24px;top:50%;margin-top:-4px;width:16px;height:16px;fill:none;stroke:var(--ink-faint);stroke-width:2;stroke-linecap:round;pointer-events:none;}
 .rp-m svg{display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));}
 .rt-lbm{position:relative;width:0;height:0;}
 .rt-lbm span{position:absolute;left:0;transform:translateX(-50%);white-space:nowrap;direction:rtl;
@@ -921,7 +923,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
   </div></div>
     <div class="upd" id="upd"><span id="updTxt"></span><button type="button" onclick="applyPending()">רענן</button></div>
-    <div class="lsearch" id="lsearch" style="display:none"><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
+    <div class="lsearch" id="lsearch" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
     <div class="countbar" id="count"></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
@@ -939,7 +941,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.012 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.013 · built by eligrt</span>
   </div>
 </div>
 
@@ -1559,7 +1561,11 @@ function openAt(ll,firstId){
   ids.sort((a,b)=> (a===firstId?-1:b===firstId?1:0) || rank(a)-rank(b) || (ENR_BY_ID[a].radiusNm||0)-(ENR_BY_ID[b].radiusNm||0));
   POP_IDS=ids;
   const node=document.createElement("div"); node.innerHTML=popupHtml(ids,gh);   // a live node, so update() keeps our in-place edits
-  L.popup({maxWidth:310,minWidth:260,autoPanPadding:[20,40]}).setLatLng(ll).setContent(node).openOn(MAP);
+  const mr=MAP.getContainer().getBoundingClientRect(), lg=document.querySelector(".map-legend");
+  const top= lg? Math.round(lg.getBoundingClientRect().bottom-mr.top)+12 : 40;
+  const w=node.querySelector(".pu-wrap"); if(w) w.style.maxHeight=Math.max(180,Math.min(340,mr.height-top-90))+"px";
+  L.popup({maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
+  if(w){ const f=()=>w.classList.toggle("more", w.scrollTop+w.clientHeight < w.scrollHeight-4); w.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); }
 }
 function popupHtml(ids,gh){
   return `<div class="pu-wrap">${ids.length>1?`<div class="pu-cnt">${ids.length} NOTAMs בנקודה זו</div>`:""}`
