@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.017 · built by eligrt
+     AirNotam-ISR · v1.04.018 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -813,12 +813,21 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .rv-ttl small{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);font-weight:600;}
 .rv-dots{display:flex;gap:4px;margin-top:8px;}
 .rv-dots i{flex:1;height:4px;border-radius:2px;background:var(--paper-edge);} .rv-dots i.cur{background:var(--gold);}
-.rv-body{height:285px;overflow:hidden;padding:12px 14px;}
+.rv-body{min-height:285px;padding:12px 14px;}
 .rv-body .c-text,.rv-body .old{max-height:150px;overflow-y:auto;scrollbar-width:none;}
 .rv-body .diff .c-text,.rv-body .diff .old{max-height:64px;}
 .rv-body .c-text::-webkit-scrollbar,.rv-body .old::-webkit-scrollbar{width:0;height:0;}
 .rv-body .more{-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent);}
-.rv-note{font-size:11px;font-weight:600;color:var(--ink-muted);text-align:center;padding:0 14px 2px;}
+.rv-toast{position:absolute;top:12px;left:16px;right:16px;z-index:2450;background:var(--ink-dark);color:var(--paper-hi);border-radius:8px;
+  padding:9px 12px;font-family:var(--font-ui);font-size:12.5px;font-weight:600;line-height:1.4;text-align:center;direction:rtl;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .3s ease,transform .3s ease;}
+.rv-toast.show{opacity:1;transform:translateY(0);}
+/* v1.04.018: update banner on the map, soft fade */
+.upd{transition:opacity .3s ease;}
+.upd.hiding{display:flex;opacity:0;pointer-events:none;}
+#stage.v-map .upd{position:absolute !important;top:8px !important;left:10px !important;right:10px !important;margin:0;}
+#stage .leaflet-top{transition:top .3s ease;}
+#stage.v-map.upd-on .leaflet-top{top:var(--updh,0px);}
 .rv-body .card{margin:0;}
 .rv-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px;border-top:1px solid var(--paper-edge);}
 .rv-nav button{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:8px;height:38px;padding:0 12px;
@@ -970,7 +979,6 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <div class="rv-nav"><button type="button" onclick="rvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
         <button type="button" class="later" onclick="rvClose()">אסיים אחר כך</button>
         <button type="button" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-      <div class="rv-note">מה שלא סיימת נשאר ברשימה, בקבוצה "עודכנו מאז שבדקת"</div>
       <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span></button>
     </div></div>
     <div class="lsearch" id="lsearch" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
@@ -991,7 +999,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.017 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.018 · built by eligrt</span>
   </div>
 </div>
 
@@ -1788,6 +1796,7 @@ function setView(v){
   document.getElementById("lsearch").style.display= isList? "block":"none";
   document.getElementById("vList").classList.toggle("on", isList);
   document.getElementById("vMap").classList.toggle("on", isMap);
+  document.getElementById("stage").classList.toggle("v-map", isMap); updPos();
   if(isMap){ initMap(); renderMap(); drawRoute(); }
   try{ gisPanelToggle(false); gisTabPos(); }catch(_){}
   try{updateScrollCue();}catch(_){}
@@ -1853,12 +1862,19 @@ function diffFeeds(oldN,newN){
   const del=oldN.filter(n=>!seen.has(n.id)).length;
   return {add,chg,del};
 }
+function updPos(){
+  const u=document.getElementById("upd"), s=document.getElementById("stage"), on=u.classList.contains("show");
+  s.classList.toggle("upd-on", on);
+  if(on) s.style.setProperty("--updh", (u.offsetHeight+10)+"px");
+}
 function showUpdate(d){
   const u=document.getElementById("upd");
-  if(!d){u.classList.remove("show");return;}
+  if(!d){ // (b) fade out instead of vanishing
+    if(u.classList.contains("show")){ u.classList.add("hiding"); u.classList.remove("show"); setTimeout(()=>u.classList.remove("hiding"),350); }
+    updPos(); return; }
   const parts=[]; if(d.add)parts.push(`${d.add} ${d.add===1?"חדש":"חדשים"}`); if(d.chg)parts.push(`${d.chg} ${d.chg===1?"שונה":"שונו"}`); if(d.del)parts.push(`${d.del} ${d.del===1?"בוטל":"בוטלו"}`);
   document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
-  u.classList.add("show");
+  u.classList.add("show"); updPos();
 }
 function applyPending(){ if(PENDING) applyData(PENDING,true); rvOpen(); }
 async function load(manual){
@@ -2057,10 +2073,7 @@ document.querySelectorAll("#fGrace button").forEach(b=>b.addEventListener("click
 ["fDate","fTkof","fLdg"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{
   document.getElementById("fErr").style.display="none";updateCalc();}));
 // ask for the flight once the disclaimer is out of the way
-function maybeAskFlight(){
-  if(document.getElementById("disc").classList.contains("show"))return;
-  if(!flightValid(FLIGHT)) openFlightDlg();
-}
+function maybeAskFlight(){ /* v1.04.018: no auto-open, the "מתי" tile asks for the flight time */ }
 
 
 /* ── v1.04.001: IAA GIS layers (lazy: each layer file is fetched only when switched on, then cached) ── */
@@ -2316,7 +2329,18 @@ function rvQueue(){
     .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
 }
 function rvOpen(){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; rvRender(); document.getElementById("rvTop").classList.add("show"); }
-function rvClose(){ RV_ON=false; document.getElementById("rvTop").classList.remove("show"); }
+function rvClose(quiet){
+  const was=RV_ON; RV_ON=false; document.getElementById("rvTop").classList.remove("show");
+  if(was && !quiet && rvQueue().length) rvToast('הפריטים שלא סיימת מחכים ברשימה, בקבוצה "עודכנו מאז שבדקת"');
+}
+let RV_TT=null;
+function rvToast(t){
+  let el=document.getElementById("rvToast");
+  if(!el){ el=document.createElement("div"); el.id="rvToast"; el.className="rv-toast"; document.getElementById("stage").appendChild(el); }
+  el.textContent=t; clearTimeout(RV_TT);
+  setTimeout(()=>el.classList.add("show"),300);
+  RV_TT=setTimeout(()=>el.classList.remove("show"),3600);
+}
 function rvStep(d){ const n=rvQueue().length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; rvRender(); }
 function rvRender(){
   if(!RV_ON) return;
@@ -2329,15 +2353,13 @@ function rvRender(){
   const b=document.getElementById("rvBody");
   b.innerHTML= UPD[id].t==="can"? ghostCard(id) : card(e,statusOf(e));
   requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old").forEach(rvFade));
-  // safety: if a card is still taller than the fixed area, let the area scroll
-  requestAnimationFrame(()=>{ b.style.overflowY= b.scrollHeight>b.clientHeight+2? "auto":"hidden"; b.scrollTop=0; });
 }
 function rvFade(x){ x.classList.toggle("more", x.scrollTop+x.clientHeight < x.scrollHeight-4); }
 document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old")) rvFade(x); },{passive:true,capture:true});
 // after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
 document.getElementById("rvBody").addEventListener("click",ev=>{
   const a=ev.target.closest(".c-act"); if(!a) return;
-  if(a.classList.contains("c-go")){ rvClose(); return; }
+  if(a.classList.contains("c-go")){ rvClose(true); return; }
   setTimeout(rvRender,60);
 });
 
