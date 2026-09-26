@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.008 · built by eligrt
+     AirNotam-ISR · v1.04.009 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -746,6 +746,18 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
   border-radius:8px;padding:6px 10px;font-family:var(--font-ui);font-size:12px;font-weight:600;line-height:1.35;direction:rtl;text-align:right;
   box-shadow:0 2px 8px rgba(14,35,72,.3);cursor:pointer;border-inline-start:3px solid var(--info-gold);}
 .fstrip[hidden]{display:none;}
+
+/* v1.04.009: banner in the flow, list search, route markers */
+.upd{position:relative !important;top:auto !important;left:auto !important;right:auto !important;margin:8px 10px 0;flex-shrink:0;}
+.lsearch{flex-shrink:0;padding:8px 14px 0;}
+.lsearch input{width:100%;height:38px;border:1px solid var(--paper-edge);border-radius:9px;background:#fff;padding:0 12px;
+  font-family:var(--font-ui);font-size:15px;color:var(--ink-dark);direction:rtl;outline:none;-webkit-appearance:none;appearance:none;}
+.lsearch input:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(28,61,110,.12);}
+.rp-m svg{display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));}
+.rt-lbm{position:relative;width:0;height:0;}
+.rt-lbm span{position:absolute;left:0;transform:translateX(-50%);white-space:nowrap;direction:rtl;
+  background:var(--paper-hi);color:var(--ink-dark);border:1px solid var(--gold-lite);border-radius:5px;
+  font-family:var(--font-ui);font-weight:700;font-size:11.5px;padding:1px 6px;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -786,6 +798,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
   <div class="setp" id="setp" role="dialog" aria-labelledby="setTtl">
     <div class="sp-head"><div class="sp-ttl" id="setTtl">הגדרות</div><button type="button" class="sp-x" onclick="closeSettings()">✕ סגור</button></div>
     <div class="sp-body">
+      <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;word-break:break-word;"></div>
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
@@ -881,6 +894,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
   </div></div>
     <div class="upd" id="upd"><span id="updTxt"></span><button type="button" onclick="applyPending()">רענן</button></div>
+    <div class="lsearch" id="lsearch" style="display:none"><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
     <div class="countbar" id="count"></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
@@ -898,7 +912,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.008 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.009 · built by eligrt</span>
   </div>
 </div>
 
@@ -1007,6 +1021,7 @@ function passFilters(e){
 
 // ── render list + counters (+ map unless skipMap) ──
 let LAST_ITEMS=[];
+let LQ="";
 function render(opts){
   opts=opts||{};
   const items=ENR.filter(passFilters);
@@ -1024,16 +1039,19 @@ function render(opts){
   READY.irr=S.irr.length;
 
   const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נבדקו"],["ok","נבדקו"],["irr","סימנתי כלא רלוונטיים לי"]];
+  // list search: plain text, case-insensitive, anywhere in ID / airfield / full text (list only, the map is not affected)
+  const q=(LQ||"").trim().toUpperCase();
+  if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>((e.id||"")+" "+(e.loc||"")+" "+(e.text||"")+" "+(e.raw||"")).toUpperCase().includes(q)); });
   const html=G.map(([k,title])=>{
     if(!S[k].length||(k==="irr"&&!SHOW_IRR))return"";
-    const open=expandedGroups.has(k);
+    const open=q? true : expandedGroups.has(k);
     return`<div class="group g-${k}${open?' open':''}" data-grp="${k}">`
       +`<button class="g-head" type="button" onclick="toggleGroup('${k}')" aria-expanded="${open?'true':'false'}">`
         +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${S[k].length}</span>`
         +`<span class="g-chev">▾</span></button>`
       +`<div class="g-body">`+S[k].map(e=>card(e,k)).join("")+`</div></div>`;
   }).join("");
-  document.getElementById("list").innerHTML=html||'<div class="empty">אין NOTAMs בחלון הזמן הנוכחי</div>';
+  document.getElementById("list").innerHTML=html||(q?'':'<div class="empty">אין NOTAMs בחלון הזמן הנוכחי</div>');
 
   if(!opts.skipMap && currentView==="map") renderMap();
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
@@ -1170,6 +1188,14 @@ function routeGap(e){ if(!e.geo||ROUTE.length<2) return null; return Math.max(0,
 function inCorridor(e){ const g=routeGap(e); return g==null || g<=CORR_NM; }
 function routeLenNm(){let d=0;for(let i=0;i<ROUTE.length-1;i++){const [a,b]=ROUTE[i],[c,f]=ROUTE[i+1],k=Math.cos((a+c)/2*Math.PI/180);d+=Math.hypot((f-b)*60*k,(c-a)*60);}return d;}
 function routeTag(e){ const g=routeGap(e); if(g==null) return ""; return g<=0? "חוצה את המסלול" : g.toFixed(1)+"NM מהמסלול"; }
+const RP_FLAG='<svg width="26" height="30" viewBox="0 0 26 30"><path d="M5 29V3" stroke="#0e2348" stroke-width="2.6" stroke-linecap="round"/><path d="M6 3h15l-4 5 4 5H6z" fill="#c8a04a" stroke="#0e2348" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+const RP_CHECK='<svg width="28" height="30" viewBox="0 0 28 30"><defs><pattern id="rpck" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#fff"/><rect width="3" height="3" fill="#1a1308"/><rect x="3" y="3" width="3" height="3" fill="#1a1308"/></pattern></defs><path d="M5 29V3" stroke="#0e2348" stroke-width="2.6" stroke-linecap="round"/><path d="M6 3h18v12H6z" fill="url(#rpck)" stroke="#0e2348" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+function routeIcon(kind,i){
+  if(kind==="start") return L.divIcon({className:"rp-m",html:RP_FLAG,iconSize:[26,30],iconAnchor:[5,29]});
+  if(kind==="end")   return L.divIcon({className:"rp-m",html:RP_CHECK,iconSize:[28,30],iconAnchor:[5,29]});
+  return L.divIcon({className:"rp-m",iconSize:[26,34],iconAnchor:[13,33],
+    html:`<svg width="26" height="34" viewBox="0 0 26 34"><path d="M13 33C13 33 2 20 2 12.5A11 11 0 0 1 24 12.5C24 20 13 33 13 33Z" fill="#8a6a2a" stroke="#fff" stroke-width="2"/><text x="13" y="16.5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#fff">${i}</text></svg>`});
+}
 function drawRoute(){
   if(!MAP||!ROUTE_LAYER) return;
   ROUTE_LAYER.clearLayers();
@@ -1182,11 +1208,17 @@ function drawRoute(){
     L.polyline(ll,{color:"#c8a04a",weight:w,opacity:.2,lineCap:"round",lineJoin:"round",interactive:false}).addTo(ROUTE_LAYER);
     L.polyline(ll,{color:"#8a6a2a",weight:3,opacity:.95,interactive:false}).addTo(ROUTE_LAYER);
   }
-  ll.forEach((p,i)=>L.circleMarker(p,{radius:i===0||i===ll.length-1?6:4,color:"#8a6a2a",weight:2,fillColor:"#fbf6e8",fillOpacity:1,interactive:false}).addTo(ROUTE_LAYER));
-  if(DRAWING || MAP.getZoom()>=9){
-    ROUTE.forEach(p=>{ if(p[2]) L.tooltip({permanent:true,direction:"top",offset:[0,-7],className:"rt-lbl",interactive:false})
-      .setLatLng([p[0],p[1]]).setContent(esc(p[2])).addTo(ROUTE_LAYER); });
-  }
+  const last=ll.length-1, showLbl=DRAWING || MAP.getZoom()>=9;
+  ll.forEach((p,i)=>{
+    const kind= i===0? "start" : (i===last&&last>0)? "end" : "pin";
+    L.marker(p,{icon:routeIcon(kind,i),interactive:false,keyboard:false}).addTo(ROUTE_LAYER);
+    const nm=ROUTE[i][2];
+    if(nm&&showLbl){
+      const up= kind==="pin"? 36 : 32;
+      L.marker(p,{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+        html:`<div class="rt-lbm"><span style="bottom:${up}px">${esc(nm)}</span></div>`})}).addTo(ROUTE_LAYER);
+    }
+  });
 }
 function drawUi(){
   try{renderHints();}catch(_){}
@@ -1620,6 +1652,7 @@ function setView(v){
   document.getElementById("map").style.display  = isMap? "block":"none";
   if(!isMap){const em=document.getElementById("mapEmpty"); if(em) em.style.display="none";}
   document.getElementById("count").style.display= isList? "block":"none";
+  document.getElementById("lsearch").style.display= isList? "block":"none";
   document.getElementById("vList").classList.toggle("on", isList);
   document.getElementById("vMap").classList.toggle("on", isMap);
   if(isMap){ initMap(); renderMap(); drawRoute(); }
@@ -1654,7 +1687,7 @@ function diffFeeds(oldN,newN){
 function showUpdate(d){
   const u=document.getElementById("upd");
   if(!d){u.classList.remove("show");return;}
-  const parts=[]; if(d.add)parts.push(`${d.add} חדשים`); if(d.chg)parts.push(`${d.chg} שונו`); if(d.del)parts.push(`${d.del} בוטלו`);
+  const parts=[]; if(d.add)parts.push(`${d.add} ${d.add===1?"חדש":"חדשים"}`); if(d.chg)parts.push(`${d.chg} ${d.chg===1?"שונה":"שונו"}`); if(d.del)parts.push(`${d.del} ${d.del===1?"בוטל":"בוטלו"}`);
   document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
   u.classList.add("show");
 }
@@ -1798,7 +1831,7 @@ function openFlightDlg(){
   document.getElementById("fdlg").classList.add("show");
   document.getElementById("flEdit").classList.add("on");
 }
-function openSettings(){ closeCurtains(); renderSettings(); document.getElementById("setp").classList.add("show"); }
+function openSettings(){ closeCurtains(); renderSettings(); document.getElementById("setp").classList.add("show"); try{diagLine();}catch(_){} }
 function closeSettings(){ document.getElementById("setp").classList.remove("show"); }
 function renderSettings(){ document.querySelectorAll("#corrSeg button").forEach(b=>b.classList.toggle("on",+b.dataset.c===CORR_NM)); }
 document.querySelectorAll("#corrSeg button").forEach(b=>b.addEventListener("click",()=>{
@@ -1864,16 +1897,16 @@ function maybeAskFlight(){
 /* ── v1.04.001: IAA GIS layers (lazy: each layer file is fetched only when switched on, then cached) ── */
 const GIS_VER="2023a";
 const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy"];
-const GIS_DEF={ctr:1,tma:1,prd:1,sport:1,cvfr:0,ifr:0,ratag:0,rwy:1};
+const GIS_DEF={ctr:0,tma:0,prd:0,sport:1,cvfr:1,ifr:0,ratag:0,rwy:0};
 // muted palette: never NOTAM red / blue / grey
 const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#7b2d8e",R:"#9b59b6",D:"#b58ac4",
   ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f6f3f",cvfr:"#0f766e",ifr:"#4d5a1f",rwy:"#1a1308"};
 const GIS_PT_ZOOM=9;
-let GIS_ON={}; try{GIS_ON=JSON.parse(localStorage.getItem("airnotam_gis")||"{}")||{};}catch(e){GIS_ON={};}
+let GIS_ON={}; try{GIS_ON=JSON.parse(localStorage.getItem("airnotam_gis2")||"{}")||{};}catch(e){GIS_ON={};}
 const GIS={lay:{},pts:{},idx:{},busy:{},R:{},sty:{}};
 const GIS_FILL_ZOOM=9; let GIS_FILLED=null;
 const gisOn=id=> id in GIS_ON ? !!GIS_ON[id] : !!GIS_DEF[id];
-function gisSave(){ try{localStorage.setItem("airnotam_gis",JSON.stringify(GIS_ON));}catch(e){} }
+function gisSave(){ try{localStorage.setItem("airnotam_gis2",JSON.stringify(GIS_ON));}catch(e){} }
 function gisStatus(id,txt,err){
   const s=document.getElementById("gst_"+id); if(s){ s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
   const c=document.getElementById("gc_"+id); if(c){ c.classList.toggle("ld",!!txt&&!err); c.classList.toggle("er",!!err); }
@@ -2083,9 +2116,21 @@ function fitAppHeight(){
   else { app.style.height=""; app.style.bottom=""; }
   if(MAP) setTimeout(()=>MAP.invalidateSize(),60);
 }
-fitAppHeight(); addEventListener("resize",fitAppHeight); addEventListener("orientationchange",()=>setTimeout(fitAppHeight,300));
+// (v1.04.009) the forced full-screen height pushed the footer out of view on iPhone → disabled; measuring first (diagnostic in settings)
+function diagLine(){
+  const el=document.getElementById("diagLine"); if(!el) return;
+  const pr=document.createElement("div");
+  pr.style.cssText="position:fixed;top:0;left:0;visibility:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)";
+  document.body.appendChild(pr); const cs=getComputedStyle(pr), st=parseFloat(cs.paddingTop)||0, sb=parseFloat(cs.paddingBottom)||0; pr.remove();
+  const sa=window.navigator.standalone===true || (window.matchMedia&&matchMedia("(display-mode: standalone)").matches);
+  const vv=window.visualViewport? Math.round(visualViewport.height) : "-";
+  const app=document.getElementById("app").getBoundingClientRect();
+  el.textContent=`diag · screen ${screen.width}x${screen.height} · inner ${innerWidth}x${innerHeight} · vv ${vv} · docEl ${document.documentElement.clientHeight} · app ${Math.round(app.height)} · safe ${st}/${sb} · dpr ${devicePixelRatio} · ${sa?"standalone":"browser"}`;
+}
 
 document.getElementById("snapSw").addEventListener("click",()=>setSnap(!SNAP_ON));
+
+document.getElementById("lq").addEventListener("input",ev=>{ LQ=ev.target.value; render({skipMap:true}); });
 
 // ── boot ──
 FLIGHT=loadFlight();
