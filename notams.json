@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-26T11:12:52.134Z",
+  "generatedAt": "2026-09-26T16:14:01.541Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 133,
+  "count": 131,
   "notams": [
     {
       "id": "C2045/26",
@@ -37,40 +37,6 @@
       "replaces": null,
       "rawText": "C2045/26 NOTAMN Q) LLLL/QFHLC/IV/NBO/A /000/999/3146N03509E005 A) LLHD B) 2609270500 C) 2609301300 E) ROOF HELIPAD CLSD, HEL SHALL LAND ON GROUND HELIPAD ONLY.))",
       "rowID": "2062986"
-    },
-    {
-      "id": "C2044/26",
-      "location": "LLMZ",
-      "locationDescription": "Metzada",
-      "fromDate": "2026-09-26T05:00:00.000Z",
-      "toDate": "2026-09-26T14:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AIRSTRIP CLSD TO ALL FLTS.",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2044/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3120N03523E005 A) LLMZ B) 2609260500 C) 2609261400 E) AIRSTRIP CLSD TO ALL FLTS.)",
-      "rowID": "2062790"
     },
     {
       "id": "C2043/26",
@@ -3738,21 +3704,6 @@
       "replaces": null,
       "rawText": "A0616/26 NOTAMN Q) LLLL/QRRCA/IV/BO /W /070/400/3247N03441E022 A) LLLL B) 2608061630 C) PERM E) LLR01 ACTIVATED H24, XNG MERVA NOT AVBL EXC BY ATC. TFC TO/FM LLHA AVBL VIA MERVA BIDIRECTIONAL AT 5,000FT AMSL. ISRAEL AIP, PART ENR 5.1, PAGE ENR 5.1-3, PARA 2, CHART ENR 6-1 REF. F) 7000FT AMSL G) 40000FT AMSL)",
       "rowID": "2043145"
-    },
-    {
-      "id": "A0612/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-08-05T16:30:00.000Z",
-      "toDate": "2028-08-06T14:20:00.000Z",
-      "qLine": null,
-      "eText": "ATS RTE L53 BTN TALMI-TAPUZ AND N134 BTN VOLFO-SALAM AVBL H24 BTN 11,000-16,000FT FOR TFC WITH ARR/DEP AT AD WITHIN AMMAN FIR, LLER, LLNV, LLOV AND LLRM ONLY, AVBL H24 ABV 17,000FT FOR MIL TFC ONLY.",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0612/26 NOTAMN Q) LLLL/QANLT/I /NBO/E /050/600/3205N03450E039 A) LLLL B) 2608051630 C) 2808061420 E) ATS RTE L53 BTN TALMI-TAPUZ AND N134 BTN VOLFO-SALAM AVBL H24 BTN 11,000-16,000FT FOR TFC WITH ARR/DEP AT AD WITHIN AMMAN FIR, LLER, LLNV, LLOV AND LLRM ONLY, AVBL H24 ABV 17,000FT FOR MIL TFC ONLY.)",
-      "rowID": "2043133"
     },
     {
       "id": "C1556/26",
