@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.009 · built by eligrt
+     AirNotam-ISR · v1.04.012 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -758,6 +758,33 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
 .rt-lbm span{position:absolute;left:0;transform:translateX(-50%);white-space:nowrap;direction:rtl;
   background:var(--paper-hi);color:var(--ink-dark);border:1px solid var(--gold-lite);border-radius:5px;
   font-family:var(--font-ui);font-weight:700;font-size:11.5px;padding:1px 6px;box-shadow:0 1px 4px rgba(14,35,72,.25);}
+.db-txt.db-warn{color:var(--info-gold);font-weight:700;}
+
+/* v1.04.011: legend scope line, תצוגה tab in both views, snap point names */
+.map-legend{flex-wrap:wrap;row-gap:3px;max-width:300px;}
+.lg-scope{flex-basis:100%;display:flex;align-items:flex-start;gap:5px;border-top:1px dashed var(--paper-edge);padding-top:4px;
+  font-size:11px;font-weight:700;color:var(--gold-deep);line-height:1.3;cursor:pointer;}
+.lg-scope svg{flex:none;margin-top:1px;}
+.lg-scope[hidden]{display:none;}
+#stage>.gtab{position:absolute;}
+#stage.drawing-on .gtab{display:none;}
+#stage>.gsheet{position:absolute;}
+.gsheet.list-mode .gs-mapsec{display:none !important;}
+.gsheet.list-mode .gs-nt{border-top:none;margin-top:0;padding-top:0;}
+.gs-x2{display:none;}
+.gsheet.list-mode .gs-x2{display:block;}
+.gt-in svg{stroke-linecap:round;}
+.sn-lbm{position:relative;width:0;height:0;}
+.sn-lbm span{position:absolute;left:7px;top:-8px;white-space:nowrap;direction:rtl;font-family:var(--font-ui);font-size:10.5px;font-weight:700;
+  color:var(--ink-dark);text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff;}
+/* v1.04.012: "no point here" message at the tap */
+.snap-miss{position:relative;width:0;height:0;}
+.snap-miss i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:2.5px solid var(--info-gold);
+  box-sizing:border-box;animation:snapMiss .6s ease-out 2;}
+.snap-miss span{position:absolute;left:0;bottom:20px;transform:translateX(-50%);white-space:nowrap;direction:rtl;
+  background:var(--ink-dark);color:var(--paper-hi);border-radius:7px;padding:4px 9px;font-family:var(--font-ui);font-size:12px;font-weight:700;
+  box-shadow:0 2px 8px rgba(14,35,72,.35);}
+@keyframes snapMiss{from{transform:scale(.4);opacity:1}to{transform:scale(1.3);opacity:.2}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -912,7 +939,7 @@ html,body{height:100%;height:100dvh;background:var(--paper-hi);font-family:var(-
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.009 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.012 · built by eligrt</span>
   </div>
 </div>
 
@@ -1087,7 +1114,8 @@ function renderFilterStrip(T,R,G){
   else if(T) t="מוצגים רק NOTAMs בזמני הטיסה";
   else if(R) t="מוצגים רק NOTAMs ליד המסלול";
   if(G) t= t? t+' · מוסתרים "לא רלוונטי"' : 'מוסתרים NOTAMs שסימנתי כ"לא רלוונטי"';
-  el.textContent=t; el.hidden=!t;
+  el.innerHTML= t? '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg><span>'+esc(t)+'</span>' : "";
+  el.hidden=!t;
 }
 function renderHints(){
   const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint");
@@ -1194,7 +1222,7 @@ function routeIcon(kind,i){
   if(kind==="start") return L.divIcon({className:"rp-m",html:RP_FLAG,iconSize:[26,30],iconAnchor:[5,29]});
   if(kind==="end")   return L.divIcon({className:"rp-m",html:RP_CHECK,iconSize:[28,30],iconAnchor:[5,29]});
   return L.divIcon({className:"rp-m",iconSize:[26,34],iconAnchor:[13,33],
-    html:`<svg width="26" height="34" viewBox="0 0 26 34"><path d="M13 33C13 33 2 20 2 12.5A11 11 0 0 1 24 12.5C24 20 13 33 13 33Z" fill="#8a6a2a" stroke="#fff" stroke-width="2"/><text x="13" y="16.5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#fff">${i}</text></svg>`});
+    html:`<svg width="26" height="34" viewBox="0 0 26 34"><path d="M13 33C13 33 2 20 2 12.5A11 11 0 0 1 24 12.5C24 20 13 33 13 33Z" fill="#0e2348" stroke="#fff" stroke-width="2"/><text x="13" y="16.5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#f5c518">${i}</text></svg>`});
 }
 function drawRoute(){
   if(!MAP||!ROUTE_LAYER) return;
@@ -1206,7 +1234,8 @@ function drawRoute(){
     const lat=ll[0].lat, mpp=40075016.686*Math.cos(lat*Math.PI/180)/Math.pow(2,MAP.getZoom()+8);
     const w=Math.max(4,2*CORR_NM*1852/mpp);
     L.polyline(ll,{color:"#c8a04a",weight:w,opacity:.2,lineCap:"round",lineJoin:"round",interactive:false}).addTo(ROUTE_LAYER);
-    L.polyline(ll,{color:"#8a6a2a",weight:3,opacity:.95,interactive:false}).addTo(ROUTE_LAYER);
+    L.polyline(ll,{color:"#0e2348",weight:7,opacity:1,interactive:false,lineCap:"round",lineJoin:"round"}).addTo(ROUTE_LAYER);
+    L.polyline(ll,{color:"#f5c518",weight:3.5,opacity:1,interactive:false,lineCap:"round",lineJoin:"round"}).addTo(ROUTE_LAYER);
   }
   const last=ll.length-1, showLbl=DRAWING || MAP.getZoom()>=9;
   ll.forEach((p,i)=>{
@@ -1250,13 +1279,21 @@ function snapLoad(){
     SNAP_PTS=out.length? out : null; return SNAP_PTS;
   });
 }
+let SNAP_ZOOM_HOOK=false;
 function snapShow(){
+  if(MAP&&!SNAP_ZOOM_HOOK){ SNAP_ZOOM_HOOK=true; MAP.on("zoomend moveend",()=>{ if(DRAWING) snapShow(); }); }
   if(!MAP) return;
   if(!SNAP_LAYER){ const pn=MAP.createPane("g_snap"); pn.style.zIndex=398; pn.style.pointerEvents="none"; SNAP_LAYER=L.layerGroup(); }
   SNAP_LAYER.clearLayers();
-  if(!(DRAWING&&SNAP_ON&&SNAP_PTS)){ MAP.removeLayer(SNAP_LAYER); return; }
+  if(!(DRAWING&&SNAP_ON&&SNAP_PTS&&MAP.getZoom()>=9)){ MAP.removeLayer(SNAP_LAYER); return; }
   const r=L.canvas({pane:"g_snap"});
   SNAP_PTS.forEach(o=>L.circleMarker([o.lat,o.lon],{renderer:r,pane:"g_snap",interactive:false,radius:3.5,weight:1.5,color:"#8a6a2a",fillColor:"#fbf6e8",fillOpacity:1}).addTo(SNAP_LAYER));
+  if(MAP.getZoom()>=11){
+    const b=MAP.getBounds().pad(0.2), used=new Set(ROUTE.map(p=>p[2]).filter(Boolean));
+    SNAP_PTS.forEach(o=>{ if(!b.contains([o.lat,o.lon])||used.has(o.name)) return;
+      L.marker([o.lat,o.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+        html:`<div class="sn-lbm"><span>${esc(o.name)}</span></div>`})}).addTo(SNAP_LAYER); });
+  }
   SNAP_LAYER.addTo(MAP);
 }
 function snapNearest(ll){
@@ -1275,14 +1312,27 @@ function startDraw(){
   DRAWING=true; MAP.closePopup(); MAP.doubleClickZoom.disable();
   document.getElementById("map").classList.add("drawing");
   document.getElementById("drawBar").classList.add("show");
-  gisPanelToggle(false);
+  gisPanelToggle(false); document.getElementById("stage").classList.add("drawing-on");
   drawUi(); drawRoute();
+  notamFade();
   snapLoad().then(()=>{ if(DRAWING) snapShow(); });
 }
 function drawClick(ev){
   if(!DRAWING) return;
   const o= SNAP_ON? snapNearest(ev.latlng) : null;
-  if(o){ ROUTE.push([+o.lat.toFixed(5),+o.lon.toFixed(5),o.name]); }
+  if(SNAP_ON && SNAP_PTS && !o){   // snapping on: a tap away from any point adds nothing
+    // the message appears where the finger is, on the map (not only in the bar below)
+    if(drawClick._m){ MAP.removeLayer(drawClick._m); }
+    drawClick._m=L.marker(ev.latlng,{interactive:false,keyboard:false,zIndexOffset:2000,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+      html:'<div class="snap-miss"><i></i><span>אין נקודת דיווח קרובה, הקש ליד נקודה</span></div>'})}).addTo(MAP);
+    requestAnimationFrame(()=>{ const el=drawClick._m&&drawClick._m.getElement(); const sp=el&&el.querySelector(".snap-miss span"); if(!sp) return;   // keep the bubble on screen
+      const m=MAP.getContainer().getBoundingClientRect(), r=sp.getBoundingClientRect(); let dx=0;
+      if(r.left<m.left+6) dx=m.left+6-r.left; else if(r.right>m.right-6) dx=m.right-6-r.right;
+      if(dx) sp.style.transform=`translateX(calc(-50% + ${Math.round(dx)}px))`; });
+    clearTimeout(drawClick._t); drawClick._t=setTimeout(()=>{ if(drawClick._m){ MAP.removeLayer(drawClick._m); drawClick._m=null; } },2000);
+    return;
+  }
+  if(o){ ROUTE.push([+o.lat.toFixed(5),+o.lon.toFixed(5),o.name]); snapShow(); }
   else ROUTE.push([+ev.latlng.lat.toFixed(5),+ev.latlng.lng.toFixed(5)]);
   drawUi(); drawRoute();
 }
@@ -1304,7 +1354,7 @@ function drawDone(){
   DRAWING=false; MAP.doubleClickZoom.enable();
   document.getElementById("map").classList.remove("drawing");
   document.getElementById("drawBar").classList.remove("show");
-  snapShow();
+  snapShow(); renderMap(); document.getElementById("stage").classList.remove("drawing-on");
   if(ROUTE.length<2){ ROUTE=[]; }
   saveRoute();
   if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
@@ -1362,7 +1412,7 @@ function card(e,st){
   const undo=`<button class="c-act c-link" onclick="listUnreview('${id}')">בטל סימון</button>`;
   let acts="";
   if(st==="new"||st==="chg"){
-    acts = e.geo ? mapBtn : `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+irrBtn;
+    acts = e.geo ? mapBtn+irrBtn : `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+irrBtn;
   }else if(st==="ok"){
     acts = `<span class="c-done">✓ נבדק</span>`+(e.geo?mapBtn:"")+undo+irrBtn;
   }else{
@@ -1470,7 +1520,10 @@ function renderMap(){
     if(!keys.length){ em.textContent="אין NOTAMs עם מיקום בחלון הזמן הנוכחי."; em.style.display="flex"; }
     else em.style.display="none";
   }
+  if(DRAWING) notamFade();
 }
+// while a route is being drawn the NOTAMs stay only as a light background
+function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.setStyle({opacity:.12,fillOpacity:.025}); }); }
 
 // popup: one card per NOTAM at this spot
 function puItem(e){
@@ -1656,6 +1709,7 @@ function setView(v){
   document.getElementById("vList").classList.toggle("on", isList);
   document.getElementById("vMap").classList.toggle("on", isMap);
   if(isMap){ initMap(); renderMap(); drawRoute(); }
+  try{ gisPanelToggle(false); gisTabPos(); }catch(_){}
   try{updateScrollCue();}catch(_){}
 }
 
@@ -1899,8 +1953,11 @@ const GIS_VER="2023a";
 const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy"];
 const GIS_DEF={ctr:0,tma:0,prd:0,sport:1,cvfr:1,ifr:0,ratag:0,rwy:0};
 // muted palette: never NOTAM red / blue / grey
-const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#7b2d8e",R:"#9b59b6",D:"#b58ac4",
-  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f6f3f",cvfr:"#0f766e",ifr:"#4d5a1f",rwy:"#1a1308"};
+const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#c0267e",R:"#d9468f",D:"#e27bb1",
+  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f7a3f",cvfr:"#1f7a3f",ifr:"#4d5a1f",rwy:"#1a1308"};
+// sportive routes like the official chart: green = all week, brown = weekend only, purple = special (south)
+const SPORT_COL={AllWeek:"#1f7a3f",Weekend:"#8b5a2b",special:"#6b21a8"};
+function sportCol(p){ const t=(p&&p.t)||""; return t.includes("Weekend")? SPORT_COL.Weekend : t.includes("מיוחד")? SPORT_COL.special : SPORT_COL.AllWeek; }
 const GIS_PT_ZOOM=9;
 let GIS_ON={}; try{GIS_ON=JSON.parse(localStorage.getItem("airnotam_gis2")||"{}")||{};}catch(e){GIS_ON={};}
 const GIS={lay:{},pts:{},idx:{},busy:{},R:{},sty:{}};
@@ -1922,8 +1979,8 @@ function gisInitUi(){
 
 function gisPanel(){
   const t=document.createElement("button"); t.type="button"; t.className="gtab"; t.id="gtab";
-  t.innerHTML='<span class="gt-grip"></span><span class="gt-in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>שכבות</span>';
-  MAP.getContainer().appendChild(t);
+  t.innerHTML='<span class="gt-grip"></span><span class="gt-in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>תצוגה</span>';
+  document.getElementById("stage").appendChild(t);
   L.DomEvent.disableClickPropagation(t);
   t.addEventListener("click",()=>gisPanelToggle(true));
   let ty0=null;   // swipe up on the tab opens too
@@ -1933,22 +1990,23 @@ function gisPanel(){
   const s=document.createElement("div"); s.className="gsheet"; s.id="gsheet";
   const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("");
   s.innerHTML='<div class="gs-grip"></div>'
-    +'<div class="gs-row"><span class="gs-lbl">מפת רקע</span><div class="gs-seg">'+bases+'</div><button type="button" class="gs-x" aria-label="סגור">✕</button></div>'
-    +'<div class="gs-row"><span class="gs-lbl">שכבות מפה</span><span class="gs-src">מקור: רת"א, נתוני GIS 2020-2023</span><div class="gs-alls"><button type="button" class="gs-all" data-a="1">הצג הכל</button><button type="button" class="gs-all" data-a="0">הסתר הכל</button></div></div>'
-    +'<div class="gs-grid"><label class="gchip" id="gc_ctr"><input type="checkbox" id="gis_ctr"><i class="gsw " style="background:#2a221814;border-color:#2a2218"></i><span>CTR/ATZ/CTA</span><small id="gst_ctr"></small></label><label class="gchip" id="gc_tma"><input type="checkbox" id="gis_tma"><i class="gsw dsh" style="border-color:#4a3f33"></i><span>TMA</span><small id="gst_tma"></small></label><label class="gchip" id="gc_prd"><input type="checkbox" id="gis_prd"><i class="gsw " style="background:#7b2d8e22;border-color:#7b2d8e"></i><span>P/R/D</span><small id="gst_prd"></small></label><label class="gchip" id="gc_sport"><input type="checkbox" id="gis_sport"><i class="gsw ln" style="border-color:#1f6f3f"></i><span>ספורטיבית</span><small id="gst_sport"></small></label><label class="gchip" id="gc_cvfr"><input type="checkbox" id="gis_cvfr"><i class="gsw ln" style="border-color:#0f766e"></i><span>CVFR</span><small id="gst_cvfr"></small></label><label class="gchip" id="gc_ifr"><input type="checkbox" id="gis_ifr"><i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i><span>IFR</span><small id="gst_ifr"></small></label><label class="gchip" id="gc_ratag"><input type="checkbox" id="gis_ratag"><i class="gsw " style="background:#7cb34255;border-color:#5d8f2f"></i><span>שמורות טבע</span><small id="gst_ratag"></small></label><label class="gchip" id="gc_rwy"><input type="checkbox" id="gis_rwy"><i class="gsw ln" style="border-color:#1a1308"></i><span>מסלולי נחיתה</span><small id="gst_rwy"></small></label></div><div class="gs-stat" id="gsStat"></div>'
-    +'<div class="gs-nt"><div class="gs-row"><span class="gs-lbl">שכבת NOTAMs · הצג גם:</span></div><div class="gs-grid">'
+    +'<div class="gs-row gs-mapsec"><span class="gs-lbl">מפת רקע</span><div class="gs-seg">'+bases+'</div><button type="button" class="gs-x" aria-label="סגור">✕</button></div>'
+    +'<div class="gs-row gs-mapsec"><span class="gs-lbl">שכבות מפה</span><span class="gs-src">מקור: רת"א, נתוני GIS 2020-2023</span><div class="gs-alls"><button type="button" class="gs-all" data-a="1">הצג הכל</button><button type="button" class="gs-all" data-a="0">הסתר הכל</button></div></div>'
+    +'<div class="gs-grid gs-mapsec"><label class="gchip" id="gc_ctr"><input type="checkbox" id="gis_ctr"><i class="gsw " style="background:#2a221814;border-color:#2a2218"></i><span>CTR/ATZ/CTA</span><small id="gst_ctr"></small></label><label class="gchip" id="gc_tma"><input type="checkbox" id="gis_tma"><i class="gsw dsh" style="border-color:#4a3f33"></i><span>TMA</span><small id="gst_tma"></small></label><label class="gchip" id="gc_prd"><input type="checkbox" id="gis_prd"><i class="gsw " style="background:#c0267e22;border-color:#c0267e"></i><span>P/R/D</span><small id="gst_prd"></small></label><label class="gchip" id="gc_sport"><input type="checkbox" id="gis_sport"><i class="gsw ln" style="border-color:#1f7a3f"></i><span>ספורטיבית</span><small id="gst_sport"></small></label><label class="gchip" id="gc_cvfr"><input type="checkbox" id="gis_cvfr"><i class="gsw ln" style="border-color:#1f7a3f;border-top-width:4px;box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px #cfc6ad"></i><span>CVFR</span><small id="gst_cvfr"></small></label><label class="gchip" id="gc_ifr"><input type="checkbox" id="gis_ifr"><i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i><span>IFR</span><small id="gst_ifr"></small></label><label class="gchip" id="gc_ratag"><input type="checkbox" id="gis_ratag"><i class="gsw " style="background:#7cb34255;border-color:#5d8f2f"></i><span>שמורות טבע</span><small id="gst_ratag"></small></label><label class="gchip" id="gc_rwy"><input type="checkbox" id="gis_rwy"><i class="gsw ln" style="border-color:#1a1308"></i><span>מסלולי נחיתה</span><small id="gst_rwy"></small></label></div><div class="gs-stat gs-mapsec" id="gsStat"></div>'
+    +'<div class="gs-nt"><div class="gs-row"><span class="gs-lbl" id="ntTitle">שכבת NOTAMs · הצג גם:</span><button type="button" class="gs-x gs-x2" aria-label="סגור">✕</button></div><div class="gs-grid">'
     +'<label class="gchip"><input type="checkbox" id="nt_time"><span>מחוץ לזמני הטיסה</span></label>'
     +'<label class="gchip"><input type="checkbox" id="nt_rte"><span>רחוקים מהמסלול</span></label>'
     +'<label class="gchip"><input type="checkbox" id="nt_irr"><span>שסימנתי כ"לא רלוונטי"</span></label></div></div>';
-  MAP.getContainer().appendChild(s);
+  document.getElementById("stage").appendChild(s);
   L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
-  s.querySelector(".gs-x").addEventListener("click",()=>gisPanelToggle(false));
+  s.querySelectorAll(".gs-x").forEach(x=>x.addEventListener("click",()=>gisPanelToggle(false)));
   s.querySelector("#nt_time").addEventListener("change",ev=>{ timeMode= ev.target.checked? "all" : "flight"; renderFlightBar(); render(); });
   s.querySelector("#nt_rte").addEventListener("change",ev=>setRouteOnly(!ev.target.checked));
   s.querySelector("#nt_irr").addEventListener("change",ev=>setShowIrr(ev.target.checked));
-  const fs=document.createElement("div"); fs.className="fstrip"; fs.id="fStrip"; fs.hidden=true;
-  MAP.getContainer().appendChild(fs); L.DomEvent.disableClickPropagation(fs);
-  fs.addEventListener("click",()=>gisPanelToggle(true));
+  // (b) the scope line lives inside the map legend
+  const lg=document.querySelector(".map-legend");
+  if(lg){ const sc=document.createElement("div"); sc.className="lg-scope"; sc.id="fStrip"; sc.hidden=true; lg.appendChild(sc);
+    L.DomEvent.disableClickPropagation(lg); sc.addEventListener("click",()=>gisPanelToggle(true)); }
   s.querySelectorAll(".gs-all").forEach(b=>b.addEventListener("click",()=>{
     const v=b.dataset.a==="1";
     GIS_IDS.forEach(id=>{ const cb=document.getElementById("gis_"+id); if(cb) cb.checked=v; GIS_ON[id]=v; gisStatus(id,""); gisApply(id); });
@@ -1971,16 +2029,18 @@ function gisPanelToggle(force){
   if(!GIS_PANEL) return;
   const o=force===undefined? !gisPanelOpen() : force;
   GIS_PANEL.classList.toggle("open",o);
+  const lm=currentView==="list"; GIS_PANEL.classList.toggle("list-mode",lm);
+  document.getElementById("ntTitle").textContent= lm? "NOTAMs · הצג גם:" : "שכבת NOTAMs · הצג גם:";
   const t=document.getElementById("gtab"); if(t) t.classList.toggle("hid",o);
-  if(o) MAP.closePopup();
+  if(o&&MAP) MAP.closePopup();
 }
 // keep the tab just above the attribution line
 function gisTabPos(){
   const t=document.getElementById("gtab"), a=document.querySelector(".leaflet-control-attribution"); if(!t) return;
-  t.style.bottom=((a?a.offsetHeight:0)+6)+"px";
+  t.style.bottom=((currentView==="map"&&a?a.offsetHeight:0)+(currentView==="map"?6:14))+"px";
 }
 function gisInitMap(){
-  [["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gln",356],["gpt",357]].forEach(([n,z])=>{
+  [["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gcv",356],["gln",357],["gpt",358]].forEach(([n,z])=>{
     const pn=MAP.createPane("g_"+n); pn.style.zIndex=z; pn.style.pointerEvents="none";
     GIS.R[n]=L.canvas({pane:"g_"+n});
   });
@@ -2038,14 +2098,15 @@ function gisBuild(id,d){
   const lineC= id==="rwy"?GIS_COL.rwy : GIS_COL[id];
   const lines= id==="rwy"? d : d.r;
   GIS.lay[id]=L.geoJSON(lines,{pane:id==="rwy"?"g_rwy":"g_gln",renderer:GIS.R[id==="rwy"?"rwy":"gln"],interactive:false,
-    style:{color:lineC,weight:id==="rwy"?4.5:2.2,opacity:.85,dashArray:id==="ifr"?"2 5":null,lineCap:id==="rwy"?"butt":"round"}});
+    style:f=>({color: id==="sport"? sportCol(f.properties) : lineC, weight:id==="rwy"?4.5:id==="sport"?2.4:2.2, opacity:id==="sport"?1:.85,
+      dashArray:id==="ifr"?"2 5":null, lineCap:id==="rwy"?"butt":"round"})});
   if(id==="cvfr"){   // CVFR drawn as a "cased" line (white edge + teal core) so it stands apart from sportive green
-    const cas=L.geoJSON(lines,{pane:"g_gln",renderer:GIS.R.gln,interactive:false,style:{color:"#ffffff",weight:6,opacity:.9,lineCap:"round"}});
-    const core=L.geoJSON(lines,{pane:"g_gln",renderer:GIS.R.gln,interactive:false,style:{color:lineC,weight:3,opacity:1,lineCap:"round"}});
+    const cas=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:"#ffffff",weight:7.5,opacity:.95,lineCap:"round"}});
+    const core=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:lineC,weight:4,opacity:1,lineCap:"round"}});
     GIS.lay[id]=L.layerGroup([cas,core]);
   }
   lines.features.forEach(f=>{ const g=f.geometry, parts=g.type==="LineString"?[g.coordinates]:g.coordinates;
-    idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c:lineC}); });
+    idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c: id==="sport"? sportCol(f.properties) : lineC}); });
   if(d.p){
     GIS.pts[id]=L.geoJSON(d.p,{pointToLayer:(f,ll)=>{ const t=f.properties.t;
         const o={pane:"g_gpt",renderer:GIS.R.gpt,interactive:false,radius:4,weight:1.6,color:lineC,fillColor:lineC,fillOpacity:1};
