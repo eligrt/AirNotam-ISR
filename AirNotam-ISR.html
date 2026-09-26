@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.015 · built by eligrt
+     AirNotam-ISR · v1.04.016 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -984,11 +984,19 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.015 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.016 · built by eligrt</span>
   </div>
 </div>
 
 <script>
+// ── test mode: ?demo=update → nothing is saved on the device, and a fake feed change is staged a few seconds after start ──
+const DEMO=/[?&]demo=update\b/.test(location.search);
+if(DEMO){
+  const mem={}; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); mem[k]=localStorage.getItem(k); } }catch(e){}
+  Storage.prototype.setItem=function(k,v){ mem[k]=String(v); };
+  Storage.prototype.getItem=function(k){ return k in mem? mem[k] : null; };
+  Storage.prototype.removeItem=function(k){ delete mem[k]; };
+}
 const FEED="https://raw.githubusercontent.com/eligrt/AirNotam-ISR/main/notams.json";
 // Q-code (chars 2-3 of qcode) -> friendly category. First letter after Q groups it.
 const CATS=[
@@ -2322,6 +2330,23 @@ document.getElementById("rvBody").addEventListener("click",ev=>{
   if(a.classList.contains("c-go")){ rvClose(); return; }
   setTimeout(rvRender,60);
 });
+
+// test mode: mark 3 NOTAMs as checked, then pretend the feed changed (1 updated, 1 cancelled, 1 new)
+function demoUpdate(){
+  if(!SNAP||!SNAP.notams||!ENR.length) return setTimeout(demoUpdate,1000);
+  const L=ENR.filter(e=>!e.admin).slice(0,3); if(L.length<2) return;
+  L.forEach(e=>markReviewed(e.id)); render();
+  const n=JSON.parse(JSON.stringify(SNAP.notams));
+  const a=n.find(x=>x.id===L[0].id); a.eText=(a.eText||"")+" (TEST: TEXT AMENDED)"; if(a.rawText) a.rawText+=" (TEST)";
+  n.splice(n.findIndex(x=>x.id===L[1].id),1);
+  const t=new Date();
+  n.push({id:"T0001/26",eText:"TEST NOTAM (DEMO ONLY): GLIDER ACT IN MEGIDDO AREA.",location:"LLLL",
+    fromDate:t.toISOString(),toDate:new Date(t.getTime()+864e5).toISOString(),
+    qLine:{qcode:"QWGLW",lowerLimitFl:"000",upperLimitFl:"050",position:{lat:32.597,lon:35.235,radiusNm:3}},position:{lat:32.597,lon:35.235,radiusNm:3}});
+  PENDING={generatedAt:new Date().toISOString(),count:n.length,notams:n};
+  showUpdate(diffFeeds(SNAP.notams,n));
+}
+if(DEMO) setTimeout(demoUpdate,4000);
 
 // ── boot ──
 FLIGHT=loadFlight();
