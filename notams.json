@@ -1,9 +1,43 @@
 {
-  "generatedAt": "2026-09-26T16:14:01.541Z",
+  "generatedAt": "2026-09-26T20:57:57.320Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 131,
+  "count": 132,
   "notams": [
+    {
+      "id": "C2046/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-27T03:00:00.000Z",
+      "toDate": "2026-09-28T15:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 30.716667,
+          "lon": 34.516667,
+          "radiusNm": 80,
+          "source": "q_line"
+        }
+      },
+      "eText": "GLD S OF LLBG TMA PROHIBITED.",
+      "position": {
+        "lat": 30.716667,
+        "lon": 34.516667,
+        "radiusNm": 80,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2046/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609270300 C) 2609281550 D) DAILY 0300-1550 E) GLD S OF LLBG TMA PROHIBITED.)",
+      "rowID": "2063153"
+    },
     {
       "id": "C2045/26",
       "location": "LLHD",
