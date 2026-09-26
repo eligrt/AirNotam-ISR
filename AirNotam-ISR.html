@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.018 · built by eligrt
+     AirNotam-ISR · v1.04.019 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -804,7 +804,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .rv-top{position:absolute;inset:0;z-index:2400;background:rgba(14,35,72,0);visibility:hidden;pointer-events:none;
   transition:background .35s ease,visibility 0s linear .45s;}
 .rv-top.show{visibility:visible;pointer-events:auto;background:rgba(14,35,72,.45);transition:background .35s ease;}
-.rv-top .rv-t{transform:translateY(-105%);transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.rv-top .rv-t{transform:translateY(-105%);transition:transform .5s cubic-bezier(.22,.61,.36,1);will-change:transform;}
 .rv-top.show .rv-t{transform:translateY(0);}
 .rv-t{position:absolute;top:0;left:0;right:0;background:var(--paper);border-radius:0 0 14px 14px;border-top:1.5px solid var(--amber);
   box-shadow:0 8px 24px rgba(0,0,0,.28);display:flex;flex-direction:column;direction:rtl;}
@@ -826,7 +826,8 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .upd{transition:opacity .3s ease;}
 .upd.hiding{display:flex;opacity:0;pointer-events:none;}
 #stage.v-map .upd{position:absolute !important;top:8px !important;left:10px !important;right:10px !important;margin:0;}
-#stage .leaflet-top{transition:top .3s ease;}
+#stage .leaflet-top{transition:top .3s ease .55s;}
+#stage.v-map.upd-on .leaflet-top{transition-delay:0s;}
 #stage.v-map.upd-on .leaflet-top{top:var(--updh,0px);}
 .rv-body .card{margin:0;}
 .rv-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px;border-top:1px solid var(--paper-edge);}
@@ -999,7 +1000,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.018 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.019 · built by eligrt</span>
   </div>
 </div>
 
@@ -1840,7 +1841,7 @@ function updTidy(){
 }
 function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
   return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
-function applyData(data,save,savedAt){
+function applyData(data,save,savedAt,later){
   if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
   ALL=data.notams||[];
   ENR=ALL.map(enrich); ENR_BY_ID={}; ENR.forEach(e=>{ENR_BY_ID[e.id]=e;});
@@ -1852,7 +1853,7 @@ function applyData(data,save,savedAt){
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
   PENDING=null; showUpdate(null);
   updTidy();
-  render();
+  if(later) setTimeout(render,later); else render();
 }
 function diffFeeds(oldN,newN){
   const o={}; oldN.forEach(n=>{o[n.id]=hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""));});
@@ -1876,7 +1877,7 @@ function showUpdate(d){
   document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
   u.classList.add("show"); updPos();
 }
-function applyPending(){ if(PENDING) applyData(PENDING,true); rvOpen(); }
+function applyPending(){ if(PENDING) applyData(PENDING,true,undefined,800); rvOpen(280); }
 async function load(manual){
   const meta=document.getElementById("meta");
   if(!SNAP){meta.textContent="טוען…";meta.className="metabar";}
@@ -2328,7 +2329,9 @@ function rvQueue(){
   return Object.keys(UPD).filter(id=> UPD[id].t==="can" || (ENR_BY_ID[id] && isPending(ENR_BY_ID[id])))
     .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
 }
-function rvOpen(){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; rvRender(); document.getElementById("rvTop").classList.add("show"); }
+function rvOpen(delay){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; rvRender(); // content is built first, then the curtain only moves
+  const t=document.getElementById("rvTop"); if(!delay) return t.classList.add("show");
+  void t.offsetHeight; setTimeout(()=>requestAnimationFrame(()=>{ if(RV_ON) t.classList.add("show"); }),delay); }
 function rvClose(quiet){
   const was=RV_ON; RV_ON=false; document.getElementById("rvTop").classList.remove("show");
   if(was && !quiet && rvQueue().length) rvToast('הפריטים שלא סיימת מחכים ברשימה, בקבוצה "עודכנו מאז שבדקת"');
