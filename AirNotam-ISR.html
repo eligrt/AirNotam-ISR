@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.04.016 · built by eligrt
+     AirNotam-ISR · v1.04.017 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -801,8 +801,11 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .card.st-can{border-inline-start-color:#6b6b6b !important;opacity:.9;}
 .card.st-can .c-text{color:var(--ink-faint);text-decoration:line-through;}
 .card.st-can .c-st{background:#6b6b6b;color:#fff;}
-.rv-top{position:absolute;inset:0;z-index:2400;background:rgba(14,35,72,.45);}
-.rv-top[hidden]{display:none;}
+.rv-top{position:absolute;inset:0;z-index:2400;background:rgba(14,35,72,0);visibility:hidden;pointer-events:none;
+  transition:background .35s ease,visibility 0s linear .45s;}
+.rv-top.show{visibility:visible;pointer-events:auto;background:rgba(14,35,72,.45);transition:background .35s ease;}
+.rv-top .rv-t{transform:translateY(-105%);transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.rv-top.show .rv-t{transform:translateY(0);}
 .rv-t{position:absolute;top:0;left:0;right:0;background:var(--paper);border-radius:0 0 14px 14px;border-top:1.5px solid var(--amber);
   box-shadow:0 8px 24px rgba(0,0,0,.28);display:flex;flex-direction:column;direction:rtl;}
 .rv-head{padding:10px 16px 8px;border-bottom:1px solid var(--paper-edge);}
@@ -810,9 +813,12 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .rv-ttl small{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);font-weight:600;}
 .rv-dots{display:flex;gap:4px;margin-top:8px;}
 .rv-dots i{flex:1;height:4px;border-radius:2px;background:var(--paper-edge);} .rv-dots i.cur{background:var(--gold);}
-.rv-body{height:46vh;overflow-y:auto;padding:12px 14px;scrollbar-width:none;}
-.rv-body::-webkit-scrollbar{width:0;height:0;}
-.rv-body.more{-webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent);mask-image:linear-gradient(to bottom,#000 84%,transparent);}
+.rv-body{height:285px;overflow:hidden;padding:12px 14px;}
+.rv-body .c-text,.rv-body .old{max-height:150px;overflow-y:auto;scrollbar-width:none;}
+.rv-body .diff .c-text,.rv-body .diff .old{max-height:64px;}
+.rv-body .c-text::-webkit-scrollbar,.rv-body .old::-webkit-scrollbar{width:0;height:0;}
+.rv-body .more{-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent);}
+.rv-note{font-size:11px;font-weight:600;color:var(--ink-muted);text-align:center;padding:0 14px 2px;}
 .rv-body .card{margin:0;}
 .rv-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px;border-top:1px solid var(--paper-edge);}
 .rv-nav button{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:8px;height:38px;padding:0 12px;
@@ -957,13 +963,14 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
     </div>
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
   </div></div>
-    <div class="upd" id="upd" onclick="applyPending()"><span id="updTxt"></span><button type="button">רענן</button></div>
-    <div class="rv-top" id="rvTop" hidden onclick="if(event.target===this)rvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
+    <div class="upd" id="upd" onclick="applyPending()"><span id="updTxt"></span><button type="button">סקור</button></div>
+    <div class="rv-top" id="rvTop" onclick="if(event.target===this)rvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
       <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
       <div class="rv-body" id="rvBody"></div>
       <div class="rv-nav"><button type="button" onclick="rvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
         <button type="button" class="later" onclick="rvClose()">אסיים אחר כך</button>
         <button type="button" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+      <div class="rv-note">מה שלא סיימת נשאר ברשימה, בקבוצה "עודכנו מאז שבדקת"</div>
       <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span></button>
     </div></div>
     <div class="lsearch" id="lsearch" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"></div>
@@ -984,7 +991,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.04.016 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.04.017 · built by eligrt</span>
   </div>
 </div>
 
@@ -1850,7 +1857,7 @@ function showUpdate(d){
   const u=document.getElementById("upd");
   if(!d){u.classList.remove("show");return;}
   const parts=[]; if(d.add)parts.push(`${d.add} ${d.add===1?"חדש":"חדשים"}`); if(d.chg)parts.push(`${d.chg} ${d.chg===1?"שונה":"שונו"}`); if(d.del)parts.push(`${d.del} ${d.del===1?"בוטל":"בוטלו"}`);
-  document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}<small class="upd-sub">הקש כדי לסקור את השינויים</small>`;
+  document.getElementById("updTxt").innerHTML=`<b>עדכון זמין:</b> ${parts.join(" · ")||"נתונים עדכניים יותר"}`;
   u.classList.add("show");
 }
 function applyPending(){ if(PENDING) applyData(PENDING,true); rvOpen(); }
@@ -2308,8 +2315,8 @@ function rvQueue(){
   return Object.keys(UPD).filter(id=> UPD[id].t==="can" || (ENR_BY_ID[id] && isPending(ENR_BY_ID[id])))
     .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
 }
-function rvOpen(){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; document.getElementById("rvTop").hidden=false; rvRender(); }
-function rvClose(){ RV_ON=false; document.getElementById("rvTop").hidden=true; }
+function rvOpen(){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; rvRender(); document.getElementById("rvTop").classList.add("show"); }
+function rvClose(){ RV_ON=false; document.getElementById("rvTop").classList.remove("show"); }
 function rvStep(d){ const n=rvQueue().length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; rvRender(); }
 function rvRender(){
   if(!RV_ON) return;
@@ -2321,9 +2328,12 @@ function rvRender(){
   document.getElementById("rvDots").innerHTML=Q.map((_,i)=>`<i class="${i===RV_I?"cur":""}"></i>`).join("");
   const b=document.getElementById("rvBody");
   b.innerHTML= UPD[id].t==="can"? ghostCard(id) : card(e,statusOf(e));
-  b.scrollTop=0; requestAnimationFrame(()=>b.classList.toggle("more", b.scrollHeight>b.clientHeight+4));
+  requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old").forEach(rvFade));
+  // safety: if a card is still taller than the fixed area, let the area scroll
+  requestAnimationFrame(()=>{ b.style.overflowY= b.scrollHeight>b.clientHeight+2? "auto":"hidden"; b.scrollTop=0; });
 }
-document.getElementById("rvBody").addEventListener("scroll",ev=>{ const b=ev.target; b.classList.toggle("more", b.scrollTop+b.clientHeight < b.scrollHeight-4); },{passive:true});
+function rvFade(x){ x.classList.toggle("more", x.scrollTop+x.clientHeight < x.scrollHeight-4); }
+document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old")) rvFade(x); },{passive:true,capture:true});
 // after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
 document.getElementById("rvBody").addEventListener("click",ev=>{
   const a=ev.target.closest(".c-act"); if(!a) return;
