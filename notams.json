@@ -1,43 +1,9 @@
 {
-  "generatedAt": "2026-09-27T18:14:27.237Z",
+  "generatedAt": "2026-09-27T22:56:36.948Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 135,
+  "count": 134,
   "notams": [
-    {
-      "id": "C2053/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T15:00:00.000Z",
-      "toDate": "2026-09-27T20:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "015",
-        "position": {
-          "lat": 32.8,
-          "lon": 35.516667,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT TIBERIUS. AN AREA FM GND UP TO 1500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324753N0353105E, RADIUS 1.5NM. OPS OF AGRICULTURE FORBIDDEN. CTN ADZ. F) GND G) 1500FT AMSL",
-      "position": {
-        "lat": 32.8,
-        "lon": 35.516667,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2053/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/015/3248N03531E002 A) LLLL B) 2609271500 C) 2609272059 E) UAS ACT WILL TAKE PLACE AT TIBERIUS. AN AREA FM GND UP TO 1500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324753N0353105E, RADIUS 1.5NM. OPS OF AGRICULTURE FORBIDDEN. CTN ADZ. F) GND G) 1500FT AMSL)",
-      "rowID": "2063416"
-    },
     {
       "id": "C2052/26",
       "location": "LLLL",
