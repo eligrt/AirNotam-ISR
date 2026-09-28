@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.002-test · built by eligrt
+     AirNotam-ISR · v1.05.002T · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -602,7 +602,14 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .footer-refresh:active{background:var(--paper-edge);opacity:1;}
 .footer-refresh svg{width:14px;height:14px;flex-shrink:0;}
 .footer-refresh .rtime{font-family:var(--font-mono);font-weight:700;color:var(--ink);}
-.footer-build{flex:1;text-align:center;}
+.footer-build{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;letter-spacing:0;font-size:8.5px;}
+.footer-build .ver-t{color:#c0392b;font-weight:700;}
+/* v1.05.002T: test-only shape-family filter, lower right of the map */
+.fam-ctl{background:rgba(251,246,232,.94);border:1px solid rgba(14,35,72,.25);border-radius:7px;padding:4px 6px;box-shadow:0 1px 5px rgba(14,35,72,.2);font-family:var(--font-ui);direction:rtl;}
+.fam-ctl label{display:flex;align-items:center;gap:5px;font-size:11px;line-height:1.15;padding:2px 1px;color:var(--ink);cursor:pointer;white-space:nowrap;}
+.fam-ctl label.off{color:var(--ink-faint);cursor:default;}
+.fam-ctl input{margin:0;width:12px;height:12px;}
+.fam-ctl .fam-n{font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);margin-inline-start:auto;padding-inline-start:6px;}
 
 /* ── one-time-per-day disclaimer ── */
 .disc{position:absolute;inset:0;background:rgba(14,35,72,.72);z-index:2800;display:none;
@@ -976,7 +983,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
   </div>
 
   <div class="strip">
-    <div class="strip-brand">AirNotam-ISR <span style="background:#c0392b;color:#fff;border-radius:4px;padding:0 5px;font-size:11px;vertical-align:middle">TEST</span></div>
+    <div class="strip-brand">AirNotam-ISR</div>
     <div class="vtoggle">
       <button class="on" id="vMap" onclick="setView('map')">מפה <span class="vt-cnt" id="mapCnt"></span></button>
       <button id="vList" onclick="setView('list')">רשימה</button>
@@ -1091,7 +1098,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.002-test · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.002T</b> · built by eligrt</span>
   </div>
 </div>
 
@@ -1736,6 +1743,7 @@ function initMap(){
   lc.addTo(MAP);
   MAP_LAYER = L.layerGroup().addTo(MAP);
   gisInitMap();
+  famInit();
   setTimeout(()=>MAP.invalidateSize(), 50);
 }
 
@@ -1797,6 +1805,23 @@ function shapeRouteGap(shape){          // NM between the shape's edge and the r
   })));
 }
 
+// ── v1.05.002T (test only): show one shape family at a time; unbuilt families are greyed ──
+const FAMS=[["all","הכל",1],["ring","עיגולים",1],["coord","קואורדינטות",1],["named","מרחב מוגדר",0],["border","גבול",0],["calc","מחושב",0],["route","מסלולים",0]];
+let FAM="all";
+function famOf(e){ if(!e.shape) return "ring"; return ({e_text:"coord"})[e.shape.source]||"ring"; }
+function famPass(e){ return FAM==="all" || famOf(e)===FAM; }
+function famCounts(){ const c={all:0}; LAST_ITEMS.forEach(e=>{ if(!e.geo||offMap(e.id)) return; c.all++; const f=famOf(e); c[f]=(c[f]||0)+1; }); return c; }
+function famUi(){
+  const box=document.querySelector(".fam-ctl"); if(!box) return; const c=famCounts();
+  box.innerHTML=FAMS.map(([k,t,on])=>`<label class="${on?"":"off"}"><input type="radio" name="fam" value="${k}" ${FAM===k?"checked":""} ${on?"":"disabled"}>${t}<span class="fam-n">${on?(c[k]||0):""}</span></label>`).join("");
+  box.querySelectorAll("input").forEach(i=>i.addEventListener("change",()=>{ FAM=i.value; renderMap(); }));
+}
+function famInit(){
+  const ctl=L.control({position:"bottomright"});
+  ctl.onAdd=()=>{ const d=L.DomUtil.create("div","leaflet-control fam-ctl"); L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d; };
+  ctl.addTo(MAP);
+}
+
 function renderMap(){
   if(!MAP) return;
   MAP.closePopup();
@@ -1806,7 +1831,7 @@ function renderMap(){
   nvUi();
   if(NVIS==="hide"){ const em=document.getElementById("mapEmpty"); if(em) em.style.display="none"; return; }
   LAST_ITEMS.forEach(e=>{
-    if(!e.geo||offMap(e.id)||!qMatch(e,QT)) return;
+    if(!e.geo||offMap(e.id)||!qMatch(e,QT)||!famPass(e)) return;
     const key=`${e.lat.toFixed(3)},${e.lon.toFixed(3)}`;   // ~100m bucket
     (GROUPS[key]=GROUPS[key]||{ids:[],lat:e.lat,lon:e.lon}).ids.push(e.id);
   });
@@ -1826,6 +1851,7 @@ function renderMap(){
       .on("click",ev=>{ L.DomEvent.stop(ev); openAt(L.latLng(g.lat,g.lon)); }).addTo(MAP_LAYER);
     g.ids.forEach(id=>{ MAP_INDEX[id]={key}; });
   });
+  famUi();
   const em=document.getElementById("mapEmpty");
   if(em){
     if(!keys.length){ em.textContent= QT.length? "אין NOTAMs על המפה שמתאימים לחיפוש." : "אין NOTAMs עם מיקום בחלון הזמן הנוכחי."; em.style.display="flex"; }
