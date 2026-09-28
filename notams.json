@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-27T22:56:36.948Z",
+  "generatedAt": "2026-09-28T05:02:41.615Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 134,
+  "count": 133,
   "notams": [
     {
       "id": "C2052/26",
@@ -1499,40 +1499,6 @@
       "replaces": null,
       "rawText": "C1998/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610020600 C) 2610021100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
       "rowID": "2061826"
-    },
-    {
-      "id": "C1987/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-28T03:00:00.000Z",
-      "toDate": "2026-09-28T05:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWLLW",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "025",
-        "position": {
-          "lat": 30.933333,
-          "lon": 34.683333,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "HOT-AIR BALLOON WILL TAKE PLACE AT ASHELIM/SDE-BOKER. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 2,500FT AMSL 305855N0344402E 305646N0344642E 305421N0344631E 305253N0343751E 305636N0343545E. CTN ADZ. F) GND G) 2500FT AMSL",
-      "position": {
-        "lat": 30.933333,
-        "lon": 34.683333,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1987/26 NOTAMN Q) LLLL/QWLLW/IV/NBO/W /000/025/3056N03441E006 A) LLLL B) 2609280300 C) 2609280500 E) HOT-AIR BALLOON WILL TAKE PLACE AT ASHELIM/SDE-BOKER. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 2,500FT AMSL 305855N0344402E 305646N0344642E 305421N0344631E 305253N0343751E 305636N0343545E. CTN ADZ. F) GND G) 2500FT AMSL)",
-      "rowID": "2061506"
     },
     {
       "id": "C1983/26",
