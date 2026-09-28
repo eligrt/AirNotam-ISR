@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-28T05:02:41.615Z",
+  "generatedAt": "2026-09-28T13:36:30.556Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 133,
+  "count": 132,
   "notams": [
     {
       "id": "C2052/26",
@@ -989,40 +989,6 @@
       "replaces": null,
       "rawText": "A0775/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609290400 C) 2609291100 E) RWY 03/21 CLSD EXC RWY INT DUE WIP.)",
       "rowID": "2062160"
-    },
-    {
-      "id": "A0774/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-09-28T04:00:00.000Z",
-      "toDate": "2026-09-28T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 12/30 CLSD EXC RWY INT DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0774/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609280400 C) 2609281100 E) RWY 12/30 CLSD EXC RWY INT DUE WIP.)",
-      "rowID": "2062159"
     },
     {
       "id": "C2016/26",
