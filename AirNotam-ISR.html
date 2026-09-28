@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.001 · built by eligrt
+     AirNotam-ISR · v1.05.002 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -681,6 +681,10 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .qbar .lsearch{flex:1;padding:0 !important;min-width:0;}
 .qbar .lsearch svg{right:10px !important;}
 .qbar .lsearch .lq-x{left:4px !important;}
+/* v1.05.002: magnifier and x centered on the box (the old offsets were made for the padded search row), x tap area 44px */
+.qbar .lsearch > svg{margin-top:-8px !important;}
+.qbar .lsearch .lq-x{left:-4px !important;width:44px !important;height:44px !important;margin-top:-22px !important;}
+.qbar .lsearch .lq-x svg{width:16px !important;height:16px !important;margin:0 !important;stroke-width:2.2;}
 .fbtn{flex:none;position:relative;display:flex;align-items:center;gap:6px;height:40px;padding:0 13px;border-radius:6px;border:1.5px solid #26497e;
   background:transparent;color:#26497e;font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer;}
 .fbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;}
@@ -1091,7 +1095,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.001 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.002 · built by eligrt</span>
   </div>
 </div>
 
