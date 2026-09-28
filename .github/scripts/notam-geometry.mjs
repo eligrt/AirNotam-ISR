@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.001 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.002 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -29,18 +29,20 @@
  *   - all points inside the Tel-Aviv FIR box
  *   - polygon: 3+ distinct points, not self-crossing, not zero-area
  *   - circle radius between 10 m and 50 NM
- *   - the whole shape must lie inside the NOTAM's own Q-line circle (+1 NM slack),
+ *   - the whole shape must lie inside the NOTAM's own Q-line circle (+1.5 NM slack),
  *     so a misread number can never move a restriction somewhere else
- *   - "SEMI-CIRCLE" is drawn as a full circle (never smaller than the real area)
+ *   - "SEMI-CIRCLE TO EAST" (or NORTH / SOUTH / WEST) becomes a half circle on that side;
+ *     a semi-circle with no clear direction is drawn as a full circle (never smaller than the real area)
  *
  * OUTPUT (added to the NOTAM object; coordinates are [lat, lon] like Leaflet)
  *   "geometry": {
  *     "source": "e_text",
  *     "parts": [ {"type":"polygon","coords":[[lat,lon],...]},
  *                {"type":"circle","center":[lat,lon],"radiusNm":0.3},
+ *                {"type":"circle","center":[lat,lon],"radiusNm":2.4,"half":"E"},   // semi-circle, side N/E/S/W
  *                {"type":"point","coord":[lat,lon]} ],
  *     "anchor": [lat,lon],          // a point inside the main part (for the map dot)
- *     "note": "semi-circle drawn as full circle"   (only when relevant)
+ *     "note": "semi-circle drawn as full circle"   (only when the side is not stated)
  *   }
  *   "geometryReject": "reason"      // only when coordinates were found but rejected
  */
@@ -149,10 +151,14 @@ function parseE(eText) {
     if (coords.some(c => !Number.isFinite(c.lat) || !Number.isFinite(c.lon))) return { reject: "coordinate out of range (minutes/seconds >= 60)" };
     const radii = [...s.matchAll(RX_RADIUS)].map(m => parseFloat(m[1] || m[3]) * TO_NM[m[2] || m[4]]);
     const uniq = [...new Set(radii.map(r => r.toFixed(4)))];
-    if (/SEMI-?CIRCLE/.test(s)) semi = true;
+    let half = null;
+    if (/SEMI-?CIRCLE/.test(s)) {
+      const d = s.match(/SEMI-?CIRCLE\s+(?:TO\s+(?:THE\s+)?)?(NORTH|EAST|SOUTH|WEST)\b/);
+      if (d) half = d[1][0]; else semi = true;
+    }
     if (uniq.length > 1) return { reject: "several different radii in one sentence" };
     if (radii.length) {
-      coords.forEach(c => parts.push({ type: "circle", center: [c.lat, c.lon], radiusNm: radii[0] }));
+      coords.forEach(c => parts.push(Object.assign({ type: "circle", center: [c.lat, c.lon], radiusNm: radii[0] }, half ? { half } : {})));
     } else if (coords.length >= 3) {
       let pts = coords.map(c => [c.lat, c.lon]);
       const same = (a, b) => Math.abs(a[0] - b[0]) < 1e-7 && Math.abs(a[1] - b[1]) < 1e-7;
@@ -202,11 +208,15 @@ export function geometryFor(notam) {
   // main part = the biggest; its anchor is where the app puts the map dot
   const size = p => p.type === "polygon" ? areaNm2(p.coords) : p.type === "circle" ? Math.PI * p.radiusNm ** 2 : 0;
   const main = parts.slice().sort((a, b) => size(b) - size(a))[0];
-  const anchor = main.type === "polygon" ? polyAnchor(main.coords) : main.type === "circle" ? main.center : main.coord;
+  let anchor = main.type === "polygon" ? polyAnchor(main.coords) : main.type === "circle" ? main.center : main.coord;
+  if (main.type === "circle" && main.half) {                         // half circle: dot inside the half, not on its straight edge
+    const d = main.radiusNm * 0.45 / 60, k = Math.cos(anchor[0] * Math.PI / 180);
+    anchor = { N: [anchor[0] + d, anchor[1]], S: [anchor[0] - d, anchor[1]], E: [anchor[0], anchor[1] + d / k], W: [anchor[0], anchor[1] - d / k] }[main.half];
+  }
   const g = {
     source: "e_text",
     parts: parts.map(p => p.type === "polygon" ? { type: "polygon", coords: p.coords.map(RP) }
-      : p.type === "circle" ? { type: "circle", center: RP(p.center), radiusNm: Math.round(p.radiusNm * 1e4) / 1e4 }
+      : p.type === "circle" ? Object.assign({ type: "circle", center: RP(p.center), radiusNm: Math.round(p.radiusNm * 1e4) / 1e4 }, p.half ? { half: p.half } : {})
       : { type: "point", coord: RP(p.coord) }),
     anchor: RP(anchor),
   };
