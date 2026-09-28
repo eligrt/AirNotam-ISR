@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-28T13:36:30.556Z",
+  "generatedAt": "2026-09-28T20:28:47.154Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 132,
+  "count": 129,
   "notams": [
     {
       "id": "C2052/26",
@@ -39,40 +39,6 @@
       "rowID": "2063401"
     },
     {
-      "id": "C2049/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T11:20:00.000Z",
-      "toDate": "2026-09-28T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 30.9,
-          "lon": 34.483333,
-          "radiusNm": 86,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT RTE CLSD NITZA-NMADD-ZASHD. ZBRCH-NIZNM-ZASHD-SOREK. NITZA-ZBRCH-ZPLGT-MKGAT-GOVRN-ZHRYA. MACHZ-ZPLGT. SHARG-SORES-TZUBA-KENED-HOMMA-DUMIM-YRIHO-ALMOG. HOMMA-MARSB. ALMOG-ZUKIM-SHALM-ENGDI-LLMZ. NAHEM-NSHRM-NCSHN. SHLVM-REUTE. BSVTA-AMIOZ-NBSOR-OFKIM-GILAT-NASIH. ZELIM-NBSOR. NASIH-ZGOAL. NEGEV-YRUHM-DIMON-AFFAE-HATRU. NEGEV-SECHR-ETZEM-DIMON. KTORA-SIZFN-SITIM-ZZHOR.",
-      "position": {
-        "lat": 30.9,
-        "lon": 34.483333,
-        "radiusNm": 86,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2049/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /000/999/3054N03429E086 A) LLLL B) 2609271120 C) 2609281550 D) 27 1120-1550, 28 0300-1550 E) ULTRALIGHT RTE CLSD NITZA-NMADD-ZASHD. ZBRCH-NIZNM-ZASHD-SOREK. NITZA-ZBRCH-ZPLGT-MKGAT-GOVRN-ZHRYA. MACHZ-ZPLGT. SHARG-SORES-TZUBA-KENED-HOMMA-DUMIM-YRIHO-ALMOG. HOMMA-MARSB. ALMOG-ZUKIM-SHALM-ENGDI-LLMZ. NAHEM-NSHRM-NCSHN. SHLVM-REUTE. BSVTA-AMIOZ-NBSOR-OFKIM-GILAT-NASIH. ZELIM-NBSOR. NASIH-ZGOAL. NEGEV-YRUHM-DIMON-AFFAE-HATRU. NEGEV-SECHR-ETZEM-DIMON. KTORA-SIZFN-SITIM-ZZHOR.)",
-      "rowID": "2063379"
-    },
-    {
       "id": "C2047/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
@@ -105,40 +71,6 @@
       "replaces": null,
       "rawText": "C2047/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/035/3140N03501E003 A) LLLL B) 2609280630 C) 2609301130 D) SEP 28 0630-0800 0900-1130, SEP 30 0630-0800 0900-1130 E) UAS ACT WILL TAKE PLACE AT ADERET. AN AREA BTN FLW PSN FM GND UP TO 3,500FT AMSL CLSD TO ALL FLT INCLUDING AGRICULTURE FLT 314107N0345919E 313846N0345857E 313804N0350116E 313931N0350342E 314131N0350134E. CTN ADZ. F) GND G) 3500FT AMSL)",
       "rowID": "2063331"
-    },
-    {
-      "id": "C2046/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T03:00:00.000Z",
-      "toDate": "2026-09-28T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 30.716667,
-          "lon": 34.516667,
-          "radiusNm": 80,
-          "source": "q_line"
-        }
-      },
-      "eText": "GLD S OF LLBG TMA PROHIBITED.",
-      "position": {
-        "lat": 30.716667,
-        "lon": 34.516667,
-        "radiusNm": 80,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2046/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609270300 C) 2609281550 D) DAILY 0300-1550 E) GLD S OF LLBG TMA PROHIBITED.)",
-      "rowID": "2063153"
     },
     {
       "id": "C2045/26",
@@ -411,40 +343,6 @@
       "replaces": null,
       "rawText": "C2032/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3101N03432E016 A) LLLL B) 2609270300 C) 2610011550 D) DAILY 0300-1550 E) ULTRALIGHT BUBBLE CLSD SHIVTA (BSVTA).)",
       "rowID": "2062399"
-    },
-    {
-      "id": "C2031/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T03:00:00.000Z",
-      "toDate": "2026-09-28T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 30.716667,
-          "lon": 34.516667,
-          "radiusNm": 80,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE CLSD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).",
-      "position": {
-        "lat": 30.716667,
-        "lon": 34.516667,
-        "radiusNm": 80,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2031/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609270300 C) 2609281550 D) DAILY 0300-1550 E) ULTRALIGHT BUBBLE CLSD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).)",
-      "rowID": "2062397"
     },
     {
       "id": "C2030/26",
