@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.002 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.003 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -12,6 +12,7 @@
  * USAGE
  *   node notam-geometry.mjs notams.json            (updates the file in place)
  *   node notam-geometry.mjs in.json out.json
+ *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides)
  *
  * WHAT IT RECOGNISES (field E)
  *   polygon : "BTN FLW PSN 314107N0345919E 313846N0345857E ..."   (3+ points)
@@ -23,6 +24,13 @@
  *   with or without seconds and decimal seconds.
  *   One NOTAM may hold several areas (e.g. a polygon AND a circle); each
  *   sentence of field E is read on its own.
+ *
+ * BORDER STRIPS (only when field E has no coordinates)
+ *   "FM LEBANON BOUNDRAY TO 8KM SB ..."   (LEBANON / SYRIA / JORDAN / EGYPT, KM or NM)
+ *   The strip runs along the border line from gis/borders.json (OSM, checked against the
+ *   Interior Ministry outline), on the ISRAELI side, N km deep + 1 km safety margin.
+ *   The direction word (SB / WB ...) is only a cross-check: if it points away from Israel
+ *   (C1830 "EGYPT ... WB"), the strip is still drawn on the Israeli side and a note says so.
  *
  * SAFETY RULES (any failure = no geometry, the app falls back to the Q circle)
  *   - every coordinate-looking token must parse (a typo like 3149310N rejects it)
@@ -44,6 +52,9 @@
  *     "anchor": [lat,lon],          // a point inside the main part (for the map dot)
  *     "note": "semi-circle drawn as full circle"   (only when the side is not stated)
  *   }
+ *   border strip: "source":"border", "border":"lebanon", "km":8, "marginKm":1,
+ *                 "parts":[{"type":"polygon","coords":[...],"fill":"nonzero"}], "note" when the
+ *                 text's direction was ignored
  *   "geometryReject": "reason"      // only when coordinates were found but rejected
  */
 
@@ -182,11 +193,78 @@ function allPoints(part) {
   return [part.center, [la + dLat, lo], [la - dLat, lo], [la, lo + dLon], [la, lo - dLon]];
 }
 
+// ── border strips ────────────────────────────────────────────────────────────
+// a point well inside Israel near each border: tells which side of the line is ours
+const BORDER_REF = { lebanon: [33.03, 35.25], syria: [33.00, 35.70], jordan: [30.50, 35.05], egypt: [30.50, 34.60] };
+const DIR_VEC = { NB: [0, 1], SB: [0, -1], EB: [1, 0], WB: [-1, 0] };            // [east, north]
+const STRIP_MARGIN_KM = 1;
+const RX_BORDER = /\bFM\s+(LEBANON|SYRIA|JORDAN|EGYPT)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\b\s*(NB|SB|EB|WB)?/;
+let BORDERS = null;                                                               // id -> [[lat,lon],...]
+export function loadBorders(path) {
+  const fc = JSON.parse(readFileSync(path, "utf8")); BORDERS = {};
+  for (const f of fc.features) BORDERS[f.properties.id] = f.geometry.coordinates.map(([lon, lat]) => [lat, lon]);
+}
+const KX = lat => 111.32 * Math.cos(lat * Math.PI / 180), KY = 110.574;          // km per degree
+function kmVec(a, b) { const m = (a[0] + b[0]) / 2; return [(b[1] - a[1]) * KX(m), (b[0] - a[0]) * KY]; }
+function segDistKm(p, a, b) {
+  const [x1, y1] = kmVec(p, a), [x2, y2] = kmVec(p, b), dx = x2 - x1, dy = y2 - y1, L2 = dx * dx + dy * dy;
+  const t = L2 ? Math.max(0, Math.min(1, -(x1 * dx + y1 * dy) / L2)) : 0;
+  return Math.hypot(x1 + t * dx, y1 + t * dy);
+}
+function lineDistKm(p, line) { let d = Infinity; for (let i = 0; i < line.length - 1; i++) d = Math.min(d, segDistKm(p, line[i], line[i + 1])); return d; }
+function densify(line, stepKm) {
+  const out = [line[0]];
+  for (let i = 0; i < line.length - 1; i++) {
+    const [dx, dy] = kmVec(line[i], line[i + 1]), n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / stepKm));
+    for (let k = 1; k <= n; k++) out.push([line[i][0] + (line[i + 1][0] - line[i][0]) * k / n, line[i][1] + (line[i + 1][1] - line[i][1]) * k / n]);
+  }
+  return out;
+}
+function rdp(pts, tolKm) {                                                        // Douglas-Peucker simplification
+  if (pts.length < 3) return pts;
+  let idx = -1, dmax = 0;
+  for (let i = 1; i < pts.length - 1; i++) { const d = segDistKm(pts[i], pts[0], pts[pts.length - 1]); if (d > dmax) { dmax = d; idx = i; } }
+  if (dmax <= tolKm) return [pts[0], pts[pts.length - 1]];
+  return rdp(pts.slice(0, idx + 1), tolKm).slice(0, -1).concat(rdp(pts.slice(idx), tolKm));
+}
+function borderStrip(text) {
+  const m = String(text || "").toUpperCase().match(RX_BORDER);
+  if (!m) return null;
+  const id = m[1].toLowerCase(), km = parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), dirWord = m[4] || null;
+  if (!BORDERS || !BORDERS[id]) return { reject: `border line "${id}" not available` };
+  if (!(km >= 0.5 && km <= 30)) return { reject: "implausible strip width" };
+  const W = km + STRIP_MARGIN_KM, line = densify(BORDERS[id], 0.25);
+  // which side is Israel: sign of the cross product at the segment nearest the reference point
+  const ref = BORDER_REF[id]; let best = Infinity, bi = 0;
+  for (let i = 0; i < line.length - 1; i++) { const d = segDistKm(ref, line[i], line[i + 1]); if (d < best) { best = d; bi = i; } }
+  const [ax, ay] = kmVec(line[bi], line[bi + 1]), [rx, ry] = kmVec(line[bi], ref);
+  const side = (ax * ry - ay * rx) > 0 ? 1 : -1;                                  // +1: Israel on the left of the line's direction
+  const offs = [], sum = [0, 0];
+  for (let i = 0; i < line.length; i++) {
+    const a = line[Math.max(0, i - 1)], b = line[Math.min(line.length - 1, i + 1)];
+    const [tx, ty] = kmVec(a, b), L = Math.hypot(tx, ty) || 1, nx = -ty / L * side, ny = tx / L * side;
+    sum[0] += nx; sum[1] += ny;
+    const p = line[i], q = [p[0] + ny * W / KY, p[1] + nx * W / KX(p[0])];
+    if (lineDistKm(q, line) >= W * 0.98) offs.push(q);                            // drop points folded back inside a bend
+  }
+  const inner = rdp(offs, 0.06), edge = rdp(line, 0.06);
+  const coords = edge.concat(inner.reverse());
+  const mid = line[Math.floor(line.length / 2)], a = line[Math.floor(line.length / 2) - 1], b = line[Math.floor(line.length / 2) + 1];
+  const [tx, ty] = kmVec(a, b), L = Math.hypot(tx, ty) || 1;
+  const anchor = [mid[0] + (tx / L * side) * (W / 2) / KY, mid[1] + (-ty / L * side) * (W / 2) / KX(mid[0])];
+  const g = { source: "border", border: id, km: Math.round(km * 100) / 100, marginKm: STRIP_MARGIN_KM,
+    parts: [{ type: "polygon", coords: coords.map(RP), fill: "nonzero" }], anchor: RP(anchor) };
+  if (dirWord && (sum[0] * DIR_VEC[dirWord][0] + sum[1] * DIR_VEC[dirWord][1]) < 0)
+    g.note = `text says ${dirWord}, which points away from Israel; drawn on the Israeli side`;
+  for (const q of coords) if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "strip outside the FIR" };
+  return { geometry: g };
+}
+
 export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return null;                                   // nothing in the text: not our business
+  if (!parts.length) return borderStrip(notam.eText);               // no coordinates: maybe a border strip, else not our business
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -239,11 +317,14 @@ export function addGeometry(notams) {
 
 // ── CLI ──────────────────────────────────────────────────────────────────────
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const [inp, outp = inp] = process.argv.slice(2);
-  if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json]"); process.exit(1); }
+  const args = process.argv.slice(2), bi = args.indexOf("--borders");
+  const bpath = bi >= 0 ? args.splice(bi, 2)[1] : fileURLToPath(new URL("../../gis/borders.json", import.meta.url));
+  const [inp, outp = inp] = args;
+  if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json] [--borders gis/borders.json]"); process.exit(1); }
+  try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
   writeFileSync(outp, JSON.stringify(data, null, 2));
-  console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without coordinates`);
+  console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
 }
