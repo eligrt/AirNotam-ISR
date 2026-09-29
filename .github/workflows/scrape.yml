@@ -1,3 +1,4 @@
+# scrape.yml · v1.00.001 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
 on:
@@ -9,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  issues: write        # new-flag issues from the "Flag NOTAMs worth a look" step
 
 concurrency:
   group: scrape
@@ -194,11 +196,62 @@ jobs:
           main().catch(err => { console.error("✗ Scrape failed:", err.message); process.exit(1); });
           SCRAPER_EOF
 
+      # Real shapes (polygons, circles, border strips, closed route legs) from the NOTAM text.
+      # If this step fails, notams.json keeps the scraped data without shapes (the app draws Q circles)
+      # and the next step opens an issue about the failure.
+      - name: Add shapes
+        run: |
+          if ! node .github/scripts/notam-geometry.mjs notams.json --flags flags.json 2> geometry.err; then
+            cat geometry.err
+            node -e 'const fs=require("fs"); const e=fs.readFileSync("geometry.err","utf8").slice(0,3000);
+              fs.writeFileSync("flags.json", JSON.stringify([{key:"crash|"+e.split("\n")[0], id:"-", kind:"crash",
+                reason:"the shapes step (notam-geometry.mjs) failed; notams.json was saved without shapes", eText:e}]));'
+          fi
+
+      # A new flag (not reported before) becomes one GitHub issue, which GitHub emails / pushes to the owner.
+      # Reported keys are kept in .github/notam-flags-seen.json, so a NOTAM re-issued with the same text is quiet.
+      - name: Flag NOTAMs worth a look
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'FLAGS_EOF'
+          import { readFileSync, writeFileSync, existsSync } from "fs";
+          const SEEN = ".github/notam-flags-seen.json", MAX_ISSUES = 8;
+          const flags = existsSync("flags.json") ? JSON.parse(readFileSync("flags.json", "utf8")) : [];
+          const seen = existsSync(SEEN) ? JSON.parse(readFileSync(SEEN, "utf8")) : {};
+          const fresh = flags.filter(f => !seen[f.key]);
+          console.log(`${flags.length} flagged, ${fresh.length} new`);
+          const repo = process.env.GITHUB_REPOSITORY, owner = process.env.GITHUB_REPOSITORY_OWNER;
+          const TITLE = { rejected: "shape rejected, Q circle drawn", "legs missing": "closed route legs not found in the GIS",
+            "semi-circle": "semi-circle with no side, full circle drawn", unfamiliar: "unfamiliar structure, Q circle drawn",
+            crash: "shapes step failed, no shapes in this run" };
+          async function issue(title, body) {
+            const r = await fetch(`${process.env.GITHUB_API_URL || "https://api.github.com"}/repos/${repo}/issues`, { method: "POST",
+              headers: { Authorization: `Bearer ${process.env.GH_TOKEN}`, Accept: "application/vnd.github+json" },
+              body: JSON.stringify({ title, body }) });
+            if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).slice(0, 200)}`);
+          }
+          const q = f => f.qLine ? [f.qLine.qcode, f.qLine.position && `${f.qLine.position.lat},${f.qLine.position.lon} r=${f.qLine.position.radiusNm}NM`].filter(Boolean).join(" · ") : "-";
+          const one = f => `**${f.id}** · ${f.reason}\n\nQ: ${q(f)} · ${f.fromDate || "-"} to ${f.toDate || "PERM"}\n\n\`\`\`\n${f.eText}\n\`\`\``;
+          const now = new Date().toISOString().slice(0, 10), done = [];
+          try {
+            if (fresh.length > MAX_ISSUES) {
+              await issue(`[NOTAM flag] ${fresh.length} new NOTAMs worth a look`, `@${owner}\n\n` + fresh.map(one).join("\n\n---\n\n"));
+              done.push(...fresh);
+            } else for (const f of fresh) {
+              await issue(`[NOTAM flag] ${f.id}: ${TITLE[f.kind] || f.kind}`, `@${owner}\n\n${one(f)}\n\nThe app shows this NOTAM safely (Q circle / the legs it could find). Send it to Claude to teach the parser, then close this issue.`);
+              done.push(f);
+            }
+          } catch (e) { console.log(`::warning::could not open an issue (${e.message}); will retry next run`); }
+          for (const f of done) seen[f.key] = { id: f.id, kind: f.kind, first: now };   // a crash is reported once per distinct error
+          writeFileSync(SEEN, JSON.stringify(seen, null, 2) + "\n");
+          FLAGS_EOF
+
       - name: Commit if changed
         run: |
           git config user.name  "airnotam-bot"
           git config user.email "airnotam-bot@users.noreply.github.com"
-          git add notams.json
+          git add notams.json .github/notam-flags-seen.json
           if git diff --staged --quiet; then
             echo "No change in notams.json"
           else
