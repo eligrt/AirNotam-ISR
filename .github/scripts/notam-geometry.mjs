@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.006 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.008 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -14,7 +14,8 @@
  *   node notam-geometry.mjs in.json out.json
  *   node notam-geometry.mjs notams.json --flags flags.json   (also writes the list of NOTAMs worth a human look)
  *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides;
- *    the route layers cvfr.json and sport.json are read from the same folder)
+ *    the route layers cvfr.json and sport.json are read from the same folder, each with its chart patch
+ *    gis/<layer>-patch-*.json laid on top: see gisApplyPatch and the patch files' _readme)
  *
  * WHAT IT RECOGNISES (field E)
  *   polygon : "BTN FLW PSN 314107N0345919E 313846N0345857E ..."   (3+ points)
@@ -43,16 +44,29 @@
  *   - a leg whose two points are not directly joined in the GIS is accepted only through ONE
  *     possible path of at most 3 segments, no longer than 1.3 x the straight distance
  *     (the NOTAM skipped a point in between, e.g. MCZVA-YARHV = MCZVA-SSOMR-YARHV); "via" lists them
- *   - anything after "DIVERTED" is the diversion (open), never drawn as closed
+ *   - anything after "DIVERTED" is the diversion (open), never drawn as closed. It is kept as parts with
+ *     "role":"diversion" (drawn by the app as the published route, highlighted, not as a restriction):
+ *       "DIVERTED VIA FRDIS-HASID."  -> the diversion is that chain
+ *       "DIVERTED VIA MZDOT SOKET-MYTAR-... MMORR-ARRAD-LLMZ."  (C2040) -> the diversion is the published route
+ *       through the single point MZDOT (1 or 2 segments). The chains that follow are the CLOSED legs, but only
+ *       when the RTE CLSD sentence named no legs itself, MZDOT is not in those chains and is not joined in the GIS
+ *       to the point right after it (which would make "MZDOT SOKET-..." a chain with a missing hyphen);
+ *       otherwise nothing is guessed (Q circle + flag)
  *   - only sentences with RTE ... CLSD, and the bare lists of legs right after them, are read;
  *     ATS routes (airways) are ignored
  *   - legs that cannot be found are listed in "missing" and simply not drawn
+ *   - a leg reaching outside the NOTAM's Q circle (+1.5 NM) is left out ("outsideQ") and flagged; the others are drawn
+ *   - codes are also looked up through the chart patch's aliases (MARSB -> MRSBA, HATRU -> TZHTR on the sport layer)
+ *   - a leg that uses a point / leg WITHDRAWN from the 2025 chart is still drawn, but flagged (see FLAGS)
  *
  * FLAGS (--flags): NOTAMs that probably deserved a shape but did not get a full one, so a person can look.
  *   Most Q-circle NOTAMs are correct as circles (obstacle lights, runway works...) and are NOT flagged.
  *   - "rejected"     coordinates / legs were found but failed a safety rule
  *   - "legs missing" RTE CLSD legs that are not in the GIS route layers
+ *   - "outside Q"    a route leg found in the GIS but reaching outside the NOTAM's Q circle: left out, the rest drawn
+ *   - "withdrawn"    a route leg that uses a point / leg withdrawn from the 2025 chart (drawn, but the patch may be wrong)
  *   - "semi-circle"  a semi-circle with no side, drawn as a full circle
+ *   - "patch"        a leg in a chart patch file refused by its distance check (a typo in the patch)
  *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
  *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
  *                    CENTERED, "WI 5NM", coordinate-like numbers); ATS airways are ignored
@@ -87,12 +101,14 @@
  *                           "via":["SSOMR"] (only when a skipped point was filled in),
  *                           "otherLayer":true (only when found in the other layer)}, ...],
  *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
+ *                 diversion: extra parts {"type":"line","role":"diversion","coords":[...],"leg":"MYTAR-MZDOT",
+ *                 "layer":"cvfr","t":"BR · CIVIL"} and "diversionNames":["מיתר","מצודות","עין גדי"] (GIS Hebrew names)
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
  *                                   the test copy lists them under "לבדיקה" and shows the reason
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const FIR = { latMin: 29.0, latMax: 34.0, lonMin: 33.5, lonMax: 36.5 };
@@ -298,12 +314,69 @@ function borderStrip(text) {
 // ROUTES[layer] = { seg: Map "A|B" -> [[lat,lon],...] from A to B, adj: Map A -> Set(B) }
 let ROUTES = null;
 const ROUTE_LAYERS = ["cvfr", "sport"];
+export const PATCH_ERRORS = [];                                                   // refused patch legs, reported as flags
+// ── GIS patch (gis/<layer>-patch-*.json laid over gis/<layer>.json) ──
+// Keep this function IDENTICAL in notam-geometry.mjs, AirNotam-ISR.html and AirNotam-ISR-test.html.
+// d = {r: route lines, p: points} as in gis/sport.json / cvfr.json (coordinates [lon,lat]); P = the patch file.
+// keepWithdrawn: the NOTAM parser keeps withdrawn points / legs (marked w:1) so an older NOTAM still resolves;
+// the app drops them, so no pilot plans along a route that is no longer on the chart.
+// Returns the patched copy; d._alias = the patch's aliases, d._patchErrors = legs refused by the distance check.
+export function gisApplyPatch(d, P, keepWithdrawn){
+  d = JSON.parse(JSON.stringify(d)); d._alias = {}; d._patchErrors = [];
+  if(!P) return d;
+  const dms = s => { const m = String(s).match(/(\d+)\D+(\d+)\D+(\d+(?:\.\d+)?)/); if(!m) throw new Error("bad coordinate " + s); return +m[1] + m[2] / 60 + m[3] / 3600; };
+  const pt = {}; d.p.features.forEach(f => { pt[f.properties.c] = f; });
+  const ends = f => String(f.properties.c || "").split(" - ").map(s => s.trim());
+  const nmLen = line => { let s = 0; for(let i = 0; i < line.length - 1; i++){ const [x1, y1] = line[i], [x2, y2] = line[i + 1];
+    s += Math.hypot((x2 - x1) * 60 * Math.cos((y1 + y2) / 2 * Math.PI / 180), (y2 - y1) * 60); } return s; };
+  const drop = (arr, f) => { if(keepWithdrawn) f.properties.w = 1; else arr.splice(arr.indexOf(f), 1); };
+  const pp = P.points || {}, lg = P.legs || {};
+  (pp.add || []).forEach(a => {
+    const f = { type: "Feature", geometry: { type: "Point", coordinates: [dms(a.E), dms(a.N)] }, properties: { n: a.name, c: a.code, t: a.type } };
+    if(pt[a.code]) Object.assign(pt[a.code], f); else { d.p.features.push(f); pt[a.code] = f; } });
+  (pp.move || []).forEach(m => {
+    const f = pt[m.code]; if(!f) return;
+    const old = f.geometry.coordinates.slice(), nw = [dms(m.E), dms(m.N)];
+    f.geometry.coordinates = nw; if(m.type) f.properties.t = m.type; if(m.name) f.properties.n = m.name;
+    d.r.features.forEach(r => { if(!ends(r).includes(m.code)) return;          // the leg's end on the old spot moves with the point
+      r.geometry.coordinates.forEach(part => { const a = part[0], b = part[part.length - 1];
+        const da = Math.hypot(a[0] - old[0], a[1] - old[1]), db = Math.hypot(b[0] - old[0], b[1] - old[1]);
+        if(da <= db) part[0] = nw.slice(); else part[part.length - 1] = nw.slice(); }); }); });
+  (pp.rename || []).forEach(n => {
+    const f = pt[n.from]; if(!f) return;
+    f.properties.c = n.to; if(n.name) f.properties.n = n.name; pt[n.to] = f; delete pt[n.from];
+    d.r.features.forEach(r => { const e = ends(r); if(e.includes(n.from)) r.properties.c = e.map(c => c === n.from ? n.to : c).join(" - "); });
+    d._alias[n.from] = n.to; });
+  (pp.type || []).forEach(t => { if(pt[t.code]) pt[t.code].properties.t = t.type; });
+  (pp.name || []).forEach(t => { if(pt[t.code]) pt[t.code].properties.n = t.name; });
+  Object.assign(d._alias, P.aliases || {});
+  (lg.add || []).forEach(l => {
+    const [a, b] = l.leg.split("-"), A = pt[a], B = pt[b];
+    const line = l.coords ? l.coords.map(([la, lo]) => [lo, la]) : (A && B ? [A.geometry.coordinates.slice(), B.geometry.coordinates.slice()] : null);
+    if(!line){ d._patchErrors.push(`${l.leg}: point not found`); return; }
+    const len = nmLen(line);
+    if(l.nm != null && Math.abs(len - l.nm) > 0.3){ d._patchErrors.push(`${l.leg}: ${len.toFixed(2)} NM from the coordinates, chart says ${l.nm} NM`); return; }
+    d.r.features.push({ type: "Feature", geometry: { type: "MultiLineString", coordinates: [line] },
+      properties: { n: `${A ? A.properties.n : a}-${B ? B.properties.n : b}`, c: `${a} - ${b}`, t: l.status || "", patch: 1 } }); });
+  (lg.withdraw || []).forEach(l => {
+    const [a, b] = l.leg.split("-");
+    d.r.features.filter(r => { const e = ends(r); return (e[0] === a && e[1] === b) || (e[0] === b && e[1] === a); })
+      .forEach(r => drop(d.r.features, r)); });
+  (pp.withdraw || []).forEach(w => { const f = pt[w.code]; if(f) drop(d.p.features, f); });
+  return d;
+}
+
 export function loadRoutes(dir) {
   ROUTES = {};
   for (const id of ROUTE_LAYERS) {
-    const d = JSON.parse(readFileSync(`${dir}/${id}.json`, "utf8"));
-    const seg = new Map(), adj = new Map(), pts = new Map();
-    for (const f of d.p.features) { const [lon, lat] = f.geometry.coordinates; pts.set(f.properties.c, [lat, lon]); }
+    let d = JSON.parse(readFileSync(`${dir}/${id}.json`, "utf8"));
+    for (const pf of readdirSync(dir).filter(f => f.startsWith(`${id}-patch-`) && f.endsWith(".json")).sort()) {
+      try { d = gisApplyPatch(d, JSON.parse(readFileSync(`${dir}/${pf}`, "utf8")), true);
+            d._patchErrors.forEach(e => PATCH_ERRORS.push(`${pf}: ${e}`)); }
+      catch (e) { PATCH_ERRORS.push(`${pf}: could not be applied (${e.message}); the layer is used without it`); }
+    }
+    const seg = new Map(), adj = new Map(), pts = new Map(), names = new Map(), segT = new Map(), wSeg = new Set(), wPts = new Set();
+    for (const f of d.p.features) { const [lon, lat] = f.geometry.coordinates; pts.set(f.properties.c, [lat, lon]); names.set(f.properties.c, String(f.properties.n || "").replace(/\*/g, "").trim()); if (f.properties.w) wPts.add(f.properties.c); }
     const link = (a, b) => { if (!adj.has(a)) adj.set(a, new Set()); adj.get(a).add(b); };
     const off = (p, q) => Math.hypot(...kmVec(p, q));
     for (const f of d.r.features) {
@@ -318,15 +391,18 @@ export function loadRoutes(dir) {
       if (Math.min(fwd, rev) > 0.5 * ((pa ? 1 : 0) + (pb ? 1 : 0))) continue;   // ends not on the named points: GIS error, never used
       if (!seg.has(`${a}|${b}`)) seg.set(`${a}|${b}`, line);
       if (!seg.has(`${b}|${a}`)) seg.set(`${b}|${a}`, line.slice().reverse());
+      if (!segT.has(`${a}|${b}`)) { segT.set(`${a}|${b}`, f.properties.t || ""); segT.set(`${b}|${a}`, f.properties.t || ""); }
+      if (f.properties.w) { wSeg.add(`${a}|${b}`); wSeg.add(`${b}|${a}`); }
       link(a, b); link(b, a);
     }
-    ROUTES[id] = { seg, adj };
+    ROUTES[id] = { seg, adj, names, segT, wSeg, wPts, alias: d._alias || {} };
   }
 }
+const al = (layer, c) => ROUTES[layer].alias[c] || c;                           // chart patch aliases (per layer)
 function lineKm(line) { let d = 0; for (let i = 0; i < line.length - 1; i++) d += Math.hypot(...kmVec(line[i], line[i + 1])); return d; }
 // one leg A-B in one layer: the published segment, or the single short path through skipped points
 function findLeg(layer, a, b) {
-  const { seg, adj } = ROUTES[layer];
+  const { seg, adj } = ROUTES[layer]; a = al(layer, a); b = al(layer, b);
   if (seg.has(`${a}|${b}`)) return { coords: seg.get(`${a}|${b}`) };
   if (!adj.has(a) || !adj.has(b)) return null;
   const paths = [], walk = p => {
@@ -344,52 +420,100 @@ function findLeg(layer, a, b) {
   return { coords, via: p.slice(1, -1) };
 }
 const RX_CHAIN = /\b[A-Z][A-Z0-9]{3,4}(?:-[A-Z][A-Z0-9]{3,4})+\b/g;
+function chainLegs(chains, layers, legs, seen) {
+  for (const ch of chains) {
+    const names = ch.split("-");
+    for (let i = 0; i < names.length - 1; i++) {
+      const a = names[i], b = names[i + 1], key = [a, b].sort().join("|");
+      if (seen.has(key)) continue; seen.add(key);
+      legs.push({ a, b, layers });
+    }
+  }
+}
+function isChainList(s) { return !!(s.match(RX_CHAIN) || []).length && !s.replace(RX_CHAIN, "").replace(/[\s,;)]/g, ""); }
+function resolveLeg(a, b, pref) {
+  for (const layer of pref.concat(ROUTE_LAYERS.filter(l => !pref.includes(l)))) {
+    const r = findLeg(layer, a, b);
+    if (r) {
+      const R = ROUTES[layer], A = al(layer, a), B = al(layer, b), seq = [A].concat(r.via || [], [B]);
+      const wd = seq.filter(c => R.wPts.has(c));                                  // withdrawn points / segments this leg uses
+      for (let i = 0; i < seq.length - 1; i++) if (R.wSeg.has(`${seq[i]}|${seq[i + 1]}`)) wd.push(`${seq[i]}-${seq[i + 1]}`);
+      return Object.assign({ type: "line", coords: r.coords.map(RP), leg: `${a}-${b}`, layer, t: R.segT.get(`${A}|${r.via ? r.via[0] : B}`) || "" },
+                           r.via ? { via: r.via } : {}, pref.includes(layer) ? {} : { otherLayer: true }, wd.length ? { withdrawn: wd } : {});
+    }
+  }
+  return null;
+}
+const ptName = (layer, c) => ROUTES[layer].names.get(al(layer, c)) || c;
 function routeLegs(notam) {
   const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
   if (!/\bRTE\b/.test(text) || !/\bCLSD\b/.test(text) || /\bATS\s+RTE\b/.test(text)) return null;
   if (!ROUTES) return { reject: "route layers not available" };
-  const closedPart = text.split(/\bDIVERT/)[0];                                  // the diversion is open, never drawn
+  const cut = text.search(/\bDIVERT/), closedPart = cut < 0 ? text : text.slice(0, cut), divPart = cut < 0 ? "" : text.slice(cut);
   const legs = [], seen = new Set();
-  let layers = null;                                                             // layers of the last "RTE ... CLSD" sentence
+  let layers = null, lastLayers = ["cvfr"];                                      // layers of the last "RTE ... CLSD" sentence
   for (const s of closedPart.split(/\.(?=\s|$|\))/)) {
     const chains = s.match(RX_CHAIN) || [];
     if (/\bRTE\b/.test(s) && /\bCLSD\b/.test(s)) {
       const w = [...s.matchAll(/\b(CVFR|ULTRALIGHT|HEL)\b/g)].map(m => m[1]);
       layers = [...new Set(w.map(x => x === "ULTRALIGHT" ? "sport" : "cvfr"))];
       if (!layers.length) layers = ["cvfr"];
-    } else if (!(layers && chains.length && !s.replace(RX_CHAIN, "").replace(/[\s,;)]/g, ""))) {
-      layers = null; continue;                                                   // some other sentence: stop reading legs
-    }
-    for (const ch of chains) {
-      const names = ch.split("-");
-      for (let i = 0; i < names.length - 1; i++) {
-        const a = names[i], b = names[i + 1], key = [a, b].sort().join("|");
-        if (seen.has(key)) continue; seen.add(key);
-        legs.push({ a, b, layers });
+      lastLayers = layers;
+    } else if (!(layers && isChainList(s))) { layers = null; continue; }        // some other sentence: stop reading legs
+    chainLegs(chains, layers, legs, seen);
+  }
+  // ── the diversion (open) ──
+  const divParts = []; let divNames = null;
+  const via = divPart.match(/^DIVERT\w*\s+VIA\s+([\s\S]*)$/);
+  if (via) {
+    const rest = via[1], sents = rest.split(/\.(?=\s|$|\))/);
+    const lead = sents[0].trim().match(/^([A-Z][A-Z0-9]{3,4})(?![A-Z0-9-])\s*([\s\S]*)$/);
+    if (/^[A-Z][A-Z0-9]{3,4}-/.test(sents[0].trim())) {
+      // "DIVERTED VIA FRDIS-HASID." : the diversion is the chain(s) of that sentence
+      const dl = []; chainLegs(sents[0].match(RX_CHAIN) || [], lastLayers, dl, new Set());
+      const found = dl.map(({ a, b, layers: pr }) => resolveLeg(a, b, pr));
+      if (found.length && found.every(Boolean)) {
+        found.forEach(p => divParts.push(Object.assign(p, { role: "diversion" })));
+        const ch = sents[0].match(RX_CHAIN)[0].split("-");
+        divNames = ch.map(c => ptName(found[0].layer, c));
+      }
+    } else if (lead && !legs.length) {
+      // "DIVERTED VIA MZDOT SOKET-MYTAR-.... MMORR-ARRAD-LLMZ." : MZDOT names the diversion route,
+      // the chains after it are the closed legs (the RTE CLSD sentence named none)
+      const X = lead[1];
+      const layer = lastLayers.concat(ROUTE_LAYERS).find(l => ROUTES[l].adj.has(al(l, X)));
+      const XX = layer ? al(layer, X) : X, nb = layer ? [...ROUTES[layer].adj.get(XX)] : [];
+      const after = [lead[2]].concat(sents.slice(1)), closedChains = [];
+      for (const s of after) { if (!s.trim()) continue; if (!isChainList(s)) break; closedChains.push(...s.match(RX_CHAIN)); }
+      // ambiguous if X is itself in the chains, or X links to the very next point ("MZDOT SOKET-..." read as MZDOT-SOKET-...)
+      const first = closedChains.length ? closedChains[0].split("-")[0] : null;
+      const touches = closedChains.some(ch => ch.split("-").some(c => c === X || al(layer || "cvfr", c) === XX)) || (first && nb.includes(al(layer || "cvfr", first)));
+      if (layer && (nb.length === 1 || nb.length === 2) && closedChains.length && !touches) {
+        chainLegs(closedChains, lastLayers, legs, seen);
+        const S = ROUTES[layer].seg, seq = nb.length === 2 ? [nb[0], XX, nb[1]] : [XX, nb[0]];
+        for (let i = 0; i < seq.length - 1; i++)
+          divParts.push({ type: "line", role: "diversion", coords: S.get(`${seq[i]}|${seq[i + 1]}`).map(RP), leg: `${seq[i]}-${seq[i + 1]}`,
+                          layer, t: ROUTES[layer].segT.get(`${seq[i]}|${seq[i + 1]}`) || "" });
+        divNames = seq.map(c => ptName(layer, c));
       }
     }
   }
   if (!legs.length) return null;
   const parts = [], missing = [];
-  for (const { a, b, layers: pref } of legs) {
-    let hit = null;
-    for (const layer of pref.concat(ROUTE_LAYERS.filter(l => !pref.includes(l)))) {
-      const r = findLeg(layer, a, b);
-      if (r) { hit = Object.assign({ type: "line", coords: r.coords.map(RP), leg: `${a}-${b}`, layer },
-                                    r.via ? { via: r.via } : {}, pref.includes(layer) ? {} : { otherLayer: true }); break; }
-    }
-    if (hit) parts.push(hit); else missing.push(`${a}-${b}`);
-  }
+  for (const { a, b, layers: pref } of legs) { const hit = resolveLeg(a, b, pref); if (hit) parts.push(hit); else missing.push(`${a}-${b}`); }
   if (!parts.length) return { reject: `no closed leg found in the route layers (${missing.join(", ")})` };
-  for (const p of parts) for (const q of p.coords)
-    if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "route leg outside the FIR" };
   const qp = notam.qLine?.position || notam.position;
-  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) {
-    const c = [qp.lat, qp.lon], lim = qp.radiusNm + Q_SLACK_NM;
-    for (const p of parts) for (const q of p.coords)
-      if (distNm(c, q) > lim) return { reject: `route leg ${p.leg} reaches outside the Q-line circle (${distNm(c, q).toFixed(1)} > ${lim} NM)` };
-  }
-  // map dot: halfway along the longest leg
+  const inQ = q => !(qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) || distNm([qp.lat, qp.lon], q) <= qp.radiusNm + Q_SLACK_NM;
+  const inFir = q => q[0] >= FIR.latMin && q[0] <= FIR.latMax && q[1] >= FIR.lonMin && q[1] <= FIR.lonMax;
+  for (const p of parts) for (const q of p.coords) if (!inFir(q)) return { reject: "route leg outside the FIR" };
+  // a leg reaching outside the NOTAM's own Q circle is left out (and flagged), the other legs are still drawn;
+  // only if every leg is outside is the NOTAM rejected (back to the Q circle)
+  const outQ = parts.filter(p => !p.coords.every(inQ)).map(p => p.leg);
+  if (outQ.length === parts.length) return { reject: `route legs reach outside the Q-line circle (${outQ.join(", ")})` };
+  for (let i = parts.length - 1; i >= 0; i--) if (outQ.includes(parts[i].leg)) parts.splice(i, 1);
+  // the diversion must pass the same checks, or it is simply not drawn (the closed legs stay)
+  const divOk = divParts.length && divParts.every(p => p.coords.every(q => inFir(q) && inQ(q)));
+  // map dot: halfway along the longest closed leg
   const main = parts.slice().sort((x, y) => lineKm(y.coords) - lineKm(x.coords))[0].coords;
   let half = lineKm(main) / 2, anchor = main[0];
   for (let i = 0; i < main.length - 1; i++) {
@@ -397,8 +521,10 @@ function routeLegs(notam) {
     if (d >= half) { const t = d ? half / d : 0; anchor = [main[i][0] + (main[i + 1][0] - main[i][0]) * t, main[i][1] + (main[i + 1][1] - main[i][1]) * t]; break; }
     half -= d;
   }
-  const g = { source: "route", parts, anchor: RP(anchor) };
+  const g = { source: "route", parts: divOk ? parts.concat(divParts) : parts, anchor: RP(anchor) };
+  if (divOk && divNames) g.diversionNames = divNames;
   if (missing.length) g.missing = missing;
+  if (outQ.length) g.outsideQ = outQ;
   return { geometry: g };
 }
 
@@ -460,6 +586,9 @@ export function flagsFor(notams) {
     const t = String(n.eText || "").toUpperCase(), g = n.geometry;
     if (n.geometryReject) { add(n, "rejected", n.geometryReject); continue; }
     if (g && g.missing) { add(n, "legs missing", "route legs not in the GIS: " + g.missing.join(", ")); continue; }
+    if (g && g.outsideQ) { add(n, "outside Q", "route legs reach outside the NOTAM's Q circle, not drawn: " + g.outsideQ.join(", ")); continue; }
+    const wd = g && g.parts ? [...new Set(g.parts.flatMap(p => p.withdrawn || []))] : [];
+    if (wd.length) { add(n, "withdrawn", "uses what the 2025 chart withdrew: " + wd.join(", ")); continue; }
     if (g && g.note === "semi-circle drawn as full circle") { add(n, "semi-circle", "semi-circle with no side, drawn as a full circle"); continue; }
     if (g || !t || /\bATS\s+RTE\b/.test(t)) continue;
     const hits = AREA_WORDS.filter(([, rx]) => { rx.lastIndex = 0; return rx.test(t); }).map(([w]) => w);
@@ -498,7 +627,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
-    const flags = flagsFor(list);
+    const flags = flagsFor(list).concat(PATCH_ERRORS.map(e => ({ key: "patch|" + e, id: "-", kind: "patch", reason: e, eText: e })));
     writeFileSync(fpath, JSON.stringify(flags, null, 2));
     console.log(`notam-geometry: ${flags.length} flagged for a look`);
     for (const f of flags) console.log(`  ${f.id}  [${f.kind}]  ${f.reason}`);
