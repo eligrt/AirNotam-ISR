@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.006T · built by eligrt
+     AirNotam-ISR · v1.05.007T · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1107,7 +1107,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.006T</b> · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.007T</b> · built by eligrt</span>
   </div>
 </div>
 
@@ -1780,13 +1780,52 @@ function partCenter(p){                    // where a part's tether starts
   if(p.type==="line") return p.coords[Math.floor(p.coords.length/2)];
   return [p.coords.reduce((s,q)=>s+q[0],0)/p.coords.length, p.coords.reduce((s,q)=>s+q[1],0)/p.coords.length];
 }
-const LEG_W=3, LEG_HIT_PX=11;           // v1.05.006T: closed route leg = the status line + 3px; taps count up to 11px from it
-function legSty(s){ const o=Object.assign({},s,{fill:false,lineCap:"round"}); if(s.weight!=null) o.weight=s.weight+LEG_W; return o; }
+// v1.05.007T: a closed route leg is a band along the route, drawn like the rings: status border + faded fill,
+// so the route underneath stays visible. The band keeps the same width on screen at every zoom
+// (it shows WHICH leg is closed, not a width on the ground); taps count up to LEG_HIT_PX from the route line.
+const LEG_HIT_PX=11;
+function legHalfPx(){ const z=MAP.getZoom(); return z>=10? 7 : z>=9? 5 : 3; }   // thinner when zoomed out, so the country view stays clean
+// legs that continue each other (end of one = start of the next) become one band: no round caps at every waypoint
+function legChains(lines){
+  const same=(a,b)=>Math.abs(a[0]-b[0])<2e-5&&Math.abs(a[1]-b[1])<2e-5, left=lines.map(l=>l.slice()), out=[];
+  while(left.length){ let ch=left.shift(), grew=true;
+    while(grew){ grew=false;
+      for(let i=0;i<left.length;i++){ const l=left[i], s=ch[0], e=ch[ch.length-1];
+        if(same(e,l[0])) ch=ch.concat(l.slice(1));
+        else if(same(e,l[l.length-1])) ch=ch.concat(l.slice(0,-1).reverse());
+        else if(same(s,l[l.length-1])) ch=l.concat(ch.slice(1));
+        else if(same(s,l[0])) ch=l.slice(1).reverse().concat(ch);
+        else continue;
+        left.splice(i,1); grew=true; break; } }
+    out.push(ch); }
+  return out;
+}
+function mPerPx(lat){ return 40075016.686*Math.cos(lat*Math.PI/180)/Math.pow(2,MAP.getZoom()+8); }
+function legBand(line){                     // outline of the band around an open line (mitred corners, round ends)
+  const la0=line[0][0], lo0=line[0][1], kx=111320*Math.cos(la0*Math.PI/180), ky=110574, h=legHalfPx()*mPerPx(la0);
+  const P=line.map(([a,b])=>[(b-lo0)*kx,(a-la0)*ky]), n=P.length, out=[];
+  const nrm=(a,b)=>{ const dx=b[0]-a[0], dy=b[1]-a[1], l=Math.hypot(dx,dy)||1; return [-dy/l,dx/l]; };
+  const side=s=>{ const r=[];
+    for(let i=0;i<n;i++){
+      const n1=nrm(P[Math.max(0,i-1)],P[Math.max(1,i)]), n2=nrm(P[Math.min(n-2,i)],P[Math.min(n-1,i+1)]);
+      let mx=n1[0]+n2[0], my=n1[1]+n2[1]; const ml=Math.hypot(mx,my)||1; mx/=ml; my/=ml;
+      const k=h/Math.max(.5, mx*n2[0]+my*n2[1]);                   // mitre, capped at 2x on sharp turns
+      r.push([P[i][0]+s*mx*k, P[i][1]+s*my*k]); }
+    return r; };
+  const cap=(c,from)=>{ const a0=Math.atan2(from[1]-c[1],from[0]-c[0]); for(let j=1;j<8;j++){ const a=a0-j*Math.PI/8; out.push([c[0]+h*Math.cos(a),c[1]+h*Math.sin(a)]); } };
+  const L_=side(1), R_=side(-1).reverse();
+  out.push(...L_); cap(P[n-1],L_[n-1]); out.push(...R_); cap(P[0],R_[n-1]);
+  return out.map(([x,y])=>[la0+y/ky, lo0+x/kx]);
+}
+function legRezoom(){ Object.values(CIRCLES).forEach(c=>c&&c._bands&&c._bands.forEach(b=>b.l.setLatLngs(legBand(b.c)))); }
 function shapeLayer(e,sty){
-  const shapes=e.shape.parts.map(p=> p.type==="line"? Object.assign(L.polyline(p.coords,legSty(sty)),{_leg:1})
-    : p.type==="polygon"? L.polygon(p.coords,p.fill? Object.assign({},sty,{fillRule:p.fill}) : sty)
+  if(!legRezoom._on){ MAP.on("zoomend",legRezoom); legRezoom._on=1; }
+  const bands=legChains(e.shape.parts.filter(p=>p.type==="line").map(p=>p.coords))
+    .map(c=>({c, l:L.polygon(legBand(c),Object.assign({},sty,{fillRule:"nonzero"}))}));
+  const shapes=bands.map(b=>b.l).concat(e.shape.parts.filter(p=>p.type!=="line").map(p=>
+      p.type==="polygon"? L.polygon(p.coords,p.fill? Object.assign({},sty,{fillRule:p.fill}) : sty)
     : (p.type==="circle"&&p.half)? L.polygon(halfDisc(p.center,p.radiusNm,p.half),sty)
-    : L.circle(p.type==="circle"?p.center:p.coord, Object.assign({},sty,{radius:(p.type==="circle"?p.radiusNm:PT_NM)*1852})));
+    : L.circle(p.type==="circle"?p.center:p.coord, Object.assign({},sty,{radius:(p.type==="circle"?p.radiusNm:PT_NM)*1852}))));
   // one NOTAM, several areas: a thin dashed line from each part to the NOTAM's dot, so they read as one item
   const tethers=[];
   if(e.shape.parts.length>1 && e.shape.source!=="route"){   // route legs are joined by the route itself, no tethers
@@ -1801,10 +1840,10 @@ function shapeLayer(e,sty){
   fg.getLatLng=()=>L.latLng(e.shape.anchor[0],e.shape.anchor[1]);
   fg._shape=e.shape;
   fg.setStyle=function(s){                 // shapes take the full style, tethers only follow the colour / fading
-    shapes.forEach(l=>l.setStyle(l._leg? legSty(s) : s));
+    shapes.forEach(l=>l.setStyle(s));
     const t={}; if(s.color) t.color=s.color; if(s.opacity!=null) t.opacity=s.opacity;
     tethers.forEach(l=>l.setStyle(t)); return this; };
-  fg._shapes=shapes;
+  fg._shapes=shapes; fg._bands=bands;
   return fg;
 }
 function ptInPoly(lat,lon,poly){        // winding number (non-zero rule): also right for border strips whose edge folds on itself
@@ -1833,8 +1872,7 @@ function shapeHit(shape,ll){            // is the tapped point inside this NOTAM
     if(p.type==="circle"&&p.half){ const pl=halfDisc(p.center,p.radiusNm,p.half); return ptInPoly(ll.lat,ll.lng,pl) || polyEdgeNm(ll.lat,ll.lng,pl)*1852<=30; }
     if(p.type==="circle") return MAP.distance(ll,p.center)<=p.radiusNm*1852*1.02+30;
     if(p.type==="point")  return MAP.distance(ll,p.coord)<=PT_NM*1852+30;
-    if(p.type==="line"){ const mpp=40075016.686*Math.cos(ll.lat*Math.PI/180)/Math.pow(2,MAP.getZoom()+8);
-      return lineNm(ll.lat,ll.lng,p.coords)*1852<=Math.max(30,LEG_HIT_PX*mpp); }
+    if(p.type==="line") return lineNm(ll.lat,ll.lng,p.coords)*1852<=Math.max(30,LEG_HIT_PX*mPerPx(ll.lat));
     return ptInPoly(ll.lat,ll.lng,p.coords) || polyEdgeNm(ll.lat,ll.lng,p.coords)*1852<=30;
   });
 }
