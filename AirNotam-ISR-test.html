@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.008T · built by eligrt
+     AirNotam-ISR · v1.05.009T · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1108,7 +1108,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.008T</b> · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.009T</b> · built by eligrt</span>
   </div>
 </div>
 
@@ -1507,11 +1507,13 @@ function snapLoad(){
 }
 let SNAP_ZOOM_HOOK=false;
 function snapShow(){
-  if(MAP&&!SNAP_ZOOM_HOOK){ SNAP_ZOOM_HOOK=true; MAP.on("zoomend moveend",()=>{ if(DRAWING) snapShow(); }); }
+  if(MAP&&!SNAP_ZOOM_HOOK){ SNAP_ZOOM_HOOK=true; MAP.on("zoomend moveend",()=>snapShow()); }
   if(!MAP) return;
   if(!SNAP_LAYER){ const pn=MAP.createPane("g_snap"); pn.style.zIndex=398; pn.style.pointerEvents="none"; SNAP_LAYER=L.layerGroup(); }
   SNAP_LAYER.clearLayers();
-  if(!(DRAWING&&SNAP_ON&&SNAP_PTS&&MAP.getZoom()>=9)){ MAP.removeLayer(SNAP_LAYER); return; }
+  // v1.05.009T: the reporting points (dot from zoom 9, Hebrew name from zoom 11) also on the review map, not only while drawing,
+  // so a point named in a NOTAM can be found on the map. While drawing, the snap switch still hides them.
+  if(!(SNAP_PTS&&MAP.getZoom()>=9&&(!DRAWING||SNAP_ON))){ MAP.removeLayer(SNAP_LAYER); return; }
   const r=L.canvas({pane:"g_snap"});
   SNAP_PTS.forEach(o=>L.circleMarker([o.lat,o.lon],{renderer:r,pane:"g_snap",interactive:false,radius:3.5,weight:1.5,color:"#8a6a2a",fillColor:"#fbf6e8",fillOpacity:1}).addTo(SNAP_LAYER));
   if(MAP.getZoom()>=11){
@@ -1753,6 +1755,7 @@ function initMap(){
   lc.addTo(MAP);
   MAP_LAYER = L.layerGroup().addTo(MAP);
   gisInitMap();
+  snapLoad().then(()=>snapShow());     // v1.05.009T: reporting points on the review map too
   famInit();
   setTimeout(()=>MAP.invalidateSize(), 50);
 }
