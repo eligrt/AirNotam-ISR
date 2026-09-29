@@ -1,0 +1,76 @@
+{
+  "_file": "gis/cvfr-patch-2025-10.json · v1.00.004 · AirNotam-ISR · built by eligrt",
+  "_readme": [
+    "WHY THIS FILE EXISTS (three sources, one answer per point) - same rules as gis/sport-patch-2025-10.json:",
+    "1. BASE = IAA GIS 2023a (gis/cvfr.json). The only machine-readable source: points, route lines, status. It is never edited.",
+    "   The IAA has not published a newer GIS; the newest official source is the printed CVFR chart (Oct 2025).",
+    "2. POINTS = the table on the back page of the Oct 2025 CVFR chart (code, Hebrew name, type, coordinates).",
+    "   Used ONLY where the GIS lacks a point or disagrees with the chart. The other 197 GIS CVFR points already match the table within 40 m.",
+    "3. ROUTES = the drawing on the Oct 2025 chart (which points are joined, line style, printed distance).",
+    "   A straight leg is a straight line between its points. A leg that bends on the chart (AFULA-EITAN) is TRACED from the chart:",
+    "   the crop is pinned to 5 table points (error under 100 m) and the green line is followed pixel by pixel.",
+    "   The printed distance is a CHECK: the parser refuses a leg (Q circle + flag) if its length differs from the",
+    "   printed distance by more than 0.3 NM (a typo, or a bent leg drawn as straight).",
+    "NAMING: the chart's code and Hebrew name are the official ones; other codes are kept as aliases.",
+    "WITHDRAWN (not deleted): points / legs in the GIS but no longer on the 2025 chart are hidden wherever a pilot plans or",
+    "   looks (map layers, route drawing, waypoint names); a NOTAM that names one is still DRAWN and FLAGGED 'לבדיקה'.",
+    "PRIORITY: where this file and the GIS both hold a point, this file wins. Drop this file when the IAA publishes a new GIS.",
+    "Separate from the sport patch on purpose: separate chart, separate date, and the same code can differ between the",
+    "   two charts (HATRU here = TZHTR on the sport chart; DUGIT sits 780 m apart on the two official charts).",
+    "Checked by Eli against the chart, 2026-09-29."
+  ],
+  "source": { "chart": "IAA CVFR chart, updated October 2025", "base": "IAA GIS 2023a" },
+
+  "points": {
+    "move": [
+      { "code": "EITAN", "name": "נווה איתן", "type": "חובה", "N": "32°29'44\"", "E": "35°32'01\"",
+        "was": "GIS 2023a 32°30'23\" 35°31'07\" (1.9 km away), דרישה", "legs": "now on the route כוכב הירדן - נווה איתן - טירת צבי" }
+    ],
+    "type": [
+      { "code": "NCSHN", "type": "חובה", "was": "דרישה" },
+      { "code": "ZDAFA", "type": "חובה", "was": "דרישה" },
+      { "code": "YAPAL", "type": "חובה", "was": "דרישה" },
+      { "code": "LIAAD", "type": "חובה", "was": "דרישה" }
+    ],
+    "name": [
+      { "code": "AFULA", "name": "עפולה",  "was": "צומת עפולה" },
+      { "code": "IKKEA", "name": "איקאה", "was": "איקיאה" }
+    ],
+    "withdraw": [
+      { "code": "KKANA", "name": "כפר כנא", "note": "not in the 2025 CVFR table (still on the sport chart)" },
+      { "code": "MACHR", "name": "מכר",     "note": "not in the 2025 CVFR table (also gone from the sport chart)" }
+    ]
+  },
+
+  "legs": {
+    "add": [
+      { "leg": "AFULA-EITAN", "status": "OPEN · CIVIL", "nm": 15.0, "chart": "green solid, bends along road 71 via Beit She'an",
+        "traced": "from Eli's chart crop, 12 points, traced length 14.71 NM",
+        "coords": [
+          [32.60372, 35.28147],
+          [32.59485, 35.31176],
+          [32.56996, 35.3315],
+          [32.56193, 35.3473],
+          [32.55777, 35.36212],
+          [32.55762, 35.37299],
+          [32.54986, 35.3967],
+          [32.54762, 35.41746],
+          [32.54166, 35.44018],
+          [32.52504, 35.47574],
+          [32.51259, 35.49648],
+          [32.49542, 35.53335]
+        ] },
+      { "leg": "KOYAR-EITAN", "status": "OPEN · CIVIL", "nm": 6.2, "chart": "green solid" },
+      { "leg": "EITAN-TIRAT", "status": "OPEN · CIVIL", "nm": 4.1, "chart": "green solid" }
+    ],
+    "withdraw": [
+      { "leg": "TIRAT-KOYAR", "note": "replaced on the 2025 chart by KOYAR-EITAN-TIRAT (the route now passes through נווה איתן)" }
+    ]
+  },
+  "_status_note": [
+    "CVFR chart legend (confirmed by Eli) = GIS status words:",
+    "  green solid 'נתיב טיסה צבאי/אזרחי' = OPEN · CIVIL;  blue solid 'נתיב טיסה צבאי' = OPEN · MIL;",
+    "  dashed 'באישור בקר/פקח בלבד' = BR · CIVIL / BR · MIL;  arrow 'נתיב חד כיווני' = one-way.",
+    "  AFULA-EITAN, KOYAR-EITAN, EITAN-TIRAT are green solid = OPEN · CIVIL."
+  ]
+}
