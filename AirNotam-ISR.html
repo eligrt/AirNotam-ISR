@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.003 · built by eligrt
+     AirNotam-ISR · v1.05.004 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1095,7 +1095,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.003 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.004 · built by eligrt</span>
   </div>
 </div>
 
@@ -2257,7 +2257,9 @@ const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy"];
 const GIS_DEF={ctr:0,tma:0,prd:0,sport:1,cvfr:1,ifr:0,ratag:0,rwy:0};
 // muted palette: never NOTAM red / blue / grey
 const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#c0267e",R:"#d9468f",D:"#e27bb1",
-  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f7a3f",cvfr:"#1f7a3f",ifr:"#4d5a1f",rwy:"#1a1308"};
+  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f7a3f",cvfr:"#1f7a3f",cvfrMil:"#1c6fc4",ifr:"#4d5a1f",rwy:"#1a1308"};
+// v1.05.004: like the chart legends: BR ("באישור בקר/פקח בלבד") = dashed; CVFR military-only route = blue
+const gisBR=p=>/^BR\b/.test((p&&p.t)||""), gisMil=p=>/\bMIL\b/.test((p&&p.t)||"");
 // sportive routes like the official chart: green = all week, brown = weekend only, purple = special (south)
 const SPORT_COL={AllWeek:"#1f7a3f",Weekend:"#8b5a2b",special:"#6b21a8"};
 function sportCol(p){ const t=(p&&p.t)||""; return t.includes("Weekend")? SPORT_COL.Weekend : t.includes("מיוחד")? SPORT_COL.special : SPORT_COL.AllWeek; }
@@ -2362,9 +2364,65 @@ async function gisApply(id){
 const GIS_DATA={};
 // opened as a local file (testing on the laptop) → read the layer files straight from the GitHub repo
 const GIS_BASE= location.protocol==="file:" ? "https://raw.githubusercontent.com/eligrt/AirNotam-ISR/main/gis/" : "gis/";
+// v1.05.004: the Oct 2025 charts laid over the 2023a GIS (see the patch files' _readme). Withdrawn points / legs are dropped here.
+const GIS_PATCH={sport:"sport-patch-2025-10.json",cvfr:"cvfr-patch-2025-10.json"};
+// ── GIS patch (gis/<layer>-patch-*.json laid over gis/<layer>.json) ──
+// Keep this function IDENTICAL in notam-geometry.mjs, AirNotam-ISR.html and AirNotam-ISR-test.html.
+// d = {r: route lines, p: points} as in gis/sport.json / cvfr.json (coordinates [lon,lat]); P = the patch file.
+// keepWithdrawn: the NOTAM parser keeps withdrawn points / legs (marked w:1) so an older NOTAM still resolves;
+// the app drops them, so no pilot plans along a route that is no longer on the chart.
+// Returns the patched copy; d._alias = the patch's aliases, d._patchErrors = legs refused by the distance check.
+function gisApplyPatch(d, P, keepWithdrawn){
+  d = JSON.parse(JSON.stringify(d)); d._alias = {}; d._patchErrors = [];
+  if(!P) return d;
+  const dms = s => { const m = String(s).match(/(\d+)\D+(\d+)\D+(\d+(?:\.\d+)?)/); if(!m) throw new Error("bad coordinate " + s); return +m[1] + m[2] / 60 + m[3] / 3600; };
+  const pt = {}; d.p.features.forEach(f => { pt[f.properties.c] = f; });
+  const ends = f => String(f.properties.c || "").split(" - ").map(s => s.trim());
+  const nmLen = line => { let s = 0; for(let i = 0; i < line.length - 1; i++){ const [x1, y1] = line[i], [x2, y2] = line[i + 1];
+    s += Math.hypot((x2 - x1) * 60 * Math.cos((y1 + y2) / 2 * Math.PI / 180), (y2 - y1) * 60); } return s; };
+  const drop = (arr, f) => { if(keepWithdrawn) f.properties.w = 1; else arr.splice(arr.indexOf(f), 1); };
+  const pp = P.points || {}, lg = P.legs || {};
+  (pp.add || []).forEach(a => {
+    const f = { type: "Feature", geometry: { type: "Point", coordinates: [dms(a.E), dms(a.N)] }, properties: { n: a.name, c: a.code, t: a.type } };
+    if(pt[a.code]) Object.assign(pt[a.code], f); else { d.p.features.push(f); pt[a.code] = f; } });
+  (pp.move || []).forEach(m => {
+    const f = pt[m.code]; if(!f) return;
+    const old = f.geometry.coordinates.slice(), nw = [dms(m.E), dms(m.N)];
+    f.geometry.coordinates = nw; if(m.type) f.properties.t = m.type; if(m.name) f.properties.n = m.name;
+    d.r.features.forEach(r => { if(!ends(r).includes(m.code)) return;          // the leg's end on the old spot moves with the point
+      r.geometry.coordinates.forEach(part => { const a = part[0], b = part[part.length - 1];
+        const da = Math.hypot(a[0] - old[0], a[1] - old[1]), db = Math.hypot(b[0] - old[0], b[1] - old[1]);
+        if(da <= db) part[0] = nw.slice(); else part[part.length - 1] = nw.slice(); }); }); });
+  (pp.rename || []).forEach(n => {
+    const f = pt[n.from]; if(!f) return;
+    f.properties.c = n.to; if(n.name) f.properties.n = n.name; pt[n.to] = f; delete pt[n.from];
+    d.r.features.forEach(r => { const e = ends(r); if(e.includes(n.from)) r.properties.c = e.map(c => c === n.from ? n.to : c).join(" - "); });
+    d._alias[n.from] = n.to; });
+  (pp.type || []).forEach(t => { if(pt[t.code]) pt[t.code].properties.t = t.type; });
+  (pp.name || []).forEach(t => { if(pt[t.code]) pt[t.code].properties.n = t.name; });
+  Object.assign(d._alias, P.aliases || {});
+  (lg.add || []).forEach(l => {
+    const [a, b] = l.leg.split("-"), A = pt[a], B = pt[b];
+    const line = l.coords ? l.coords.map(([la, lo]) => [lo, la]) : (A && B ? [A.geometry.coordinates.slice(), B.geometry.coordinates.slice()] : null);
+    if(!line){ d._patchErrors.push(`${l.leg}: point not found`); return; }
+    const len = nmLen(line);
+    if(l.nm != null && Math.abs(len - l.nm) > 0.3){ d._patchErrors.push(`${l.leg}: ${len.toFixed(2)} NM from the coordinates, chart says ${l.nm} NM`); return; }
+    d.r.features.push({ type: "Feature", geometry: { type: "MultiLineString", coordinates: [line] },
+      properties: { n: `${A ? A.properties.n : a}-${B ? B.properties.n : b}`, c: `${a} - ${b}`, t: l.status || "", patch: 1 } }); });
+  (lg.withdraw || []).forEach(l => {
+    const [a, b] = l.leg.split("-");
+    d.r.features.filter(r => { const e = ends(r); return (e[0] === a && e[1] === b) || (e[0] === b && e[1] === a); })
+      .forEach(r => drop(d.r.features, r)); });
+  (pp.withdraw || []).forEach(w => { const f = pt[w.code]; if(f) drop(d.p.features, f); });
+  return d;
+}
 function gisFetch(id){
   if(!GIS_DATA[id]){
-    GIS_DATA[id]=fetch(`${GIS_BASE}${id}.json?v=${GIS_VER}`).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); });
+    const base=fetch(`${GIS_BASE}${id}.json?v=${GIS_VER}`).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); });
+    const patch=GIS_PATCH[id]? fetch(`${GIS_BASE}${GIS_PATCH[id]}?v=${GIS_VER}`).then(r=>r.ok?r.json():null).catch(()=>null) : Promise.resolve(null);
+    GIS_DATA[id]=Promise.all([base,patch]).then(([d,P])=>{ if(!P) return d;
+      try{ const o=gisApplyPatch(d,P,false); if(o._patchErrors.length) console.warn("GIS patch "+id+":",o._patchErrors); return o; }
+      catch(e){ console.warn("GIS patch "+id+" not applied:",e); return d; } });
     GIS_DATA[id].catch(()=>{ delete GIS_DATA[id]; });
   }
   return GIS_DATA[id];
@@ -2390,14 +2448,15 @@ function gisBuild(id,d){
   const lines= id==="rwy"? d : d.r;
   GIS.lay[id]=L.geoJSON(lines,{pane:id==="rwy"?"g_rwy":"g_gln",renderer:GIS.R[id==="rwy"?"rwy":"gln"],interactive:false,
     style:f=>({color: id==="sport"? sportCol(f.properties) : lineC, weight:id==="rwy"?4.5:id==="sport"?2.4:2.2, opacity:id==="sport"?1:.85,
-      dashArray:id==="ifr"?"2 5":null, lineCap:id==="rwy"?"butt":"round"})});
+      dashArray:id==="ifr"?"2 5": (id==="sport"&&gisBR(f.properties))?"6 5":null, lineCap:(id==="rwy"||gisBR(f.properties))?"butt":"round"})});
   if(id==="cvfr"){   // CVFR drawn as a "cased" line (white edge + teal core) so it stands apart from sportive green
     const cas=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:"#ffffff",weight:7.5,opacity:.95,lineCap:"round"}});
-    const core=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:lineC,weight:4,opacity:1,lineCap:"round"}});
+    const core=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:f=>({color:gisMil(f.properties)?GIS_COL.cvfrMil:lineC,weight:4,opacity:1,
+      dashArray:gisBR(f.properties)?"8 6":null,lineCap:gisBR(f.properties)?"butt":"round"})});
     GIS.lay[id]=L.layerGroup([cas,core]);
   }
   lines.features.forEach(f=>{ const g=f.geometry, parts=g.type==="LineString"?[g.coordinates]:g.coordinates;
-    idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c: id==="sport"? sportCol(f.properties) : lineC}); });
+    idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c: id==="sport"? sportCol(f.properties) : (id==="cvfr"&&gisMil(f.properties))? GIS_COL.cvfrMil : lineC}); });
   if(d.p){
     GIS.pts[id]=L.geoJSON(d.p,{pointToLayer:(f,ll)=>{ const t=f.properties.t;
         const o={pane:"g_gpt",renderer:GIS.R.gpt,interactive:false,radius:4,weight:1.6,color:lineC,fillColor:lineC,fillOpacity:1};
