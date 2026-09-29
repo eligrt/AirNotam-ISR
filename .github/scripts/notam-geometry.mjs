@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.003 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.004 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -12,7 +12,8 @@
  * USAGE
  *   node notam-geometry.mjs notams.json            (updates the file in place)
  *   node notam-geometry.mjs in.json out.json
- *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides)
+ *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides;
+ *    the route layers cvfr.json and sport.json are read from the same folder)
  *
  * WHAT IT RECOGNISES (field E)
  *   polygon : "BTN FLW PSN 314107N0345919E 313846N0345857E ..."   (3+ points)
@@ -31,6 +32,20 @@
  *   Interior Ministry outline), on the ISRAELI side, N km deep + 1 km safety margin.
  *   The direction word (SB / WB ...) is only a cross-check: if it points away from Israel
  *   (C1830 "EGYPT ... WB"), the strip is still drawn on the Israeli side and a note says so.
+ *
+ * CLOSED ROUTE LEGS (only when field E has no coordinates and is not a border strip)
+ *   "CVFR RTE CLSD NOAAM-GOVRN-ZHRYA."   "ULTRALIGHT RTE CLSD NITZA-NMADD-ZASHD. ZBRCH-NIZNM-ZASHD."
+ *   Each leg (two neighbouring names) is looked up in the IAA route layers gis/cvfr.json and
+ *   gis/sport.json and drawn along the published route line (not a straight line).
+ *   - layer: CVFR -> cvfr.json, ULTRALIGHT -> sport.json, HEL alone -> cvfr.json; if the leg is not
+ *     in that layer, the other layer is used (same two points, same published route) and noted
+ *   - a leg whose two points are not directly joined in the GIS is accepted only through ONE
+ *     possible path of at most 3 segments, no longer than 1.3 x the straight distance
+ *     (the NOTAM skipped a point in between, e.g. MCZVA-YARHV = MCZVA-SSOMR-YARHV); "via" lists them
+ *   - anything after "DIVERTED" is the diversion (open), never drawn as closed
+ *   - only sentences with RTE ... CLSD, and the bare lists of legs right after them, are read;
+ *     ATS routes (airways) are ignored
+ *   - legs that cannot be found are listed in "missing" and simply not drawn
  *
  * SAFETY RULES (any failure = no geometry, the app falls back to the Q circle)
  *   - every coordinate-looking token must parse (a typo like 3149310N rejects it)
@@ -55,7 +70,12 @@
  *   border strip: "source":"border", "border":"lebanon", "km":8, "marginKm":1,
  *                 "parts":[{"type":"polygon","coords":[...],"fill":"nonzero"}], "note" when the
  *                 text's direction was ignored
- *   "geometryReject": "reason"      // only when coordinates were found but rejected
+ *   closed route legs: "source":"route",
+ *                 "parts":[{"type":"line","coords":[[lat,lon],...],"leg":"NOAAM-GOVRN","layer":"cvfr",
+ *                           "via":["SSOMR"] (only when a skipped point was filled in),
+ *                           "otherLayer":true (only when found in the other layer)}, ...],
+ *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
+ *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -260,11 +280,119 @@ function borderStrip(text) {
   return { geometry: g };
 }
 
+// ── closed route legs ────────────────────────────────────────────────────────
+// ROUTES[layer] = { seg: Map "A|B" -> [[lat,lon],...] from A to B, adj: Map A -> Set(B) }
+let ROUTES = null;
+const ROUTE_LAYERS = ["cvfr", "sport"];
+export function loadRoutes(dir) {
+  ROUTES = {};
+  for (const id of ROUTE_LAYERS) {
+    const d = JSON.parse(readFileSync(`${dir}/${id}.json`, "utf8"));
+    const seg = new Map(), adj = new Map(), pts = new Map();
+    for (const f of d.p.features) { const [lon, lat] = f.geometry.coordinates; pts.set(f.properties.c, [lat, lon]); }
+    const link = (a, b) => { if (!adj.has(a)) adj.set(a, new Set()); adj.get(a).add(b); };
+    const off = (p, q) => Math.hypot(...kmVec(p, q));
+    for (const f of d.r.features) {
+      const ends = String(f.properties.c || "").split(" - ").map(s => s.trim());
+      if (ends.length !== 2 || !ends[0] || !ends[1]) continue;
+      let line = f.geometry.coordinates.flat().map(([lon, lat]) => [lat, lon]);    // MultiLineString with one part
+      if (line.length < 2) continue;
+      const [a, b] = ends, pa = pts.get(a), pb = pts.get(b), s = line[0], e = line[line.length - 1];
+      // the GIS stores about a quarter of the segments end-to-start: turn them round by the named points
+      const fwd = (pa ? off(s, pa) : 0) + (pb ? off(e, pb) : 0), rev = (pa ? off(e, pa) : 0) + (pb ? off(s, pb) : 0);
+      if (rev < fwd) line = line.slice().reverse();
+      if (Math.min(fwd, rev) > 0.5 * ((pa ? 1 : 0) + (pb ? 1 : 0))) continue;   // ends not on the named points: GIS error, never used
+      if (!seg.has(`${a}|${b}`)) seg.set(`${a}|${b}`, line);
+      if (!seg.has(`${b}|${a}`)) seg.set(`${b}|${a}`, line.slice().reverse());
+      link(a, b); link(b, a);
+    }
+    ROUTES[id] = { seg, adj };
+  }
+}
+function lineKm(line) { let d = 0; for (let i = 0; i < line.length - 1; i++) d += Math.hypot(...kmVec(line[i], line[i + 1])); return d; }
+// one leg A-B in one layer: the published segment, or the single short path through skipped points
+function findLeg(layer, a, b) {
+  const { seg, adj } = ROUTES[layer];
+  if (seg.has(`${a}|${b}`)) return { coords: seg.get(`${a}|${b}`) };
+  if (!adj.has(a) || !adj.has(b)) return null;
+  const paths = [], walk = p => {
+    const last = p[p.length - 1];
+    if (last === b) { paths.push(p); return; }
+    if (p.length > 3) return;                                                     // at most 3 segments
+    for (const n of adj.get(last)) if (!p.includes(n)) walk(p.concat(n));
+  };
+  walk([a]);
+  if (paths.length !== 1) return null;                                           // none, or ambiguous
+  const p = paths[0]; let coords = [];
+  for (let i = 0; i < p.length - 1; i++) coords = coords.concat(i ? seg.get(`${p[i]}|${p[i + 1]}`).slice(1) : seg.get(`${p[i]}|${p[i + 1]}`));
+  const straight = Math.hypot(...kmVec(coords[0], coords[coords.length - 1]));
+  if (!(straight > 0) || lineKm(coords) > 1.3 * straight) return null;           // a detour, not the same leg
+  return { coords, via: p.slice(1, -1) };
+}
+const RX_CHAIN = /\b[A-Z][A-Z0-9]{3,4}(?:-[A-Z][A-Z0-9]{3,4})+\b/g;
+function routeLegs(notam) {
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  if (!/\bRTE\b/.test(text) || !/\bCLSD\b/.test(text) || /\bATS\s+RTE\b/.test(text)) return null;
+  if (!ROUTES) return { reject: "route layers not available" };
+  const closedPart = text.split(/\bDIVERT/)[0];                                  // the diversion is open, never drawn
+  const legs = [], seen = new Set();
+  let layers = null;                                                             // layers of the last "RTE ... CLSD" sentence
+  for (const s of closedPart.split(/\.(?=\s|$|\))/)) {
+    const chains = s.match(RX_CHAIN) || [];
+    if (/\bRTE\b/.test(s) && /\bCLSD\b/.test(s)) {
+      const w = [...s.matchAll(/\b(CVFR|ULTRALIGHT|HEL)\b/g)].map(m => m[1]);
+      layers = [...new Set(w.map(x => x === "ULTRALIGHT" ? "sport" : "cvfr"))];
+      if (!layers.length) layers = ["cvfr"];
+    } else if (!(layers && chains.length && !s.replace(RX_CHAIN, "").replace(/[\s,;)]/g, ""))) {
+      layers = null; continue;                                                   // some other sentence: stop reading legs
+    }
+    for (const ch of chains) {
+      const names = ch.split("-");
+      for (let i = 0; i < names.length - 1; i++) {
+        const a = names[i], b = names[i + 1], key = [a, b].sort().join("|");
+        if (seen.has(key)) continue; seen.add(key);
+        legs.push({ a, b, layers });
+      }
+    }
+  }
+  if (!legs.length) return null;
+  const parts = [], missing = [];
+  for (const { a, b, layers: pref } of legs) {
+    let hit = null;
+    for (const layer of pref.concat(ROUTE_LAYERS.filter(l => !pref.includes(l)))) {
+      const r = findLeg(layer, a, b);
+      if (r) { hit = Object.assign({ type: "line", coords: r.coords.map(RP), leg: `${a}-${b}`, layer },
+                                    r.via ? { via: r.via } : {}, pref.includes(layer) ? {} : { otherLayer: true }); break; }
+    }
+    if (hit) parts.push(hit); else missing.push(`${a}-${b}`);
+  }
+  if (!parts.length) return { reject: `no closed leg found in the route layers (${missing.join(", ")})` };
+  for (const p of parts) for (const q of p.coords)
+    if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "route leg outside the FIR" };
+  const qp = notam.qLine?.position || notam.position;
+  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) {
+    const c = [qp.lat, qp.lon], lim = qp.radiusNm + Q_SLACK_NM;
+    for (const p of parts) for (const q of p.coords)
+      if (distNm(c, q) > lim) return { reject: `route leg ${p.leg} reaches outside the Q-line circle (${distNm(c, q).toFixed(1)} > ${lim} NM)` };
+  }
+  // map dot: halfway along the longest leg
+  const main = parts.slice().sort((x, y) => lineKm(y.coords) - lineKm(x.coords))[0].coords;
+  let half = lineKm(main) / 2, anchor = main[0];
+  for (let i = 0; i < main.length - 1; i++) {
+    const d = Math.hypot(...kmVec(main[i], main[i + 1]));
+    if (d >= half) { const t = d ? half / d : 0; anchor = [main[i][0] + (main[i + 1][0] - main[i][0]) * t, main[i][1] + (main[i + 1][1] - main[i][1]) * t]; break; }
+    half -= d;
+  }
+  const g = { source: "route", parts, anchor: RP(anchor) };
+  if (missing.length) g.missing = missing;
+  return { geometry: g };
+}
+
 export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText);               // no coordinates: maybe a border strip, else not our business
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam);   // no coordinates: maybe a border strip or closed route legs
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -322,6 +450,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [inp, outp = inp] = args;
   if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json] [--borders gis/borders.json]"); process.exit(1); }
   try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
+  const gdir = bpath.replace(/[\\/][^\\/]*$/, "");                                // route layers sit next to borders.json
+  try { loadRoutes(gdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
