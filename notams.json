@@ -1,9 +1,43 @@
 {
-  "generatedAt": "2026-09-29T01:44:01.263Z",
+  "generatedAt": "2026-09-29T08:17:25.917Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 129,
+  "count": 130,
   "notams": [
+    {
+      "id": "C2054/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-09-30T06:30:00.000Z",
+      "toDate": "2026-09-30T22:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 32.333333,
+          "lon": 34.983333,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT OLESH WI 1.5NM RADIUS CENTERED ON PSN 322017N0345921E CLSD FM GND UP TO 3,000FT AMSL TO ALL FLT. HASHARON-DAROM BUBBLE (BSARS) CLSD E OF NAT VOR. LLHZ TRG AREA NR 13 CLSD E OF NAT VOR. CTN ADZ.",
+      "position": {
+        "lat": 32.333333,
+        "lon": 34.983333,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2054/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/030/3220N03459E002 A) LLLL B) 2609300630 C) 2609302200 E) AN AREA AT OLESH WI 1.5NM RADIUS CENTERED ON PSN 322017N0345921E CLSD FM GND UP TO 3,000FT AMSL TO ALL FLT. HASHARON-DAROM BUBBLE (BSARS) CLSD E OF NAT VOR. LLHZ TRG AREA NR 13 CLSD E OF NAT VOR. CTN ADZ.)",
+      "rowID": "2064052"
+    },
     {
       "id": "C2052/26",
       "location": "LLLL",
