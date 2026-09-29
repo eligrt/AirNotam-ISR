@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.004 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.006 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -12,6 +12,7 @@
  * USAGE
  *   node notam-geometry.mjs notams.json            (updates the file in place)
  *   node notam-geometry.mjs in.json out.json
+ *   node notam-geometry.mjs notams.json --flags flags.json   (also writes the list of NOTAMs worth a human look)
  *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides;
  *    the route layers cvfr.json and sport.json are read from the same folder)
  *
@@ -47,6 +48,17 @@
  *     ATS routes (airways) are ignored
  *   - legs that cannot be found are listed in "missing" and simply not drawn
  *
+ * FLAGS (--flags): NOTAMs that probably deserved a shape but did not get a full one, so a person can look.
+ *   Most Q-circle NOTAMs are correct as circles (obstacle lights, runway works...) and are NOT flagged.
+ *   - "rejected"     coordinates / legs were found but failed a safety rule
+ *   - "legs missing" RTE CLSD legs that are not in the GIS route layers
+ *   - "semi-circle"  a semi-circle with no side, drawn as a full circle
+ *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
+ *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
+ *                    CENTERED, "WI 5NM", coordinate-like numbers); ATS airways are ignored
+ *   Each flag has a "key" = kind + the exact E text, so a NOTAM re-issued with the same text is not
+ *   flagged again (the workflow keeps the keys already reported).
+ *
  * SAFETY RULES (any failure = no geometry, the app falls back to the Q circle)
  *   - every coordinate-looking token must parse (a typo like 3149310N rejects it)
  *   - all points inside the Tel-Aviv FIR box
@@ -76,6 +88,8 @@
  *                           "otherLayer":true (only when found in the other layer)}, ...],
  *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
+ *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
+ *                                   the test copy lists them under "לבדיקה" and shows the reason
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -430,16 +444,41 @@ export function geometryFor(notam) {
   return { geometry: g };
 }
 
+// ── flags: what deserves a human look (see FLAGS above) ─────────────────────
+const AREA_WORDS = [
+  ["RADIUS", /\bRADIUS\b/], ["BOUNDARY", /\bBO?UND[AR]{2,3}Y\b/], ["BOUNDED", /\bBOUNDED\b/], ["SEMI-CIRCLE", /\bSEMI-?CIRCLE\b/],
+  ["ARC", /\bARC\b/], ["CORRIDOR", /\bCORRIDOR\b/], ["RTE CLSD", /\bRTE\b[^.]*\bCLSD\b/],
+  ["BTN FLW", /\bBTN\s+(?:THE\s+)?(?:FLW|FOLLOWING)\b/], ["PSN", /\bPSN\b/], ["CENTERED", /\bCENT(?:ER|RE)D\b/],
+  ["distance", /\bWI\s+\d+(?:\.\d+)?\s?(?:NM|KM|M)\b|\d+(?:\.\d+)?\s?(?:NM|KM)\s+(?:FM|OF|AROUND)\b/],
+  ["coordinates", RX_LOOSE],
+];
+export function flagsFor(notams) {
+  const out = [];
+  const add = (n, kind, reason) => out.push({ key: kind + "|" + String(n.eText || "").replace(/\s+/g, " ").trim(),
+    id: n.id, kind, reason, qLine: n.qLine || null, fromDate: n.fromDate || null, toDate: n.toDate || null, eText: n.eText || "" });
+  for (const n of notams) {
+    const t = String(n.eText || "").toUpperCase(), g = n.geometry;
+    if (n.geometryReject) { add(n, "rejected", n.geometryReject); continue; }
+    if (g && g.missing) { add(n, "legs missing", "route legs not in the GIS: " + g.missing.join(", ")); continue; }
+    if (g && g.note === "semi-circle drawn as full circle") { add(n, "semi-circle", "semi-circle with no side, drawn as a full circle"); continue; }
+    if (g || !t || /\bATS\s+RTE\b/.test(t)) continue;
+    const hits = AREA_WORDS.filter(([, rx]) => { rx.lastIndex = 0; return rx.test(t); }).map(([w]) => w);
+    if (hits.length) add(n, "unfamiliar", "no shape, but the text has: " + hits.join(", "));
+  }
+  return out;
+}
+
 export function addGeometry(notams) {
   const stats = { shaped: 0, rejected: 0, none: 0 };
   for (const n of notams) {
-    delete n.geometry; delete n.geometryReject;
+    delete n.geometry; delete n.geometryReject; delete n.geometryFlag;
     let res = null;
     try { res = geometryFor(n); } catch (e) { res = { reject: "parser error: " + e.message }; }
     if (res?.geometry) { n.geometry = res.geometry; stats.shaped++; }
     else if (res?.reject) { n.geometryReject = res.reject; stats.rejected++; }
     else stats.none++;
   }
+  for (const f of flagsFor(notams)) { const n = notams.find(x => x.id === f.id && (x.eText || "") === f.eText); if (n) n.geometryFlag = { kind: f.kind, reason: f.reason }; }
   return stats;
 }
 
@@ -447,6 +486,7 @@ export function addGeometry(notams) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2), bi = args.indexOf("--borders");
   const bpath = bi >= 0 ? args.splice(bi, 2)[1] : fileURLToPath(new URL("../../gis/borders.json", import.meta.url));
+  const fi = args.indexOf("--flags"), fpath = fi >= 0 ? args.splice(fi, 2)[1] : null;
   const [inp, outp = inp] = args;
   if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json] [--borders gis/borders.json]"); process.exit(1); }
   try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
@@ -457,4 +497,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const stats = addGeometry(list);
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
+  if (fpath) {
+    const flags = flagsFor(list);
+    writeFileSync(fpath, JSON.stringify(flags, null, 2));
+    console.log(`notam-geometry: ${flags.length} flagged for a look`);
+    for (const f of flags) console.log(`  ${f.id}  [${f.kind}]  ${f.reason}`);
+  }
 }
