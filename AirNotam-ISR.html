@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.004 · built by eligrt
+     AirNotam-ISR · v1.05.005 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -865,6 +865,14 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .sn-lbm{position:relative;width:0;height:0;}
 .sn-lbm span{position:absolute;left:7px;top:-8px;white-space:nowrap;direction:rtl;font-family:var(--font-ui);font-size:10.5px;font-weight:700;
   color:var(--ink-dark);text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff;}
+/* v1.05.005: two names that would overlap: the northern one above its dot, the southern one below (centred on the dot) */
+.sn-lbm span.u{left:0;top:-19px;transform:translateX(-50%);}
+.sn-lbm span.d{left:0;top:5px;transform:translateX(-50%);}
+/* v1.05.005: current zoom level, lower left of the map (moves up above the route bar while drawing) */
+.zoom-ro{font-family:var(--font-mono);font-size:10px;font-weight:700;color:#5c6470;background:rgba(255,255,255,.72);border-radius:3px;
+  padding:1px 5px;margin:0 0 4px 6px;pointer-events:none;direction:ltr;}
+#map .leaflet-bottom.leaflet-left{transition:bottom .2s ease;}
+.draw-bar .db-hint{display:block;font-size:11.5px;margin-top:2px;line-height:1.25;color:var(--gold-lite,#e9d8a6);font-weight:600;}
 /* v1.04.012: "no point here" message at the tap */
 .snap-miss{position:relative;width:0;height:0;}
 .snap-miss i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:2.5px solid var(--info-gold);
@@ -968,7 +976,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
-      <div class="sp-sec">מסלול</div>
+      <div class="sp-sec">הגדרות מתקדמות: מפה ומסלול</div>
       <div class="sp-row sp-static"><b>רוחב המסדרון מכל צד של הקו</b><small>NOTAMs בתוך המסדרון נחשבים "לאורך המסלול"</small>
         <div class="fgrace sp-corr" id="corrSeg"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
       <div class="sp-sec">משוב</div>
@@ -1095,7 +1103,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.004 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.005 · built by eligrt</span>
   </div>
 </div>
 
@@ -1368,6 +1376,7 @@ function renderReady(){
 }
 const CURTAINS=["rdy","rte","viw"];
 function openCurtain(id){
+  if(MAP) MAP.closePopup();   // v1.05.005: the popup now sits above the map's panels, so close it under a curtain
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
   document.getElementById(id).classList.add("show"); const tt=document.getElementById("t_"+id); if(tt) tt.classList.add("on");
   if(id==="viw") filtUi();
@@ -1451,16 +1460,20 @@ function drawRoute(){
 function drawUi(){
   try{renderHints();}catch(_){}
   const t=document.getElementById("drawTxt");
+  const snapEff=SNAP_ON&&snapLayersOn();
   const base= ROUTE.length? `${ROUTE.length} נקודות · ${routeLenNm().toFixed(0)}NM · הקש להוספת נקודה`
-            : SNAP_ON? "הקש ליד נקודת דיווח כדי להוסיף אותה" : "הקש על המפה כדי להוסיף נקודה (המראה, נקודות דרך, נחיתה)";
+            : snapEff? "הקש ליד נקודת דיווח כדי להוסיף אותה" : "הקש על המפה כדי להוסיף נקודה (המראה, נקודות דרך, נחיתה)";
   t.textContent=base;
   const noPts=!ROUTE.length; document.getElementById("dbUndo").disabled=noPts; document.getElementById("dbClear").disabled=noPts;
   if(ROUTE.some(p=>p[2])){   // names of snapped points, in order ("•" = a free point)
     const n=document.createElement("span"); n.className="db-names";
     n.textContent=ROUTE.map(p=>p[2]||"•").join(" ← "); t.appendChild(n);
   }
-  const sw=document.getElementById("snapSw"); if(sw){ sw.setAttribute("aria-checked",SNAP_ON?"true":"false");
-    document.getElementById("snapTxt").textContent= SNAP_ON? "על בסיס נקודות דיווח" : "חופשי"; }
+  if(SNAP_ON&&!snapLayersOn()){ const h=document.createElement("span"); h.className="db-hint";   // v1.05.005
+    h.textContent="סימון חופשי: הדלק שכבת נתיבים כדי לבחור נקודות דיווח"; t.appendChild(h); }
+  const sw=document.getElementById("snapSw"); if(sw){ sw.setAttribute("aria-checked",snapEff?"true":"false");
+    document.getElementById("snapTxt").textContent= snapEff? "על בסיס נקודות דיווח" : "חופשי"; }
+  zoomRoLift();
 }
 // ── snapping: route taps stick to the nearest known point (sportive + CVFR points, airfields) ──
 let SNAP_ON=true; try{SNAP_ON=localStorage.getItem("airnotam_snap")!=="0";}catch(e){}
@@ -1468,17 +1481,21 @@ let SNAP_PTS=null, SNAP_LAYER=null;
 const SNAP_PX=28;
 function snapLoad(){
   if(SNAP_PTS) return Promise.resolve(SNAP_PTS);
-  return Promise.all(["sport","cvfr"].map(id=>gisFetch(id).catch(()=>null))).then(ds=>{
+  const LAY=["sport","cvfr"];
+  return Promise.all(LAY.map(id=>gisFetch(id).catch(()=>null))).then(ds=>{
     const out=[], seen={};
-    ds.forEach(d=>{ if(!d||!d.p) return; d.p.features.forEach(f=>{
+    ds.forEach((d,di)=>{ if(!d||!d.p) return; d.p.features.forEach(f=>{
       const [lon,lat]=f.geometry.coordinates, pr=f.properties, code=pr.c||"", name=pr.n||code;
-      const dup=(seen[code]||[]).some(o=>Math.hypot((o.lat-lat)*60,(o.lon-lon)*60*.85)<0.3);
-      if(dup) return;
-      const o={lat,lon,code,name}; (seen[code]=seen[code]||[]).push(o); out.push(o);
+      const dup=(seen[code]||[]).find(o=>Math.hypot((o.lat-lat)*60,(o.lon-lon)*60*.85)<0.3);
+      if(dup){ if(!dup.layers.includes(LAY[di])) dup.layers.push(LAY[di]); return; }
+      const o={lat,lon,code,name,layers:[LAY[di]]}; (seen[code]=seen[code]||[]).push(o); out.push(o);
     }); });
     SNAP_PTS=out.length? out : null; return SNAP_PTS;
   });
 }
+// v1.05.005: the points (dots, names, route snapping) follow the layers: a point shows while one of its layers is on
+function snapLayersOn(){ return gisOn("sport")||gisOn("cvfr"); }
+function snapVis(){ return SNAP_PTS? SNAP_PTS.filter(o=>o.layers.some(l=>gisOn(l))) : []; }
 let SNAP_ZOOM_HOOK=false;
 function snapShow(){
   if(MAP&&!SNAP_ZOOM_HOOK){ SNAP_ZOOM_HOOK=true; MAP.on("zoomend moveend",()=>snapShow()); }
@@ -1487,26 +1504,48 @@ function snapShow(){
   SNAP_LAYER.clearLayers();
   // v1.05.003: the reporting points (dot from zoom 9, Hebrew name from zoom 11) also on the review map, not only while drawing,
   // so a point named in a NOTAM can be found on the map. While drawing, the snap switch still hides them.
-  if(!(SNAP_PTS&&MAP.getZoom()>=9&&(!DRAWING||SNAP_ON))){ MAP.removeLayer(SNAP_LAYER); return; }
+  const PTS=snapVis();
+  if(!(PTS.length&&MAP.getZoom()>=9&&(!DRAWING||SNAP_ON))){ MAP.removeLayer(SNAP_LAYER); return; }
   const r=L.canvas({pane:"g_snap"});
-  SNAP_PTS.forEach(o=>L.circleMarker([o.lat,o.lon],{renderer:r,pane:"g_snap",interactive:false,radius:3.5,weight:1.5,color:"#8a6a2a",fillColor:"#fbf6e8",fillOpacity:1}).addTo(SNAP_LAYER));
+  PTS.forEach(o=>L.circleMarker([o.lat,o.lon],{renderer:r,pane:"g_snap",interactive:false,radius:3.5,weight:1.5,color:"#8a6a2a",fillColor:"#fbf6e8",fillOpacity:1}).addTo(SNAP_LAYER));
   if(MAP.getZoom()>=11){
     const b=MAP.getBounds().pad(0.2), used=new Set(ROUTE.map(p=>p[2]).filter(Boolean));
-    SNAP_PTS.forEach(o=>{ if(!b.contains([o.lat,o.lon])||used.has(o.name)) return;
-      L.marker([o.lat,o.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
-        html:`<div class="sn-lbm"><span>${esc(o.name)}</span></div>`})}).addTo(SNAP_LAYER); });
+    const V=PTS.filter(o=>b.contains([o.lat,o.lon])&&!used.has(o.name));
+    // v1.05.005: names normally sit to the right of the dot; when two would overlap (name on name, or a name over the
+    // other dot), the northern name moves above its dot and the southern one below. Nothing is hidden.
+    const cx=snapShow._cx||(snapShow._cx=document.createElement("canvas").getContext("2d"));
+    cx.font='700 10.5px "IBM Plex Sans Hebrew", Heebo, sans-serif';
+    const B=V.map(o=>{ const p=MAP.latLngToContainerPoint([o.lat,o.lon]); return {o,p,w:cx.measureText(o.name).width+3,pos:""}; });
+    const rb=a=>({x1:a.p.x+7,x2:a.p.x+7+a.w,y1:a.p.y-8,y2:a.p.y+6}), db=a=>({x1:a.p.x-4,x2:a.p.x+4,y1:a.p.y-4,y2:a.p.y+4});
+    const ov=(A,C)=>A.x1<C.x2&&C.x1<A.x2&&A.y1<C.y2&&C.y1<A.y2;
+    for(let i=0;i<B.length;i++) for(let j=i+1;j<B.length;j++){
+      const P=B[i], Q=B[j]; if(Math.abs(P.p.y-Q.p.y)>16 || Math.abs(P.p.x-Q.p.x)>P.w+Q.w+16) continue;
+      if(ov(rb(P),rb(Q))||ov(rb(P),db(Q))||ov(rb(Q),db(P))){ const n=P.o.lat>=Q.o.lat? P : Q; (n===P?P:Q).pos="u"; (n===P?Q:P).pos="d"; }
+    }
+    B.forEach(a=>L.marker([a.o.lat,a.o.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+        html:`<div class="sn-lbm"><span${a.pos?` class="${a.pos}"`:""}>${esc(a.o.name)}</span></div>`})}).addTo(SNAP_LAYER));
   }
   SNAP_LAYER.addTo(MAP);
 }
 function snapNearest(ll){
   if(!SNAP_PTS) return null;
   const P=MAP.latLngToContainerPoint(ll); let best=null, bd=SNAP_PX;
-  SNAP_PTS.forEach(o=>{ const q=MAP.latLngToContainerPoint([o.lat,o.lon]), d=Math.hypot(q.x-P.x,q.y-P.y); if(d<=bd){bd=d;best=o;} });
+  snapVis().forEach(o=>{ const q=MAP.latLngToContainerPoint([o.lat,o.lon]), d=Math.hypot(q.x-P.x,q.y-P.y); if(d<=bd){bd=d;best=o;} });
   return best;
 }
 function snapFlash(o){
   const t=L.tooltip({permanent:true,direction:"top",offset:[0,-8],className:"snap-flash"}).setLatLng([o.lat,o.lon]).setContent(o.name).addTo(MAP);
   setTimeout(()=>MAP.removeLayer(t),1300);
+}
+// v1.05.005: while drawing, the zoom readout sits just above the route bar
+// (and above the attribution line when that line is long enough to reach the left corner, e.g. the grey basemap)
+function zoomRoLift(){
+  const c=MAP&&MAP.getContainer().querySelector(".leaflet-bottom.leaflet-left"); if(!c) return;
+  requestAnimationFrame(()=>{ const m=MAP.getContainer().getBoundingClientRect();
+    if(DRAWING){ const r=document.getElementById("drawBar").getBoundingClientRect(); if(r.height){ c.style.bottom=Math.max(0,Math.round(m.bottom-r.top+4))+"px"; return; } }
+    const a=MAP.getContainer().querySelector(".leaflet-control-attribution"), z=c.querySelector(".zoom-ro");
+    const ar=a&&a.getBoundingClientRect(), zw=z? z.getBoundingClientRect().width+10 : 40;
+    c.style.bottom= ar&&ar.height&&ar.left<m.left+zw? Math.round(m.bottom-ar.top)+"px" : ""; });
 }
 function setSnap(v){ SNAP_ON=v; try{localStorage.setItem("airnotam_snap",v?"1":"0");}catch(e){} drawUi(); snapShow(); }
 function startDraw(){
@@ -1521,8 +1560,9 @@ function startDraw(){
 }
 function drawClick(ev){
   if(!DRAWING) return;
-  const o= SNAP_ON? snapNearest(ev.latlng) : null;
-  if(SNAP_ON && SNAP_PTS && !o){   // snapping on: a tap away from any point adds nothing
+  const snapEff=SNAP_ON&&snapLayersOn();          // both route layers off: free drawing (the bar says so)
+  const o= snapEff? snapNearest(ev.latlng) : null;
+  if(snapEff && SNAP_PTS && !o){   // snapping on: a tap away from any point adds nothing
     // the message appears where the finger is, on the map (not only in the bar below)
     if(drawClick._m){ MAP.removeLayer(drawClick._m); }
     drawClick._m=L.marker(ev.latlng,{interactive:false,keyboard:false,zIndexOffset:2000,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
@@ -1567,7 +1607,7 @@ function drawDone(){
   DRAWING=false; MAP.doubleClickZoom.enable();
   document.getElementById("map").classList.remove("drawing");
   document.getElementById("drawBar").classList.remove("show");
-  snapShow(); renderMap(); document.getElementById("stage").classList.remove("drawing-on");
+  snapShow(); renderMap(); document.getElementById("stage").classList.remove("drawing-on"); zoomRoLift();
   if(ROUTE.length<2){ ROUTE=[]; }
   saveRoute();
   if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
@@ -1728,6 +1768,15 @@ function initMap(){
     L.DomEvent.disableClickPropagation(d); d.firstChild.addEventListener("click",()=>gisPanelToggle()); return d; };
   lc.addTo(MAP);
   MAP_LAYER = L.layerGroup().addTo(MAP);
+  // v1.05.005: the NOTAM popup lives in its own pane next to the map pane (kept in step with it), above the map's
+  // buttons and panels (zoom, layers, filter), so no control can cover a button inside the popup
+  { const pn=MAP.createPane("popTop",MAP.getContainer()); pn.style.zIndex=1001;
+    const sync=()=>L.DomUtil.setPosition(pn,MAP._getMapPanePos());
+    MAP.on("move zoom viewreset zoomend moveend resize",sync); sync(); }
+  // v1.05.005: current zoom level (Z11), lower left
+  { const zc=L.control({position:"bottomleft"});
+    zc.onAdd=()=>{ const d=L.DomUtil.create("div","zoom-ro"); const f=()=>{ d.textContent="Z"+Math.round(MAP.getZoom()); }; f(); MAP.on("zoomend",f); return d; };
+    zc.addTo(MAP); MAP.on("baselayerchange resize",()=>zoomRoLift()); setTimeout(zoomRoLift,300); }
   gisInitMap();
   snapLoad().then(()=>snapShow());     // v1.05.003: reporting points on the review map too
   setTimeout(()=>MAP.invalidateSize(), 50);
@@ -1819,7 +1868,7 @@ function openAt(ll,firstId){
   const mr=MAP.getContainer().getBoundingClientRect(), lg=document.querySelector(".map-legend");
   const top= lg? Math.round(lg.getBoundingClientRect().bottom-mr.top)+12 : 40;
   const w=node.querySelector(".pu-wrap"); if(w) w.style.maxHeight=Math.max(180,Math.min(340,mr.height-top-90))+"px";
-  L.popup({maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
+  L.popup({pane:"popTop",maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
   if(w){ const f=()=>w.classList.toggle("more", w.scrollTop+w.clientHeight < w.scrollHeight-4); w.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); }
 }
 function popupHtml(ids,gh){
@@ -2278,7 +2327,8 @@ function gisInitUi(){
   GIS_IDS.forEach(id=>{
     const cb=document.getElementById("gis_"+id); if(!cb) return;
     cb.checked=gisOn(id);
-    cb.addEventListener("change",()=>{ GIS_ON[id]=cb.checked; gisSave(); gisStatus(id,""); gisApply(id); });
+    cb.addEventListener("change",()=>{ GIS_ON[id]=cb.checked; gisSave(); gisStatus(id,""); gisApply(id);
+      if(id==="sport"||id==="cvfr"){ snapShow(); if(DRAWING) drawUi(); } });   // v1.05.005: points follow the route layers
   });
 }
 
@@ -2305,7 +2355,7 @@ function gisPanel(){
   L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
   s.querySelector(".gs-close").addEventListener("click",()=>gisPanelToggle(false));
   s.querySelectorAll('input[name="gpBase"]').forEach(r=>r.addEventListener("change",()=>{
-    MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP);
+    MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP); setTimeout(zoomRoLift,150);
     try{localStorage.setItem("airnotam_base2",MAP_BASE);}catch(e){}
   }));
   s.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
