@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.016T · built by eligrt
+     AirNotam-ISR · v1.05.017T · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1010,6 +1010,13 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
   background:var(--fd-amber,#f59e0b);color:#1a1308;border:none;border-radius:16px;padding:6px 12px 6px 11px;font-family:var(--font-ui);
   font-size:12px;font-weight:700;line-height:1.3;text-align:right;direction:rtl;box-shadow:0 3px 10px rgba(14,35,72,.3);cursor:pointer;}
 .fd-pill.show{display:inline-flex;}
+/* v1.05.017T: list cards: the same 3 slots on every card (read / map / not relevant), spread across the width */
+.c-acts.c3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:6px;}
+.c-acts.c3 .c-act{height:auto;min-height:38px;padding:4px 4px;line-height:1.2;font-size:12px;}
+/* v1.05.017T: settings curtain stops at the top of the map area (the header and search row stay visible); equal reset rows */
+.setp{top:var(--settop,92px);height:auto;}
+.sp-body{scrollbar-width:none;} .sp-body::-webkit-scrollbar{width:0;height:0;}
+.sp-red{min-height:66px;justify-content:center;}
 /* v1.05.016T: B6 sand (a notification, not an alert), exactly as wide as the route bar */
 .fd-pill{left:0;right:0;max-width:none;background:var(--fd-amber,#f2c46b);}
 .fd-pill svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;}
@@ -1208,7 +1215,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.016T</b> · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.017T</b> · built by eligrt</span>
   </div>
 </div>
 
@@ -1786,14 +1793,14 @@ function card(e,st){
   const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}הצג הנוטאם על מפה</button>`
                       : `<button class="c-act c-go c-nomap" disabled>${MAP_ICO}ללא מיקום מוגדר</button>`;   // v1.04.022: always shown, for consistency
   const irrBtn=`<button class="c-act c-hide" onclick="listIrr('${id}')">לא רלוונטי לי</button>`;
-  const undo=`<button class="c-act c-link" onclick="listUnreview('${id}')">בטל סימון</button>`;
+  const undo=`<button class="c-act c-hide" onclick="listUnreview('${id}')">בטל סימון</button>`;   // v1.05.017T: a button like the others, in the "קראתי" slot
   let acts="";
   if(st==="new"||st==="chg"){
     acts = `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+mapBtn+irrBtn;   // v1.04.020: "read" on every card, mappable or not
   }else if(st==="ok"){
-    acts = `<span class="c-done">✓ קראתי</span>`+mapBtn+undo+irrBtn;
+    acts = undo+mapBtn+irrBtn;
   }else{
-    acts = mapBtn+undo;
+    acts = undo+mapBtn;
   }
   return`<div class="card st-${st}" data-nid="${id}">
     <div class="c-top">
@@ -1806,7 +1813,7 @@ function card(e,st){
       ? `<div class="diff"><div class="dl">לפני העדכון:</div><div class="old">${esc(UPD[e.id].old.eText||UPD[e.id].old.rawText||"")}</div><div class="dl">עכשיו:</div><div class="c-text">${esc(e.text)}</div></div>`
       : `<div class="c-text">${qHl(e.text)}</div>`}
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
-    <div class="c-acts">${acts}</div>
+    <div class="c-acts c3">${acts}</div>
   </div>`;
 }
 function ghostCard(id){
@@ -2611,7 +2618,8 @@ function openFlightDlg(){
 }
 // v1.05.015T: B4 settings = a curtain from the footer (the footer stays; tap the dim, "× סגור" or swipe the handle down to close)
 function openSettings(){ closeCurtains(); try{gisPanelToggle(false);}catch(_){} if(MAP) MAP.closePopup(); renderSettings();
-  const ft=document.querySelector(".footer-strip"); document.getElementById("app").style.setProperty("--footh",(ft?ft.offsetHeight:44)+"px");
+  const ft=document.querySelector(".footer-strip"), ap=document.getElementById("app"); ap.style.setProperty("--footh",(ft?ft.offsetHeight:44)+"px");
+  ap.style.setProperty("--settop",Math.round(document.getElementById("stage").getBoundingClientRect().top-ap.getBoundingClientRect().top+8)+"px");   // v1.05.017T
   document.getElementById("setp").classList.add("show"); document.getElementById("setDim").classList.add("show");
   try{diagLine();}catch(_){} cueAll(); }
 function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
