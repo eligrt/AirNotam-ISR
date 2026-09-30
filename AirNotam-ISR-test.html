@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.017T · built by eligrt
+     AirNotam-ISR · v1.05.024T · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1010,6 +1010,28 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
   background:var(--fd-amber,#f59e0b);color:#1a1308;border:none;border-radius:16px;padding:6px 12px 6px 11px;font-family:var(--font-ui);
   font-size:12px;font-weight:700;line-height:1.3;text-align:right;direction:rtl;box-shadow:0 3px 10px rgba(14,35,72,.3);cursor:pointer;}
 .fd-pill.show{display:inline-flex;}
+/* v1.05.024T: safety notice (warning style) above the NOTAMs-on-map choice */
+.sp-warn{display:flex;gap:8px;align-items:flex-start;width:100%;background:#fbeccb;border:1px solid #e3b75a;border-inline-start:4px solid #d9981f;
+  border-radius:6px;padding:7px 9px;color:#6b4206;font-size:12px;line-height:1.45;font-weight:600;}
+.sp-warn svg{width:17px;height:17px;flex:none;margin-top:1px;fill:none;stroke:#b7791f;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+/* v1.05.024T: the layers handle sits clean on the curtain, like the other curtains (no divider line) */
+.gsheet .gs-hz{border-left:none;}
+/* v1.05.023T: a message with an action looks like the navy NOTAMs pill: one line, a divider, the action in gold */
+.rv-toast.pill{display:flex;align-items:center;gap:8px;white-space:nowrap;border-radius:16px;padding:7px 13px;font-size:12px;font-weight:700;line-height:1.3;}
+.rv-toast.pill .t-go{color:var(--info-gold);margin:0;border-inline-start:1px solid rgba(255,255,255,.25);padding-inline-start:8px;}
+/* v1.05.020T: a message with a way to act on it: "לרשימה ›" in gold (as in the readiness curtain) */
+.rv-toast.show.act{pointer-events:auto;cursor:pointer;}
+.rv-toast .t-go{color:var(--info-gold);font-weight:700;white-space:nowrap;margin-inline-start:8px;}
+.rv-toast .t-go{margin:0;} .rv-toast .t-go u{text-decoration:underline dashed;text-decoration-thickness:1.5px;text-underline-offset:4px;}   /* v1.05.022T: dashed */   /* v1.05.021T: reads as a link */
+/* v1.05.019T: short messages (e.g. after closing the update review) appear centred at the bottom of the map, just above the legend,
+   so they never cover the banner / NOTAMs pill at the top */
+.rv-toast{top:auto;bottom:var(--toastb,70px);left:50%;right:auto;width:max-content;max-width:calc(100% - 32px);transform:translate(-50%,8px);}
+.rv-toast.show{transform:translate(-50%,0);}
+/* v1.05.018T: the update-review curtain's handle row = the same as the other top curtains (34px row, gold bar, "× סגור" centred on it) */
+.rv-grip{height:34px;padding:0;display:flex;align-items:center;justify-content:center;}
+.rv-grip span{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);margin:0;}
+/* v1.05.018T: the map buttons (zoom, layers) move down below whatever sits at the top of the map: banner and / or NOTAMs pill */
+#stage.v-map.top-on .leaflet-top{top:var(--toph,0px);transition-delay:0s;}
 /* v1.05.017T: list cards: the same 3 slots on every card (read / map / not relevant), spread across the width */
 .c-acts.c3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:6px;}
 .c-acts.c3 .c-act{height:auto;min-height:38px;padding:4px 4px;line-height:1.2;font-size:12px;}
@@ -1084,7 +1106,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
       <div class="sp-sec">NOTAMs על המפה</div>
-      <div class="sp-row sp-static"><small>חוזר ל"רגיל" בכל פתיחה</small>
+      <div class="sp-row sp-static"><div class="sp-warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>טייס, שים לב: משיקולי בטיחות טיסה, הגדרה זו תקפה רק בתכנון הטיסה הנוכחי.</span></div>
         <div class="gs-seg sp-nv"><label><input type="radio" name="gpNv" value="normal" checked>רגיל</label><label><input type="radio" name="gpNv" value="fade">מעומעם</label><label><input type="radio" name="gpNv" value="hide">מוסתר</label></div></div>
       <div class="sp-sec">הגדרות מתקדמות: מפה ומסלול</div>
       <div class="sp-row sp-static"><b>רוחב המסדרון מכל צד של הקו</b><small>NOTAMs בתוך המסדרון נחשבים "לאורך המסלול"</small>
@@ -1215,7 +1237,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.017T</b> · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · <b class="ver-t">v1.05.024T</b> · built by eligrt</span>
   </div>
 </div>
 
@@ -1595,7 +1617,7 @@ function drawUi(){
     const n=document.createElement("span"); n.className="db-names";
     n.textContent=ROUTE.map(p=>p[2]||"•").join(" ← "); t.appendChild(n);
   }
-  document.getElementById("fdPill").classList.toggle("show",SNAP_ON&&!snapLayersOn());   // v1.05.015T: B6 free-drawing pill
+  document.getElementById("fdPill").classList.toggle("show",!snapLayersOn());   // v1.05.024T: shown whenever both route layers are off   // v1.05.015T: B6 free-drawing pill
   const sw=document.getElementById("snapSw"); if(sw){ sw.setAttribute("aria-checked",snapEff?"true":"false");
     document.getElementById("snapTxt").textContent= snapEff? "על בסיס נקודות דיווח" : "חופשי"; }
   zoomRoLift();
@@ -2194,7 +2216,16 @@ function nvUi(){
   const p=document.getElementById("nvPill");
   if(p){ p.classList.toggle("show",NVIS!=="normal");
     p.innerHTML= NVIS==="fade"? 'NOTAMs מעומעמים<u>החזר</u>' : NVIS==="hide"? 'NOTAMs מוסתרים<u>הצג</u>' : ""; }
+  topStack();
 }
+// v1.05.018T: how far down the top of the map is taken (update banner, NOTAMs pill); the map buttons sit below it
+function topStack(){ requestAnimationFrame(()=>{
+  const s=document.getElementById("stage"), m=document.getElementById("map"); if(!s||!m||currentView!=="map") return;
+  const mt=m.getBoundingClientRect().top; let b=0;
+  const u=document.getElementById("upd"), p=document.getElementById("nvPill");
+  if(u&&u.classList.contains("show")) b=Math.max(b,u.getBoundingClientRect().bottom-mt);
+  if(p&&p.classList.contains("show")&&p.offsetHeight) b=Math.max(b,p.getBoundingClientRect().bottom-mt);
+  s.classList.toggle("top-on",b>0); if(b>0) s.style.setProperty("--toph",Math.round(b+6)+"px"); }); }
 // while a route is being drawn the NOTAMs stay only as a light background
 function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.setStyle({opacity:.12,fillOpacity:.025}); }); }
 
@@ -2465,6 +2496,7 @@ function updPos(){
   const u=document.getElementById("upd"), s=document.getElementById("stage"), on=u.classList.contains("show");
   s.classList.toggle("upd-on", on);
   if(on) s.style.setProperty("--updh", (u.offsetHeight+10)+"px");
+  try{topStack();}catch(_){}
 }
 function showUpdate(d){
   const u=document.getElementById("upd");
@@ -2993,7 +3025,8 @@ function diagLine(){
   el.textContent=`diag · screen ${screen.width}x${screen.height} · inner ${innerWidth}x${innerHeight} · vv ${vv} · docEl ${document.documentElement.clientHeight} · app ${Math.round(app.height)} · safe ${st}/${sb} · dpr ${devicePixelRatio} · ${sa?"standalone":"browser"}`;
 }
 
-document.getElementById("snapSw").addEventListener("click",()=>setSnap(!SNAP_ON));
+document.getElementById("snapSw").addEventListener("click",()=>{   // v1.05.024T: no route layer on: the switch can't snap, it opens the layers curtain (like the pill)
+  if(!snapLayersOn()){ if(!SNAP_ON) setSnap(true); gisPanelToggle(true); return; } setSnap(!SNAP_ON); });
 
 let _lqT=null;
 document.getElementById("lq").addEventListener("input",ev=>{ ptClear(); LQ=ev.target.value; document.getElementById("lsearch").classList.toggle("has-q",!!LQ);
@@ -3070,15 +3103,21 @@ function rvOpen(delay){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=t
   void t.offsetHeight; setTimeout(()=>requestAnimationFrame(()=>{ if(RV_ON) t.classList.add("show"); }),delay); }
 function rvClose(quiet){
   const was=RV_ON; RV_ON=false; document.getElementById("rvTop").classList.remove("show");
-  if(was && !quiet && rvQueue().length) rvToast('הפריטים שלא סיימת מחכים ברשימה, בקבוצה "עודכנו מאז שבדקת"');
+  if(was && !quiet && rvQueue().length) { const n=rvQueue().length; rvToast(n===1? "נשאר עדכון אחד לסקירה" : `נשארו ${n} עדכונים לסקירה`,{t:"לרשימה",fn:()=>readyGo("list")}); }   // v1.05.023T: option A   // v1.05.022T: [..] = the link   // v1.05.020T
 }
 let RV_TT=null;
-function rvToast(t){
+function rvToast(t,act){
   let el=document.getElementById("rvToast");
   if(!el){ el=document.createElement("div"); el.id="rvToast"; el.className="rv-toast"; document.getElementById("stage").appendChild(el); }
   el.textContent=t; clearTimeout(RV_TT);
+  el.classList.toggle("act",!!act); el.onclick=null;   // v1.05.020T: optional action link at the end of the message
+  el.innerHTML=esc(t)+(act? `<span class="t-go">${esc(act.t)}</span>` : ""); el.classList.toggle("pill",!!act);   // v1.05.023T   // v1.05.022T: the bracketed word is the link
+  if(act){   // v1.05.021T
+    el.onclick=()=>{ clearTimeout(RV_TT); el.classList.remove("show"); act.fn(); }; }
+  { const st=document.getElementById("stage").getBoundingClientRect(), lg=document.querySelector(".map-legend"), lr=lg&&lg.getBoundingClientRect();   // v1.05.019T
+    el.style.setProperty("--toastb",(currentView==="map"&&lr&&lr.height? Math.round(st.bottom-lr.top+8) : 16)+"px"); }
   setTimeout(()=>el.classList.add("show"),300);
-  RV_TT=setTimeout(()=>el.classList.remove("show"),3600);
+  RV_TT=setTimeout(()=>el.classList.remove("show"),act?6000:3600);
 }
 function rvStep(d){ const n=rvQueue().length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; rvRender(); }
 function rvRender(){
