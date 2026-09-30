@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.009 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.010 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -55,7 +55,12 @@
  *   - only sentences with RTE ... CLSD, and the bare lists of legs right after them, are read;
  *     ATS routes (airways) are ignored
  *   - legs that cannot be found are listed in "missing" and simply not drawn
- *   - a leg reaching outside the NOTAM's Q circle (+3 NM for route legs) is left out ("outsideQ") and flagged; the others are drawn
+ *   - a leg the NOTAM names whose two end points are both published points joined directly in the GIS ("exact leg")
+ *     is drawn from the GIS even if it reaches outside the NOTAM's Q circle (Eli, 2026-09-30: marking an open leg
+ *     as closed is far less risky than missing a closed one). GIS legs with ends off their named points are never
+ *     used anyway (see loadRoutes)
+ *   - a leg the parser filled in through a skipped point ("via") must stay inside the Q circle (+3 NM): if not, it is
+ *     left out ("outsideQ") and flagged; the others are drawn
  *   - codes are also looked up through the chart patch's aliases (MARSB -> MRSBA, HATRU -> TZHTR on the sport layer)
  *   - a leg that uses a point / leg WITHDRAWN from the 2025 chart is still drawn, but flagged (see FLAGS)
  *
@@ -72,22 +77,24 @@
  *   - a named area that is not in the GIS (e.g. "LLER TRG AREA HAR BERECH CLSD", training areas are not published
  *     as GIS) keeps the Q circle and is flagged "area missing"
  *
- * OUTWARD STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...")
- *   When the NOTAM also gives that area as a polygon (C1825), a band N km wide around the OUTSIDE of the polygon is
- *   added as a second area of the same NOTAM (part "role":"strip", a ring: outer edge + the polygon as a hole).
- *   No safety margin (the edge is the NOTAM's own coordinates) and no clipping. The polygon itself must pass the Q
- *   check; the ring may reach the ring's width further (the IAA's Q circle covers the polygon, not the band: C1825).
+ * GAZA STRIP BORDER STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...", C1825)
+ *   A border strip like the ones above, measured from the Gaza Strip boundary line in gis/borders.json ("gaza"),
+ *   on the ISRAELI side, N km deep + 1 km safety margin (Eli, 2026-09-30, round 3). It is added as a second area of
+ *   the same NOTAM (part "role":"strip"); the NOTAM's own polygon from field E stays as it is. The polygon must pass
+ *   the Q check; the strip may reach the strip's width further (the IAA's Q circle covers the polygon, not the band).
+ *   (Up to v1.00.009 a ring was drawn round the POLYGON's edge: a misreading, removed.)
  *   Any other "OUTWARD" wording is flagged, not guessed.
  *
  * FLAGS (--flags): NOTAMs that probably deserved a shape but did not get a full one, so a person can look.
  *   Most Q-circle NOTAMs are correct as circles (obstacle lights, runway works...) and are NOT flagged.
  *   - "rejected"     coordinates / legs were found but failed a safety rule
  *   - "legs missing" RTE CLSD legs that are not in the GIS route layers
- *   - "outside Q"    a route leg found in the GIS but reaching outside the NOTAM's Q circle: left out, the rest drawn
+ *   - "outside Q"    a route leg filled in through a skipped point, reaching outside the NOTAM's Q circle: left out,
+ *                    the rest drawn (exact legs are never checked against the Q circle)
  *   - "withdrawn"    a route leg that uses a point / leg withdrawn from the 2025 chart (drawn, but the patch may be wrong)
  *   - "semi-circle"  a semi-circle with no side, drawn as a full circle
  *   - "area missing" a named airspace (CTR / TMA / LLP / training area...) that is not in the GIS layers
- *   - "outward"      "... TO N KM OUTWARD" that could not be drawn
+ *   - "outward"      "... TO N KM OUTWARD" that could not be drawn (anything but the Gaza Strip boundary)
  *   - "patch"        a leg in a chart patch file refused by its distance check (a typo in the patch)
  *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
  *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
@@ -127,8 +134,8 @@
  *                 "layer":"cvfr","t":"BR · CIVIL"} and "diversionNames":["מיתר","מצודות","עין גדי"] (GIS Hebrew names)
  *   named airspace: "source":"named", "areas":[{"code":"LLHZ","kind":"CTR","name":"הרצליה"}],
  *                 "parts":[{"type":"polygon","coords":[...]}, ...]
- *   outward strip: extra part {"type":"polygon","role":"strip","coords":[outer edge],"holes":[[the polygon]]}
- *                 and "strip":{"km":6,"of":"GAZA-STRIP"}
+ *   Gaza strip:   extra part {"type":"polygon","role":"strip","coords":[...],"fill":"nonzero"}
+ *                 and "strip":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"}
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
  *                                   the test copy lists them under "לבדיקה" and shows the reason
@@ -272,7 +279,7 @@ function allPoints(part) {
 
 // ── border strips ────────────────────────────────────────────────────────────
 // a point well inside Israel near each border: tells which side of the line is ours
-const BORDER_REF = { lebanon: [33.03, 35.25], syria: [33.00, 35.70], jordan: [30.50, 35.05], egypt: [30.50, 34.60] };
+const BORDER_REF = { lebanon: [33.03, 35.25], syria: [33.00, 35.70], jordan: [30.50, 35.05], egypt: [30.50, 34.60], gaza: [31.42, 34.56] };
 const DIR_VEC = { NB: [0, 1], SB: [0, -1], EB: [1, 0], WB: [-1, 0] };            // [east, north]
 const STRIP_MARGIN_KM = 1;
 const RX_BORDER = /\bFM\s+(LEBANON|SYRIA|JORDAN|EGYPT)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\b\s*(NB|SB|EB|WB)?/;
@@ -307,7 +314,10 @@ function rdp(pts, tolKm) {                                                      
 function borderStrip(text) {
   const m = String(text || "").toUpperCase().match(RX_BORDER);
   if (!m) return null;
-  const id = m[1].toLowerCase(), km = parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), dirWord = m[4] || null;
+  return buildStrip(m[1].toLowerCase(), parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), m[4] || null);
+}
+// one border strip: along the border line "id", on the Israeli side, km deep + the safety margin (also used for Gaza)
+function buildStrip(id, km, dirWord) {
   if (!BORDERS || !BORDERS[id]) return { reject: `border line "${id}" not available` };
   if (!(km >= 0.5 && km <= 30)) return { reject: "implausible strip width" };
   const W = km + STRIP_MARGIN_KM, line = densify(BORDERS[id], 0.25);
@@ -422,7 +432,7 @@ export function loadRoutes(dir) {
       if (f.properties.w) { wSeg.add(`${a}|${b}`); wSeg.add(`${b}|${a}`); }
       link(a, b); link(b, a);
     }
-    ROUTES[id] = { seg, adj, names, segT, wSeg, wPts, alias: d._alias || {} };
+    ROUTES[id] = { seg, adj, pts, names, segT, wSeg, wPts, alias: d._alias || {} };
   }
 }
 const al = (layer, c) => ROUTES[layer].alias[c] || c;                           // chart patch aliases (per layer)
@@ -535,7 +545,11 @@ function routeLegs(notam) {
   for (const p of parts) for (const q of p.coords) if (!inFir(q)) return { reject: "route leg outside the FIR" };
   // a leg reaching outside the NOTAM's own Q circle is left out (and flagged), the other legs are still drawn;
   // only if every leg is outside is the NOTAM rejected (back to the Q circle)
-  const outQ = parts.filter(p => !p.coords.every(inQ)).map(p => p.leg);
+  // exact leg = both named end points are published points of that layer, joined directly (no skipped point filled in):
+  // drawn even outside the Q circle (round 3 rule). Only legs filled in through a skipped point get the Q check.
+  const exact = p => { const [a, b] = p.leg.split("-"), R = ROUTES[p.layer];
+                       return !p.via && R.pts.has(al(p.layer, a)) && R.pts.has(al(p.layer, b)); };
+  const outQ = parts.filter(p => !exact(p) && !p.coords.every(inQ)).map(p => p.leg);
   if (outQ.length === parts.length) return { reject: `route legs reach outside the Q-line circle (${outQ.join(", ")})` };
   for (let i = parts.length - 1; i >= 0; i--) if (outQ.includes(parts[i].leg)) parts.splice(i, 1);
   // the diversion must pass the same checks, or it is simply not drawn (the closed legs stay)
@@ -610,63 +624,17 @@ function namedArea(notam) {
   return { geometry: { source: "named", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
 }
 
-// ── "FM <area> BOUNDRAY TO N KM OUTWARD": a ring around the outside of the NOTAM's own polygon ──
+// ── "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": a border strip from the Gaza Strip boundary line (Israeli side) ──
 const RX_OUTWARD = /\bFM\s+([A-Z][A-Z -]*?)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\s+OUTWARDS?\b/;
-function outwardRing(poly, km) {
-  // work in km around the first vertex; make the ring counter-clockwise so "outward" is the right-hand normal
-  const o = poly[0], toXY = p => kmVec(o, p), toLL = ([x, y]) => [o[0] + y / KY, o[1] + x / KX(o[0] + y / KY)];
-  let xy = poly.map(toXY); let a = 0;
-  for (let i = 0; i < xy.length; i++) { const [x1, y1] = xy[i], [x2, y2] = xy[(i + 1) % xy.length]; a += x1 * y2 - x2 * y1; }
-  if (a < 0) xy = xy.reverse();
-  const n = xy.length, out = [];
-  const cross2 = (p1, p2, p3, p4) => {                                           // intersection of lines p1p2 and p3p4
-    const d = (p1[0] - p2[0]) * (p3[1] - p4[1]) - (p1[1] - p2[1]) * (p3[0] - p4[0]); if (Math.abs(d) < 1e-12) return null;
-    const t = ((p1[0] - p3[0]) * (p3[1] - p4[1]) - (p1[1] - p3[1]) * (p3[0] - p4[0])) / d; return [p1[0] + t * (p2[0] - p1[0]), p1[1] + t * (p2[1] - p1[1])]; };
-  for (let i = 0; i < n; i++) {
-    const p = xy[(i - 1 + n) % n], c = xy[i], q = xy[(i + 1) % n];
-    const e1 = [c[0] - p[0], c[1] - p[1]], e2 = [q[0] - c[0], q[1] - c[1]];
-    const n1 = Math.atan2(-e1[0], e1[1]), n2 = Math.atan2(-e2[0], e2[1]);        // outward (right-hand) normal angles
-    const off = t => [c[0] + km * Math.cos(t), c[1] + km * Math.sin(t)];
-    let d = n2 - n1; while (d <= -Math.PI) d += 2 * Math.PI; while (d > Math.PI) d -= 2 * Math.PI;
-    if (d > 0) {                                                                 // convex corner (ring turns left): round join
-      const steps = Math.max(1, Math.ceil(d / (Math.PI / 18)));
-      for (let k = 0; k <= steps; k++) out.push(off(n1 + d * k / steps));
-    } else {                                                                     // concave corner: where the two offset edges meet
-      const a1 = off(n1), a2 = off(n2), x = cross2([a1[0] - e1[0], a1[1] - e1[1]], a1, a2, [a2[0] + e2[0], a2[1] + e2[1]]);
-      out.push(x || a1);
-    }
-  }
-  // remove the small loops left where offset edges overlap (short edges next to concave corners)
-  const sc = (p1, p2, p3, p4) => { const dd = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
-    const d1 = dd(p3, p4, p1), d2 = dd(p3, p4, p2), d3 = dd(p1, p2, p3), d4 = dd(p1, p2, p4); return ((d1 > 0) !== (d2 > 0)) && ((d3 > 0) !== (d4 > 0)); };
-  let ring = out.slice(), guard = 0;
-  search: while (guard++ < 200) {
-    const N = ring.length;
-    for (let i = 0; i < N; i++) for (let j = i + 2; j < N; j++) {
-      if (i === 0 && j === N - 1) continue;
-      const A = ring[i], B = ring[(i + 1) % N], C = ring[j], D = ring[(j + 1) % N];
-      if (!sc(A, B, C, D)) continue;
-      const x = cross2(A, B, C, D);
-      const inner = j - i, outer = N - inner;                                     // drop the side with fewer points (the loop)
-      ring = inner <= outer ? ring.slice(0, i + 1).concat([x], ring.slice(j + 1)) : [x].concat(ring.slice(i + 1, j + 1));
-      continue search;
-    }
-    break;
-  }
-  const ll = ring.map(toLL);
-  return rdp(ll.concat([ll[0]]), 0.05).slice(0, -1);
-}
-function outwardStrip(notam, parts) {
+function outwardStrip(notam) {
   const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
   const m = text.match(RX_OUTWARD);
   if (!m) return /\bOUTWARDS?\b/.test(text) ? { flag: "OUTWARD wording not understood" } : null;
-  const km = parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1);
-  const polys = parts.filter(p => p.type === "polygon");
-  if (polys.length !== 1) return { flag: "OUTWARD strip: the NOTAM does not give exactly one polygon to go round" };
-  if (!(km >= 0.5 && km <= 30)) return { flag: "OUTWARD strip: implausible width" };
-  const outer = outwardRing(polys[0].coords, km);
-  if (outer.length < 3 || selfCrossing(outer)) return { flag: "OUTWARD strip: the ring could not be built cleanly" };
-  return { part: { type: "polygon", role: "strip", coords: outer, holes: [polys[0].coords] }, strip: { km: Math.round(km * 100) / 100, of: m[1].trim() } };
+  if (!/^GAZA[\s-]*STRIP$/.test(m[1].trim())) return { flag: `OUTWARD strip from "${m[1].trim()}": no boundary line for it` };
+  const r = buildStrip("gaza", parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), null);
+  if (r.reject) return { flag: "Gaza Strip border strip: " + r.reject };
+  const g = r.geometry;
+  return { part: g.parts[0], strip: { border: "gaza", km: g.km, marginKm: g.marginKm, of: m[1].trim() } };
 }
 
 export function geometryFor(notam) {
@@ -692,14 +660,14 @@ export function geometryFor(notam) {
       if (distNm(c, q) > lim) return { reject: `shape reaches outside the Q-line circle (${distNm(c, q).toFixed(1)} > ${lim} NM)` };
     }
   }
-  // "FM <area> BOUNDRAY TO N KM OUTWARD": a ring around the polygon, as a second area (must pass the same checks)
+  // "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": the Gaza border strip, as a second area (must pass the same checks)
   let strip = null, stripFlag = null;
-  const ow = outwardStrip(notam, parts);
+  const ow = outwardStrip(notam);
   if (ow && ow.part) {
     const c = qp && qp.lat != null && qp.lon != null && qp.radiusNm != null ? [qp.lat, qp.lon] : null;
     const bad = ow.part.coords.some(q => q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax
-      || (c && distNm(c, q) > qp.radiusNm + Q_SLACK_NM + ow.strip.km / 1.852));   // the polygon passed the Q check; the ring adds its width
-    if (bad) stripFlag = "OUTWARD strip reaches outside the Q-line circle, not drawn"; else strip = ow;
+      || (c && distNm(c, q) > qp.radiusNm + Q_SLACK_NM + (ow.strip.km + ow.strip.marginKm) / 1.852));   // the polygon passed the Q check; the strip adds its width
+    if (bad) stripFlag = "Gaza Strip border strip reaches outside the Q-line circle, not drawn"; else strip = ow;
   } else if (ow && ow.flag) stripFlag = ow.flag;
   // main part = the biggest; its anchor is where the app puts the map dot
   const size = p => p.type === "polygon" ? areaNm2(p.coords) : p.type === "circle" ? Math.PI * p.radiusNm ** 2 : 0;
@@ -716,7 +684,7 @@ export function geometryFor(notam) {
       : { type: "point", coord: RP(p.coord) }),
     anchor: RP(anchor),
   };
-  if (strip) { g.parts.push({ type: "polygon", role: "strip", coords: strip.part.coords.map(RP), holes: strip.part.holes.map(h => h.map(RP)) }); g.strip = strip.strip; }
+  if (strip) { g.parts.push({ type: "polygon", role: "strip", coords: strip.part.coords, fill: "nonzero" }); g.strip = strip.strip; }
   if (stripFlag) g.stripFlag = stripFlag;
   if (r.semi) g.note = "semi-circle drawn as full circle";
   return { geometry: g };
