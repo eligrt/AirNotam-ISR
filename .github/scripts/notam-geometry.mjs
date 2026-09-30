@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.008 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.009 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -55,9 +55,29 @@
  *   - only sentences with RTE ... CLSD, and the bare lists of legs right after them, are read;
  *     ATS routes (airways) are ignored
  *   - legs that cannot be found are listed in "missing" and simply not drawn
- *   - a leg reaching outside the NOTAM's Q circle (+1.5 NM) is left out ("outsideQ") and flagged; the others are drawn
+ *   - a leg reaching outside the NOTAM's Q circle (+3 NM for route legs) is left out ("outsideQ") and flagged; the others are drawn
  *   - codes are also looked up through the chart patch's aliases (MARSB -> MRSBA, HATRU -> TZHTR on the sport layer)
  *   - a leg that uses a point / leg WITHDRAWN from the 2025 chart is still drawn, but flagged (see FLAGS)
+ *
+ * NAMED AIRSPACE (only when field E has no coordinates and is neither a border strip nor route legs)
+ *   A sentence that STARTS with the area and says it is closed / activated / available only for someone:
+ *     "CTR CLSD TO ALL FLT ..." (the CTR of field A, e.g. LLHZ)      "LLR01 ACTIVATED H24 ..."
+ *     "LLHZ CTR CLSD ..."   "LLBG TMA CLSD ..."   "LLP14 CLSD ..."   "CTR AVBL FOR UAS/UAV ... ONLY"
+ *   The area is drawn from the IAA GIS layers gis/ctr.json (CTR / ATZ), gis/tma.json, gis/prd.json (LLP / LLR / LLD).
+ *   - codes are matched ignoring leading zeros (the NOTAM says LLR01, the GIS stores LLR1); a few ICAO codes the
+ *     GIS stores under another name are mapped (AREA_ALIAS, e.g. LLGV -> GVULT)
+ *   - a code with several GIS areas: every area that passes the Q check is drawn (the Q circle picks the right one
+ *     when different airfields share a code, e.g. LLNV)
+ *   - relative wording ("S OF LLBG TMA", "WI LLHA CTR") is not the whole area and keeps the Q circle
+ *   - a named area that is not in the GIS (e.g. "LLER TRG AREA HAR BERECH CLSD", training areas are not published
+ *     as GIS) keeps the Q circle and is flagged "area missing"
+ *
+ * OUTWARD STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...")
+ *   When the NOTAM also gives that area as a polygon (C1825), a band N km wide around the OUTSIDE of the polygon is
+ *   added as a second area of the same NOTAM (part "role":"strip", a ring: outer edge + the polygon as a hole).
+ *   No safety margin (the edge is the NOTAM's own coordinates) and no clipping. The polygon itself must pass the Q
+ *   check; the ring may reach the ring's width further (the IAA's Q circle covers the polygon, not the band: C1825).
+ *   Any other "OUTWARD" wording is flagged, not guessed.
  *
  * FLAGS (--flags): NOTAMs that probably deserved a shape but did not get a full one, so a person can look.
  *   Most Q-circle NOTAMs are correct as circles (obstacle lights, runway works...) and are NOT flagged.
@@ -66,6 +86,8 @@
  *   - "outside Q"    a route leg found in the GIS but reaching outside the NOTAM's Q circle: left out, the rest drawn
  *   - "withdrawn"    a route leg that uses a point / leg withdrawn from the 2025 chart (drawn, but the patch may be wrong)
  *   - "semi-circle"  a semi-circle with no side, drawn as a full circle
+ *   - "area missing" a named airspace (CTR / TMA / LLP / training area...) that is not in the GIS layers
+ *   - "outward"      "... TO N KM OUTWARD" that could not be drawn
  *   - "patch"        a leg in a chart patch file refused by its distance check (a typo in the patch)
  *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
  *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
@@ -103,6 +125,10 @@
  *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
  *                 diversion: extra parts {"type":"line","role":"diversion","coords":[...],"leg":"MYTAR-MZDOT",
  *                 "layer":"cvfr","t":"BR · CIVIL"} and "diversionNames":["מיתר","מצודות","עין גדי"] (GIS Hebrew names)
+ *   named airspace: "source":"named", "areas":[{"code":"LLHZ","kind":"CTR","name":"הרצליה"}],
+ *                 "parts":[{"type":"polygon","coords":[...]}, ...]
+ *   outward strip: extra part {"type":"polygon","role":"strip","coords":[outer edge],"holes":[[the polygon]]}
+ *                 and "strip":{"km":6,"of":"GAZA-STRIP"}
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
  *                                   the test copy lists them under "לבדיקה" and shows the reason
@@ -113,6 +139,7 @@ import { fileURLToPath } from "node:url";
 
 const FIR = { latMin: 29.0, latMax: 34.0, lonMin: 33.5, lonMax: 36.5 };
 const Q_SLACK_NM = 1.5;   // Q centre is given in whole minutes (up to ~1.3 NM off) and the radius is rounded
+const ROUTE_Q_SLACK_NM = 3; // route legs: published GIS lines may bend a little outside the IAA's circle (C2028 AFULA-EITAN)
 
 // ── coordinates ──────────────────────────────────────────────────────────────
 // style A: 314945N0345822E  |  315941.27N0345429.55E  |  3149N03458E   (trailing E may be missing)
@@ -503,7 +530,7 @@ function routeLegs(notam) {
   for (const { a, b, layers: pref } of legs) { const hit = resolveLeg(a, b, pref); if (hit) parts.push(hit); else missing.push(`${a}-${b}`); }
   if (!parts.length) return { reject: `no closed leg found in the route layers (${missing.join(", ")})` };
   const qp = notam.qLine?.position || notam.position;
-  const inQ = q => !(qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) || distNm([qp.lat, qp.lon], q) <= qp.radiusNm + Q_SLACK_NM;
+  const inQ = q => !(qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) || distNm([qp.lat, qp.lon], q) <= qp.radiusNm + ROUTE_Q_SLACK_NM;
   const inFir = q => q[0] >= FIR.latMin && q[0] <= FIR.latMax && q[1] >= FIR.lonMin && q[1] <= FIR.lonMax;
   for (const p of parts) for (const q of p.coords) if (!inFir(q)) return { reject: "route leg outside the FIR" };
   // a leg reaching outside the NOTAM's own Q circle is left out (and flagged), the other legs are still drawn;
@@ -528,11 +555,125 @@ function routeLegs(notam) {
   return { geometry: g };
 }
 
+// ── named airspace (CTR / ATZ / TMA / LLP / LLR / LLD) ──────────────────────
+// AREAS[kind] = Map normalised code -> [{name, kind, polys:[[[lat,lon],...],...]}]
+let AREAS = null;
+const AREA_ALIAS = { LLGV: "GVULT", LLPL: "LL59" };                              // ICAO code -> the code the GIS uses
+const normCode = c => String(c || "").toUpperCase().replace(/^(LL[PRD])0+(?=\d)/, "$1");   // LLR01 -> LLR1
+export function loadAreas(dir) {
+  AREAS = { CTR: new Map(), TMA: new Map(), PRD: new Map() };
+  for (const [file, kind] of [["ctr", "CTR"], ["tma", "TMA"], ["prd", "PRD"]]) {
+    const fc = JSON.parse(readFileSync(`${dir}/${file}.json`, "utf8"));
+    for (const f of fc.features || []) {
+      const c = normCode(f.properties.c); if (!c) continue;
+      const g = f.geometry, polys = g.type === "Polygon" ? [g.coordinates[0]] : g.type === "MultiPolygon" ? g.coordinates.map(p => p[0]) : [];
+      if (!polys.length) continue;
+      if (!AREAS[kind].has(c)) AREAS[kind].set(c, []);
+      AREAS[kind].get(c).push({ name: String(f.properties.n || "").trim(), kind: f.properties.k || f.properties.t || kind,
+        polys: polys.map(r => r.map(([lon, lat]) => [lat, lon])) });
+    }
+  }
+}
+// the area must be the subject of the sentence: "CTR CLSD", "LLHZ CTR CLSD", "LLR01 ACTIVATED", "LLER TRG AREA HAR BERECH CLSD"
+const RX_AREA_VERB = String.raw`\s+(?:IS\s+)?(?:CLSD|CLOSED|ACTIVATED|ACTIVE|ACT|AVBL\s+FOR\b[^.]*\bONLY)\b`;
+const RX_NAMED = [
+  { kind: "CTR", rx: new RegExp(String.raw`^(?:THE\s+)?(?:(LL[A-Z0-9]{2})\s+)?(?:CTR|ATZ)` + RX_AREA_VERB) },
+  { kind: "TMA", rx: new RegExp(String.raw`^(?:THE\s+)?(?:(LL[A-Z0-9]{2})\s+)?TMA` + RX_AREA_VERB) },
+  { kind: "PRD", rx: new RegExp(String.raw`^(?:THE\s+)?(LL[PRD]\s?\d+)` + RX_AREA_VERB) },
+  { kind: "TRG", rx: new RegExp(String.raw`^(?:THE\s+)?((?:LL[A-Z0-9]{2}\s+)?TRG\s+AREA\b[^.]*?)` + RX_AREA_VERB) },
+];
+function namedArea(notam) {
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  let hit = null;
+  for (const s0 of text.split(/\.(?=\s|$|\))/)) {
+    const s = s0.trim();
+    for (const { kind, rx } of RX_NAMED) { const m = s.match(rx); if (m) { hit = { kind, raw: (m[1] || "").replace(/\s+/g, " ").trim() }; break; } }
+    if (hit) break;
+  }
+  if (!hit) return null;
+  if (hit.kind === "TRG") return { reject: `named area not in the GIS layers: ${hit.raw}`, missingArea: hit.raw };
+  let code = hit.raw.replace(/\s+/g, "");
+  if (!code) code = String(notam.location || "").toUpperCase();                   // "CTR CLSD": the CTR of field A
+  const label = `${code || "?"} ${hit.kind === "PRD" ? "" : hit.kind}`.trim();
+  if (!AREAS) return { reject: "airspace layers not available", missingArea: label };
+  const key = normCode(AREA_ALIAS[code] || code);
+  const cands = (AREAS[hit.kind === "PRD" ? "PRD" : hit.kind].get(key)) || [];
+  if (!cands.length) return { reject: `named area not in the GIS layers: ${label}`, missingArea: label };
+  const qp = notam.qLine?.position || notam.position;
+  const inQ = q => !(qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) || distNm([qp.lat, qp.lon], q) <= qp.radiusNm + Q_SLACK_NM;
+  const inFir = q => q[0] >= FIR.latMin && q[0] <= FIR.latMax && q[1] >= FIR.lonMin && q[1] <= FIR.lonMax;
+  const ok = cands.filter(a => a.polys.every(r => r.every(q => inFir(q) && inQ(q))));
+  if (!ok.length) return { reject: `named area ${label} reaches outside the Q-line circle`, missingArea: label };
+  const parts = [], areas = [];
+  for (const a of ok) { areas.push({ code: key, kind: a.kind, name: a.name }); for (const r of a.polys) parts.push({ type: "polygon", coords: r.map(RP) }); }
+  const main = parts.slice().sort((x, y) => areaNm2(y.coords) - areaNm2(x.coords))[0];
+  return { geometry: { source: "named", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
+}
+
+// ── "FM <area> BOUNDRAY TO N KM OUTWARD": a ring around the outside of the NOTAM's own polygon ──
+const RX_OUTWARD = /\bFM\s+([A-Z][A-Z -]*?)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\s+OUTWARDS?\b/;
+function outwardRing(poly, km) {
+  // work in km around the first vertex; make the ring counter-clockwise so "outward" is the right-hand normal
+  const o = poly[0], toXY = p => kmVec(o, p), toLL = ([x, y]) => [o[0] + y / KY, o[1] + x / KX(o[0] + y / KY)];
+  let xy = poly.map(toXY); let a = 0;
+  for (let i = 0; i < xy.length; i++) { const [x1, y1] = xy[i], [x2, y2] = xy[(i + 1) % xy.length]; a += x1 * y2 - x2 * y1; }
+  if (a < 0) xy = xy.reverse();
+  const n = xy.length, out = [];
+  const cross2 = (p1, p2, p3, p4) => {                                           // intersection of lines p1p2 and p3p4
+    const d = (p1[0] - p2[0]) * (p3[1] - p4[1]) - (p1[1] - p2[1]) * (p3[0] - p4[0]); if (Math.abs(d) < 1e-12) return null;
+    const t = ((p1[0] - p3[0]) * (p3[1] - p4[1]) - (p1[1] - p3[1]) * (p3[0] - p4[0])) / d; return [p1[0] + t * (p2[0] - p1[0]), p1[1] + t * (p2[1] - p1[1])]; };
+  for (let i = 0; i < n; i++) {
+    const p = xy[(i - 1 + n) % n], c = xy[i], q = xy[(i + 1) % n];
+    const e1 = [c[0] - p[0], c[1] - p[1]], e2 = [q[0] - c[0], q[1] - c[1]];
+    const n1 = Math.atan2(-e1[0], e1[1]), n2 = Math.atan2(-e2[0], e2[1]);        // outward (right-hand) normal angles
+    const off = t => [c[0] + km * Math.cos(t), c[1] + km * Math.sin(t)];
+    let d = n2 - n1; while (d <= -Math.PI) d += 2 * Math.PI; while (d > Math.PI) d -= 2 * Math.PI;
+    if (d > 0) {                                                                 // convex corner (ring turns left): round join
+      const steps = Math.max(1, Math.ceil(d / (Math.PI / 18)));
+      for (let k = 0; k <= steps; k++) out.push(off(n1 + d * k / steps));
+    } else {                                                                     // concave corner: where the two offset edges meet
+      const a1 = off(n1), a2 = off(n2), x = cross2([a1[0] - e1[0], a1[1] - e1[1]], a1, a2, [a2[0] + e2[0], a2[1] + e2[1]]);
+      out.push(x || a1);
+    }
+  }
+  // remove the small loops left where offset edges overlap (short edges next to concave corners)
+  const sc = (p1, p2, p3, p4) => { const dd = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+    const d1 = dd(p3, p4, p1), d2 = dd(p3, p4, p2), d3 = dd(p1, p2, p3), d4 = dd(p1, p2, p4); return ((d1 > 0) !== (d2 > 0)) && ((d3 > 0) !== (d4 > 0)); };
+  let ring = out.slice(), guard = 0;
+  search: while (guard++ < 200) {
+    const N = ring.length;
+    for (let i = 0; i < N; i++) for (let j = i + 2; j < N; j++) {
+      if (i === 0 && j === N - 1) continue;
+      const A = ring[i], B = ring[(i + 1) % N], C = ring[j], D = ring[(j + 1) % N];
+      if (!sc(A, B, C, D)) continue;
+      const x = cross2(A, B, C, D);
+      const inner = j - i, outer = N - inner;                                     // drop the side with fewer points (the loop)
+      ring = inner <= outer ? ring.slice(0, i + 1).concat([x], ring.slice(j + 1)) : [x].concat(ring.slice(i + 1, j + 1));
+      continue search;
+    }
+    break;
+  }
+  const ll = ring.map(toLL);
+  return rdp(ll.concat([ll[0]]), 0.05).slice(0, -1);
+}
+function outwardStrip(notam, parts) {
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  const m = text.match(RX_OUTWARD);
+  if (!m) return /\bOUTWARDS?\b/.test(text) ? { flag: "OUTWARD wording not understood" } : null;
+  const km = parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1);
+  const polys = parts.filter(p => p.type === "polygon");
+  if (polys.length !== 1) return { flag: "OUTWARD strip: the NOTAM does not give exactly one polygon to go round" };
+  if (!(km >= 0.5 && km <= 30)) return { flag: "OUTWARD strip: implausible width" };
+  const outer = outwardRing(polys[0].coords, km);
+  if (outer.length < 3 || selfCrossing(outer)) return { flag: "OUTWARD strip: the ring could not be built cleanly" };
+  return { part: { type: "polygon", role: "strip", coords: outer, holes: [polys[0].coords] }, strip: { km: Math.round(km * 100) / 100, of: m[1].trim() } };
+}
+
 export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam);   // no coordinates: maybe a border strip or closed route legs
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -551,6 +692,15 @@ export function geometryFor(notam) {
       if (distNm(c, q) > lim) return { reject: `shape reaches outside the Q-line circle (${distNm(c, q).toFixed(1)} > ${lim} NM)` };
     }
   }
+  // "FM <area> BOUNDRAY TO N KM OUTWARD": a ring around the polygon, as a second area (must pass the same checks)
+  let strip = null, stripFlag = null;
+  const ow = outwardStrip(notam, parts);
+  if (ow && ow.part) {
+    const c = qp && qp.lat != null && qp.lon != null && qp.radiusNm != null ? [qp.lat, qp.lon] : null;
+    const bad = ow.part.coords.some(q => q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax
+      || (c && distNm(c, q) > qp.radiusNm + Q_SLACK_NM + ow.strip.km / 1.852));   // the polygon passed the Q check; the ring adds its width
+    if (bad) stripFlag = "OUTWARD strip reaches outside the Q-line circle, not drawn"; else strip = ow;
+  } else if (ow && ow.flag) stripFlag = ow.flag;
   // main part = the biggest; its anchor is where the app puts the map dot
   const size = p => p.type === "polygon" ? areaNm2(p.coords) : p.type === "circle" ? Math.PI * p.radiusNm ** 2 : 0;
   const main = parts.slice().sort((a, b) => size(b) - size(a))[0];
@@ -566,6 +716,8 @@ export function geometryFor(notam) {
       : { type: "point", coord: RP(p.coord) }),
     anchor: RP(anchor),
   };
+  if (strip) { g.parts.push({ type: "polygon", role: "strip", coords: strip.part.coords.map(RP), holes: strip.part.holes.map(h => h.map(RP)) }); g.strip = strip.strip; }
+  if (stripFlag) g.stripFlag = stripFlag;
   if (r.semi) g.note = "semi-circle drawn as full circle";
   return { geometry: g };
 }
@@ -584,7 +736,9 @@ export function flagsFor(notams) {
     id: n.id, kind, reason, qLine: n.qLine || null, fromDate: n.fromDate || null, toDate: n.toDate || null, eText: n.eText || "" });
   for (const n of notams) {
     const t = String(n.eText || "").toUpperCase(), g = n.geometry;
+    if (n.geometryReject && /^named area /.test(n.geometryReject)) { add(n, "area missing", n.geometryReject); continue; }
     if (n.geometryReject) { add(n, "rejected", n.geometryReject); continue; }
+    if (g && g.stripFlag) { add(n, "outward", g.stripFlag); continue; }
     if (g && g.missing) { add(n, "legs missing", "route legs not in the GIS: " + g.missing.join(", ")); continue; }
     if (g && g.outsideQ) { add(n, "outside Q", "route legs reach outside the NOTAM's Q circle, not drawn: " + g.outsideQ.join(", ")); continue; }
     const wd = g && g.parts ? [...new Set(g.parts.flatMap(p => p.withdrawn || []))] : [];
@@ -621,6 +775,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
   const gdir = bpath.replace(/[\\/][^\\/]*$/, "");                                // route layers sit next to borders.json
   try { loadRoutes(gdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
+  try { loadAreas(gdir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
