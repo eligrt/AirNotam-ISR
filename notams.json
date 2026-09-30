@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-30T10:15:20.228Z",
+  "generatedAt": "2026-09-30T12:22:15.750Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 128,
+  "count": 126,
   "notams": [
     {
       "id": "C2056/26",
@@ -205,74 +205,6 @@
         "anchor": [
           31.698611,
           34.691111
-        ]
-      }
-    },
-    {
-      "id": "C2047/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-28T06:30:00.000Z",
-      "toDate": "2026-09-30T11:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "035",
-        "position": {
-          "lat": 31.666667,
-          "lon": 35.016667,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT ADERET. AN AREA BTN FLW PSN FM GND UP TO 3,500FT AMSL CLSD TO ALL FLT INCLUDING AGRICULTURE FLT 314107N0345919E 313846N0345857E 313804N0350116E 313931N0350342E 314131N0350134E. CTN ADZ. F) GND G) 3500FT AMSL",
-      "position": {
-        "lat": 31.666667,
-        "lon": 35.016667,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2047/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/035/3140N03501E003 A) LLLL B) 2609280630 C) 2609301130 D) SEP 28 0630-0800 0900-1130, SEP 30 0630-0800 0900-1130 E) UAS ACT WILL TAKE PLACE AT ADERET. AN AREA BTN FLW PSN FM GND UP TO 3,500FT AMSL CLSD TO ALL FLT INCLUDING AGRICULTURE FLT 314107N0345919E 313846N0345857E 313804N0350116E 313931N0350342E 314131N0350134E. CTN ADZ. F) GND G) 3500FT AMSL)",
-      "rowID": "2063331",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.685278,
-                34.988611
-              ],
-              [
-                31.646111,
-                34.9825
-              ],
-              [
-                31.634444,
-                35.021111
-              ],
-              [
-                31.658611,
-                35.061667
-              ],
-              [
-                31.691944,
-                35.026111
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.663278,
-          35.016
         ]
       }
     },
@@ -3657,40 +3589,6 @@
       "replaces": null,
       "rawText": "A0777/26 NOTAMN Q) LLLL/QACLP/IV/NBO/AE/000/030/3251N03503E007 A) LLHA B) 2610121400 C) 2610121630 E) CIRCUIT EXER PROHIBITED, EXC ACFT ATR C/S HFA. LDG PROHIBITED EXC PPR FLT FM AD MANAGEMENT OR FM ATC. EXP DLA FOR DEP FLT.)",
       "rowID": "2062197"
-    },
-    {
-      "id": "A0776/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-09-30T04:00:00.000Z",
-      "toDate": "2026-09-30T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 08/26 CLSD EXC RWY INT, DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0776/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609300400 C) 2609301100 E) RWY 08/26 CLSD EXC RWY INT, DUE WIP.)",
-      "rowID": "2062161"
     },
     {
       "id": "C2016/26",
