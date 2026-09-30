@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.005 · built by eligrt
+     AirNotam-ISR · v1.05.007 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -932,6 +932,85 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .rv-grip{display:block;border:none;background:none;padding:6px 0 9px;width:100%;cursor:pointer;}
 .rv-grip span{display:block;width:38px;height:4px;border-radius:2px;background:var(--paper-edge);margin:0 auto;}
 .pu-id .u-tag{font-size:10px;}
+
+/* v1.05.006: round 3 part B */
+/* B2: top of the map = update banner, the hidden-NOTAMs pill right under it (moves up with no banner); legend lower right */
+#stage.v-map .nv-pill{top:8px;}
+#stage.v-map.upd-on .nv-pill{top:calc(var(--updh,0px) + 2px);}
+.leaflet-bottom.leaflet-right .map-legend{margin:0 6px 4px 0;}
+#stage.drawing-on .map-legend{display:none;}
+/* B7: read = red dashed outline + lighter fill; small "קראתי" label on the dot from zoom 11 */
+.lg-ok{background:rgba(185,74,58,.12);border:2px dashed #b94a3a;}
+.rd-lbm{position:relative;width:0;height:0;}
+.rd-lbm span{position:absolute;left:0;top:7px;transform:translateX(-50%);white-space:nowrap;direction:rtl;background:#fff;color:#26497e;
+  border:1px solid rgba(38,73,126,.35);border-radius:8px;padding:0 6px;font-family:var(--font-ui);font-size:10px;font-weight:700;line-height:15px;
+  box-shadow:0 1px 3px rgba(14,35,72,.25);}
+/* B4/B5: one dim behind every curtain; handle + "× סגור" together at the curtain's moving edge */
+:root{--dim:rgba(14,35,72,.45);}
+.fdlg.show,.rv-top.show{background:var(--dim);}
+.fgrip{position:relative;height:34px;}
+.rv-grip{position:relative;}
+.cg-x{position:absolute;left:12px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;gap:4px;font-style:normal;
+  font-family:var(--font-ui);font-size:12.5px;font-weight:700;color:var(--ink-muted);white-space:nowrap;pointer-events:none;}
+.cg-x b{font-size:17px;line-height:1;font-weight:600;}
+/* B4: settings = a curtain that slides up from the footer; the footer stays, a strip of the app shows above it */
+.footer-strip{position:relative;z-index:2600;}
+.setp{inset:auto 0 var(--footh,44px) 0;height:calc(100% - var(--footh,44px) - 92px);transform:translateY(calc(100% + var(--footh,44px)));
+  border-radius:14px 14px 0 0;border-top:3px solid var(--gold);box-shadow:0 -8px 24px rgba(0,0,0,.28);
+  transition:transform .45s cubic-bezier(.22,.61,.36,1),visibility 0s linear .45s;}
+.setp.show{transform:none;transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.setp.drag,.gsheet.drag{transition:none !important;}
+.set-dim{position:absolute;left:0;right:0;top:0;bottom:var(--footh,44px);z-index:2490;background:var(--dim);opacity:0;visibility:hidden;
+  transition:opacity .35s ease,visibility 0s linear .4s;}
+.set-dim.show{opacity:1;visibility:visible;transition:opacity .35s ease;}
+.sp-grip{flex-shrink:0;position:relative;width:100%;height:34px;border:none;background:none;padding:0;cursor:grab;touch-action:none;
+  display:flex;align-items:center;justify-content:center;}
+.sp-grip>i{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);}
+.sp-body{padding-top:0;}
+.sp-body .sp-ttl{font-size:19px;font-weight:700;color:var(--ink-dark);}
+.sp-nv{width:100%;margin-top:7px;}
+.sp-nv label{padding:9px 0 !important;font-size:13px !important;}
+/* B5: layers curtain: the handle is its right (moving) edge, "×" + "סגור" on it */
+.lyr-dim{position:absolute;inset:0;z-index:1260;background:var(--dim);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .35s;}
+.lyr-dim.show{opacity:1;visibility:visible;transition:opacity .3s ease;}
+#stage>.gsheet{z-index:1270;padding-right:50px;}
+.gsheet .gs-hz{position:absolute;top:0;right:0;bottom:0;width:42px;border:none;border-left:1px solid var(--paper-edge);background:none;padding:0;
+  cursor:grab;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.gs-hz .cg-x{position:static;transform:none;flex-direction:column;gap:1px;font-size:10.5px;}
+.gs-hz .cg-x b{font-size:21px;}
+.gs-hz>i{width:5px;height:40px;border-radius:3px;background:var(--gold-lite);}
+/* B4: scroll hint inside any curtain whose content runs past its bottom (same look as the list's) */
+.cue{position:sticky;bottom:0;height:0;flex:none;z-index:5;order:100;pointer-events:none;}
+.fcard>.cue{margin-top:-12px;} .rcard>.cue{margin-top:-10px;} .sp-body>.cue{margin-top:-8px;}
+.cue.hide{display:none;}
+.cue-f{position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(to bottom,rgba(244,236,220,0),var(--paper));}
+.cue .scroll-btn{pointer-events:auto;}
+/* B6: free drawing (both route layers off): amber pill just above the route bar; tap = layers curtain */
+.fd-pill{position:absolute;right:0;bottom:calc(100% + 6px);display:none;align-items:center;gap:6px;max-width:100%;
+  background:var(--fd-amber,#f59e0b);color:#1a1308;border:none;border-radius:16px;padding:6px 12px 6px 11px;font-family:var(--font-ui);
+  font-size:12px;font-weight:700;line-height:1.3;text-align:right;direction:rtl;box-shadow:0 3px 10px rgba(14,35,72,.3);cursor:pointer;}
+.fd-pill.show{display:inline-flex;}
+/* v1.05.007: B6 sand (a notification, not an alert), exactly as wide as the route bar */
+.fd-pill{left:0;right:0;max-width:none;background:var(--fd-amber,#f2c46b);}
+.fd-pill svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;}
+/* B3: one search for NOTAMs and reporting points; the chooser drops down under the bar */
+.qch{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:1500;background:var(--paper-hi);border:1px solid var(--paper-edge);
+  border-radius:8px;box-shadow:0 8px 22px rgba(14,35,72,.25);overflow:hidden;direction:rtl;}
+.qch.show{display:block;}
+.qch button{display:flex;width:100%;align-items:center;gap:9px;border:none;border-top:1px solid var(--paper-edge);background:none;
+  padding:8px 12px;min-height:44px;text-align:right;font-family:var(--font-ui);cursor:pointer;color:var(--ink-body);}
+.qch button:first-child{border-top:none;}
+.qch button:active{background:rgba(200,160,74,.14);}
+.qch .qk{font-size:10.5px;font-weight:700;color:var(--gold-deep);white-space:nowrap;min-width:62px;}
+.qch .qn{flex:1;min-width:0;font-size:13.5px;font-weight:700;color:var(--ink-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qch .qid{font-family:var(--font-mono);direction:ltr;text-align:right;}
+.qch .qc{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);direction:ltr;white-space:nowrap;}
+.pt-hl{position:relative;width:0;height:0;}
+.pt-hl i{position:absolute;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;border:3px solid var(--gold);box-sizing:border-box;
+  box-shadow:0 0 0 2px #fff;animation:ptHl .9s ease-in-out infinite alternate;}
+.pt-hl span{position:absolute;left:0;bottom:22px;transform:translateX(-50%);white-space:nowrap;direction:rtl;background:var(--ink-dark);color:var(--paper-hi);
+  border-radius:6px;padding:2px 8px;font-family:var(--font-ui);font-weight:700;font-size:12.5px;box-shadow:0 2px 8px rgba(14,35,72,.35);}
+@keyframes ptHl{from{transform:scale(.8);}to{transform:scale(1.15);}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -969,20 +1048,24 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
     <div class="am-btns"><button type="button" class="am-alt" id="amAlt" onclick="amodalClose('alt')"></button><button type="button" class="am-ok" id="amOk" onclick="amodalClose(true)"></button><button type="button" class="am-no" onclick="amodalClose(false)">ביטול</button></div>
   </div></div>
 
+  <div class="set-dim" id="setDim" onclick="closeSettings()"></div>
   <div class="setp" id="setp" role="dialog" aria-labelledby="setTtl">
-    <div class="sp-head"><div class="sp-ttl" id="setTtl">הגדרות</div><button type="button" class="sp-x" onclick="closeSettings()">✕ סגור</button></div>
-    <div class="sp-body">
+    <button type="button" class="sp-grip" id="spGrip" aria-label="סגור"><i></i><em class="cg-x"><b>×</b>סגור</em></button>
+    <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
       <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;word-break:break-word;"></div>
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
+      <div class="sp-sec">NOTAMs על המפה</div>
+      <div class="sp-row sp-static"><small>חוזר ל"רגיל" בכל פתיחה</small>
+        <div class="gs-seg sp-nv"><label><input type="radio" name="gpNv" value="normal" checked>רגיל</label><label><input type="radio" name="gpNv" value="fade">מעומעם</label><label><input type="radio" name="gpNv" value="hide">מוסתר</label></div></div>
       <div class="sp-sec">הגדרות מתקדמות: מפה ומסלול</div>
       <div class="sp-row sp-static"><b>רוחב המסדרון מכל צד של הקו</b><small>NOTAMs בתוך המסדרון נחשבים "לאורך המסלול"</small>
         <div class="fgrace sp-corr" id="corrSeg"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
       <div class="sp-sec">משוב</div>
       <div class="sp-row sp-static"><b>הבחנת בתקלה או שיש לך רעיון?</b><small><a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב">אשמח שתעדכן</a></small></div>
       <div class="sp-sec sp-danger">איפוס</div>
-      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל בדיקה מחדש</b><small>כל ה-NOTAMs יחזרו ל"טרם נבדק". זמני הטיסה והמסלול נשמרים.</small></button>
+      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל בדיקה מחדש</b><small>כל ה-NOTAMs יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.</small></button>
       <button type="button" class="sp-row sp-red" onclick="setFullReset()"><b>איפוס מלא של האפליקציה</b></button>
     </div>
   </div>
@@ -1019,20 +1102,20 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 
   <!-- v1.04.025: one row in both views: search + סינון -->
   <div class="qbar" id="qbar">
-    <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button></div>
+    <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
     <button type="button" class="fbtn" id="t_viw" onclick="toggleCurtain('viw')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>סינון<span class="fb-bd" id="fBd"></span></button>
   </div>
   <div class="stage" id="stage">
   <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
-    <div class="r-head"><div class="fttl" id="rdyTtl">מוכנות לטיסה</div><div class="r-big"><span id="rdyBig"></span> <small>נבדקו</small></div></div>
+    <div class="r-head"><div class="fttl" id="rdyTtl">מוכנות לטיסה</div><div class="r-big"><span id="rdyBig"></span> <small>סומנו</small></div></div>
     <div class="r-bar"><i id="rdyBar"></i></div>
     <div class="r-rows" id="rdyRows"></div>
-    <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span></button>
+    <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="fdlg" id="rte" onclick="if(event.target===this)closeCurtain('rte')"><div class="fcard rcard" role="dialog" aria-labelledby="rteTtl">
     <div><div class="r-head r-head-inl"><div class="fttl" id="rteTtl">מסלול</div><div class="r-big r-stat" id="rteStat"></div></div><div class="fsub" id="rteSub"></div></div>
     <div class="r-route" id="rdyRoute"></div>
-    <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span></button>
+    <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="fdlg" id="viw" onclick="if(event.target===this)closeCurtain('viw')"><div class="fcard rcard" role="dialog" aria-labelledby="viwTtl">
     <div class="r-head"><div class="fttl" id="viwTtl">סינון NOTAMs</div></div>
@@ -1044,9 +1127,10 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
     <div class="fgrace f-loc" id="locSeg"><button type="button" data-l="all">הכל</button><button type="button" data-l="geo">עם מיקום מוגדר</button><button type="button" data-l="nogeo">ללא מיקום מוגדר</button></div>
     <div class="f-note" id="locNote">במפה מוצגים רק NOTAMs עם מיקום מוגדר</div>
     <button type="button" class="f-reset" onclick="filtReset()">החזר לברירת מחדל</button>
-    <button type="button" class="fgrip" id="g_viw" aria-label="סגור"><span></span></button>
+    <button type="button" class="fgrip" id="g_viw" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="draw-bar" id="drawBar">
+    <button type="button" class="fd-pill" id="fdPill" onclick="gisPanelToggle(true)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 17.6a1.2 1.2 0 0 0 2.2.3l2.1-3.1 4.9 4.9a1.1 1.1 0 0 0 1.5 0l1-1a1.1 1.1 0 0 0 0-1.5l-4.9-4.9 3.1-2.1a1.2 1.2 0 0 0-.3-2.2L4 4z"/></svg><span>סימון חופשי - הדלק שכבת נתיבים לבחירת נקודות דיווח</span></button>
     <div class="db-txt" id="drawTxt">הקש על המפה כדי להוסיף נקודה</div>
     <button type="button" class="db-snap" id="snapSw" role="switch" aria-checked="true"><span class="dbs-l">סימון נקודות מסלול:</span><b class="dbs-v" id="snapTxt">על בסיס נקודות דיווח</b><i class="dbs-sw"><i></i></i></button>
     <div class="db-btns">
@@ -1075,7 +1159,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <button class="fgo" onclick="saveFlight()">שמור והצג</button>
       <button class="fskip" onclick="skipFlight()">דלג, הצג הכל</button>
     </div>
-    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span></button>
+    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
     <div class="upd" id="upd" onclick="applyPending()"><span id="updTxt"></span><button type="button">סקור</button></div>
     <div class="rv-top" id="rvTop" onclick="if(event.target===this)rvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
@@ -1084,7 +1168,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <div class="rv-nav"><button type="button" onclick="rvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
         <button type="button" class="later" onclick="rvClose()">אסיים אחר כך</button>
         <button type="button" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-      <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span></button>
+      <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
     </div></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
@@ -1099,11 +1183,11 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
   </div>
 
   <div class="footer-strip">
-    <span class="footer-refresh" onclick="openSettings()" role="button" tabindex="0">
+    <span class="footer-refresh" onclick="toggleSettings()" role="button" tabindex="0">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.005 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.007 · built by eligrt</span>
   </div>
 </div>
 
@@ -1203,7 +1287,7 @@ function markReviewed(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.h
 function markIrrelevant(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now(),x:1}; saveReview();}
 function unmarkReviewed(id){delete REVIEW[id]; saveReview();}
 function setShowIrr(v){SHOW_IRR=v; try{localStorage.setItem("airnotam_show_irr",v?"1":"0");}catch(e){} const c=document.getElementById("optIrr"); if(c) c.checked=v; render();}
-const ST_LBL={new:"טרם נבדק",chg:"עודכן, בדוק שוב",ok:"נבדק",irr:"לא רלוונטי לי"};
+const ST_LBL={new:"טרם נקרא",chg:"עודכן, בדוק שוב",ok:"קראתי",irr:"לא רלוונטי לי"};   // v1.05.006: B7 wording
 
 function passFilters(e){
   if(e.admin) return false;                      // admin/checklist NOTAMs stay out
@@ -1270,7 +1354,7 @@ function render(opts){
   updateProgress(items.length, S.ok.length+S.irr.length);
   READY.irr=S.irr.length;
 
-  const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נבדקו"],["ok","נבדקו"],["irr","סימנתי כלא רלוונטיים לי"]];
+  const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נקראו"],["ok","קראתי"],["irr","סימנתי כלא רלוונטיים לי"]];
   // list search: plain text, case-insensitive, anywhere in ID / airfield / full text (list only, the map is not affected)
   const QT=qTerms(), q=QT.join(",")+(LOC!=="all"?"|"+LOC:"");   // q: any narrowing of the list (search or location)
   if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>qMatch(e,QT)&&locPass(e)); });
@@ -1348,7 +1432,7 @@ function renderReady(){
   const row=(title,done,tot,go,fn)=>{
     const left=tot-done, ok=!left;
     return `<button type="button" class="r-row ${ok?"ok":"warn"}" onclick="${fn}">
-      <span class="rr-t"><b>${title}</b><small>${ok?"✓ הכל נבדק":`נותרו ${left} לבדיקה`}</small>
+      <span class="rr-t"><b>${title}</b><small>${ok?"✓ הכל סומן":`נותרו ${left} לבדיקה`}</small>
         <span class="rr-bar"><i style="width:${pct(done,tot)}%"></i></span></span>
       <span class="rr-n">${done}/${tot}</span><span class="rr-go">${go}</span></button>`;
   };
@@ -1380,6 +1464,7 @@ function openCurtain(id){
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
   document.getElementById(id).classList.add("show"); const tt=document.getElementById("t_"+id); if(tt) tt.classList.add("on");
   if(id==="viw") filtUi();
+  cueAll();
 }
 function closeCurtain(id){
   const d=document.getElementById(id); if(!d) return;
@@ -1393,7 +1478,7 @@ function readyGo(v){
   if(v==="list"){ expandedGroups.add("new"); expandedGroups.add("chg"); setView("list"); render(); }
   else setView("map");
 }
-function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); }
+function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); closeSettings(); }
 document.getElementById("optIrr").addEventListener("change",ev=>setShowIrr(ev.target.checked));
 document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(!ev.target.checked));
 document.getElementById("optTime").addEventListener("change",ev=>{ timeMode= ev.target.checked? "all" : "flight"; renderFlightBar(); render(); });
@@ -1469,8 +1554,7 @@ function drawUi(){
     const n=document.createElement("span"); n.className="db-names";
     n.textContent=ROUTE.map(p=>p[2]||"•").join(" ← "); t.appendChild(n);
   }
-  if(SNAP_ON&&!snapLayersOn()){ const h=document.createElement("span"); h.className="db-hint";   // v1.05.005
-    h.textContent="סימון חופשי: הדלק שכבת נתיבים כדי לבחור נקודות דיווח"; t.appendChild(h); }
+  document.getElementById("fdPill").classList.toggle("show",SNAP_ON&&!snapLayersOn());   // v1.05.006: B6 free-drawing pill
   const sw=document.getElementById("snapSw"); if(sw){ sw.setAttribute("aria-checked",snapEff?"true":"false");
     document.getElementById("snapTxt").textContent= snapEff? "על בסיס נקודות דיווח" : "חופשי"; }
   zoomRoLift();
@@ -1542,11 +1626,14 @@ function snapFlash(o){
 function zoomRoLift(){
   const c=MAP&&MAP.getContainer().querySelector(".leaflet-bottom.leaflet-left"); if(!c) return;
   requestAnimationFrame(()=>{ const m=MAP.getContainer().getBoundingClientRect();
-    if(DRAWING){ const r=document.getElementById("drawBar").getBoundingClientRect(); if(r.height){ c.style.bottom=Math.max(0,Math.round(m.bottom-r.top+4))+"px"; return; } }
+    if(DRAWING){ const r=document.getElementById("drawBar").getBoundingClientRect(), t=drawTop(); if(r.height){ c.style.bottom=Math.max(0,Math.round(m.bottom-t+4))+"px"; return; } }
     const a=MAP.getContainer().querySelector(".leaflet-control-attribution"), z=c.querySelector(".zoom-ro");
     const ar=a&&a.getBoundingClientRect(), zw=z? z.getBoundingClientRect().width+10 : 40;
     c.style.bottom= ar&&ar.height&&ar.left<m.left+zw? Math.round(m.bottom-ar.top)+"px" : ""; });
 }
+// v1.05.006: top of the route editor: the bar, or the free-drawing pill above it when shown
+function drawTop(){ const b=document.getElementById("drawBar").getBoundingClientRect(), p=document.getElementById("fdPill");
+  const pr=p&&p.classList.contains("show")? p.getBoundingClientRect() : null; return pr&&pr.height? Math.min(b.top,pr.top) : b.top; }
 function setSnap(v){ SNAP_ON=v; try{localStorage.setItem("airnotam_snap",v?"1":"0");}catch(e){} drawUi(); snapShow(); }
 function startDraw(){
   closeCurtains(); setView("map");
@@ -1555,7 +1642,7 @@ function startDraw(){
   document.getElementById("drawBar").classList.add("show");
   gisPanelToggle(false); document.getElementById("stage").classList.add("drawing-on");
   drawUi(); drawRoute();
-  notamFade();
+  notamFade(); readLbls();
   snapLoad().then(()=>{ if(DRAWING) snapShow(); });
 }
 function drawClick(ev){
@@ -1583,7 +1670,7 @@ function drawKeepVisible(){
   const last=ROUTE[ROUTE.length-1]; if(!last||!MAP) return;
   requestAnimationFrame(()=>{
     const bar=document.getElementById("drawBar"), mc=MAP.getContainer();
-    const barTop=bar.getBoundingClientRect().top-mc.getBoundingClientRect().top;
+    const barTop=drawTop()-mc.getBoundingClientRect().top;
     const y=MAP.latLngToContainerPoint([last[0],last[1]]).y, need=y-(barTop-60);
     if(need>0) MAP.panBy([0,need],{animate:true});
   });
@@ -1670,7 +1757,7 @@ function card(e,st){
   if(st==="new"||st==="chg"){
     acts = `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+mapBtn+irrBtn;   // v1.04.020: "read" on every card, mappable or not
   }else if(st==="ok"){
-    acts = `<span class="c-done">✓ נבדק</span>`+mapBtn+undo+irrBtn;
+    acts = `<span class="c-done">✓ קראתי</span>`+mapBtn+undo+irrBtn;
   }else{
     acts = mapBtn+undo;
   }
@@ -1720,7 +1807,7 @@ const ST_STYLE={
   new:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:2.5,dashArray:null},
   chg:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:4,dashArray:null},
   irr:{color:"#6b6b6b",fillColor:"#9a9a9a",fillOpacity:.18,weight:2,dashArray:"2 4"},
-  ok: {color:"#26497e",fillColor:"#3b6fb8",fillOpacity:.2,weight:2.5,dashArray:"6 4"}
+  ok: {color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.1,weight:2,dashArray:"6 4"}   // v1.05.006: B7 read = red dashed, lighter fill
 };
 const ST_ORDER={irr:-1,ok:0,chg:1,new:2};   // draw reviewed first, unreviewed on top
 function groupStatus(ids){
@@ -1758,9 +1845,9 @@ function initMap(){
   ROUTE_LAYER=L.layerGroup().addTo(MAP);
   MAP.on("zoomend",drawRoute);
   MAP.on("click",drawClick);
-  const leg=L.control({position:"topright"});
+  const leg=L.control({position:"bottomright"});   // v1.05.006: B2 legend lower right, above the attribution line
   leg.onAdd=()=>{const d=L.DomUtil.create("div","map-legend");
-    d.innerHTML='<span><i class="lg lg-new"></i>טרם נבדק</span><span><i class="lg lg-ok"></i>נבדק</span><span><i class="lg lg-irr"></i>לא רלוונטי לי</span>';return d;};
+    d.innerHTML='<span><i class="lg lg-new"></i>טרם נקרא</span><span><i class="lg lg-ok"></i>קראתי</span><span><i class="lg lg-irr"></i>לא רלוונטי לי</span>';return d;};
   leg.addTo(MAP);
   const lc=L.control({position:"topleft"});
   lc.onAdd=()=>{ const d=L.DomUtil.create("div","leaflet-control lyr-ctl");
@@ -1785,7 +1872,7 @@ function initMap(){
 function renderMap(){
   if(!MAP) return;
   MAP.closePopup();
-  MAP_LAYER.clearLayers();
+  MAP_LAYER.clearLayers(); if(READ_LAYER) READ_LAYER.clearLayers();
   MAP_INDEX={}; CIRCLES={}; GROUPS={};
   const QT=qTerms();
   nvUi();
@@ -1817,7 +1904,20 @@ function renderMap(){
     else em.style.display="none";
   }
   if(DRAWING||NVIS==="fade") notamFade();
+  readLbls();
   if(NVIS==="fade"){ CIRCLES={}; MAP_LAYER.eachLayer(l=>{ if(l.options) l.options.interactive=false; const el=l.getElement&&l.getElement(); if(el) el.style.pointerEvents="none"; }); }
+}
+// v1.05.006: B7 a small "קראתי" label on the dot of a read NOTAM, only from zoom 11 (like the point names)
+let READ_LAYER=null;
+function readLbls(){
+  if(!MAP) return;
+  if(!READ_LAYER){ READ_LAYER=L.layerGroup().addTo(MAP); MAP.on("zoomend",readLbls); }
+  READ_LAYER.clearLayers();
+  if(MAP.getZoom()<11||DRAWING||NVIS!=="normal") return;
+  Object.values(GROUPS).forEach(g=>{ const live=g.ids.filter(id=>!offMap(id));
+    if(!live.length||!g.dot||!MAP_LAYER.hasLayer(g.dot)||groupStatus(live)!=="ok") return;
+    L.marker([g.lat,g.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+      html:'<div class="rd-lbm"><span>קראתי</span></div>'})}).addTo(READ_LAYER); });
 }
 // v1.04.025: NOTAMs on the map: normal / faded / hidden (not saved, back to normal on every load)
 let NVIS="normal";
@@ -1826,7 +1926,6 @@ function nvUi(){
   const p=document.getElementById("nvPill");
   if(p){ p.classList.toggle("show",NVIS!=="normal");
     p.innerHTML= NVIS==="fade"? 'NOTAMs מעומעמים<u>החזר</u>' : NVIS==="hide"? 'NOTAMs מוסתרים<u>הצג</u>' : ""; }
-  const c=document.querySelector(".lyr-ctl"); if(c) c.classList.toggle("act",NVIS!=="normal");
 }
 // while a route is being drawn the NOTAMs stay only as a light background
 function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.setStyle({opacity:.12,fillOpacity:.025}); }); }
@@ -1835,9 +1934,9 @@ function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.se
 function puItem(e){
   const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
   const irrB=`<button class="pu-hide" onclick="puIrr('${id}',event)"><b>לא רלוונטי לי</b><small>יסומן באפור ולא יטריד שוב, עד שיעודכן</small></button>`;
-  const acts = st==="ok"  ? `<span class="pu-done">✓ נבדק</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`+irrB
+  const acts = st==="ok"  ? `<span class="pu-done">✓ קראתי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`+irrB
              : st==="irr" ? `<span class="pu-done pu-done-irr">לא רלוונטי לי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`
-             : `<button class="pu-ok" onclick="puReview('${id}',event)"><b>✓ קראתי, לקחתי בחשבון</b><small>נשאר במפה בכחול</small></button>`+irrB;
+             : `<button class="pu-ok" onclick="puReview('${id}',event)"><b>✓ קראתי, לקחתי בחשבון</b><small>נשאר במפה, בקו מקווקו</small></button>`+irrB;
   return `<div class="pu-item pu-s-${st}" data-nid="${id}">
     <div class="pu-top"><b class="pu-id">${id}${updTag(e.id)}</b><span class="pu-st">${ST_LBL[st]}</span></div>
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
@@ -1865,8 +1964,9 @@ function openAt(ll,firstId){
   ids.sort((a,b)=> (a===firstId?-1:b===firstId?1:0) || rank(a)-rank(b) || (ENR_BY_ID[a].radiusNm||0)-(ENR_BY_ID[b].radiusNm||0));
   POP_IDS=ids;
   const node=document.createElement("div"); node.innerHTML=popupHtml(ids,gh);   // a live node, so update() keeps our in-place edits
-  const mr=MAP.getContainer().getBoundingClientRect(), lg=document.querySelector(".map-legend");
-  const top= lg? Math.round(lg.getBoundingClientRect().bottom-mr.top)+12 : 40;
+  const mr=MAP.getContainer().getBoundingClientRect();   // v1.05.006: B2 stay below the update banner / NOTAMs pill
+  const top=[document.getElementById("upd"),document.getElementById("nvPill")].reduce((t,el)=>{ const r=el&&el.getBoundingClientRect();
+    return r&&r.height? Math.max(t,Math.round(r.bottom-mr.top)+12) : t; },40);
   const w=node.querySelector(".pu-wrap"); if(w) w.style.maxHeight=Math.max(180,Math.min(340,mr.height-top-90))+"px";
   L.popup({pane:"popTop",maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
   if(w){ const f=()=>w.classList.toggle("more", w.scrollTop+w.clientHeight < w.scrollHeight-4); w.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); }
@@ -1886,7 +1986,7 @@ function refreshGroupLook(key){
   const live=g.ids.filter(id=>!offMap(id));
   const gs=ST_STYLE[groupStatus(live.length?live:g.ids)];
   g.dot.setStyle({color:gs.color,fillColor:gs.color});
-  popCount();
+  popCount(); readLbls();
 }
 function puReview(id,ev){
   if(ev){ev.preventDefault();ev.stopPropagation();}
@@ -1985,7 +2085,7 @@ function focusOnList(id){
   MAP&&MAP.closePopup();
   setView("list");
   const fe=ENR_BY_ID[id];   // v1.04.025: make sure the search / location filter doesn't hide the card we jump to
-  if(fe && (!qMatch(fe)||!locPass(fe))){ LQ=""; LOC="all"; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); render(); }
+  if(fe && (!qMatch(fe)||!locPass(fe))){ ptClear(); LQ=""; LOC="all"; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); render(); }
   const attempt=(tries)=>{
     const listEl=document.getElementById("list");
     const card=listEl && listEl.querySelector('[data-nid="'+CSS.escape(id)+'"]');
@@ -2239,9 +2339,37 @@ function openFlightDlg(){
   updateCalc();
   document.getElementById("fdlg").classList.add("show");
   document.getElementById("flEdit").classList.add("on");
+  cueAll();
 }
-function openSettings(){ closeCurtains(); renderSettings(); document.getElementById("setp").classList.add("show"); try{diagLine();}catch(_){} }
-function closeSettings(){ document.getElementById("setp").classList.remove("show"); }
+// v1.05.006: B4 settings = a curtain from the footer (the footer stays; tap the dim, "× סגור" or swipe the handle down to close)
+function openSettings(){ closeCurtains(); try{gisPanelToggle(false);}catch(_){} if(MAP) MAP.closePopup(); renderSettings();
+  const ft=document.querySelector(".footer-strip"); document.getElementById("app").style.setProperty("--footh",(ft?ft.offsetHeight:44)+"px");
+  document.getElementById("setp").classList.add("show"); document.getElementById("setDim").classList.add("show");
+  try{diagLine();}catch(_){} cueAll(); }
+function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
+function toggleSettings(){ document.getElementById("setp").classList.contains("show")? closeSettings() : openSettings(); }
+document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
+// v1.05.006: B5 one close behaviour: drag the handle toward the closed side (or tap it) to close
+function dragClose(h,panel,axis,sign,onClose){
+  let s=null, raw=0;
+  h.addEventListener("pointerdown",e=>{ s=axis==="y"?e.clientY:e.clientX; raw=0; panel.classList.add("drag"); try{h.setPointerCapture(e.pointerId);}catch(_){} });
+  h.addEventListener("pointermove",e=>{ if(s==null) return; raw=(axis==="y"?e.clientY:e.clientX)-s; const d=Math.max(0,raw*sign);
+    panel.style.transform= axis==="y"? `translateY(${sign*d}px)` : `translateX(${sign*d}px)`; });
+  const end=()=>{ if(s==null) return; s=null; panel.classList.remove("drag"); panel.style.transform=""; if(raw*sign>40||Math.abs(raw)<4) onClose(); };
+  h.addEventListener("pointerup",end); h.addEventListener("pointercancel",end);
+}
+dragClose(document.getElementById("spGrip"),document.getElementById("setp"),"y",1,closeSettings);
+// v1.05.006: B4 scroll hint in a curtain whose content runs past its bottom: faded strip + bouncing chevron, gone at the end
+function cueAdd(sc){
+  const c=document.createElement("div"); c.className="cue hide";
+  c.innerHTML='<i class="cue-f"></i><button type="button" class="scroll-btn" aria-label="גלול למטה"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>';
+  const g=sc.querySelector(":scope>.fgrip"); if(g) sc.insertBefore(c,g); else sc.appendChild(c);
+  const f=()=>c.classList.toggle("hide", sc.scrollTop+sc.clientHeight>=sc.scrollHeight-8);
+  sc.addEventListener("scroll",f,{passive:true}); window.addEventListener("resize",f);
+  c.querySelector("button").addEventListener("click",ev=>{ ev.stopPropagation(); sc.scrollBy({top:sc.clientHeight*.8,behavior:"smooth"}); });
+  sc._cue=f;
+}
+function cueAll(){ document.querySelectorAll(".fcard,.sp-body").forEach(sc=>{ if(!sc._cue) cueAdd(sc); setTimeout(sc._cue,60); setTimeout(sc._cue,520); }); }
 function renderSettings(){ document.querySelectorAll("#corrSeg button").forEach(b=>b.classList.toggle("on",+b.dataset.c===CORR_NM)); }
 document.querySelectorAll("#corrSeg button").forEach(b=>b.addEventListener("click",()=>{
   CORR_NM=+b.dataset.c; try{localStorage.setItem("airnotam_corr",String(CORR_NM));}catch(e){}
@@ -2253,7 +2381,7 @@ async function setReloadApp(){
   const u=new URL(location.href); u.searchParams.set("r",Date.now().toString(36)); location.replace(u.toString());
 }
 async function setRestartReview(){
-  if(!(await appConfirm({title:"להתחיל בדיקה מחדש?",text:'כל ה-NOTAMs יחזרו ל"טרם נבדק". זמני הטיסה והמסלול נשמרים.',ok:"התחל בדיקה מחדש"}))) return;
+  if(!(await appConfirm({title:"להתחיל בדיקה מחדש?",text:'כל ה-NOTAMs יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.',ok:"התחל בדיקה מחדש"}))) return;
   REVIEW={}; saveReview(); closeSettings(); render();
 }
 async function setFullReset(){
@@ -2336,11 +2464,9 @@ function gisPanel(){
   const s=document.createElement("div"); s.className="gsheet"; s.id="gsheet";
   const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("")
     +'<label class="soon">CVFR<small>בקרוב</small></label><label class="soon">אזמ"ם<small>בקרוב</small></label>';
-  const nv=[["normal","רגיל"],["fade","מעומעם"],["hide","מוסתר"]].map(([v,t])=>`<label><input type="radio" name="gpNv" value="${v}"${v===NVIS?" checked":""}>${t}</label>`).join("");
   const chip=(id,sw,t)=>`<label class="gchip" id="gc_${id}"><input type="checkbox" id="gis_${id}">${sw}<span>${t}</span><small id="gst_${id}"></small></label>`;
-  s.innerHTML='<div class="gs-head"><b>שכבות מפה</b><button type="button" class="gs-close">✕ סגור</button></div>'
+  s.innerHTML='<div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.006: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
     +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div></div>'
-    +'<div class="gs-sec"><div class="gs-sl">NOTAMs על המפה<small>חוזר ל"רגיל" בכל פתיחה</small></div><div class="gs-seg">'+nv+'</div></div>'
     +'<div class="gs-sec"><div class="gs-sl">שכבות רת"א<small>מקור: רת"א GIS</small></div><div class="gs-grid">'
       +chip("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"ספורטיבית")
       +chip("cvfr",'<i class="gsw ln" style="border-color:#1f7a3f;border-top-width:4px;box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px #cfc6ad"></i>',"CVFR")
@@ -2350,15 +2476,16 @@ function gisPanel(){
       +chip("ratag",'<i class="gsw" style="background:#7cb34255;border-color:#5d8f2f"></i>',"שמורות טבע")
       +chip("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
       +chip("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
-    +'</div><div class="gs-stat" id="gsStat"></div></div><i class="gs-hdl"></i>';
+    +'</div><div class="gs-stat" id="gsStat"></div></div><button type="button" class="gs-hz" aria-label="סגור"><em class="cg-x"><b>×</b>סגור</em><i></i></button>';
   document.getElementById("stage").appendChild(s);
   L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
-  s.querySelector(".gs-close").addEventListener("click",()=>gisPanelToggle(false));
+  dragClose(s.querySelector(".gs-hz"),s,"x",-1,()=>gisPanelToggle(false));
+  const dm=document.createElement("div"); dm.className="lyr-dim"; dm.id="lyrDim"; dm.addEventListener("click",()=>gisPanelToggle(false));
+  document.getElementById("stage").appendChild(dm);
   s.querySelectorAll('input[name="gpBase"]').forEach(r=>r.addEventListener("change",()=>{
     MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP); setTimeout(zoomRoLift,150);
     try{localStorage.setItem("airnotam_base2",MAP_BASE);}catch(e){}
   }));
-  s.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
   let x0=null;   // swipe left to hide
   s.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;},{passive:true});
   s.addEventListener("touchend",e=>{ if(x0!==null && x0-e.changedTouches[0].clientX>40) gisPanelToggle(false); x0=null; },{passive:true});
@@ -2376,6 +2503,7 @@ function gisPanelToggle(force){
     if(btn&&st) GIS_PANEL.style.top=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top)+"px";
     if(MAP) MAP.closePopup(); }
   GIS_PANEL.classList.toggle("open",o);
+  const dm=document.getElementById("lyrDim"); if(dm) dm.classList.toggle("show",o);
 }
 // keep the tab just above the attribution line
 function gisTabPos(){
@@ -2592,9 +2720,66 @@ function diagLine(){
 document.getElementById("snapSw").addEventListener("click",()=>setSnap(!SNAP_ON));
 
 let _lqT=null;
-document.getElementById("lq").addEventListener("input",ev=>{ LQ=ev.target.value; document.getElementById("lsearch").classList.toggle("has-q",!!LQ);
-  clearTimeout(_lqT); _lqT=setTimeout(()=>render(),150); });
-document.getElementById("lqX").addEventListener("click",()=>{ const q=document.getElementById("lq"); q.value=""; LQ=""; document.getElementById("lsearch").classList.remove("has-q"); render(); q.focus(); });
+document.getElementById("lq").addEventListener("input",ev=>{ ptClear(); LQ=ev.target.value; document.getElementById("lsearch").classList.toggle("has-q",!!LQ);
+  clearTimeout(_lqT); _lqT=setTimeout(()=>{ render(); qChooser(); },150); });
+document.getElementById("lqX").addEventListener("click",()=>{ ptClear(); const q=document.getElementById("lq"); q.value=""; LQ=""; document.getElementById("lsearch").classList.remove("has-q"); render(); qChooser(); q.focus(); });
+// v1.05.006: B3 one search bar for NOTAMs and reporting points (Hebrew or English). Matching points and NOTAM numbers drop down
+// under the bar ("נקודת דיווח" first); tap a line to go there. Enter with a single match goes straight there.
+let QCH=[];
+function qNorm(s){ return String(s||"").toUpperCase().replace(/["'\u05F3\u05F4\s-]/g,""); }
+function qPts(q){
+  if(!SNAP_PTS) return [];
+  const Q=qNorm(q), out=[]; if(!Q) return out;
+  SNAP_PTS.forEach(o=>{ if(!(qNorm(o.name).includes(Q)||qNorm(o.code).includes(Q))) return;
+    const d=out.find(x=>x.name===o.name&&Math.hypot((x.lat-o.lat)*60,(x.lon-o.lon)*60*.85)<0.3);   // same name, same spot = one line
+    if(d){ o.layers.forEach(l=>{ if(!d.layers.includes(l)) d.layers.push(l); }); return; }
+    out.push({lat:o.lat,lon:o.lon,name:o.name,code:o.code,layers:o.layers.slice()}); });
+  const ex=p=>qNorm(p.name)===Q||qNorm(p.code)===Q;
+  return out.sort((a,b)=>ex(b)-ex(a)||a.name.localeCompare(b.name,"he")||b.lat-a.lat).slice(0,6);
+}
+function qIds(q){ const Q=qNorm(q); if(Q.length<2) return []; return ENR.filter(e=>!e.admin&&qNorm(e.id).includes(Q)).slice(0,5); }
+function qChooser(){
+  const box=document.getElementById("qch"), inp=document.getElementById("lq"); if(!box) return;
+  const q=(LQ||"").trim();
+  QCH= QPT? [{t:"p",p:QPT}] : q.length<2||q.includes(",")? [] : qPts(q).map(p=>({t:"p",p})).concat(qIds(q).map(e=>({t:"n",id:e.id})));
+  if(!QCH.length||document.activeElement!==inp){ box.classList.remove("show"); return; }
+  const em=document.getElementById("mapEmpty"); if(em&&QCH[0].t==="p") em.style.display="none";   // looking up a point, not NOTAM text
+  const LN={sport:"ספורטיבית",cvfr:"CVFR"};
+  box.innerHTML=QCH.map((x,i)=> x.t==="p"
+    ? `<button type="button" data-i="${i}"><span class="qk">נקודת דיווח</span><span class="qn">${esc(x.p.name)}</span><span class="qc">${esc(x.p.code)} · ${x.p.layers.map(l=>LN[l]||l).join(", ")}</span></button>`
+    : `<button type="button" data-i="${i}"><span class="qk">NOTAM</span><span class="qn qid">${esc(x.id)}</span><span class="qc">${esc((ENR_BY_ID[x.id]||{}).loc||"")}</span></button>`).join("");
+  box.classList.add("show");
+}
+// v1.05.007: what you chose stays in the bar until the x: a NOTAM number filters to it (as typing it does);
+// a reporting point marks a place (stays highlighted) and does not filter the NOTAMs
+let QPT=null;
+function ptClear(){ QPT=null; clearTimeout(ptGo._t); if(PT_HL&&MAP){ MAP.removeLayer(PT_HL); } PT_HL=null; }
+function qGo(x){
+  const inp=document.getElementById("lq"); document.getElementById("qch").classList.remove("show");
+  ptClear(); document.getElementById("lsearch").classList.add("has-q"); inp.blur();
+  if(x.t==="p"){ QPT=x.p; inp.value=x.p.name; LQ=""; const was=!!MAP; setView("map"); render(); setTimeout(()=>ptGo(x.p), was?60:400); return; }
+  inp.value=x.id; LQ=x.id;
+  const e=ENR_BY_ID[x.id]; if(!e) return;
+  if(ROUTE_ONLY&&ROUTE.length>=2&&!inCorridor(e)) ROUTE_ONLY=false;       // make sure the filters let it through
+  if(timeMode==="flight"&&!passFilters(e)){ timeMode="all"; renderFlightBar(); }
+  if(offMap(x.id)) SHOW_IRR=true;
+  render();
+  if(currentView==="map"&&e.geo) focusOnMap(x.id); else focusOnList(x.id);
+}
+let PT_HL=null;
+function ptGo(p){
+  if(!MAP) return; if(PT_HL) MAP.removeLayer(PT_HL);
+  MAP.setView([p.lat,p.lon],Math.max(MAP.getZoom(),12),{animate:true});
+  PT_HL=L.marker([p.lat,p.lon],{interactive:false,keyboard:false,zIndexOffset:1500,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+    html:`<div class="pt-hl"><i></i><span>${esc(p.name)}</span></div>`})}).addTo(MAP);
+}
+{ const inp=document.getElementById("lq"), box=document.getElementById("qch");
+  box.addEventListener("pointerdown",ev=>ev.preventDefault());           // keep the keyboard until a line is chosen
+  box.addEventListener("click",ev=>{ const b=ev.target.closest("button[data-i]"); if(b&&QCH[+b.dataset.i]) qGo(QCH[+b.dataset.i]); });
+  inp.addEventListener("focus",()=>qChooser());
+  inp.addEventListener("blur",()=>setTimeout(()=>box.classList.remove("show"),150));
+  inp.addEventListener("keydown",ev=>{ if(ev.key!=="Enter") return; ev.preventDefault(); if(QPT){ inp.blur(); return; } LQ=inp.value; render(); qChooser();
+    if(QCH.length===1) qGo(QCH[0]); else if(!QCH.length) inp.blur(); }); }
 document.getElementById("locSeg").addEventListener("click",ev=>{ const b=ev.target.closest("button"); if(!b||b.disabled) return; LOC=b.dataset.l; render(); });
 
 // review of what changed: updated first, then new, then cancelled
