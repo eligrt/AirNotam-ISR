@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.010 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.011 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -83,6 +83,9 @@
  *   the same NOTAM (part "role":"strip"); the NOTAM's own polygon from field E stays as it is. The polygon must pass
  *   the Q check; the strip may reach the strip's width further (the IAA's Q circle covers the polygon, not the band).
  *   (Up to v1.00.009 a ring was drawn round the POLYGON's edge: a misreading, removed.)
+ *   A strip that lies entirely inside the NOTAM's own polygon is NOT drawn (Eli, 2026-09-30, test round 3): in C1825
+ *   the polygon is already closed and the band only says how to get approval, so drawing it would be red on red.
+ *   It is noted as "stripInside" instead. A strip reaching outside the polygon is still drawn.
  *   Any other "OUTWARD" wording is flagged, not guessed.
  *
  * FLAGS (--flags): NOTAMs that probably deserved a shape but did not get a full one, so a person can look.
@@ -135,7 +138,9 @@
  *   named airspace: "source":"named", "areas":[{"code":"LLHZ","kind":"CTR","name":"הרצליה"}],
  *                 "parts":[{"type":"polygon","coords":[...]}, ...]
  *   Gaza strip:   extra part {"type":"polygon","role":"strip","coords":[...],"fill":"nonzero"}
- *                 and "strip":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"}
+ *                 and "strip":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"};
+ *                 when the strip lies entirely inside the NOTAM's own polygon: no extra part, only
+ *                 "stripInside":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"}
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
  *                                   the test copy lists them under "לבדיקה" and shows the reason
@@ -637,6 +642,16 @@ function outwardStrip(notam) {
   return { part: g.parts[0], strip: { border: "gaza", km: g.km, marginKm: g.marginKm, of: m[1].trim() } };
 }
 
+// point inside a polygon (ray casting, [lat,lon])
+function inPolygon(q, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [yi, xi] = poly[i], [yj, xj] = poly[j];
+    if ((yi > q[0]) !== (yj > q[0]) && q[1] < (xj - xi) * (q[0] - yi) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+}
+
 export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
@@ -661,13 +676,15 @@ export function geometryFor(notam) {
     }
   }
   // "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": the Gaza border strip, as a second area (must pass the same checks)
-  let strip = null, stripFlag = null;
+  let strip = null, stripFlag = null, stripInside = null;
   const ow = outwardStrip(notam);
   if (ow && ow.part) {
     const c = qp && qp.lat != null && qp.lon != null && qp.radiusNm != null ? [qp.lat, qp.lon] : null;
     const bad = ow.part.coords.some(q => q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax
       || (c && distNm(c, q) > qp.radiusNm + Q_SLACK_NM + (ow.strip.km + ow.strip.marginKm) / 1.852));   // the polygon passed the Q check; the strip adds its width
     if (bad) stripFlag = "Gaza Strip border strip reaches outside the Q-line circle, not drawn"; else strip = ow;
+    // entirely inside one of the NOTAM's own polygons: that area already covers it, so it is not drawn (only noted)
+    if (strip && parts.some(p => p.type === "polygon" && ow.part.coords.every(q => inPolygon(q, p.coords)))) { stripInside = ow.strip; strip = null; }
   } else if (ow && ow.flag) stripFlag = ow.flag;
   // main part = the biggest; its anchor is where the app puts the map dot
   const size = p => p.type === "polygon" ? areaNm2(p.coords) : p.type === "circle" ? Math.PI * p.radiusNm ** 2 : 0;
@@ -686,6 +703,7 @@ export function geometryFor(notam) {
   };
   if (strip) { g.parts.push({ type: "polygon", role: "strip", coords: strip.part.coords, fill: "nonzero" }); g.strip = strip.strip; }
   if (stripFlag) g.stripFlag = stripFlag;
+  if (stripInside) g.stripInside = stripInside;
   if (r.semi) g.note = "semi-circle drawn as full circle";
   return { geometry: g };
 }
