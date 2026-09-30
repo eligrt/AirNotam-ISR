@@ -3,5 +3,15 @@
     "id": "C2028/26",
     "kind": "outside Q",
     "first": "2026-09-29"
+  },
+  "area missing|LLER TRG AREA HAR BERECH CLSD TO ALL FLT.": {
+    "id": "C1838/26",
+    "kind": "area missing",
+    "first": "2026-09-30"
+  },
+  "area missing|LLIB TRG AREA NR A AND B CLSD.": {
+    "id": "C1835/26",
+    "kind": "area missing",
+    "first": "2026-09-30"
   }
 }
