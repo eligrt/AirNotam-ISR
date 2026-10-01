@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.003 · built by eligrt
+     AirNotam-ISR · v1.06.004 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1142,7 +1142,7 @@ input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:d
   <div class="setp" id="setp" role="dialog" aria-labelledby="setTtl">
     <button type="button" class="sp-grip" id="spGrip" aria-label="סגור"><i></i><em class="cg-x"><b>×</b>סגור</em></button>
     <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
-      <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;word-break:break-word;"></div>
+      <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a></div>   <!-- v1.06.004 -->
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMs העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
@@ -1277,7 +1277,7 @@ input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:d
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.003 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.004 · built by eligrt</span>
   </div>
 </div>
 
@@ -2671,7 +2671,7 @@ function openSettings(){ closeCurtains(); try{gisPanelToggle(false);}catch(_){} 
   const ft=document.querySelector(".footer-strip"), ap=document.getElementById("app"); ap.style.setProperty("--footh",(ft?ft.offsetHeight:44)+"px");
   ap.style.setProperty("--settop",Math.round(document.getElementById("stage").getBoundingClientRect().top-ap.getBoundingClientRect().top+8)+"px");   // v1.05.017T
   document.getElementById("setp").classList.add("show"); document.getElementById("setDim").classList.add("show");
-  try{diagLine();}catch(_){} cueAll(); }
+  cueAll(); }
 function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
 function toggleSettings(){ document.getElementById("setp").classList.contains("show")? closeSettings() : openSettings(); }
 document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
@@ -3039,15 +3039,14 @@ function fitAppHeight(){
   if(MAP) setTimeout(()=>MAP.invalidateSize(),60);
 }
 // (v1.04.009) the forced full-screen height pushed the footer out of view on iPhone → disabled; measuring first (diagnostic in settings)
-function diagLine(){
-  const el=document.getElementById("diagLine"); if(!el) return;
+function diagLine(){   // v1.06.004: no longer shown; written into the admin log at start-up
   const pr=document.createElement("div");
   pr.style.cssText="position:fixed;top:0;left:0;visibility:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)";
   document.body.appendChild(pr); const cs=getComputedStyle(pr), st=parseFloat(cs.paddingTop)||0, sb=parseFloat(cs.paddingBottom)||0; pr.remove();
   const sa=window.navigator.standalone===true || (window.matchMedia&&matchMedia("(display-mode: standalone)").matches);
   const vv=window.visualViewport? Math.round(visualViewport.height) : "-";
   const app=document.getElementById("app").getBoundingClientRect();
-  el.textContent=`diag · screen ${screen.width}x${screen.height} · inner ${innerWidth}x${innerHeight} · vv ${vv} · docEl ${document.documentElement.clientHeight} · app ${Math.round(app.height)} · safe ${st}/${sb} · dpr ${devicePixelRatio} · ${sa?"standalone":"browser"}`;
+  return `diag · screen ${screen.width}x${screen.height} · inner ${innerWidth}x${innerHeight} · vv ${vv} · docEl ${document.documentElement.clientHeight} · app ${Math.round(app.height)} · safe ${st}/${sb} · dpr ${devicePixelRatio} · ${sa?"standalone":"browser"}`;
 }
 
 document.getElementById("snapSw").addEventListener("click",()=>{   // v1.05.024T: no route layer on: the switch can't snap, it opens the layers curtain (like the pill)
@@ -3191,6 +3190,62 @@ function demoUpdate(){
   showUpdate(diffFeeds(SNAP.notams,n));
 }
 if(DEMO) setTimeout(demoUpdate,4000);
+
+// ── v1.06.004: admin log. The last ~200 app events kept on the device, for chasing bugs we can't reproduce
+//    (e.g. the map jumping back to all of Israel while drawing a route). Settings → "admin log" copies it. ──
+const ALOG_KEY="airnotam_alog", ALOG_MAX=200;
+let ALOG=[]; try{ALOG=JSON.parse(localStorage.getItem(ALOG_KEY)||"[]")||[];}catch(e){ALOG=[];}
+function alog(t){
+  const d=new Date(), p=n=>String(n).padStart(2,"0");
+  ALOG.push(`${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())} ${t}`);
+  if(ALOG.length>ALOG_MAX) ALOG=ALOG.slice(-ALOG_MAX);
+  try{localStorage.setItem(ALOG_KEY,JSON.stringify(ALOG));}catch(e){}
+}
+async function alogCopy(){
+  alog("admin log copied");
+  const txt=`AirNotam-ISR v1.06.004 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
+  if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
+    document.body.appendChild(ta); ta.select(); ok=document.execCommand("copy"); ta.remove(); }catch(e){} }
+  const a=document.getElementById("admLog"); if(a){ a.style.opacity=".25"; setTimeout(()=>{a.style.opacity="";},350); }
+}
+// start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
+(function(){
+  let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
+  alog("START v1.06.004 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  try{alog(diagLine());}catch(e){}
+  const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
+  set("1"); let closed=false;
+  document.addEventListener("visibilitychange",()=>{ if(closed) return; const h=document.visibilityState==="hidden"; set(h?"h":"1"); alog(h?"app hidden":"app visible"); });
+  window.addEventListener("pagehide",()=>{ closed=true; set("0"); alog("page closed"); });
+  window.addEventListener("pageshow",e=>{ if(e.persisted){ closed=false; set("1"); alog("page restored"); } });
+  window.addEventListener("error",e=>alog("ERROR "+(e.message||"")+" @"+(e.lineno||"")));
+  window.addEventListener("unhandledrejection",e=>alog("ERROR (promise) "+((e.reason&&e.reason.message)||e.reason||"")));
+  if(window.visualViewport) visualViewport.addEventListener("resize",()=>alog("viewport "+Math.round(innerWidth)+"x"+Math.round(visualViewport.height)));
+})();
+// what the pilot does: wrap the app's own functions (same behaviour, one log line each)
+(function(){
+  const wrap=(n,fmt)=>{ const f=window[n]; if(typeof f!=="function") return;
+    const w=function(...a){ try{ const t=fmt?fmt(a):n; if(t) alog(t); }catch(e){} return f.apply(this,a); };
+    Object.assign(w,f); window[n]=w; };
+  wrap("setView",a=>"view "+a[0]);
+  ["startDraw","drawUndo","drawClear","drawDone","clearRoute","applyPending","openSettings","toggleFlightDlg","pickGpx"].forEach(n=>wrap(n));
+  const isOn=id=>{ const e=document.getElementById(id); return !!e&&e.classList.contains("show"); };
+  wrap("closeSettings",()=>isOn("setp")?"closeSettings":"");
+  wrap("openCurtain",a=>"curtain open "+a[0]); wrap("closeCurtain",a=>isOn(a[0])?"curtain close "+a[0]:"");
+  wrap("gisPanelToggle",a=>{ const o=!!(window.gisPanelOpen&&gisPanelOpen()); const w=a[0]===undefined?!o:!!a[0]; return w===o?"":"layers "+(w?"open":"close"); });
+  wrap("rvOpen",()=>"review open"); wrap("rvClose",a=>RV_ON?"review close"+(a[0]?" (quiet)":""):"");
+  wrap("focusOnMap",a=>"to map "+a[0]); wrap("focusOnList",a=>"to list "+a[0]);
+  wrap("drawClick",()=> DRAWING? "draw point "+(ROUTE.length+1) : "");
+  // map: zoom / position after every change; with a route, also the corridor width in pixels at this zoom
+  wrap("initMap",()=>MAP?"":"map created");
+  const hook=setInterval(()=>{ if(typeof MAP==="undefined"||!MAP) return; clearInterval(hook);
+    MAP.on("moveend",()=>{ const c=MAP.getCenter(), z=MAP.getZoom();
+      let cw=""; if(ROUTE.length>=2){ const mpp=40075016.686*Math.cos(c.lat*Math.PI/180)/Math.pow(2,z+8); cw=` · route ${ROUTE.length} pts · corridor ${Math.round(2*CORR_NM*1852/mpp)}px`; }
+      alog(`map Z${Math.round(z*10)/10} ${c.lat.toFixed(3)},${c.lng.toFixed(3)}${DRAWING?" · drawing":""}${cw}`); });
+  },300);
+})();
 
 // ── boot ──
 FLIGHT=loadFlight();
