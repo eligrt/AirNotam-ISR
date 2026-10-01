@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.004 · built by eligrt
+     AirNotam-ISR · v1.06.006 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -732,17 +732,17 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
   background:var(--ink-dark);color:var(--paper-hi);font-family:var(--font-ui);font-size:12px;font-weight:700;border:none;border-radius:16px;padding:7px 13px;
   box-shadow:0 3px 10px rgba(14,35,72,.35);cursor:pointer;}
 .nv-pill u{text-decoration:none;color:var(--info-gold);border-inline-start:1px solid rgba(255,255,255,.25);padding-inline-start:8px;}
-#stage.v-map .nv-pill.show{display:flex;}
-#stage.drawing-on .nv-pill{display:none !important;}
+#stage.v-map .nv-pill.show,#mapside .nv-pill.show{display:flex;}
+#stage.drawing-on .nv-pill,#mapside.drawing-on .nv-pill{display:none !important;}
 
 /* v1.04.003-mock: layers bottom sheet */
 .gsheet{position:absolute;left:0;right:0;bottom:0;z-index:1100;background:var(--paper-hi);direction:rtl;font-family:var(--font-ui);
   border-top:1px solid var(--paper-edge);border-radius:14px 14px 0 0;box-shadow:0 -6px 20px rgba(14,35,72,.18);
   padding:6px 12px 10px;transform:translateY(105%);transition:transform .28s cubic-bezier(.22,.61,.36,1);}
 .gsheet.open{transform:none;}
-#stage>.gsheet{bottom:auto;left:0;right:10px;border:1px solid var(--paper-edge);border-left:none;border-radius:0 14px 14px 0;
+#stage>.gsheet,#mapside>.gsheet{bottom:auto;left:0;right:10px;border:1px solid var(--paper-edge);border-left:none;border-radius:0 14px 14px 0;
   box-shadow:6px 6px 20px rgba(14,35,72,.25);transform:translateX(-105%);transition:transform .34s cubic-bezier(.22,.61,.36,1);padding:8px 12px 10px;}
-#stage>.gsheet.open{transform:none;}
+#stage>.gsheet.open,#mapside>.gsheet.open{transform:none;}
 .gsheet .gs-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .gsheet .gs-head b{font-size:15px;color:var(--ink-dark);}
 .gsheet .gs-sec{padding:7px 0;border-top:1px dashed var(--paper-edge);}
@@ -873,7 +873,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .lg-scope[hidden]{display:none;}
 #stage>.gtab{position:absolute;}
 #stage.drawing-on .gtab{display:none;}
-#stage>.gsheet{position:absolute;}
+#stage>.gsheet,#mapside>.gsheet{position:absolute;}
 .gsheet.list-mode .gs-mapsec{display:none !important;}
 .gsheet.list-mode .gs-nt{border-top:none;margin-top:0;padding-top:0;}
 .gs-x2{display:none;}
@@ -937,7 +937,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .upd{transition:opacity .3s ease;}
 .upd.hiding{display:flex;opacity:0;pointer-events:none;}
 #stage.v-map .upd{position:absolute !important;top:8px !important;left:10px !important;right:10px !important;margin:0;}
-#stage .leaflet-top{transition:top .3s ease .55s;}
+#stage .leaflet-top,#mapside .leaflet-top{transition:top .3s ease .55s;}
 #stage.v-map.upd-on .leaflet-top{transition-delay:0s;}
 #stage.v-map.upd-on .leaflet-top{top:var(--updh,0px);}
 .rv-body .card{margin:0;}
@@ -952,10 +952,10 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 
 /* v1.05.015T: round 3 part B */
 /* B2: top of the map = update banner, the hidden-NOTAMs pill right under it (moves up with no banner); legend lower right */
-#stage.v-map .nv-pill{top:8px;}
+#stage.v-map .nv-pill,#mapside .nv-pill{top:8px;}
 #stage.v-map.upd-on .nv-pill{top:calc(var(--updh,0px) + 2px);}
 .leaflet-bottom.leaflet-right .map-legend{margin:0 6px 4px 0;}
-#stage.drawing-on .map-legend{display:none;}
+#stage.drawing-on .map-legend,#mapside.drawing-on .map-legend{display:none;}
 /* B7: read = red dashed outline + lighter fill; small "קראתי" label on the dot from zoom 11 */
 .lg-ok{background:rgba(185,74,58,.12);border:2px dashed #b94a3a;}
 .rd-lbm{position:relative;width:0;height:0;}
@@ -990,7 +990,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 /* B5: layers curtain: the handle is its right (moving) edge, "×" + "סגור" on it */
 .lyr-dim{position:absolute;inset:0;z-index:1260;background:var(--dim);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .35s;}
 .lyr-dim.show{opacity:1;visibility:visible;transition:opacity .3s ease;}
-#stage>.gsheet{z-index:1270;padding-right:50px;}
+#stage>.gsheet,#mapside>.gsheet{z-index:1270;padding-right:50px;}
 .gsheet .gs-hz{position:absolute;top:0;right:0;bottom:0;width:42px;border:none;border-left:1px solid var(--paper-edge);background:none;padding:0;
   cursor:grab;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
 .gs-hz .cg-x{position:static;transform:none;flex-direction:column;gap:1px;font-size:10.5px;}
@@ -1028,7 +1028,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .rv-grip{height:34px;padding:0;display:flex;align-items:center;justify-content:center;}
 .rv-grip span{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);margin:0;}
 /* v1.05.018T: the map buttons (zoom, layers) move down below whatever sits at the top of the map: banner and / or NOTAMs pill */
-#stage.v-map.top-on .leaflet-top{top:var(--toph,0px);transition-delay:0s;}
+#stage.v-map.top-on .leaflet-top,#mapside.top-on .leaflet-top{top:var(--toph,0px);transition-delay:0s;}
 /* v1.05.017T: list cards: the same 3 slots on every card (read / map / not relevant), spread across the width */
 .c-acts.c3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:6px;}
 .c-acts.c3 .c-act{height:auto;min-height:38px;padding:4px 4px;line-height:1.2;font-size:12px;}
@@ -1101,6 +1101,24 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
 input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default;}
 .lg-ok{background:rgba(185,74,58,.22);}   /* v1.06.002: legend follows the new read fill */
 .sp-body>.cue{bottom:-24px;}   /* v1.06.003: the scroll hint sits on the real bottom edge of the settings (past its 24px padding) */
+/* v1.06.005: wide screen (1000px and up): the phone app is the panel on the right (always the list), the map fills the rest */
+#mapside{display:none;}
+body.wide #app{max-width:430px;margin:0 0 0 auto;border-left:1px solid var(--paper-edge);}
+body.wide #mapside{display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;right:430px;overflow:hidden;background:#aad3df;}
+body.wide .vtoggle{display:none;}
+body.wide .amodal,body.wide .disc{position:fixed;}
+#mapside>.gsheet{right:auto;width:420px;}
+/* v1.06.006: layers curtain: scrolls inside when taller than the map; extra layers with their source beside; line key; CVFR swatch */
+#stage>.gsheet,#mapside>.gsheet{display:flex;flex-direction:column;}
+.gsheet .gs-in{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;}
+.gs-xtra{align-items:center;}
+.gs-src{font-size:10px;color:var(--ink-faint);}
+.gsw.gsw-cv,.gk.gk-cv{box-shadow:0 0 0 2px #fff,0 0 0 3px #bdb39a;}
+.gs-key .gk-row{display:flex;flex-wrap:wrap;align-items:center;gap:3px 12px;font-size:11px;color:var(--ink-body);margin-bottom:4px;}
+.gs-key .gk-row b{min-width:58px;font-size:11px;color:var(--ink-dark);}
+.gs-key .gk-row span{display:inline-flex;align-items:center;gap:5px;}
+.gk{display:inline-block;width:18px;height:0;border-top:2.5px solid;}
+.gk.gk-br{border-top-style:dashed;border-color:#5a4a3a;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1277,9 +1295,10 @@ input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:d
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.004 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.006 · built by eligrt</span>
   </div>
 </div>
+<div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
 <script>
 // ── test mode: ?demo=update → nothing is saved on the device, and a fake feed change is staged a few seconds after start ──
@@ -1462,7 +1481,7 @@ function render(opts){
   }).join("");
   document.getElementById("list").innerHTML=html||(q?'':'<div class="empty">אין NOTAMs בחלון הזמן הנוכחי</div>');
 
-  if(!opts.skipMap && currentView==="map") renderMap();
+  if(!opts.skipMap && mapOn()) renderMap();   // v1.06.005
   try{filtUi();}catch(_){}
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
 }
@@ -1733,7 +1752,7 @@ function startDraw(){
   DRAWING=true; MAP.closePopup(); MAP.doubleClickZoom.disable();
   document.getElementById("map").classList.add("drawing");
   document.getElementById("drawBar").classList.add("show");
-  gisPanelToggle(false); document.getElementById("stage").classList.add("drawing-on");
+  gisPanelToggle(false); mapHost().classList.add("drawing-on");   // v1.06.005
   drawUi(); drawRoute();
   notamFade(); readLbls();
   snapLoad().then(()=>{ if(DRAWING) snapShow(); });
@@ -1787,7 +1806,7 @@ function drawDone(){
   DRAWING=false; MAP.doubleClickZoom.enable();
   document.getElementById("map").classList.remove("drawing");
   document.getElementById("drawBar").classList.remove("show");
-  snapShow(); renderMap(); document.getElementById("stage").classList.remove("drawing-on"); zoomRoLift();
+  snapShow(); renderMap(); mapHost().classList.remove("drawing-on"); zoomRoLift();   // v1.06.005
   if(ROUTE.length<2){ ROUTE=[]; }
   saveRoute();
   if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
@@ -1843,7 +1862,7 @@ function card(e,st){
   const rt=routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
-  const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "מפה"</span></span></button>`
+  const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span></button>`
                       : `<button class="c-act c-go c-nomap" disabled>${MAP_ICO}ללא מיקום מוגדר</button>`;   // v1.04.022: always shown, for consistency
   const irrBtn=`<button class="c-act c-hide" onclick="listIrr('${id}')">לא רלוונטי לי</button>`;
   const lnk=(fn,t)=>`<button class="c-act c-lnk" onclick="${fn}('${id}')">${t}</button>`;   // v1.05.028T: status redesign, text links after marking
@@ -1884,7 +1903,7 @@ async function listReview(id){
   const e=ENR_BY_ID[id];
   if(e&&e.geo){   // v1.04.022: mappable NOTAM marked read from a card: always confirm, offer the map
     const r=await appConfirm({title:"לסמן כנקרא?",text:"ל-NOTAM הזה יש מיקום על המפה. מומלץ לבדוק אותו ביחס למסלול לפני הסימון.",
-      alt:"map",altHtml:MAP_ICO+'<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "מפה"</span></span>',ok:"סמן כנקרא",danger:false});
+      alt:"map",altHtml:MAP_ICO+'<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span>',ok:"סמן כנקרא",danger:false});
     if(r==="alt"){ if(RV_ON) rvClose(true); focusOnMap(id); return; }
     if(r!==true) return;
   }
@@ -2241,10 +2260,10 @@ function nvUi(){
 }
 // v1.05.018T: how far down the top of the map is taken (update banner, NOTAMs pill); the map buttons sit below it
 function topStack(){ requestAnimationFrame(()=>{
-  const s=document.getElementById("stage"), m=document.getElementById("map"); if(!s||!m||currentView!=="map") return;
+  const s=mapHost(), m=document.getElementById("map"); if(!s||!m||!mapOn()) return;   // v1.06.005
   const mt=m.getBoundingClientRect().top; let b=0;
   const u=document.getElementById("upd"), p=document.getElementById("nvPill");
-  if(u&&u.classList.contains("show")) b=Math.max(b,u.getBoundingClientRect().bottom-mt);
+  if(u&&s.contains(u)&&u.classList.contains("show")) b=Math.max(b,u.getBoundingClientRect().bottom-mt);
   if(p&&p.classList.contains("show")&&p.offsetHeight) b=Math.max(b,p.getBoundingClientRect().bottom-mt);
   s.classList.toggle("top-on",b>0); if(b>0) s.style.setProperty("--toph",Math.round(b+6)+"px"); }); }
 // while a route is being drawn the NOTAMs stay only as a light background
@@ -2253,7 +2272,7 @@ function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.se
 // popup: one card per NOTAM at this spot
 function puItem(e){
   const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
-  const lst=`<button class="c-act c-go" onclick="focusOnList('${id}')">${LIST_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "רשימה"</span></span></button>`;   // v1.05.028T: status redesign
+  const lst=`<button class="c-act c-go" onclick="focusOnList('${id}')">${LIST_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">ברשימה</span></span></button>`;   // v1.05.028T: status redesign
   const lnk=(fn,t)=>`<button class="c-act c-lnk" onclick="${fn}('${id}',event)">${t}</button>`;
   const acts = st==="ok"  ? lnk("puUnreview","בטל סימון")+lst+lnk("puIrr","סמן כלא רלוונטי")
              : st==="irr" ? lnk("puUnreview","בטל סימון")+lst+lnk("puReview","סמן כנקרא")
@@ -2285,7 +2304,7 @@ function openAt(ll,firstId){
   POP_IDS=ids;
   const node=document.createElement("div"); node.innerHTML=popupHtml(ids,gh);   // a live node, so update() keeps our in-place edits
   const mr=MAP.getContainer().getBoundingClientRect();   // v1.05.015T: B2 stay below the update banner / NOTAMs pill
-  const top=[document.getElementById("upd"),document.getElementById("nvPill")].reduce((t,el)=>{ const r=el&&el.getBoundingClientRect();
+  const top=[document.getElementById("upd"),document.getElementById("nvPill")].filter(el=>el&&mapHost().contains(el)).reduce((t,el)=>{ const r=el&&el.getBoundingClientRect();   // v1.06.005
     return r&&r.height? Math.max(t,Math.round(r.bottom-mr.top)+12) : t; },40);
   const w=node.querySelector(".pu-wrap"); if(w) w.style.maxHeight=Math.max(180,Math.min(340,mr.height-top-90))+"px";
   L.popup({pane:"popTop",maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
@@ -2294,6 +2313,7 @@ function openAt(ll,firstId){
   hl.forEach(c=>c._shapes.forEach(l=>{ l._w0=l.options.weight; l.setStyle({weight:(l.options.weight||2.5)+2.5}); }));
   if(hl.length) MAP.once("popupclose",()=>hl.forEach(c=>c._shapes.forEach(l=>l.setStyle({weight:l._w0}))));
   if(w){ const f=()=>w.classList.toggle("more", w.scrollTop+w.clientHeight < w.scrollHeight-4); w.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); }
+  if(WIDE && !firstId && ids.length) listJump(ids[0],0);   // v1.06.005: a tap on the map shows its card in the list
 }
 function popupHtml(ids,gh){
   return `<div class="pu-wrap">${ids.length>1?`<div class="pu-cnt">${ids.length} NOTAMs בנקודה זו</div>`:""}`
@@ -2406,10 +2426,13 @@ function startCardFlash(card,listEl){
 }
 
 function focusOnList(id){
-  MAP&&MAP.closePopup();
-  setView("list");
+  if(!WIDE){ MAP&&MAP.closePopup(); setView("list"); }   // v1.06.005: on a wide screen the list is already on screen
   const fe=ENR_BY_ID[id];   // v1.04.025: make sure the search / location filter doesn't hide the card we jump to
   if(fe && (!qMatch(fe)||!locPass(fe))){ ptClear(); LQ=""; LOC="all"; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); render(); }
+  listJump(id,6);
+}
+// v1.06.005: scroll the list to a card and flash it (tries: how many times to wait for the card to be drawn)
+function listJump(id,tries){
   const attempt=(tries)=>{
     const listEl=document.getElementById("list");
     const card=listEl && listEl.querySelector('[data-nid="'+CSS.escape(id)+'"]');
@@ -2429,22 +2452,40 @@ function focusOnList(id){
       try{updateScrollCue();}catch(_){}
     }));
   };
-  setTimeout(()=>attempt(6),90);
+  setTimeout(()=>attempt(tries),90);
 }
 
 
+// ── v1.06.005: wide screen (1000px and up, e.g. a PC or an iPad held sideways): panel on the right, map on the left ──
+const WIDE_MQ=window.matchMedia? matchMedia("(min-width:1000px)") : null;
+let WIDE=false;
+function mapOn(){ return currentView==="map"||WIDE; }                       // is the map on screen
+function mapHost(){ return document.getElementById(WIDE?"mapside":"stage"); }  // what holds the map and its overlays
+function applyWide(boot){
+  const w=!!(WIDE_MQ&&WIDE_MQ.matches); if(w===WIDE) return;
+  try{ gisPanelToggle(false); }catch(_){}
+  if(MAP) MAP.closePopup();
+  WIDE=w; document.body.classList.toggle("wide",w);
+  const host=mapHost(), other=document.getElementById(w?"stage":"mapside");
+  ["map","mapEmpty","nvPill","drawBar","gsheet","lyrDim"].forEach(id=>{ const el=document.getElementById(id); if(el) host.appendChild(el); });
+  other.classList.remove("drawing-on","top-on"); host.classList.toggle("drawing-on",!!DRAWING);
+  if(typeof alog==="function") alog("layout "+(w?"wide":"phone")+" "+innerWidth+"px");
+  if(!boot) setView(w? "list" : "map");
+}
+
 function setView(v){
+  if(WIDE) v="list";   // v1.06.005: wide screen: the panel is always the list, the map is always beside it
   if(v!==currentView) closeCurtains();
-  if(DRAWING && v!=="map") drawDone();
+  if(DRAWING && v!=="map" && !WIDE) drawDone();
   currentView=v;
   const isMap=v==="map", isList=v==="list";
   document.getElementById("list").style.display = isList? "block":"none";
-  document.getElementById("map").style.display  = isMap? "block":"none";
-  if(!isMap){const em=document.getElementById("mapEmpty"); if(em) em.style.display="none";}
+  document.getElementById("map").style.display  = isMap||WIDE? "block":"none";
+  if(!isMap&&!WIDE){const em=document.getElementById("mapEmpty"); if(em) em.style.display="none";}
   document.getElementById("vList").classList.toggle("on", isList);
   document.getElementById("vMap").classList.toggle("on", isMap);
   document.getElementById("stage").classList.toggle("v-map", isMap); updPos();
-  if(isMap){ initMap(); renderMap(); drawRoute(); }
+  if(isMap||WIDE){ initMap(); renderMap(); drawRoute(); }
   try{filtUi();}catch(_){}
   try{ gisPanelToggle(false); gisTabPos(); }catch(_){}
   try{updateScrollCue();}catch(_){}
@@ -2791,24 +2832,31 @@ function gisPanel(){
   const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("")
     +'<label class="soon">CVFR<small>בקרוב</small></label><label class="soon">אזמ"ם<small>בקרוב</small></label>';
   const chip=(id,sw,t)=>`<label class="gchip" id="gc_${id}"><input type="checkbox" id="gis_${id}">${sw}<span>${t}</span><small id="gst_${id}"></small></label>`;
-  s.innerHTML='<div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.015T: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
+  s.innerHTML='<div class="gs-in"><div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.015T: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
     +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div></div>'
     +'<div class="gs-sec"><div class="gs-sl">שכבות רת"א<small>מקור: רת"א GIS</small></div><div class="gs-grid">'
       +chip("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"ספורטיבית")
-      +chip("cvfr",'<i class="gsw ln" style="border-color:#1f7a3f;border-top-width:4px;box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px #cfc6ad"></i>',"CVFR")
+      +chip("cvfr",'<i class="gsw ln gsw-cv" style="border-color:#1f7a3f"></i>',"CVFR")   // v1.06.006: same width as sport
       +chip("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
       +chip("tma",'<i class="gsw dsh" style="border-color:#4a3f33"></i>',"TMA")
       +chip("prd",'<i class="gsw" style="background:#c0267e22;border-color:#c0267e"></i>',"P/R/D")
       +chip("ratag",'<i class="gsw" style="background:#7cb34255;border-color:#5d8f2f"></i>',"שמורות טבע")
       +chip("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
       +chip("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
-      +chip("borders",'<i class="gsw ln gsw-brd"></i>','גבולות מדינה<em class="gsrc">מקור: OSM</em>')   // v1.06.001: its own source credit (not IAA data)
-    +'</div><div class="gs-stat" id="gsStat"></div></div><button type="button" class="gs-hz" aria-label="סגור"><em class="cg-x"><b>×</b>סגור</em><i></i></button>';
-  document.getElementById("stage").appendChild(s);
+    +'</div><div class="gs-stat" id="gsStat"></div></div>'
+    // v1.06.006: layers from other sources, each with its source beside it; then the line key (always shown, so the curtain never changes height)
+    +'<div class="gs-sec"><div class="gs-sl">שכבות נוספות</div><div class="gs-grid gs-xtra">'
+      +chip("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")+'<span class="gs-src">מקור: OSM</span></div></div>'
+    +'<div class="gs-sec gs-key"><div class="gs-sl">מקרא קווים</div>'
+      +'<div class="gk-row"><b>ספורטיבית</b><span><i class="gk" style="border-color:#1f7a3f"></i>כל השבוע</span><span><i class="gk" style="border-color:#8b5a2b"></i>סופ"ש</span><span><i class="gk" style="border-color:#6b21a8"></i>מיוחד</span></div>'
+      +'<div class="gk-row"><b>CVFR</b><span><i class="gk gk-cv" style="border-color:#1f7a3f"></i>אזרחי</span><span><i class="gk gk-cv" style="border-color:#1c6fc4"></i>צבאי</span></div>'
+      +'<div class="gk-row"><span><i class="gk gk-br"></i>מקווקו: באישור בקר/פקח בלבד</span></div></div>'
+    +'</div><button type="button" class="gs-hz" aria-label="סגור"><em class="cg-x"><b>×</b>סגור</em><i></i></button>';
+  mapHost().appendChild(s);   // v1.06.005
   L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
   dragClose(s.querySelector(".gs-hz"),s,"x",-1,()=>gisPanelToggle(false));
   const dm=document.createElement("div"); dm.className="lyr-dim"; dm.id="lyrDim"; dm.addEventListener("click",()=>gisPanelToggle(false));
-  document.getElementById("stage").appendChild(dm);
+  mapHost().appendChild(dm);   // v1.06.005
   s.querySelectorAll('input[name="gpBase"]').forEach(r=>r.addEventListener("change",()=>{
     MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP); setTimeout(zoomRoLift,150);
     try{localStorage.setItem("airnotam_base2",MAP_BASE);}catch(e){}
@@ -2826,8 +2874,9 @@ function gisPanelToggle(force){
   if(!GIS_PANEL) return;
   const o=force===undefined? !gisPanelOpen() : force;
   if(o){ closeCurtains();
-    const btn=document.querySelector(".lyr-ctl"), st=document.getElementById("stage");
-    if(btn&&st) GIS_PANEL.style.top=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top)+"px";
+    const btn=document.querySelector(".lyr-ctl"), st=GIS_PANEL.parentNode;   // v1.06.005
+    if(btn&&st){ const t=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top); GIS_PANEL.style.top=t+"px";
+      GIS_PANEL.style.maxHeight=Math.max(160,st.clientHeight-t-10)+"px"; }   // v1.06.006
     if(MAP) MAP.closePopup(); }
   GIS_PANEL.classList.toggle("open",o);
   const dm=document.getElementById("lyrDim"); if(dm) dm.classList.toggle("show",o);
@@ -2835,7 +2884,7 @@ function gisPanelToggle(force){
 // keep the tab just above the attribution line
 function gisTabPos(){
   const t=document.getElementById("gtab"), a=document.querySelector(".leaflet-control-attribution"); if(!t) return;
-  t.style.bottom=((currentView==="map"&&a?a.offsetHeight:0)+(currentView==="map"?6:14))+"px";
+  t.style.bottom=((mapOn()&&a?a.offsetHeight:0)+(mapOn()?6:14))+"px";   // v1.06.005
 }
 function gisInitMap(){
   [["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gcv",356],["gln",357],["gpt",358],["brd",359]].forEach(([n,z])=>{
@@ -2961,10 +3010,11 @@ function gisBuild(id,d){
     style:f=>({color: id==="sport"? sportCol(f.properties) : lineC, weight:id==="rwy"?4.5:id==="sport"?2.4:2.2, opacity:id==="sport"?1:.85,
       dashArray:id==="ifr"?"2 5": (id==="sport"&&gisBR(f.properties))?"6 5":null, lineCap:(id==="rwy"||gisBR(f.properties))?"butt":"round"})});
   if(id==="cvfr"){   // CVFR drawn as a "cased" line (white edge + teal core) so it stands apart from sportive green
-    const cas=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:"#ffffff",weight:7.5,opacity:.95,lineCap:"round"}});
-    const core=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:f=>({color:gisMil(f.properties)?GIS_COL.cvfrMil:lineC,weight:4,opacity:1,
+    const edge=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:"#bdb39a",weight:8.2,opacity:.9,lineCap:"round"}});   // v1.06.006: thin tan outline
+    const cas=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:{color:"#ffffff",weight:6.6,opacity:1,lineCap:"round"}});
+    const core=L.geoJSON(lines,{pane:"g_gcv",renderer:GIS.R.gcv,interactive:false,style:f=>({color:gisMil(f.properties)?GIS_COL.cvfrMil:lineC,weight:2.4,opacity:1,   // v1.06.006: same width as sport
       dashArray:gisBR(f.properties)?"8 6":null,lineCap:gisBR(f.properties)?"butt":"round"})});
-    GIS.lay[id]=L.layerGroup([cas,core]);
+    GIS.lay[id]=L.layerGroup([edge,cas,core]);
   }
   lines.features.forEach(f=>{ const g=f.geometry, parts=g.type==="LineString"?[g.coordinates]:g.coordinates;
     idx.push({k:"line",bb:gisBbox(parts.flat()),parts,p:f.properties,c: id==="sport"? sportCol(f.properties) : (id==="cvfr"&&gisMil(f.properties))? GIS_COL.cvfrMil : lineC}); });
@@ -3097,7 +3147,8 @@ function qGo(x){
   if(timeMode==="flight"&&!passFilters(e)){ timeMode="all"; renderFlightBar(); }
   if(offMap(x.id)) SHOW_IRR=true;
   render();
-  if(currentView==="map"&&e.geo) focusOnMap(x.id); else focusOnList(x.id);
+  if(WIDE){ focusOnList(x.id); if(e.geo) focusOnMap(x.id); }   // v1.06.005: both are on screen
+  else if(currentView==="map"&&e.geo) focusOnMap(x.id); else focusOnList(x.id);
 }
 let PT_HL=null;
 function ptGo(p){
@@ -3203,7 +3254,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.004 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.006 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3213,7 +3264,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.004 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.006 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3252,6 +3303,7 @@ FLIGHT=loadFlight();
 if(flightValid(FLIGHT)) timeMode="flight";
 renderFlightBar();
 (function(){ const s=readSnap(); if(s&&s.notams){ applyData(s,false,s.savedAt); } })();
+if(WIDE_MQ){ applyWide(true); (WIDE_MQ.addEventListener? WIDE_MQ.addEventListener("change",()=>applyWide()) : WIDE_MQ.addListener(()=>applyWide())); }   // v1.06.005
 setView("map");
 load();
 setInterval(()=>load(false), 15*60*1000);
