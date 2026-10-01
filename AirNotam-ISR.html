@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.001 · built by eligrt
+     AirNotam-ISR · v1.06.002 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1096,6 +1096,10 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 /* v1.06.001: state border chip: dark line swatch with halo; a layer from another source carries its own credit line */
 .gsw.gsw-brd{border-color:#1a1308;border-top-width:3px;box-shadow:0 0 0 1.5px #fff;}
 .gchip span .gsrc{display:block;font-style:normal;font-weight:400;font-size:10px;color:var(--ink-muted);line-height:1.2;}
+/* v1.06.002: no text selection / iOS copy menu anywhere (like the other apps); fields stay typeable */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default;}
+.lg-ok{background:rgba(185,74,58,.22);}   /* v1.06.002: legend follows the new read fill */
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1272,7 +1276,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.001 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.002 · built by eligrt</span>
   </div>
 </div>
 
@@ -1896,7 +1900,7 @@ const ST_STYLE={
   new:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:2.5,dashArray:null},
   chg:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:4,dashArray:null},
   irr:{color:"#6b6b6b",fillColor:"#9a9a9a",fillOpacity:.08,weight:2,dashArray:"2 4"},   // v1.05.029T: lighter than "קראתי" (.1), so read stays red where they overlap
-  ok: {color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.1,weight:2,dashArray:"6 4"}   // v1.05.015T: B7 read = red dashed, lighter fill
+  ok: {color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.22,weight:2.5,dashArray:"6 4"}   // v1.06.002: read stays clearly visible (still active), only the dashed outline and a slightly lighter fill set it apart
 };
 const ST_ORDER={irr:-1,ok:0,chg:1,new:2};   // draw reviewed first, unreviewed on top
 function groupStatus(ids){
@@ -2193,7 +2197,7 @@ function renderMap(){
     g.ids.slice().sort((a,b)=>drawR(ENR_BY_ID[b])-drawR(ENR_BY_ID[a])).forEach(id=>{
       const e=ENR_BY_ID[id];
       const sty=Object.assign({radius:(e.radiusNm||0.5)*1852},ST_STYLE[statusOf(e)]);
-      if(ROUTE.length>=2 && !inCorridor(e)){ sty.opacity=.45; sty.fillOpacity=(sty.fillOpacity||.2)*.4; }   // outside corridor → faded
+      if(ROUTE.length>=2 && !inCorridor(e)){ sty.opacity=.75; sty.fillOpacity=(sty.fillOpacity||.2)*.7; }   // outside corridor → faded (v1.06.002: milder, NOTAMs stay readable on busy maps)
       const c=e.shape? shapeLayer(e,sty) : L.circle([e.lat,e.lon],sty);
       c.on("click",ev=>{ L.DomEvent.stop(ev); openAt(ev.latlng); });
       c.addTo(MAP_LAYER); CIRCLES[id]=c;
