@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.019 · built by eligrt
+     AirNotam-ISR · v1.05.020 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1066,6 +1066,16 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .rv-body::-webkit-scrollbar{width:0;height:0;}
 /* v1.05.019: layers curtain: "× סגור" at the top end of its handle strip; the grab bar stays in the middle */
 .gs-hz .cg-x{position:absolute;top:12px;left:50%;transform:translateX(-50%);}
+/* v1.05.020: card edge solid in every status (a thick dashed / dotted edge looked broken); the chip carries the line style.
+   Strong red = טרם נקרא, pale red = קראתי, light grey = לא רלוונטי לי. Same for the list group dots. */
+.card.st-ok{border-inline-start:4px solid #e2b3aa;}
+.card.st-irr{border-inline-start:4px solid #c4c4c4;}
+.g-ok .dot,.g-irr .dot{border:none;width:9px;height:9px;}
+.g-ok .dot{background:#e2b3aa;} .g-irr .dot{background:#c4c4c4;}
+/* v1.05.020: update review: the dotted before / after section scrolls as one unit */
+.rv-body .diff{max-height:150px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+.rv-body .diff::-webkit-scrollbar{width:0;height:0;}
+.rv-body .diff .c-text,.rv-body .diff .old{max-height:none;overflow:visible;-webkit-mask-image:none;mask-image:none;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1241,7 +1251,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.019 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.020 · built by eligrt</span>
   </div>
 </div>
 
@@ -1861,7 +1871,7 @@ let MAP_INDEX={}, CIRCLES={}, GROUPS={};
 const ST_STYLE={
   new:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:2.5,dashArray:null},
   chg:{color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.28,weight:4,dashArray:null},
-  irr:{color:"#6b6b6b",fillColor:"#9a9a9a",fillOpacity:.18,weight:2,dashArray:"2 4"},
+  irr:{color:"#6b6b6b",fillColor:"#9a9a9a",fillOpacity:.08,weight:2,dashArray:"2 4"},   // v1.05.020: lighter than "קראתי" (.1), so read stays red where they overlap
   ok: {color:"#b94a3a",fillColor:"#b94a3a",fillOpacity:.1,weight:2,dashArray:"6 4"}   // v1.05.006: B7 read = red dashed, lighter fill
 };
 const ST_ORDER={irr:-1,ok:0,chg:1,new:2};   // draw reviewed first, unreviewed on top
@@ -2895,10 +2905,10 @@ function rvRender(){
   const b=document.getElementById("rvBody"), had=UPD[it.id]; UPD[it.id]=it.u;   // the card as it arrived (diff, "חדש" tag), also once handled
   try{ b.innerHTML= it.t==="can"? ghostCard(it.id,!had) : card(e,statusOf(e)); }
   finally{ if(had) UPD[it.id]=had; else delete UPD[it.id]; }
-  requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old").forEach(rvFade));
+  requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old,.diff").forEach(rvFade));
 }
 function rvFade(x){ x.classList.toggle("more", x.scrollTop+x.clientHeight < x.scrollHeight-4); }
-document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old")) rvFade(x); },{passive:true,capture:true});
+document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old,.diff")) rvFade(x); },{passive:true,capture:true});
 dragClose(document.querySelector("#rvTop .rv-grip"),document.querySelector("#rvTop .rv-t"),"y",-1,()=>rvClose());   // v1.05.019: tap or swipe up
 // after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
 document.getElementById("rvBody").addEventListener("click",ev=>{
