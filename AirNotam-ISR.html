@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.05.015 · built by eligrt
+     AirNotam-ISR · v1.05.019 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1040,6 +1040,32 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .pt-hl span{position:absolute;left:0;bottom:22px;transform:translateX(-50%);white-space:nowrap;direction:rtl;background:var(--ink-dark);color:var(--paper-hi);
   border-radius:6px;padding:2px 8px;font-family:var(--font-ui);font-weight:700;font-size:12.5px;box-shadow:0 2px 8px rgba(14,35,72,.35);}
 @keyframes ptHl{from{transform:scale(.8);}to{transform:scale(1.15);}}
+/* v1.05.019: status redesign. The status shows in ONE place (chip, card edge, map look), never as a button.
+   טרם נקרא = solid red, קראתי = red dashed, לא רלוונטי לי = grey dotted (same as the map and the legend). */
+.st-ok .c-st,.pu-s-ok .pu-st{background:var(--paper-hi);color:#b94a3a;border:1.5px dashed #b94a3a;padding:1px 7px;}
+.st-irr .c-st,.pu-s-irr .pu-st{background:var(--paper-hi);color:#6b6b6b;border:1.5px dotted #6b6b6b;padding:1px 7px;}
+.card.st-ok{border-inline-start:4px dashed #b94a3a;}
+.card.st-irr{border-inline-start:4px dotted #8a8a8a;}
+.g-ok .dot,.g-irr .dot{background:transparent;box-sizing:border-box;width:11px;height:11px;}
+.g-ok .dot{border:2px dashed #b94a3a;} .g-irr .dot{border:2px dotted #6b6b6b;}
+/* v1.05.019: after marking, the side slots are plain text links (verbs), so nothing looks like a status */
+.c-act.c-lnk{background:none;border:none;color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;}
+/* v1.05.019: the popup uses the same 3-slot row as the list cards */
+.pu-acts.c-acts.c3{margin-top:8px;grid-template-columns:minmax(0,.9fr) minmax(0,1.8fr) minmax(0,.9fr);}
+.nw{white-space:nowrap;}
+.pu-acts.c3 .c-act{text-align:center;border-radius:6px;font-size:11.5px;padding:4px 2px;}
+.pu-acts.c3 .c-go{gap:4px;}
+/* v1.05.019: update review: one close (the handle, tap or swipe up), framed like the other top curtains; fixed strips */
+.rv-t{border-top:none;border-bottom:3px solid var(--gold);}
+.rv-t.drag{transition:none !important;}
+.rv-grip{touch-action:none;cursor:grab;}
+.rv-dots i.done{background:var(--ink);}
+.rv-dots i.cur{background:var(--gold);}
+.rv-t{max-height:100%;}   /* the handle and the nav row always stay on screen; a tall card scrolls inside */
+.rv-body{flex:0 1 auto;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+.rv-body::-webkit-scrollbar{width:0;height:0;}
+/* v1.05.019: layers curtain: "× סגור" at the top end of its handle strip; the grab bar stays in the middle */
+.gs-hz .cg-x{position:absolute;top:12px;left:50%;transform:translateX(-50%);}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1195,9 +1221,8 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
       <div class="rv-body" id="rvBody"></div>
       <div class="rv-nav"><button type="button" onclick="rvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
-        <button type="button" class="later" onclick="rvClose()">אסיים אחר כך</button>
         <button type="button" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-      <button type="button" class="rv-grip" aria-label="סגור" onclick="rvClose()"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
+      <button type="button" class="rv-grip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
     </div></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
@@ -1216,7 +1241,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.05.015 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.05.019 · built by eligrt</span>
   </div>
 </div>
 
@@ -1769,6 +1794,7 @@ function toggleGroup(k){
 }
 
 // v1.04.024: folded-map icon replaces the ⌖ target on "show on map" buttons
+const LIST_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>';   // v1.05.019
 const MAP_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
 function card(e,st){
   const alt=`<span class="b alt">${esc(altTxt(e))}</span>`;
@@ -1778,17 +1804,17 @@ function card(e,st){
   const rt=routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
-  const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}הצג הנוטאם על מפה</button>`
+  const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "מפה"</span></span></button>`
                       : `<button class="c-act c-go c-nomap" disabled>${MAP_ICO}ללא מיקום מוגדר</button>`;   // v1.04.022: always shown, for consistency
   const irrBtn=`<button class="c-act c-hide" onclick="listIrr('${id}')">לא רלוונטי לי</button>`;
-  const undo=`<button class="c-act c-hide" onclick="listUnreview('${id}')">בטל סימון</button>`;   // v1.05.008: a button like the others, in the "קראתי" slot
+  const lnk=(fn,t)=>`<button class="c-act c-lnk" onclick="${fn}('${id}')">${t}</button>`;   // v1.05.019: status redesign, text links after marking
   let acts="";
   if(st==="new"||st==="chg"){
-    acts = `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+mapBtn+irrBtn;   // v1.04.020: "read" on every card, mappable or not
+    acts = `<button class="c-act c-ok" onclick="listReview('${id}')">✓ קראתי</button>`+mapBtn+irrBtn;
   }else if(st==="ok"){
-    acts = undo+mapBtn+irrBtn;
+    acts = lnk("listUnreview","בטל סימון")+mapBtn+lnk("listIrr","סמן כלא רלוונטי");
   }else{
-    acts = undo+mapBtn;
+    acts = lnk("listUnreview","בטל סימון")+mapBtn+lnk("listReview","סמן כנקרא");
   }
   return`<div class="card st-${st}" data-nid="${id}">
     <div class="c-top">
@@ -1804,14 +1830,14 @@ function card(e,st){
     <div class="c-acts c3">${acts}</div>
   </div>`;
 }
-function ghostCard(id){
+function ghostCard(id,done){
   const u=UPD[id]; if(!u||!u.old) return "";
   const e=enrich(u.old), i=esc(id);
   return `<div class="card st-can" data-nid="${i}">
     <div class="c-top"><div class="c-head"><span class="c-id">${i}</span>${updTag(id)}${e.loc?`<span class="c-loc">${esc(e.loc)}</span>`:""}</div><span class="c-st">בוטל</span></div>
     <div class="c-text">${esc(e.text)}</div>
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
-    <div class="c-acts"><button class="c-act c-ok" onclick="updAck('${i}')">הבנתי</button></div>
+    <div class="c-acts">${done? '<span class="c-done">✓ קראתי</span>' : `<button class="c-act c-ok" onclick="updAck('${i}')">✓ קראתי</button>`}</div>
   </div>`;
 }
 function updAck(id){ delete UPD[id]; saveUpd(); render({skipMap:true}); rvRender(); }
@@ -1819,7 +1845,7 @@ async function listReview(id){
   const e=ENR_BY_ID[id];
   if(e&&e.geo){   // v1.04.022: mappable NOTAM marked read from a card: always confirm, offer the map
     const r=await appConfirm({title:"לסמן כנקרא?",text:"ל-NOTAM הזה יש מיקום על המפה. מומלץ לבדוק אותו ביחס למסלול לפני הסימון.",
-      alt:"map",altHtml:MAP_ICO+"הצג הנוטאם על מפה",ok:"סמן כנקרא",danger:false});
+      alt:"map",altHtml:MAP_ICO+'<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "מפה"</span></span>',ok:"סמן כנקרא",danger:false});
     if(r==="alt"){ if(RV_ON) rvClose(true); focusOnMap(id); return; }
     if(r!==true) return;
   }
@@ -1971,10 +1997,11 @@ function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.se
 // popup: one card per NOTAM at this spot
 function puItem(e){
   const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
-  const irrB=`<button class="pu-hide" onclick="puIrr('${id}',event)"><b>לא רלוונטי לי</b><small>יסומן באפור ולא יטריד שוב, עד שיעודכן</small></button>`;
-  const acts = st==="ok"  ? `<span class="pu-done">✓ קראתי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`+irrB
-             : st==="irr" ? `<span class="pu-done pu-done-irr">לא רלוונטי לי</span><button class="pu-lnk" onclick="puUnreview('${id}',event)">בטל סימון</button>`
-             : `<button class="pu-ok" onclick="puReview('${id}',event)"><b>✓ קראתי, לקחתי בחשבון</b><small>נשאר במפה, בקו מקווקו</small></button>`+irrB;
+  const lst=`<button class="c-act c-go" onclick="focusOnList('${id}')">${LIST_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">בתצוגת "רשימה"</span></span></button>`;   // v1.05.019: status redesign
+  const lnk=(fn,t)=>`<button class="c-act c-lnk" onclick="${fn}('${id}',event)">${t}</button>`;
+  const acts = st==="ok"  ? lnk("puUnreview","בטל סימון")+lst+lnk("puIrr","סמן כלא רלוונטי")
+             : st==="irr" ? lnk("puUnreview","בטל סימון")+lst+lnk("puReview","סמן כנקרא")
+             : `<button class="c-act c-ok" onclick="puReview('${id}',event)">✓ קראתי</button>`+lst+`<button class="c-act c-hide" onclick="puIrr('${id}',event)">לא רלוונטי לי</button>`;
   return `<div class="pu-item pu-s-${st}" data-nid="${id}">
     <div class="pu-top"><b class="pu-id">${id}${updTag(e.id)}</b><span class="pu-st">${ST_LBL[st]}</span></div>
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
@@ -1982,9 +2009,7 @@ function puItem(e){
     <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';this.closest('.leaflet-popup')&&MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
     <div class="pu-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     ${st==="chg"?`<div class="pu-upd">הנוטאם עודכן מאז שסימנת אותו. קרא שוב ובדוק שהסימון עדיין נכון</div>`:""}
-    <div class="pu-acts">${acts}
-      <button class="pu-lnk" onclick="focusOnList('${id}')">☰ הצג ברשימת כל ה-NOTAMs</button>
-    </div>
+    <div class="pu-acts c-acts c3">${acts}</div>
   </div>`;
 }
 // every drawn NOTAM whose circle covers the tapped point goes into ONE popup
@@ -2824,18 +2849,21 @@ function ptGo(p){
 document.getElementById("locSeg").addEventListener("click",ev=>{ const b=ev.target.closest("button"); if(!b||b.disabled) return; LOC=b.dataset.l; render(); });
 
 // review of what changed: updated first, then new, then cancelled
-let RV_I=0, RV_ON=false;
+let RV_I=0, RV_ON=false, RV_LIST=[];   // v1.05.019: the set is fixed while the curtain is open; handled items stay, as navy strips
+function rvDone(it){ if(it.t==="can") return !UPD[it.id]; const e=ENR_BY_ID[it.id]; return !e || !isPending(e); }
 function rvQueue(){
   const o={mod:0,new:1,can:2};
   return Object.keys(UPD).filter(id=> UPD[id].t==="can" || (ENR_BY_ID[id] && isPending(ENR_BY_ID[id])))
     .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
 }
-function rvOpen(delay){ updTidy(); if(!rvQueue().length) return; RV_I=0; RV_ON=true; rvRender(); // content is built first, then the curtain only moves
+function rvOpen(delay){ updTidy(); const Q0=rvQueue(); if(!Q0.length) return; RV_LIST=Q0.map(id=>({id,t:UPD[id].t,u:UPD[id],seen:false})); RV_I=0; RV_ON=true; rvRender(); // content is built first, then the curtain only moves
   const t=document.getElementById("rvTop"); if(!delay) return t.classList.add("show");
   void t.offsetHeight; setTimeout(()=>requestAnimationFrame(()=>{ if(RV_ON) t.classList.add("show"); }),delay); }
 function rvClose(quiet){
-  const was=RV_ON; RV_ON=false; document.getElementById("rvTop").classList.remove("show");
-  if(was && !quiet && rvQueue().length) { const n=rvQueue().length; rvToast(n===1? "נשאר עדכון אחד לסקירה" : `נשארו ${n} עדכונים לסקירה`,{t:"לרשימה",fn:()=>readyGo("list")}); }   // v1.05.014: option A   // v1.05.013: [..] = the link   // v1.05.011
+  const was=RV_ON, n=RV_LIST.filter(x=>!rvDone(x)).length; RV_ON=false; RV_LIST=[]; document.getElementById("rvTop").classList.remove("show");
+  if(!was||quiet) return;
+  if(n) rvToast(n===1? "נשאר עדכון אחד לסקירה" : `נשארו ${n} עדכונים לסקירה`,{t:"לרשימה",fn:()=>readyGo("list")});
+  else rvToast("כל העדכונים נסקרו");   // v1.05.019
 }
 let RV_TT=null;
 function rvToast(t,act){
@@ -2851,21 +2879,27 @@ function rvToast(t,act){
   setTimeout(()=>el.classList.add("show"),300);
   RV_TT=setTimeout(()=>el.classList.remove("show"),act?6000:3600);
 }
-function rvStep(d){ const n=rvQueue().length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; rvRender(); }
+function rvStep(d){ const n=RV_LIST.length; if(!n) return rvClose(); RV_I=(RV_I+d+n)%n; RV_LIST[RV_I].seen=rvDone(RV_LIST[RV_I]); rvRender(); }
 function rvRender(){
   if(!RV_ON) return;
-  updTidy(); const Q=rvQueue();
-  if(!Q.length) return rvClose();
-  if(RV_I>=Q.length) RV_I=Q.length-1;
-  const id=Q[RV_I], e=ENR_BY_ID[id];
-  document.getElementById("rvCnt").textContent=`${RV_I+1} מתוך ${Q.length}`;
-  document.getElementById("rvDots").innerHTML=Q.map((_,i)=>`<i class="${i===RV_I?"cur":""}"></i>`).join("");
-  const b=document.getElementById("rvBody");
-  b.innerHTML= UPD[id].t==="can"? ghostCard(id) : card(e,statusOf(e));
+  const L=RV_LIST, n=L.length; if(!n) return rvClose();
+  let it=L[RV_I];
+  if(it.seen===false && rvDone(it)){   // v1.05.019: just handled: move on to the next one still open (wraps round); none left = close
+    let j=-1; for(let k=1;k<=n;k++){ const c=(RV_I+k)%n; if(!rvDone(L[c])){ j=c; break; } }
+    if(j<0) return rvClose();
+    RV_I=j; it=L[j]; }
+  it.seen=rvDone(it);
+  const e=ENR_BY_ID[it.id];
+  document.getElementById("rvCnt").textContent=`${RV_I+1} מתוך ${n}`;
+  document.getElementById("rvDots").innerHTML=L.map((x,i)=>`<i class="${i===RV_I?"cur":rvDone(x)?"done":""}"></i>`).join("");
+  const b=document.getElementById("rvBody"), had=UPD[it.id]; UPD[it.id]=it.u;   // the card as it arrived (diff, "חדש" tag), also once handled
+  try{ b.innerHTML= it.t==="can"? ghostCard(it.id,!had) : card(e,statusOf(e)); }
+  finally{ if(had) UPD[it.id]=had; else delete UPD[it.id]; }
   requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old").forEach(rvFade));
 }
 function rvFade(x){ x.classList.toggle("more", x.scrollTop+x.clientHeight < x.scrollHeight-4); }
 document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old")) rvFade(x); },{passive:true,capture:true});
+dragClose(document.querySelector("#rvTop .rv-grip"),document.querySelector("#rvTop .rv-t"),"y",-1,()=>rvClose());   // v1.05.019: tap or swipe up
 // after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
 document.getElementById("rvBody").addEventListener("click",ev=>{
   const a=ev.target.closest(".c-act"); if(!a) return;
