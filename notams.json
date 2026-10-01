@@ -1,9 +1,126 @@
 {
-  "generatedAt": "2026-10-01T05:29:57.632Z",
+  "generatedAt": "2026-10-01T12:57:27.047Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 107,
+  "count": 109,
   "notams": [
+    {
+      "id": "C2061/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T05:00:00.000Z",
+      "toDate": "2026-10-08T15:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 31.533333,
+          "lon": 34.85,
+          "radiusNm": 3,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KELCH/LACHISH. AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 313226N0344801E 313225N0345409E 313144N0345409E 313129N0345246E 313129N0345126E 313125N0344843E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2500FT AMSL",
+      "position": {
+        "lat": 31.533333,
+        "lon": 34.85,
+        "radiusNm": 3,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2061/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/025/3132N03451E003 A) LLLL B) 2610050500 C) 2610081500 D) DAILY 0500-1500 E) UAS ACT WILL TAKE PLACE AT KELCH/LACHISH. AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 313226N0344801E 313225N0345409E 313144N0345409E 313129N0345246E 313129N0345126E 313125N0344843E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2500FT AMSL)",
+      "rowID": "2064875",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.540556,
+                34.800278
+              ],
+              [
+                31.540278,
+                34.9025
+              ],
+              [
+                31.528889,
+                34.9025
+              ],
+              [
+                31.524722,
+                34.879444
+              ],
+              [
+                31.524722,
+                34.857222
+              ],
+              [
+                31.523611,
+                34.811944
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.530463,
+          34.858981
+        ]
+      }
+    },
+    {
+      "id": "A0790/26",
+      "location": "LLER",
+      "locationDescription": "Ramon",
+      "fromDate": "2026-10-01T06:21:00.000Z",
+      "toDate": "2026-10-15T20:59:00.000Z",
+      "qLine": null,
+      "eText": "OCA(H) FOR ILS RWY 01 CHG TO 500(248) FOR ALL CAT.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0790/26 NOTAMN Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2610010621 C) 2610152059 E) OCA(H) FOR ILS RWY 01 CHG TO 500(248) FOR ALL CAT.)",
+      "rowID": "2064796"
+    },
+    {
+      "id": "A0791/26",
+      "location": "LLER",
+      "locationDescription": "Ramon",
+      "fromDate": "2026-10-01T06:21:00.000Z",
+      "toDate": "2026-10-15T20:59:00.000Z",
+      "qLine": null,
+      "eText": "OCA(H) FOR ILS RWY 19 CHG TO 500(228) FOR ALL CAT.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0791/26 NOTAMN Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2610010621 C) 2610152059 E) OCA(H) FOR ILS RWY 19 CHG TO 500(228) FOR ALL CAT.)",
+      "rowID": "2064797"
+    },
+    {
+      "id": "A0789/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-10-01T06:20:00.000Z",
+      "toDate": "2026-10-15T20:59:00.000Z",
+      "qLine": null,
+      "eText": "OCA(H) FOR ILS RWY 08 CHG TO 500(403) FOR ALL CAT.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0789/26 NOTAMN Q) LLLL/QPOCH/I /NBO/A /000/999/3201N03454E005 A) LLBG B) 2610010620 C) 2610152059 E) OCA(H) FOR ILS RWY 08 CHG TO 500(403) FOR ALL CAT.)",
+      "rowID": "2064795"
+    },
     {
       "id": "C2056/26",
       "location": "LLLL",
@@ -103,57 +220,6 @@
         "anchor": [
           32.813889,
           35.167222
-        ]
-      }
-    },
-    {
-      "id": "C2052/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T13:00:00.000Z",
-      "toDate": "2026-10-01T09:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "007",
-        "position": {
-          "lat": 31.683333,
-          "lon": 34.666667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT JULIS. AN AREA FM GND UP TO 650FT AMSL CLSD TO ALL FLT BTN FLW PSN 314155N0344128E, RADIUS 0.6NM. OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 650FT AMSL",
-      "position": {
-        "lat": 31.683333,
-        "lon": 34.666667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2052/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/007/3141N03440E001 A) LLLL B) 2609271300 C) 2610010900 D) SEP 27 1300-1800, SEP 28-30 DAILY 0600-1800, OCT 01 0500-0900 E) UAS ACT WILL TAKE PLACE AT JULIS. AN AREA FM GND UP TO 650FT AMSL CLSD TO ALL FLT BTN FLW PSN 314155N0344128E, RADIUS 0.6NM. OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 650FT AMSL)",
-      "rowID": "2063401",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.698611,
-              34.691111
-            ],
-            "radiusNm": 0.6
-          }
-        ],
-        "anchor": [
-          31.698611,
-          34.691111
         ]
       }
     },
@@ -4173,57 +4239,6 @@
       "replaces": null,
       "rawText": "C2005/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610020500 C) 2610021100 E) PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL)",
       "rowID": "2061887"
-    },
-    {
-      "id": "C2004/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-29T05:00:00.000Z",
-      "toDate": "2026-10-01T12:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "007",
-        "position": {
-          "lat": 33.116667,
-          "lon": 35.6,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.",
-      "position": {
-        "lat": 33.116667,
-        "lon": 35.6,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2004/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/007/3307N03536E001 A) LLLL B) 2609290500 C) 2610011200 D) DAILY 0500-1200 E) AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.)",
-      "rowID": "2061878",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              33.114167,
-              35.605
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          33.114167,
-          35.605
-        ]
-      }
     },
     {
       "id": "C2002/26",
