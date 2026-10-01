@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.006 · built by eligrt
+     AirNotam-ISR · v1.06.007 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1110,7 +1110,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 #mapside>.gsheet{right:auto;width:420px;}
 /* v1.06.006: layers curtain: scrolls inside when taller than the map; extra layers with their source beside; line key; CVFR swatch */
 #stage>.gsheet,#mapside>.gsheet{display:flex;flex-direction:column;}
-.gsheet .gs-in{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;}
+.gsheet .gs-in{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;}
 .gs-xtra{align-items:center;}
 .gs-src{font-size:10px;color:var(--ink-faint);}
 .gsw.gsw-cv,.gk.gk-cv{box-shadow:0 0 0 2px #fff,0 0 0 3px #bdb39a;}
@@ -1119,6 +1119,10 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .gs-key .gk-row span{display:inline-flex;align-items:center;gap:5px;}
 .gk{display:inline-block;width:18px;height:0;border-top:2.5px solid;}
 .gk.gk-br{border-top-style:dashed;border-color:#5a4a3a;}
+/* v1.06.007: layers curtain scrolls like the other curtains (no scrollbar, fade + bouncing chevron); route bar keeps the phone width on a wide screen */
+.gsheet .gs-in{scrollbar-width:none;} .gsheet .gs-in::-webkit-scrollbar{width:0;height:0;}
+.gs-in>.cue .cue-f{background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi));}
+#mapside>.draw-bar{left:50%;right:auto;width:410px;max-width:calc(100% - 20px);transform:translateX(-50%);}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1295,7 +1299,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.006 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.007 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -2850,7 +2854,7 @@ function gisPanel(){
     +'<div class="gs-sec gs-key"><div class="gs-sl">מקרא קווים</div>'
       +'<div class="gk-row"><b>ספורטיבית</b><span><i class="gk" style="border-color:#1f7a3f"></i>כל השבוע</span><span><i class="gk" style="border-color:#8b5a2b"></i>סופ"ש</span><span><i class="gk" style="border-color:#6b21a8"></i>מיוחד</span></div>'
       +'<div class="gk-row"><b>CVFR</b><span><i class="gk gk-cv" style="border-color:#1f7a3f"></i>אזרחי</span><span><i class="gk gk-cv" style="border-color:#1c6fc4"></i>צבאי</span></div>'
-      +'<div class="gk-row"><span><i class="gk gk-br"></i>מקווקו: באישור בקר/פקח בלבד</span></div></div>'
+      +'<div class="gk-row"><b></b><span><i class="gk gk-br"></i>מקווקו: באישור בקר/פקח בלבד</span></div></div>'
     +'</div><button type="button" class="gs-hz" aria-label="סגור"><em class="cg-x"><b>×</b>סגור</em><i></i></button>';
   mapHost().appendChild(s);   // v1.06.005
   L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
@@ -2869,14 +2873,22 @@ function gisPanel(){
   try{renderHints();}catch(_){}
 }
 let GIS_PANEL=null;
+// v1.06.007: place the layers curtain at the layers button, never past the bottom of the map; again on every window resize
+function gisFit(){
+  if(!GIS_PANEL) return;
+  const btn=document.querySelector(".lyr-ctl"), st=GIS_PANEL.parentNode; if(!btn||!st) return;
+  const t=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top); GIS_PANEL.style.top=t+"px";
+  GIS_PANEL.style.maxHeight=Math.max(160,st.clientHeight-t-10)+"px";
+  const sc=GIS_PANEL.querySelector(".gs-in"); if(sc){ if(!sc._cue) cueAdd(sc); setTimeout(sc._cue,60); setTimeout(sc._cue,400); }
+}
+window.addEventListener("resize",()=>{ if(gisPanelOpen()) gisFit(); });
 function gisPanelOpen(){ return !!(GIS_PANEL&&GIS_PANEL.classList.contains("open")); }
 function gisPanelToggle(force){
   if(!GIS_PANEL) return;
   const o=force===undefined? !gisPanelOpen() : force;
   if(o){ closeCurtains();
     const btn=document.querySelector(".lyr-ctl"), st=GIS_PANEL.parentNode;   // v1.06.005
-    if(btn&&st){ const t=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top); GIS_PANEL.style.top=t+"px";
-      GIS_PANEL.style.maxHeight=Math.max(160,st.clientHeight-t-10)+"px"; }   // v1.06.006
+    gisFit();   // v1.06.007
     if(MAP) MAP.closePopup(); }
   GIS_PANEL.classList.toggle("open",o);
   const dm=document.getElementById("lyrDim"); if(dm) dm.classList.toggle("show",o);
@@ -3254,7 +3266,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.006 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.007 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3264,7 +3276,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.006 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.007 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
