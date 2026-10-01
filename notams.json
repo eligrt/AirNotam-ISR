@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-30T23:38:18.837Z",
+  "generatedAt": "2026-10-01T05:29:57.632Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 114,
+  "count": 107,
   "notams": [
     {
       "id": "C2056/26",
@@ -6082,66 +6082,6 @@
       "replaces": null,
       "rawText": "A0710/26 NOTAMN Q) LLLL/QCAAS/IV/BO /E /000/999/3232N03453E060 A) LLLL B) 2608310945 C) 2611302359 E) TEL AVIV CTL FLW FREQ TEMPO NOT AVBL 123.050MHZ, 132.050MHZ, 135.625MHZ.)",
       "rowID": "2053627"
-    },
-    {
-      "id": "A0705/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-08-31T06:29:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": null,
-      "eText": "OCA(H) FOR ILS RWY 26 CHG TO 500(376) FOR ALL CAT.",
-      "position": null,
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0500/26",
-      "rawText": "A0705/26 NOTAMR A0500/26 Q) LLLL/QPOCH/I /NBO/A /000/999/3201N03451E005 A) LLBG B) 2608310629 C) 2609302359 E) OCA(H) FOR ILS RWY 26 CHG TO 500(376) FOR ALL CAT.)",
-      "rowID": "2053577"
-    },
-    {
-      "id": "A0706/26",
-      "location": "LLER",
-      "locationDescription": "Ramon",
-      "fromDate": "2026-08-31T06:29:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": null,
-      "eText": "OCA(H) FOR ILS RWY 01 CHG TO 500(248) FOR ALL CAT.",
-      "position": null,
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0572/26",
-      "rawText": "A0706/26 NOTAMR A0572/26 Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2608310629 C) 2609302359 E) OCA(H) FOR ILS RWY 01 CHG TO 500(248) FOR ALL CAT.)",
-      "rowID": "2053578"
-    },
-    {
-      "id": "A0707/26",
-      "location": "LLER",
-      "locationDescription": "Ramon",
-      "fromDate": "2026-08-31T06:30:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": null,
-      "eText": "OCA(H) FOR ILS RWY 19 CHG TO 500(228) FOR ALL CAT.",
-      "position": null,
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0575/26",
-      "rawText": "A0707/26 NOTAMR A0575/26 Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2608310630 C) 2609302359 E) OCA(H) FOR ILS RWY 19 CHG TO 500(228) FOR ALL CAT.)",
-      "rowID": "2053579"
-    },
-    {
-      "id": "A0702/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-08-31T06:28:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": null,
-      "eText": "OCA(H) FOR ILS RWY 08 CHG TO 500(403) FOR ALL CAT.",
-      "position": null,
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0497/26",
-      "rawText": "A0702/26 NOTAMR A0497/26 Q) LLLL/QPOCH/I /NBO/A /000/999/3201N03454E005 A) LLBG B) 2608310628 C) 2609302359 E) OCA(H) FOR ILS RWY 08 CHG TO 500(403) FOR ALL CAT.)",
-      "rowID": "2053574"
     },
     {
       "id": "C1843/26",
@@ -14138,125 +14078,6 @@
       "replaces": "A0596/26",
       "rawText": "A0688/26 NOTAMR A0596/26 Q) LLLL/QGWAU/IV/NBO/E /000/999/3125N03521E117 A) LLLL B) 2608260947 C) 2610312359 E) POSS INTRP TO AIRBORNE GNSS EQPT WI TEL-AVIV FIR.)",
       "rowID": "2051680"
-    },
-    {
-      "id": "C1799/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-01T19:00:00.000Z",
-      "toDate": "2026-10-01T03:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "005",
-        "position": {
-          "lat": 32.5,
-          "lon": 34.916667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT KESARYA UP TO 100M AGL, AN AREA WI 0.8NM RADIUS CENTERED ON PSN 322941N0345439E CLSD FM GND UP TO 500FT AMSL. CTN ADZ. F) GND G) 500FT AMSL",
-      "position": {
-        "lat": 32.5,
-        "lon": 34.916667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1799/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/005/3230N03455E001 A) LLLL B) 2609011900 C) 2610010300 D) DAILY 1900-0300 E) UAS/UAV ACT WILL TAKE PLACE AT KESARYA UP TO 100M AGL, AN AREA WI 0.8NM RADIUS CENTERED ON PSN 322941N0345439E CLSD FM GND UP TO 500FT AMSL. CTN ADZ. F) GND G) 500FT AMSL)",
-      "rowID": "2051341",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              32.494722,
-              34.910833
-            ],
-            "radiusNm": 0.8
-          }
-        ],
-        "anchor": [
-          32.494722,
-          34.910833
-        ]
-      }
-    },
-    {
-      "id": "A0668/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-08-18T08:37:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "CLOSURE FOR LDG BTN 0100-0200LMT (2200-2300UTC) TEMPO WITHDRAWN.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0598/26",
-      "rawText": "A0668/26 NOTAMR A0598/26 Q) LLLL/QFALT/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2608180837 C) 2609302359 E) CLOSURE FOR LDG BTN 0100-0200LMT (2200-2300UTC) TEMPO WITHDRAWN.)",
-      "rowID": "2048730"
-    },
-    {
-      "id": "A0669/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-08-18T08:38:00.000Z",
-      "toDate": "2026-09-30T23:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "NIGHT RESTRICTIONS BTN 0140-0500LMT (2240-0200UTC) TEMPO WITHDRAWN.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0599/26",
-      "rawText": "A0669/26 NOTAMR A0599/26 Q) LLLL/QFALT/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2608180838 C) 2609302359 E) NIGHT RESTRICTIONS BTN 0140-0500LMT (2240-0200UTC) TEMPO WITHDRAWN.)",
-      "rowID": "2048731"
     },
     {
       "id": "C1698/26",
