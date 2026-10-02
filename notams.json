@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-02T12:19:44.662Z",
+  "generatedAt": "2026-10-02T19:07:54.989Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 100,
+  "count": 97,
   "notams": [
     {
       "id": "A0793/26",
@@ -484,108 +484,6 @@
       "replaces": null,
       "rawText": "C2039/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610050430 C) 2610061200 D) DAILY 0430-1200 E) PJE AIRSPACE TEIMAN CLSD. F) GND G) 11000FT AMSL)",
       "rowID": "2062420"
-    },
-    {
-      "id": "C2035/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T03:00:00.000Z",
-      "toDate": "2026-10-02T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELP",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 31.016667,
-          "lon": 34.533333,
-          "radiusNm": 16,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHIVTA (BSVTA).",
-      "position": {
-        "lat": 31.016667,
-        "lon": 34.533333,
-        "radiusNm": 16,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2035/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/020/3101N03432E016 A) LLLL B) 2609250300 C) 2610021550 D) SEP 25 0300-1550, OCT 02 0300-1550 E) ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHIVTA (BSVTA).)",
-      "rowID": "2062403"
-    },
-    {
-      "id": "C2030/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T03:00:00.000Z",
-      "toDate": "2026-10-02T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELP",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 30.716667,
-          "lon": 34.516667,
-          "radiusNm": 80,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).",
-      "position": {
-        "lat": 30.716667,
-        "lon": 34.516667,
-        "radiusNm": 80,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2030/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/999/3043N03431E080 A) LLLL B) 2609250300 C) 2610021550 D) SEP 25-26 30 DAILY 0300-1550, 29 0300-1330, OCT 01-02 DAILY 0300-1550 E) ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI), GOVRIN-TZAFON (BGOVN), GOVRIN-DAROM (BGOVS), NITZANIM (BNZNI), SHDROT-TZAFON (BDRTN), SHDROT-DAROM (BDRTS), LEHAVIM (BLHAV), BEER-SHEVA (BSHEV), MEYTAR (BMTAR), ZOHAR (BZHAR), YERUHAM (BYERU), FARAN (BFRAN), CHARIF (BHARF), TZNIFIM (BZNIF), SHITIM (BSTIM), KTZIOTH (BKZOT).)",
-      "rowID": "2062388"
-    },
-    {
-      "id": "C2029/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-25T03:00:00.000Z",
-      "toDate": "2026-10-02T15:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELP",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.533333,
-          "lon": 34.883333,
-          "radiusNm": 60,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD RAMAT HAGOLAN (BRGOL) SOUTH OF ROAD NR 91, NETOFA (BNTOF), KINNERET (BKNRT), BET-OREN (BOORN), HASHARON-TZAFON (BSARN), ARRA (BARRA), HARROD (BHROD), MEGIDO A-EAST (BMGEA), MEGIDO B-EAST (BMGEB), NAAMA (BNAMM), ALMOG (BLMOG).",
-      "position": {
-        "lat": 32.533333,
-        "lon": 34.883333,
-        "radiusNm": 60,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2029/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/999/3232N03453E060 A) LLLL B) 2609250300 C) 2610021550 D) SEP 25-28 30 DAILY 0300-1550, 29 0300-1330, OCT 01-02 DAILY 0300-1550 E) ULTRALIGHT BUBBLE AVBL FOR FLT, PILOT SHALL COORD AND GET APPROVAL FOR FLT WI FIRE AREA WITH RELEVANT PIKUD RAMAT HAGOLAN (BRGOL) SOUTH OF ROAD NR 91, NETOFA (BNTOF), KINNERET (BKNRT), BET-OREN (BOORN), HASHARON-TZAFON (BSARN), ARRA (BARRA), HARROD (BHROD), MEGIDO A-EAST (BMGEA), MEGIDO B-EAST (BMGEB), NAAMA (BNAMM), ALMOG (BLMOG).)",
-      "rowID": "2062371"
     },
     {
       "id": "A0787/26",
