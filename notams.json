@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-01T23:50:16.649Z",
+  "generatedAt": "2026-10-02T05:17:37.570Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 106,
+  "count": 104,
   "notams": [
     {
       "id": "C2061/26",
@@ -3502,57 +3502,6 @@
       }
     },
     {
-      "id": "C2021/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-27T15:50:00.000Z",
-      "toDate": "2026-10-02T03:10:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "027",
-        "position": {
-          "lat": 32.7,
-          "lon": 35.316667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL",
-      "position": {
-        "lat": 32.7,
-        "lon": 35.316667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2021/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/027/3242N03519E001 A) LLLL B) 2609271550 C) 2610020310 D) DAILY 1550-0310 E) CAPTIVE BALLOON WILL TAKE PLACE AT NAZARETH. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 324212N0351902E CLSD FM GND UP TO 2,700FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 2700FT AMSL)",
-      "rowID": "2062260",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              32.703333,
-              35.317222
-            ],
-            "radiusNm": 0.4
-          }
-        ],
-        "anchor": [
-          32.703333,
-          35.317222
-        ]
-      }
-    },
-    {
       "id": "A0777/26",
       "location": "LLHA",
       "locationDescription": "Haifa",
@@ -3726,57 +3675,6 @@
         "anchor": [
           32.494722,
           34.910833
-        ]
-      }
-    },
-    {
-      "id": "C2014/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-29T16:00:00.000Z",
-      "toDate": "2026-10-02T02:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 33.1,
-          "lon": 35.583333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL",
-      "position": {
-        "lat": 33.1,
-        "lon": 35.583333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2014/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/020/3306N03535E001 A) LLLL B) 2609291600 C) 2610020200 D) DAILY 0001-0200 1600-2359 E) CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL)",
-      "rowID": "2061957",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              33.106111,
-              35.581667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          33.106111,
-          35.581667
         ]
       }
     },
