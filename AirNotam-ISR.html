@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.007 · built by eligrt
+     AirNotam-ISR · v1.06.008 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1123,6 +1123,26 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .gsheet .gs-in{scrollbar-width:none;} .gsheet .gs-in::-webkit-scrollbar{width:0;height:0;}
 .gs-in>.cue .cue-f{background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi));}
 #mapside>.draw-bar{left:50%;right:auto;width:410px;max-width:calc(100% - 20px);transform:translateX(-50%);}
+/* v1.06.008: stage 1 - tiles לאן / מתי / סקירה, the tile curtains cover the search row, one done-green */
+:root{--done-g:#2f9a57;}
+.below{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;}
+.below>.stage{flex:1;}
+.below>.fdlg{z-index:1300;}
+.res{display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1px solid var(--paper-edge);border-radius:8px;padding:9px 12px;}
+.res .n{font-family:var(--font-mono);font-size:24px;font-weight:700;color:var(--stamp-red);min-width:34px;text-align:center;}
+.res .t{font-size:13px;color:var(--ink-body);line-height:1.4;}
+.res .t small{display:block;font-size:11.5px;color:var(--ink-muted);}
+.fcard .f-cont{flex:none;width:100%;height:50px;border:none;border-radius:6px;background:var(--gold);color:var(--ink-dark);font-family:var(--font-ui);font-size:15px;font-weight:700;cursor:pointer;}
+.tile .t-val .rt-nm{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tile .t-val .rt-ar{flex:none;}
+#t_rte .t-val{gap:4px;}
+.tile.on .t-sub{color:var(--ink-muted);}
+.tile.done .t-lbl{color:inherit;opacity:.85;}
+.tile.on.done .t-lbl{color:var(--ink);}
+.tile.done .pg-bar i,.tile.on.done .pg-bar i,.r-row.ok .rr-bar i{background:var(--done-g);}
+.r-row.ok .rr-n{color:var(--done-g);}
+.r-row .rr-go{flex:none;min-width:64px;text-align:left;}
+#rteCorrBox.dis{opacity:.45;pointer-events:none;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1172,8 +1192,6 @@ body.wide .amodal,body.wide .disc{position:fixed;}
       <div class="sp-row sp-static"><div class="sp-warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>טייס, שים לב: משיקולי בטיחות טיסה, הגדרה זו תקפה רק בתכנון הטיסה הנוכחי.</span></div>
         <div class="gs-seg sp-nv"><label><input type="radio" name="gpNv" value="normal" checked>רגיל</label><label><input type="radio" name="gpNv" value="fade">מעומעם</label><label><input type="radio" name="gpNv" value="hide">מוסתר</label></div></div>
       <div class="sp-sec">הגדרות מתקדמות: מפה ומסלול</div>
-      <div class="sp-row sp-static"><b>רוחב המסדרון מכל צד של הקו</b><small>NOTAMs בתוך המסדרון נחשבים "לאורך המסלול"</small>
-        <div class="fgrace sp-corr" id="corrSeg"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
       <label class="sp-row sp-swrow r-sw"><span><b>מסנן צורות במפה</b><small>מציג במפה בחירה לפי סוג הצורה (פוליגון, טבעת, מקטע נתיב ועוד). לשימוש מתקדם.</small></span><input type="checkbox" id="famSet"></label>
       <div class="sp-sec">משוב</div>
       <div class="sp-row sp-static"><b>הבחנת בתקלה או שיש לך רעיון?</b><small><a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב">אשמח שתעדכן</a></small></div>
@@ -1199,49 +1217,63 @@ body.wide .amodal,body.wide .disc{position:fixed;}
     <div class="fl-row"><svg class="fl-ico" viewBox="0 0 24 24" fill="none" stroke="#e6c878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10h4a2 2 0 0 1 0 4h-4l-4 7h-3l2 -7h-4l-2 2h-3l2 -4l-2 -4h3l2 2h4l-2 -7h3z"/></svg><div class="fl-txt" id="flTxt"><span class="fl-none">לא הוגדרה טיסה</span></div>
       <button class="fl-edit" id="flEdit" onclick="toggleFlightDlg()">הגדר זמני טיסה</button></div>
     <div class="tiles">
-      <button type="button" class="tile" id="t_when" onclick="toggleFlightDlg()">
-        <span class="t-lbl"><span class="t-num">1</span>מתי</span><span class="t-val" id="whenVal"></span><span class="t-sub" id="whenSub"></span>
-      </button>
       <button type="button" class="tile" id="t_rte" onclick="toggleCurtain('rte')">
-        <span class="t-lbl"><span class="t-num">2</span>לאן</span><span class="t-val" id="rteHint">אין מסלול</span>
+        <span class="t-lbl"><span class="t-num">1</span>לאן</span><span class="t-val" id="rteHint">אין מסלול</span><span class="t-sub" id="rteHint2"></span>
+      </button>
+      <button type="button" class="tile" id="t_when" onclick="toggleFlightDlg()">
+        <span class="t-lbl"><span class="t-num">2</span>מתי</span><span class="t-val" id="whenVal"></span><span class="t-sub" id="whenSub"></span>
       </button>
       <button type="button" class="tile" id="t_rdy" onclick="toggleCurtain('rdy')">
-        <span class="t-lbl"><span class="t-num">3</span><span id="progTxt">מוכנות לטיסה</span></span>
+        <span class="t-lbl"><span class="t-num">3</span><span id="progTxt">סקירה</span></span>
         <span class="t-val"><span class="pg-bar"><i id="progBar"></i></span><span class="pg-n" id="progN">0/0</span><i class="t-dot" id="rdyDot"></i></span>
       </button>
       <span id="viwHint" hidden></span>
     </div>
   </div>
 
-  <!-- v1.04.025: one row in both views: search + סינון -->
+  <!-- v1.06.008: search row (סינון removed); the tile curtains open from under the tiles and cover it -->
+  <div class="below" id="below">
   <div class="qbar" id="qbar">
     <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
-    <button type="button" class="fbtn" id="t_viw" onclick="toggleCurtain('viw')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>סינון<span class="fb-bd" id="fBd"></span></button>
   </div>
-  <div class="stage" id="stage">
-  <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
-    <div class="r-head"><div class="fttl" id="rdyTtl">מוכנות לטיסה</div><div class="r-big"><span id="rdyBig"></span> <small>סומנו</small></div></div>
-    <div class="r-bar"><i id="rdyBar"></i></div>
-    <div class="r-rows" id="rdyRows"></div>
-    <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
-  </div></div>
   <div class="fdlg" id="rte" onclick="if(event.target===this)closeCurtain('rte')"><div class="fcard rcard" role="dialog" aria-labelledby="rteTtl">
-    <div><div class="r-head r-head-inl"><div class="fttl" id="rteTtl">מסלול</div><div class="r-big r-stat" id="rteStat"></div></div><div class="fsub" id="rteSub"></div></div>
+    <div class="r-head r-head-inl"><div class="fttl" id="rteTtl">מסלול</div><div class="r-big r-stat" id="rteStat"></div></div>
     <div class="r-route" id="rdyRoute"></div>
+    <div id="rteCorrBox"><div class="fglbl">עד כמה רחוק מהמסלול לחפש NOTAMים?</div>
+      <div class="fgrace sp-corr" id="corrSeg" style="margin-top:5px"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
+    <label class="r-opt r-chk r-sw" id="optRouteLbl"><span>הצג במפה רק NOTAMים בקרבת המסלול<small id="optRouteSub">סמן מסלול כדי להפעיל</small></span><input type="checkbox" id="optRoute"></label>
+    <div class="res" id="rteRes"><span class="n" id="rteResN"></span><span class="t">NOTAMים בקרבת המסלול<small id="rteResS"></small></span></div>
+    <button type="button" class="fgo f-cont" id="rteCont" onclick="rteContinue()">המשך: מתי אתה טס?</button>
     <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
-  <div class="fdlg" id="viw" onclick="if(event.target===this)closeCurtain('viw')"><div class="fcard rcard" role="dialog" aria-labelledby="viwTtl">
-    <div class="r-head"><div class="fttl" id="viwTtl">סינון NOTAMs</div></div>
-    <div class="f-sec">הצג גם</div>
-    <label class="r-opt r-chk r-sw" id="optTimeLbl"><span>מחוץ לזמני הטיסה<small id="optTimeSub"></small></span><input type="checkbox" id="optTime"></label>
-    <label class="r-opt r-chk r-sw" id="optRouteLbl"><span>רחוקים ממסדרון המסלול<small id="optRouteSub"></small></span><input type="checkbox" id="optRoute"></label>
-    <label class="r-opt r-chk r-sw"><span>שסימנתי כ"לא רלוונטי לי"<small id="optIrrSub"></small></span><input type="checkbox" id="optIrr"></label>
-    <div class="f-sec">מיקום מוגדר</div>
-    <div class="fgrace f-loc" id="locSeg"><button type="button" data-l="all">הכל</button><button type="button" data-l="geo">עם מיקום מוגדר</button><button type="button" data-l="nogeo">ללא מיקום מוגדר</button></div>
-    <div class="f-note" id="locNote">במפה מוצגים רק NOTAMs עם מיקום מוגדר</div>
-    <button type="button" class="f-reset" onclick="filtReset()">החזר לברירת מחדל</button>
-    <button type="button" class="fgrip" id="g_viw" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
+  <div class="fdlg" id="fdlg" onclick="if(event.target===this)skipFlight()"><div class="fcard rcard" role="dialog" aria-labelledby="fdlgTtl">
+    <div><div class="fttl" id="fdlgTtl">מתי אתה טס?</div>
+      <div class="fsub">מועד הטיסה קובע אילו NOTAMים רלוונטיים לבדיקה</div></div>
+    <div class="frow"><label class="fld">תאריך<input type="date" id="fDate"></label></div>
+    <div class="frow">
+      <label class="fld">המראה מתוכננת (LT)<input type="time" id="fTkof"></label>
+      <label class="fld">נחיתה מתוכננת (LT)<input type="time" id="fLdg"></label>
+    </div>
+    <div>
+      <div class="fglbl">עד כמה שעות לפני ואחרי הטיסה לחפש NOTAMים בתוקף?</div>
+      <div class="fgrace" id="fGrace" style="margin-top:5px">
+        <button data-g="2" class="on">2 שעות</button><button data-g="3">3 שעות</button><button data-g="5">5 שעות</button>
+      </div>
+    </div>
+    <label class="r-opt r-chk r-sw" id="optTimeLbl"><span>הצג רק NOTAMים בתוקף בחלון הזמן שהוגדר</span><input type="checkbox" id="optTime"></label>
+    <div class="res" id="whenRes"><span class="n" id="whenResN"></span><span class="t"><span id="whenResT"></span><small id="whenResS"></small></span></div>
+    <div class="ferr" id="fErr"></div>
+    <button type="button" class="fgo f-cont" onclick="saveFlight()">המשך: סקירת ה-NOTAMים</button>
+    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
+  <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
+    <div class="r-head"><div class="fttl" id="rdyTtl">סקירת ה-NOTAMים</div><div class="r-big"><span id="rdyBig"></span> <small>סומנו</small></div></div>
+    <div class="r-bar"><i id="rdyBar"></i></div>
+    <div class="r-rows" id="rdyRows"></div>
+    <label class="r-opt r-chk r-sw"><span>הצג גם NOTAMים שסימנתי כ"לא רלוונטי לי"</span><input type="checkbox" id="optIrr"></label>
+    <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
+  </div></div>
+  <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
     <button type="button" class="fd-pill" id="fdPill" onclick="gisPanelToggle(true)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 17.6a1.2 1.2 0 0 0 2.2.3l2.1-3.1 4.9 4.9a1.1 1.1 0 0 0 1.5 0l1-1a1.1 1.1 0 0 0 0-1.5l-4.9-4.9 3.1-2.1a1.2 1.2 0 0 0-.3-2.2L4 4z"/></svg><span>סימון חופשי - הדלק שכבת נתיבים לבחירת נקודות דיווח</span></button>
     <div class="db-txt" id="drawTxt">הקש על המפה כדי להוסיף נקודה</div>
@@ -1249,31 +1281,9 @@ body.wide .amodal,body.wide .disc{position:fixed;}
     <div class="db-btns">
       <button type="button" id="dbUndo" onclick="drawUndo()">בטל נקודה</button>
       <button type="button" id="dbClear" onclick="drawClear()">נקה</button>
-      <button type="button" class="db-done" onclick="drawDone()">סיים</button>
+      <button type="button" class="db-done" onclick="drawDone(1)">סיים</button>
     </div>
   </div>
-  <div class="fdlg" id="fdlg" onclick="if(event.target===this)skipFlight()"><div class="fcard" role="dialog" aria-labelledby="fdlgTtl">
-    <div><div class="fttl" id="fdlgTtl">מתי אתה טס?</div>
-      <div class="fsub">חלון הטיסה קובע אילו NOTAMs רלוונטיים לבדיקה</div></div>
-    <div class="frow"><label class="fld">תאריך<input type="date" id="fDate"></label></div>
-    <div class="frow">
-      <label class="fld">המראה מתוכננת (LT)<input type="time" id="fTkof"></label>
-      <label class="fld">נחיתה מתוכננת (LT)<input type="time" id="fLdg"></label>
-    </div>
-    <div>
-      <div class="fglbl">מרווח ביטחון לפני ואחרי <span>(מומלץ, לעיכובים ושינויי תוכנית)</span></div>
-      <div class="fgrace" id="fGrace" style="margin-top:5px">
-        <button data-g="2" class="on">2 שעות</button><button data-g="3">3 שעות</button><button data-g="5">5 שעות</button>
-      </div>
-    </div>
-    <div class="fcalc" id="fCalc"></div>
-    <div class="ferr" id="fErr"></div>
-    <div class="fbtns">
-      <button class="fgo" onclick="saveFlight()">שמור והצג</button>
-      <button class="fskip" onclick="skipFlight()">דלג, הצג הכל</button>
-    </div>
-    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
-  </div></div>
     <div class="upd" id="upd" onclick="applyPending()"><span id="updTxt"></span><button type="button">סקור</button></div>
     <div class="rv-top" id="rvTop" onclick="if(event.target===this)rvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
       <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
@@ -1293,13 +1303,14 @@ body.wide .amodal,body.wide .disc{position:fixed;}
     </button>
 
   </div>
+  </div>
 
   <div class="footer-strip">
     <span class="footer-refresh" onclick="toggleSettings()" role="button" tabindex="0">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.007 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.008 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1407,7 +1418,6 @@ const ST_LBL={new:"טרם נקרא",chg:"עודכן, בדוק שוב",ok:"קרא
 
 function passFilters(e){
   if(e.admin) return false;                      // admin/checklist NOTAMs stay out
-  if(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)) return false;   // no-location items always pass
   if(timeMode==="flight"){
     const w=flightWindow(FLIGHT);
     if(w){
@@ -1464,10 +1474,10 @@ function render(opts){
   Object.values(S).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
   const GHOSTS=Object.keys(UPD).filter(id=>UPD[id].t==="can");
 
-  const onMap=items.filter(e=>e.geo&&!offMap(e.id)).length;
+  const onMap=items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)).length;
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
   const mc=document.getElementById("mapCnt"); if(mc) mc.textContent="("+onMap+")";
-  updateProgress(items.length, S.ok.length+S.irr.length);
+  updateProgress();
   READY.irr=S.irr.length;
 
   const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נקראו"],["ok","קראתי"],["irr","סימנתי כלא רלוונטיים לי"]];
@@ -1490,8 +1500,11 @@ function render(opts){
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
 }
 let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
-function updateProgress(total,done){
-  const items=LAST_ITEMS;
+// v1.06.008: the review set = NOTAMs in the time window; with a route, the ones with a position must be near it
+function mapRoutePass(e){ return !(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)); }
+function reviewSet(){ return LAST_ITEMS.filter(e=>!e.geo || ROUTE.length<2 || inCorridor(e)); }
+function updateProgress(){
+  const items=reviewSet(), total=items.length, done=items.filter(e=>{const s=statusOf(e);return s==="ok"||s==="irr";}).length;
   READY.total=total; READY.done=done;
   READY.geoPend=items.filter(e=>e.geo&&!offMap(e.id)&&isPending(e)).length;
   READY.noGeo=items.filter(e=>!e.geo).length;
@@ -1501,7 +1514,6 @@ function updateProgress(total,done){
   READY.geoDone=READY.geoTot-items.filter(e=>e.geo&&isPending(e)).length;
   READY.noGeoDone=READY.noGeo-READY.noGeoPend;
   const all=total>0&&done>=total, pct=total? Math.round(100*done/total):0;
-  document.getElementById("progTxt").textContent= all? "✓ מוכן לטיסה" : "מוכנות לטיסה";
   document.getElementById("rdyDot").style.display= (!all && (READY.noGeoPend||READY.chg))? "inline-block":"none";
   document.getElementById("progN").textContent=`${done}/${total}`;
   document.getElementById("progBar").style.width=pct+"%";
@@ -1523,21 +1535,13 @@ function renderFilterStrip(T,R,G){
   el.innerHTML= t? '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg><span>'+esc(t)+'</span>' : "";
   el.hidden=!t;
 }
-function renderHints(){
-  const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint");
-  rh.innerHTML= hasR? `<bdi>${routeLenNm().toFixed(0)}NM</bdi>` : "אין מסלול";
+function renderHints(){   // v1.06.008: לאן tile = "first ← last" point names (• = a free point), the length under it
+  const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint"), r2=document.getElementById("rteHint2");
+  if(hasR){ const nm=p=>p[2]? esc(p[2]) : "•";
+    rh.innerHTML=`<span class="rt-nm">${nm(ROUTE[0])}</span><span class="rt-ar">←</span><span class="rt-nm">${nm(ROUTE[ROUTE.length-1])}</span>`;
+    r2.innerHTML=`<bdi dir="ltr">${routeLenNm().toFixed(0)}NM</bdi>`; }
+  else { rh.textContent="אין מסלול"; r2.textContent=""; }
   rh.classList.toggle("dim",!hasR);
-  const tot=ENR.filter(e=>!e.admin).length;
-  const ic=(k,on,t)=>`<i class="t-ic${on?" on":""}" title="${t}">${IC[k]}</i>`;
-  const T=timeMode==="flight"&&flightValid(FLIGHT), R=ROUTE_ONLY&&hasR, G=!SHOW_IRR;
-  renderFilterStrip(T,R,G);
-  const fv=flightValid(FLIGHT);
-  const c1=document.getElementById("nt_time"), c2=document.getElementById("nt_rte"), c3=document.getElementById("nt_irr");
-  if(c1){ c1.checked=!(fv&&timeMode==="flight"); c1.closest(".gchip").classList.toggle("dis",!fv); }
-  if(c2){ c2.checked=!(ROUTE_ONLY&&hasR); c2.closest(".gchip").classList.toggle("dis",!hasR); }
-  if(c3){ c3.checked=SHOW_IRR; }
-  const shown=LAST_ITEMS.filter(e=>!offMap(e.id)).length;
-  const vb=document.getElementById("viwBig"); if(vb) vb.textContent=`${shown}/${tot} מוצגים`;
 }
 function renderReady(){
   try{renderHints();}catch(_){}
@@ -1557,29 +1561,33 @@ function renderReady(){
   h+=row("ללא מיקום במפה",R.noGeoDone,R.noGeo,"לרשימה ›","readyGo('list')");
   if(R.chg) h+=`<button type="button" class="r-row warn" onclick="readyGo('list')"><span class="rr-t"><b>עודכנו מאז שבדקת</b><small>סומנו בעבר, צריך לבדוק שוב (כלולים למעלה)</small></span><span class="rr-n">${R.chg}</span><span class="rr-go">לרשימה ›</span></button>`;
   document.getElementById("rdyRows").innerHTML=h;
-  document.getElementById("optIrrSub").textContent=R.irr? `${R.irr} סומנו, מוצגים באפור` : "עדיין לא סימנת";
-  const hasR=ROUTE.length>=2;
-  document.getElementById("optRouteLbl").classList.toggle("dis",!hasR);
-  document.getElementById("optRouteSub").textContent= hasR? `רוחב המסדרון ${2*CORR_NM}NM (ניתן לשנות בתפריט הגדרות)` : "סמן מסלול כדי להפעיל";
-  document.getElementById("optRoute").checked=!(ROUTE_ONLY&&hasR);
-  const fv=flightValid(FLIGHT), fw=flightWindow(FLIGHT);
-  document.getElementById("optTimeLbl").classList.toggle("dis",!fv);
-  document.getElementById("optTimeSub").innerHTML= fv? `זמני הטיסה: <bdi dir="ltr">${hm(fw.from)}-${hm(fw.to)}</bdi>` : "הגדר זמני טיסה כדי להפעיל";
-  document.getElementById("optTime").checked= !(fv&&timeMode==="flight");
   document.getElementById("optIrr").checked=SHOW_IRR;
-  const CW=2*CORR_NM;   // full corridor width (both sides)
-  document.getElementById("rteStat").textContent= hasR? `${ROUTE.length} נקודות · ${routeLenNm().toFixed(0)}NM` : "";
-  document.getElementById("rteSub").textContent=`לאורך המסלול יסומן "מסדרון" ברוחב ${CW}NM לאיתור קל של נוטמים בגזרתו`;
+  renderRte();
+}
+// v1.06.008: the לאן curtain (screens 2a / 2)
+function nearRoute(){ return ENR.filter(e=>!e.admin&&e.geo&&inCorridor(e)); }
+function renderRte(){
+  const hasR=ROUTE.length>=2;
+  document.getElementById("rteStat").innerHTML= hasR? `<bdi>${routeLenNm().toFixed(0)}NM</bdi> · ${ROUTE.length} נקודות` : "טרם הוגדר";
   document.getElementById("rdyRoute").innerHTML = hasR
     ? `<button type="button" onclick="startDraw()">✎ ערוך מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" onclick="clearRoute()">מחק מסלול</button>`
     : `<button type="button" onclick="startDraw()">✎ סמן מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" disabled>מחק מסלול</button>`;
+  document.getElementById("rteCorrBox").classList.toggle("dis",!hasR);
+  document.querySelectorAll("#corrSeg button").forEach(b=>{ b.classList.toggle("on",+b.dataset.c===CORR_NM); b.disabled=!hasR; });
+  document.getElementById("optRouteLbl").classList.toggle("dis",!hasR);
+  document.getElementById("optRouteSub").style.display= hasR? "none" : "";
+  const cb=document.getElementById("optRoute"); cb.disabled=!hasR; cb.checked=hasR&&ROUTE_ONLY;
+  document.getElementById("rteRes").style.display= hasR? "" : "none";
+  document.getElementById("rteCont").style.display= hasR? "" : "none";
+  if(hasR){ document.getElementById("rteResN").textContent=nearRoute().length;
+    document.getElementById("rteResS").innerHTML=`עד <bdi>${CORR_NM}NM</bdi> מהמסלול`; }
 }
-const CURTAINS=["rdy","rte","viw"];
+function rteContinue(){ closeCurtain("rte"); openFlightDlg(); }
+const CURTAINS=["rdy","rte"];
 function openCurtain(id){
   if(MAP) MAP.closePopup();   // v1.05.012T: the popup now sits above the map's panels, so close it under a curtain
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
   document.getElementById(id).classList.add("show"); const tt=document.getElementById("t_"+id); if(tt) tt.classList.add("on");
-  if(id==="viw") filtUi();
   cueAll();
 }
 function closeCurtain(id){
@@ -1596,8 +1604,11 @@ function readyGo(v){
 }
 function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); closeSettings(); }
 document.getElementById("optIrr").addEventListener("change",ev=>setShowIrr(ev.target.checked));
-document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(!ev.target.checked));
-document.getElementById("optTime").addEventListener("change",ev=>{ timeMode= ev.target.checked? "all" : "flight"; renderFlightBar(); render(); });
+document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(ev.target.checked));
+document.getElementById("optTime").addEventListener("change",ev=>{   // v1.06.008: on = only NOTAMים valid in the window
+  const f=readDlg(); if(!flightValid(f)){ ev.target.checked=!ev.target.checked; return; }
+  FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
+  timeMode= ev.target.checked? "flight" : "all"; renderFlightBar(); render(); whenUi(); });
 
 // ── route: tap points on the map, 3NM corridor each side ──
 const ROUTE_KEY="airnotam_route";
@@ -1806,7 +1817,7 @@ async function drawClear(){
   if(ROUTE.length && !(await appConfirm({title:"לנקות את נקודות המסלול?",text:"כל הנקודות שסימנת יימחקו ותוכל לסמן מחדש.",ok:"נקה"}))) return;
   ROUTE=[]; drawUi(); drawRoute();
 }
-function drawDone(){
+function drawDone(showRes){
   DRAWING=false; MAP.doubleClickZoom.enable();
   document.getElementById("map").classList.remove("drawing");
   document.getElementById("drawBar").classList.remove("show");
@@ -1815,6 +1826,7 @@ function drawDone(){
   saveRoute();
   if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
   render(); drawRoute();
+  if(showRes && ROUTE.length>=2) openCurtain("rte");   // v1.06.008
 }
 // GPX: route (rtept) > track (trkpt) > waypoints (wpt). Tracks are thinned to ~0.5NM spacing.
 function pickGpx(){
@@ -1839,6 +1851,7 @@ async function loadGpx(txt){
   ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){}
   closeCurtains(); setView("map"); render(); drawRoute();
   try{ MAP.fitBounds(L.latLngBounds(ROUTE.map(q=>L.latLng(q[0],q[1]))).pad(.15)); }catch(e){}
+  openCurtain("rte");   // v1.06.008: same as after "סיים"
 }
 async function clearRoute(){
   if(!(await appConfirm({title:"למחוק את המסלול?",text:"המסלול יימחק ויוצגו שוב NOTAMs מכל הארץ.",ok:"מחק מסלול"}))) return;
@@ -2211,7 +2224,7 @@ function renderMap(){
   nvUi();
   if(NVIS==="hide"){ const em=document.getElementById("mapEmpty"); if(em) em.style.display="none"; return; }
   LAST_ITEMS.forEach(e=>{
-    if(!e.geo||offMap(e.id)||!qMatch(e,QT)||!famPass(e)) return;
+    if(!e.geo||offMap(e.id)||!qMatch(e,QT)||!famPass(e)||!mapRoutePass(e)) return;
     const key=`${e.lat.toFixed(3)},${e.lon.toFixed(3)}`;   // ~100m bucket
     (GROUPS[key]=GROUPS[key]||{ids:[],lat:e.lat,lon:e.lon}).ids.push(e.id);
   });
@@ -2663,7 +2676,7 @@ function renderWhenTile(){
   if(flightValid(FLIGHT)){
     const w=flightWindow(FLIGHT);
     v.innerHTML=esc(dayLbl(w.tkof));
-    s.innerHTML=`<bdi dir="ltr">${hm(w.tkof)}-${hm(w.ldg)}</bdi> LT <span style="white-space:nowrap">· <bdi>±${FLIGHT.grace}&nbsp;ש׳</bdi></span>`;
+    s.innerHTML=`<bdi dir="ltr">${hm(w.tkof)}-${hm(w.ldg)}</bdi>`;   // v1.06.008: the margin lives in the מתי curtain
   }else{
     v.innerHTML='<span class="t-cta">הגדר זמני טיסה</span>';
     s.textContent= FLIGHT? "זמני הטיסה שהוגדרו כבר עברו" : "";
@@ -2688,12 +2701,26 @@ function readDlg(){
   return {date:document.getElementById("fDate").value, tkof:document.getElementById("fTkof").value,
           ldg:document.getElementById("fLdg").value, grace:fGrace};
 }
-function updateCalc(){
-  const w=flightWindow(readDlg()), c=document.getElementById("fCalc");
-  const same=w&&w.from.toDateString()===w.to.toDateString();
-  c.innerHTML = w ? `ייבדקו NOTAMs שבתוקף בין <b><bdi>${hm(w.from)}</bdi></b> ל-<b><bdi>${hm(w.to)}</bdi></b> LT`
-                    + (same? "" : `, <bdi>${esc(dayLbl(w.from))}</bdi> עד <bdi>${esc(dayLbl(w.to))}</bdi>`)
-                  : "מלא תאריך, המראה ונחיתה";
+// v1.06.008: מתי curtain result (screen 3); without a route it compares with all NOTAMים
+function inWin(e,w){ return !(e.start&&e.start>w.to) && !(e.end&&e.end<w.from); }
+function whenUi(){
+  const f=readDlg(), w=flightWindow(f), ok=flightValid(f);
+  document.getElementById("optTime").checked= flightValid(FLIGHT)? timeMode==="flight" : true;
+  document.getElementById("optTimeLbl").classList.toggle("dis",!ok);
+  const box=document.getElementById("whenRes"); box.style.display= ok? "" : "none"; if(!ok) return;
+  const hasR=ROUTE.length>=2, base= hasR? nearRoute() : ENR.filter(e=>!e.admin);
+  document.getElementById("whenResN").textContent=base.filter(e=>inWin(e,w)).length;
+  document.getElementById("whenResT").textContent= hasR? `מתוך ${base.length} NOTAMים בקרבת המסלול` : `מתוך ${base.length} NOTAMים`;
+  document.getElementById("whenResS").innerHTML=`בתוקף בין <bdi dir="ltr">${hm(w.from)}</bdi> ל-<bdi dir="ltr">${hm(w.to)}</bdi>, כולל ${f.grace} שעות לפני ואחרי`;
+}
+// v1.06.008: closing never clears: a valid date / time is kept as soon as it is entered
+let _whenT=null;
+function whenLive(){
+  const f=readDlg(); document.getElementById("fErr").style.display="none"; whenUi();
+  if(!flightValid(f)) return;
+  const was=flightValid(FLIGHT); FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
+  if(!was) timeMode="flight";
+  clearTimeout(_whenT); _whenT=setTimeout(()=>{ renderFlightBar(); render(); whenUi(); },250);
 }
 function openFlightDlg(){
   try{CURTAINS.forEach(closeCurtain);}catch(_){}
@@ -2706,9 +2733,9 @@ function openFlightDlg(){
   fGrace=f.grace||2;
   document.querySelectorAll("#fGrace button").forEach(b=>b.classList.toggle("on",+b.dataset.g===fGrace));
   document.getElementById("fErr").style.display="none";
-  updateCalc();
+  whenUi();
   document.getElementById("fdlg").classList.add("show");
-  document.getElementById("flEdit").classList.add("on");
+  document.getElementById("flEdit").classList.add("on"); document.getElementById("t_when").classList.add("on");   // v1.06.008
   cueAll();
 }
 // v1.05.015T: B4 settings = a curtain from the footer (the footer stays; tap the dim, "× סגור" or swipe the handle down to close)
@@ -2741,7 +2768,7 @@ function cueAdd(sc){
   sc._cue=f;
 }
 function cueAll(){ document.querySelectorAll(".fcard,.sp-body").forEach(sc=>{ if(!sc._cue) cueAdd(sc); setTimeout(sc._cue,60); setTimeout(sc._cue,520); }); }
-function renderSettings(){ document.querySelectorAll("#corrSeg button").forEach(b=>b.classList.toggle("on",+b.dataset.c===CORR_NM)); }
+function renderSettings(){ try{renderRte();}catch(_){} }
 document.querySelectorAll("#corrSeg button").forEach(b=>b.addEventListener("click",()=>{
   CORR_NM=+b.dataset.c; try{localStorage.setItem("airnotam_corr",String(CORR_NM));}catch(e){}
   renderSettings(); render(); try{drawRoute();}catch(_){}
@@ -2764,7 +2791,7 @@ function toggleFlightDlg(){
   if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
   else openFlightDlg();
 }
-function closeFlightDlg(){ const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
+function closeFlightDlg(){ const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on"); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
 function curtainGrip(gripId,dlgId,onClose){
   const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
   let y0=null, dy=0;
@@ -2781,7 +2808,8 @@ function saveFlight(){
   if(!flightWindow(f)){err.textContent="חסר תאריך או שעה";err.style.display="block";return;}
   if(!flightValid(f)){err.textContent="חלון הטיסה כבר עבר, בדוק תאריך ושעות";err.style.display="block";return;}
   FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
-  timeMode="flight"; closeFlightDlg(); renderFlightBar(); render();
+  timeMode= document.getElementById("optTime").checked? "flight" : "all";
+  closeFlightDlg(); renderFlightBar(); render(); openCurtain("rdy");   // v1.06.008: "המשך: סקירת ה-NOTAMים"
 }
 function skipFlight(){
   closeFlightDlg();
@@ -2791,10 +2819,10 @@ function skipFlight(){
 document.querySelectorAll("#fGrace button").forEach(b=>b.addEventListener("click",()=>{
   fGrace=+b.dataset.g;
   document.querySelectorAll("#fGrace button").forEach(x=>x.classList.toggle("on",x===b));
-  updateCalc();
+  whenLive();
 }));
 ["fDate","fTkof","fLdg"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{
-  document.getElementById("fErr").style.display="none";updateCalc();}));
+  whenLive();}));
 // ask for the flight once the disclaimer is out of the way
 function maybeAskFlight(){ /* v1.04.018: no auto-open, the "מתי" tile asks for the flight time */ }
 
@@ -3176,7 +3204,6 @@ function ptGo(p){
   inp.addEventListener("blur",()=>setTimeout(()=>box.classList.remove("show"),150));
   inp.addEventListener("keydown",ev=>{ if(ev.key!=="Enter") return; ev.preventDefault(); if(QPT){ inp.blur(); return; } LQ=inp.value; render(); qChooser();
     if(QCH.length===1) qGo(QCH[0]); else if(!QCH.length) inp.blur(); }); }
-document.getElementById("locSeg").addEventListener("click",ev=>{ const b=ev.target.closest("button"); if(!b||b.disabled) return; LOC=b.dataset.l; render(); });
 
 // review of what changed: updated first, then new, then cancelled
 let RV_I=0, RV_ON=false, RV_LIST=[];   // v1.05.028T: the set is fixed while the curtain is open; handled items stay, as navy strips
@@ -3266,7 +3293,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.007 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.008 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3276,7 +3303,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.007 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.008 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
