@@ -1,9 +1,122 @@
 {
-  "generatedAt": "2026-10-04T15:15:16.367Z",
+  "generatedAt": "2026-10-04T19:28:49.480Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 111,
+  "count": 114,
   "notams": [
+    {
+      "id": "A0799/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T05:45:00.000Z",
+      "toDate": "2026-10-05T12:00:00.000Z",
+      "qLine": null,
+      "eText": "ATS RTE J14 CLSD BTN MEGID-GIMIK.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0799/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /050/060/3241N03524E011 A) LLLL B) 2610050545 C) 2610051200 D) 0545-0800 0930-1200 E) ATS RTE J14 CLSD BTN MEGID-GIMIK.)",
+      "rowID": "2066110"
+    },
+    {
+      "id": "C2082/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T05:45:00.000Z",
+      "toDate": "2026-10-05T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.7,
+          "lon": 35.35,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.",
+      "position": {
+        "lat": 32.7,
+        "lon": 35.35,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2082/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3242N03521E006 A) LLLL B) 2610050545 C) 2610051200 D) 0545-0800 0930-1200 E) ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.)",
+      "rowID": "2066108"
+    },
+    {
+      "id": "C2081/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T05:45:00.000Z",
+      "toDate": "2026-10-05T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "045",
+        "position": {
+          "lat": 32.75,
+          "lon": 35.4,
+          "radiusNm": 3,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 4,500FT AMSL TO ALL FLT. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC 324711N0352345E 324317N0352534E 324210N0352322E 324624N0352133E. CTN ADZ. F) GND G) 4500FT AMSL",
+      "position": {
+        "lat": 32.75,
+        "lon": 35.4,
+        "radiusNm": 3,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2081/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/045/3245N03524E003 A) LLLL B) 2610050545 C) 2610051200 D) 0545-0800 0930-1200 E) UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 4,500FT AMSL TO ALL FLT. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC 324711N0352345E 324317N0352534E 324210N0352322E 324624N0352133E. CTN ADZ. F) GND G) 4500FT AMSL)",
+      "rowID": "2066107",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.786389,
+                35.395833
+              ],
+              [
+                32.721389,
+                35.426111
+              ],
+              [
+                32.702778,
+                35.389444
+              ],
+              [
+                32.773333,
+                35.359167
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.745972,
+          35.392639
+        ]
+      }
+    },
     {
       "id": "C2080/26",
       "location": "LLLL",
