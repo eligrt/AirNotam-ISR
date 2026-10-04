@@ -13,5 +13,20 @@
     "id": "C1835/26",
     "kind": "area missing",
     "first": "2026-09-30"
+  },
+  "rejected|HEL RTE CLSD EXC BY ATC GALIM-SUVAS. GALIM-KONFO. GALIM-DAFNA. GALIM-MERVA. GALIM-INBAR.": {
+    "id": "C2080/26",
+    "kind": "rejected",
+    "first": "2026-10-04"
+  },
+  "legs missing|ULTRALIGHT RTE CLSD, EXC BY ATC EVLYM-AHIUD-YASIF-AAKKO-SMRAT. GILAM-EVLYM-MOVIL.": {
+    "id": "C2071/26",
+    "kind": "legs missing",
+    "first": "2026-10-04"
+  },
+  "area missing|LLHA TRG AREA NR A,B,C AND ZVULUN ULTRALIGHT BUBBLE N, S (BZVUL AND BZVUN) CLSD TO ALL FLT INCLUDING AGRICULTURE FLT, EXC BY ATC.": {
+    "id": "C2069/26",
+    "kind": "area missing",
+    "first": "2026-10-04"
   }
 }
