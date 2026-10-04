@@ -1,9 +1,411 @@
 {
-  "generatedAt": "2026-10-04T00:27:18.226Z",
+  "generatedAt": "2026-10-04T08:17:13.818Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 97,
+  "count": 100,
   "notams": [
+    {
+      "id": "C2065/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-07T05:00:00.000Z",
+      "toDate": "2026-10-08T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "007",
+        "position": {
+          "lat": 33.116667,
+          "lon": 35.6,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.",
+      "position": {
+        "lat": 33.116667,
+        "lon": 35.6,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2065/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/007/3307N03536E001 A) LLLL B) 2610070500 C) 2610081200 D) DAILY 0500-1200 E) AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.)",
+      "rowID": "2065970",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              33.114167,
+              35.605
+            ],
+            "radiusNm": 0.54
+          }
+        ],
+        "anchor": [
+          33.114167,
+          35.605
+        ]
+      }
+    },
+    {
+      "id": "C2064/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-05T14:00:00.000Z",
+      "toDate": "2026-10-05T19:45:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLT",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "008",
+        "upperLimitFl": "012",
+        "position": {
+          "lat": 31.916667,
+          "lon": 34.766667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.",
+      "position": {
+        "lat": 31.916667,
+        "lon": 34.766667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2064/26 NOTAMN Q) LLLL/QARLT/IV/NBO/E /008/012/3155N03446E008 A) LLLL B) 2610051400 C) 2610051945 D) 1400-1500 1845-1945 E) CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.)",
+      "rowID": "2065969",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.00472,
+                34.72722
+              ],
+              [
+                31.97634,
+                34.7416
+              ]
+            ],
+            "leg": "TYONA-SUPER",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.97634,
+                34.7416
+              ],
+              [
+                31.94436,
+                34.77393
+              ],
+              [
+                31.94423,
+                34.77409
+              ],
+              [
+                31.94411,
+                34.77425
+              ],
+              [
+                31.94399,
+                34.77441
+              ],
+              [
+                31.94388,
+                34.77458
+              ],
+              [
+                31.94378,
+                34.77476
+              ],
+              [
+                31.94368,
+                34.77494
+              ],
+              [
+                31.94359,
+                34.77512
+              ],
+              [
+                31.9435,
+                34.77531
+              ],
+              [
+                31.94342,
+                34.7755
+              ],
+              [
+                31.94334,
+                34.77569
+              ],
+              [
+                31.94327,
+                34.77589
+              ],
+              [
+                31.94321,
+                34.77609
+              ],
+              [
+                31.94315,
+                34.7763
+              ],
+              [
+                31.9431,
+                34.7765
+              ],
+              [
+                31.94306,
+                34.77671
+              ],
+              [
+                31.94302,
+                34.77692
+              ],
+              [
+                31.94299,
+                34.77713
+              ],
+              [
+                31.94297,
+                34.77734
+              ],
+              [
+                31.94296,
+                34.77755
+              ],
+              [
+                31.94295,
+                34.77777
+              ],
+              [
+                31.94294,
+                34.77798
+              ],
+              [
+                31.94295,
+                34.77819
+              ],
+              [
+                31.94296,
+                34.77841
+              ],
+              [
+                31.94298,
+                34.77862
+              ],
+              [
+                31.943,
+                34.77883
+              ],
+              [
+                31.94303,
+                34.77904
+              ],
+              [
+                31.94307,
+                34.77925
+              ],
+              [
+                31.94312,
+                34.77946
+              ],
+              [
+                31.94317,
+                34.77966
+              ],
+              [
+                31.94323,
+                34.77987
+              ],
+              [
+                31.94329,
+                34.78007
+              ],
+              [
+                31.94336,
+                34.78026
+              ],
+              [
+                31.94344,
+                34.78046
+              ],
+              [
+                31.94352,
+                34.78065
+              ],
+              [
+                31.94361,
+                34.78083
+              ]
+            ],
+            "leg": "SUPER-NTAIM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.94361,
+                34.78083
+              ],
+              [
+                31.92028,
+                34.77
+              ]
+            ],
+            "leg": "NTAIM-BOVED",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.92028,
+                34.77
+              ],
+              [
+                31.88972,
+                34.75583
+              ]
+            ],
+            "leg": "BOVED-NAGID",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.88972,
+                34.75583
+              ],
+              [
+                31.87194,
+                34.75694
+              ]
+            ],
+            "leg": "NAGID-YAVNE",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.87194,
+                34.75694
+              ],
+              [
+                31.82611,
+                34.70833
+              ]
+            ],
+            "leg": "YAVNE-ZASHD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          31.849025,
+          34.732635
+        ]
+      }
+    },
+    {
+      "id": "C2063/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-04T11:30:00.000Z",
+      "toDate": "2026-10-04T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "045",
+        "position": {
+          "lat": 32.716667,
+          "lon": 35.433333,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 4,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 324713N0352345E 324334N0352525E 324206N0353046E 323959N0353009E 324142N0352328E 324628N0352118E. CTN ADZ. F) GND G) 4500FT AMSL",
+      "position": {
+        "lat": 32.716667,
+        "lon": 35.433333,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2063/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/045/3243N03526E006 A) LLLL B) 2610041130 C) 2610041330 E) UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI LLMG TRG AREA NR A-WEST BTN FLW PSN CLSD FM GND UP TO 4,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 324713N0352345E 324334N0352525E 324206N0353046E 323959N0353009E 324142N0352328E 324628N0352118E. CTN ADZ. F) GND G) 4500FT AMSL)",
+      "rowID": "2065899",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.786944,
+                35.395833
+              ],
+              [
+                32.726111,
+                35.423611
+              ],
+              [
+                32.701667,
+                35.512778
+              ],
+              [
+                32.666389,
+                35.5025
+              ],
+              [
+                32.695,
+                35.391111
+              ],
+              [
+                32.774444,
+                35.355
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.725093,
+          35.40238
+        ]
+      }
+    },
     {
       "id": "C2062/26",
       "location": "LLLL",
