@@ -28,5 +28,10 @@
     "id": "C2069/26",
     "kind": "area missing",
     "first": "2026-10-04"
+  },
+  "rejected|AN AREA AT BAT-SHLOMO WI 0.27NM RADIUS CENTERED ON PSN 323721N0350002E CLSD FM GND UP TO 2,200FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.": {
+    "id": "C2099/26",
+    "kind": "rejected",
+    "first": "2026-10-06"
   }
 }
