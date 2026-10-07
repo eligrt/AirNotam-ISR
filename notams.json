@@ -1,9 +1,43 @@
 {
-  "generatedAt": "2026-10-07T17:22:20.908Z",
+  "generatedAt": "2026-10-07T22:58:30.896Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 115,
+  "count": 116,
   "notams": [
+    {
+      "id": "A0815/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-07T19:25:00.000Z",
+      "toDate": "2026-10-08T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QNMAS",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.4,
+          "lon": 35.333333,
+          "radiusNm": 25,
+          "source": "q_line"
+        }
+      },
+      "eText": "VOR ZFR 115.600MHZ U/S.",
+      "position": {
+        "lat": 31.4,
+        "lon": 35.333333,
+        "radiusNm": 25,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0815/26 NOTAMN Q) LLLL/QNMAS/IV/BO /E /000/999/3124N03520E025 A) LLLL B) 2610071925 C) 2610081900 E) VOR ZFR 115.600MHZ U/S.)",
+      "rowID": "2067350"
+    },
     {
       "id": "C2126/26",
       "location": "LLLL",
