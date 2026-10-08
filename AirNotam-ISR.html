@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.023 · built by eligrt
+     AirNotam-ISR · v1.06.024 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1463,7 +1463,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.023 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.024 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3399,9 +3399,10 @@ function rvOpen(delay){ updTidy(); const Q0=rvQueue(); if(!Q0.length) return; RV
   void t.offsetHeight; setTimeout(()=>requestAnimationFrame(()=>{ if(RV_ON) t.classList.add("show"); }),delay); }
 function updRvClose(quiet){   // v1.06.020: renamed (clashed with the NOTAM review since v1.06.012)
   const was=RV_ON, n=RV_LIST.filter(x=>!rvDone(x)).length; RV_ON=false; RV_LIST=[]; document.getElementById("rvTop").classList.remove("show");
-  if(!was||quiet) return;
+  if(!was) return;
+  // v1.06.024: the "נשארו N עדכונים לסקירה" pill shows on EVERY close while updates remain (also when a curtain or the map closed it)
   if(n) rvToast(n===1? "נשאר עדכון אחד לסקירה" : `נשארו ${n} עדכונים לסקירה`,{t:"לרשימה",fn:()=>readyGo("list")});
-  else rvToast("כל העדכונים נסקרו");   // v1.05.028T
+  else if(!quiet) rvToast("כל העדכונים נסקרו");   // v1.05.028T
 }
 let RV_TT=null;
 function rvToast(t,act){
@@ -3474,7 +3475,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.023 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.024 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3484,7 +3485,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.023 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.024 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
