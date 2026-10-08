@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.017 · built by eligrt
+     AirNotam-ISR · v1.06.018 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1255,7 +1255,8 @@ body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000
 .rvbox.card.st-irr{opacity:1;filter:none;}   /* the review card keeps its fill readable; chip + edge show the grey look */
 .rvc.cards .rvc-mid{transition:opacity .2s ease;}
 body:not(.wide) .rvc.cards .rvc-mid:not(:empty){display:block;flex:none;}
-body:not(.wide) .rvc.cards .rvc-mid .card>.c-text,body:not(.wide) .rvc.cards .rvc-mid .card>.diff{height:var(--rvth,118px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+body:not(.wide) .rvc.cards .rvc-mid .card{height:var(--rvch,300px);display:flex;flex-direction:column;}   /* v1.06.018: fixed card height, buttons stay put */
+body:not(.wide) .rvc.cards .rvc-mid .card>.c-text,body:not(.wide) .rvc.cards .rvc-mid .card>.diff{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
 body:not(.wide) .rvc.cards .rvc-mid .card>.c-text::-webkit-scrollbar,body:not(.wide) .rvc.cards .rvc-mid .card>.diff::-webkit-scrollbar{width:0;height:0;}
 body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000 62%,transparent);mask-image:linear-gradient(to bottom,#000 62%,transparent);}
 .rvnomap{position:absolute;inset:0;z-index:1150;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 34px;
@@ -1444,7 +1445,7 @@ body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradie
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.017 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.018 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3453,7 +3454,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.017 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.018 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3463,7 +3464,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.017 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.018 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3500,7 +3501,7 @@ async function alogCopy(){
 
 // ── v1.06.012: the review, map part (screens 4b, 5, 5b, M2, PC 10) ──
 // RV.list = map NOTAMים of the review set, in order along the route (no route: north to south)
-const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null,mode:"map",cards:[],ci:-1,cend:false,th:118};   // v1.06.017: mode map | cer | cards
+const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null,mode:"map",cards:[],ci:-1,cend:false,th:300};   // v1.06.017: mode map | cer | cards
 let RV_CARDS=false;   // stage 3: true once the cards part is reached (hides the screen 4 notice)
 let RV_HINT=false;   // v1.06.013: the hint shows on the first NOTAM of each review start / resume
 const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
@@ -3547,7 +3548,7 @@ function rvUi(){
     nx.disabled= RV.lock || !n || (RV.cend? rvNextCard(-1)<0 : (RV.ci>=n-1 && rvNextCard(RV.ci)<0)); return; }
   const n=RV.list.length;
   pv.disabled= RV.lock || !n || (!RV.end && RV.i<=0);
-  nx.disabled= RV.lock || !n || (RV.end? rvNextPending(-1)<0 : (RV.i>=n-1 && rvNextPending(RV.i)<0));
+  nx.disabled= RV.lock || !n;   /* v1.06.018: on the last map NOTAM with all marked, "הבא" leads to the ceremony */
 }
 function startReview(){
   closeCurtain("rdy");
@@ -3614,9 +3615,9 @@ function rvStep(d){
   if(!RV.list.length) return;
   rvHintSeen();
   const n=RV.list.length;
-  if(RV.end){ if(d<0) rvGo(RV.i); else { const j=rvNextPending(-1); if(j>=0) rvGo(j); } return; }
+  if(RV.end){ if(d<0) rvGo(RV.i); else { const j=rvNextPending(-1); if(j>=0) rvGo(j); else rvToCer(); } return; }
   if(d<0){ if(RV.i>0) rvGo(RV.i-1); return; }
-  if(RV.i<n-1) rvGo(RV.i+1); else { const j=rvNextPending(RV.i); if(j>=0) rvGo(j); }
+  if(RV.i<n-1) rvGo(RV.i+1); else { const j=rvNextPending(RV.i); if(j>=0) rvGo(j); else rvToCer(); }
 }
 // where to fly: the NOTAM fits, zoom kept when it already fits; phone: the dot sits low so the popup has room above it
 function rvTarget(c){
@@ -3820,7 +3821,13 @@ function rvCerBack(to){   // "הקודם" in the ceremony (or a tap on a map NOT
   if(RV.lock) return; alog("review ceremony back");
   const r=document.getElementById("rvc"), cer=document.getElementById("rvCer");
   rvResize(()=>{ RV.mode="map"; r.classList.remove("m-cer"); cer.hidden=true; cer.innerHTML=""; rvUi(); });
-  RV.end=false; rvGo(to!=null? to : RV.i>=0&&RV.i<RV.list.length? RV.i : RV.list.length-1);
+  RV.end=false; RV.lock=true; rvUi();   // v1.06.018: glide only after the curtain has shrunk, so the NOTAM lands centred
+  const k= to!=null? to : RV.i>=0&&RV.i<RV.list.length? RV.i : RV.list.length-1;
+  setTimeout(()=>{ if(!RV.on||RV.mode!=="map") return; RV.lock=false; rvGo(k); },480);
+}
+function rvToCer(){   // v1.06.018: "הבא" past the last map NOTAM (all marked): back to the ceremony
+  if(RV.lock) return; RV.lock=true; alog("review next -> ceremony");
+  rvHideItem(()=>{ RV.lock=false; RV.end=true; RV.shown=null; rvRingClear(); document.getElementById("rvMid").innerHTML=""; rvCer(true); });
 }
 function rvNoMap(on){   // the faded map + message while the cards part is open
   let o=document.getElementById("rvNoMap");
@@ -3843,10 +3850,12 @@ function rvCardsEnter(i){   // gold button (or resume): the cards part opens at 
       RV.ci=Math.min(Math.max(i,0),RV.cards.length-1); m.style.opacity="0"; m.innerHTML=card(ENR_BY_ID[RV.cards[RV.ci]],statusOf(ENR_BY_ID[RV.cards[RV.ci]]),true);
       rvChips(); rvFitText(); RV.lock=false; rvUi(); });
     rvNoMap(true); rvCardFade();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
+    m.style.transition="none"; m.style.transform="translateY(-10px)";   // v1.06.018: the card fades in only after the curtain has changed size
+    setTimeout(()=>{ m.style.transition="opacity .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)"; m.style.opacity="1"; m.style.transform="";
+      setTimeout(()=>{ m.style.transition=""; },400); },430);
     renderReady();
   };
-  if(!cer.hidden){ cer.style.transition="opacity .2s ease"; cer.style.opacity="0"; setTimeout(()=>{ cer.style.transition=""; cer.style.opacity=""; go(); },200); }
+  if(!cer.hidden){ cer.style.transition="opacity .25s ease"; cer.style.opacity="0"; setTimeout(()=>{ cer.style.transition=""; cer.style.opacity=""; go(); },250); }
   else go();
 }
 function rvCardsBack(){   // "הקודם" on the first card: back to the ceremony
@@ -3880,11 +3889,11 @@ function rvCardFade(){   // NOTAM text scrolls inside a fixed height: fade at th
 }
 function rvFitText(){   // phone: the curtain always leaves at least 90px of the faded map (text height only shrinks, so buttons stay put)
   if(WIDE) return; const r=document.getElementById("rvc"), st=document.getElementById("stage");
-  r.style.setProperty("--rvth",RV.th+"px");
+  r.style.setProperty("--rvch",RV.th+"px");   // RV.th = phone card height (v1.06.018)
   const gap=st.getBoundingClientRect().bottom - (st.getBoundingClientRect().top + rvTopPx());
-  if(gap<90){ RV.th=Math.max(54,RV.th-(90-gap)); r.style.setProperty("--rvth",RV.th+"px"); }
+  if(gap<90){ RV.th=Math.max(200,RV.th-(90-gap)); r.style.setProperty("--rvch",RV.th+"px"); }
 }
-window.addEventListener("resize",()=>{ RV.th=118; if(RV.on&&RV.mode==="cards"){ rvFitText(); rvTopSync(); } });
+window.addEventListener("resize",()=>{ RV.th=300; if(RV.on&&RV.mode==="cards"){ rvFitText(); rvTopSync(); } });
 function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); if(RV.glow) RV.glow.clearLayers(); }
 function rvRingDraw(id,blink){
   if(!MAP) return;
