@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.031 · built by eligrt
+     AirNotam-ISR · v1.06.032 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1242,6 +1242,7 @@ body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000
 .rvcer.q .stamp,.rvcer.q .mv-nudge{transition:none;}
 .ms-chips{display:flex;flex-wrap:nowrap;gap:5px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;flex:none;}
 .ms-chips::-webkit-scrollbar{display:none;}
+.ms-chips{padding:0 2px}   /* v1.06.032: the end chip's border is never clipped */
 .ms-chips span{flex:none;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:12px;padding:3px 8px;font-size:11.5px;color:var(--ink-muted);transition:background .3s ease,color .3s ease;}
 .ms-chips b{font-family:var(--font-mono);color:var(--ink);font-weight:600;}
 .ms-chips span.cur{background:var(--ink);border-color:var(--ink);color:var(--paper-hi);font-weight:700;}
@@ -1392,7 +1393,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <div class="sp-sec">משוב</div>
       <div class="sp-row sp-static"><b>הבחנת בתקלה או שיש לך רעיון?</b><small><a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב">אשמח שתעדכן</a></small></div>
       <div class="sp-sec sp-danger">איפוס</div>
-      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל בדיקה מחדש</b><small>כל ה-NOTAMים יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.</small></button>
+      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל סקירה מחדש</b><small>כל ה-NOTAMים יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.</small></button>
       <button type="button" class="sp-row sp-red" onclick="setFullReset()"><b>איפוס מלא של האפליקציה</b></button>
     </div>
   </div>
@@ -1524,7 +1525,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.031 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.032 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3098,7 +3099,7 @@ async function setReloadApp(){
   const u=new URL(location.href); u.searchParams.set("r",Date.now().toString(36)); location.replace(u.toString());
 }
 async function setRestartReview(){
-  if(!(await appConfirm({title:"להתחיל בדיקה מחדש?",text:'כל ה-NOTAMים יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.',ok:"התחל בדיקה מחדש"}))) return;
+  if(!(await appConfirm({title:"להתחיל סקירה מחדש?",text:'כל ה-NOTAMים יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.',ok:"התחל סקירה מחדש"}))) return;
   REVIEW={}; saveReview(); closeSettings(); render();
 }
 async function setFullReset(){
@@ -3613,7 +3614,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.031 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.032 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3623,7 +3624,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.031 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.032 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3943,7 +3944,7 @@ function rvCerHtml(){
     +`<span class="st-l2"><bdi>${R.geoDone}/${R.geoTot}</bdi> · ${l2}</span></div></div>`
     +(n? `<div class="ms-sep mv-nudge"></div><div class="sp-warn cer-warn mv-nudge"><b class="h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg>טייס, שים לב: המפה לא מראה הכל!</b>`
       +`<span>קיימים עוד <b class="n">${n}</b> NOTAMים ללא מיקום גיאוגרפי מוגדר. ייתכן שיש להם השפעה על תכנון הטיסה שלך.</span></div>`
-      +`<div class="chipw mv-nudge"><div class="ms-chips" id="cerChips">${rvChipsHtml(false)}</div></div>` : "");
+      +`<div class="chipw mv-nudge"><div class="ms-chips" id="cerChips">${rvChipsHtml(true)}</div></div>` : "");
 }
 // the strip curtain changes height smoothly (about 0.45 s, the curtain easing) around a content change
 function rvResize(fn,dur){   // dur: seconds (default .45)
