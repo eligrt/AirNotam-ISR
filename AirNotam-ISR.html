@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.011 · built by eligrt
+     AirNotam-ISR · v1.06.012 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1144,7 +1144,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .r-bar.done i{background:var(--done-g);}   /* v1.06.009 */
 /* v1.06.010: iPhone Safari draws date / time fields wider than their box; make them respect it (fit the curtain, keep the gap) */
 .fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;}
-/* v1.06.011: iPhone only: value centred in the field, both ways (it sat in the top-right corner) */
+/* v1.06.012: iPhone only: value centred in the field, both ways (it sat in the top-right corner) */
 @supports (-webkit-touch-callout:none){
   .fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{line-height:42px;padding-top:0;padding-bottom:0;text-align:center;}
   .fdlg label.fld input::-webkit-date-and-time-value{text-align:center;margin:0;line-height:42px;}
@@ -1156,6 +1156,60 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 #fdlg .f-cont:disabled{opacity:.45;cursor:default;}
 .r-row .rr-go{flex:none;min-width:64px;text-align:left;}
 #rteCorrBox.dis{opacity:.45;pointer-events:none;}
+
+/* v1.06.012: stage 2 - the review, map part */
+.r-note{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border:1px solid var(--gold-lite);background:var(--paper-hi);border-radius:8px;font-size:13.5px;line-height:1.5;color:var(--ink-body);}
+.r-note svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--gold-deep);stroke-width:2;stroke-linecap:round;margin-top:1px;}
+.r-note b{color:var(--ink);}
+.r-row.rr-st{cursor:default;}
+.r-row.rr-st .rr-n{color:var(--ink);}
+.r-row.rr-st.ok .rr-n{color:var(--done-g);}
+#rdyGo:disabled{opacity:.45;cursor:default;}
+.rvc{position:absolute;top:0;left:0;right:0;z-index:1250;background:var(--paper);border-bottom:3px solid var(--gold);border-radius:0 0 14px 14px;
+  box-shadow:0 10px 24px rgba(14,35,72,.3);padding:10px 12px 0;display:flex;flex-direction:column;gap:8px;direction:rtl;max-height:calc(100% - 8px);
+  transform:translateY(-105%);visibility:hidden;transition:transform .45s cubic-bezier(.22,.61,.36,1),visibility 0s linear .45s;}
+.rvc.show{transform:none;visibility:visible;transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.rvc.drag{transition:none !important;}
+.rvq{display:grid;grid-template-columns:18fr 12fr;gap:10px;}
+.rvq .bar{height:6px;border-radius:3px;background:#e3d4ad;overflow:hidden;}
+.rvq .bar i{display:block;height:100%;width:0;background:#26497e;transition:width .35s;}
+.rvq .full .bar i{background:var(--done-g);}
+.rvq small{display:flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;font-weight:600;color:var(--ink-muted);white-space:nowrap;}
+.rvq small b{font-family:var(--font-mono);color:var(--ink);}
+.rvq small svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
+.rvq .cur small{color:var(--gold-deep);}
+.rvq .full small b{color:var(--done-g);}
+.rvc-mid{display:none;}
+body.wide .rvc-mid:not(:empty){display:block;flex:0 1 auto;min-height:0;overflow-y:auto;scrollbar-width:none;transition:opacity .2s ease;}
+body.wide .rvc-mid::-webkit-scrollbar{width:0;height:0;}
+.rvc-mid .card{margin:0;}
+.rvc-btns{display:flex;gap:8px;}
+.rvc-btns button{flex:1;height:44px;border-radius:6px;border:1px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink);font-family:var(--font-ui);
+  font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;}
+.rvc-btns button.nx{border:none;background:var(--gold);color:var(--ink-dark);}
+.rvc-btns button:disabled{opacity:.35;cursor:default;}
+.rvc-btns button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+.rvc-grip{position:relative;height:30px;display:flex;align-items:center;justify-content:center;margin:0 -12px;width:calc(100% + 24px);border:none;background:none;
+  padding:0;cursor:grab;touch-action:none;flex:none;}
+.rvc-grip>span{width:46px;height:5px;border-radius:3px;background:var(--gold-lite);}
+.rvdim{position:absolute;inset:0;z-index:1240;background:rgba(14,35,72,.68);display:none;}
+body.wide .rvdim.show{display:block;}
+.c-acts.c2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;}
+.c-acts.c2 .c-act{min-height:40px;height:auto;padding:4px 4px;text-align:center;}
+.pu-acts.c-acts.c2{margin-top:8px;}
+.rvbox .c-act:disabled{opacity:.35;cursor:default;}
+.c-act.rv-fill{position:relative;overflow:hidden;background:#e3f1e8 !important;color:#1f6f3f !important;border:1.5px solid var(--done-g) !important;opacity:1 !important;}
+.c-act.rv-fill::before{content:"";position:absolute;top:0;bottom:0;right:0;width:0;background:rgba(47,154,87,.38);animation:rvFill 1s linear forwards;}
+.c-act.rv-fill span{position:relative;}
+@keyframes rvFill{to{width:100%;}}
+.pu-hint,.c-hint{display:flex;align-items:center;gap:5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--paper-edge);font-size:11.5px;font-weight:700;color:var(--gold-deep);direction:rtl;}
+.pu-hint svg,.c-hint svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;}
+.leaflet-popup.rv-out{opacity:0 !important;transition:opacity .2s ease !important;}
+.rv-ring{animation:rvRing 1.1s ease-in-out infinite alternate;}
+@keyframes rvRing{from{stroke-opacity:1;}to{stroke-opacity:.45;}}
+.rv-pill{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;direction:ltr;background:var(--ink-dark);color:#fff;
+  font-family:var(--font-mono);font-size:12px;font-weight:700;border-radius:10px;padding:2px 8px;box-shadow:0 1px 4px rgba(14,35,72,.35);pointer-events:none;}
+#stage.v-map.rv-on .upd{top:calc(var(--rvtop,0px) + 8px) !important;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1280,12 +1334,22 @@ body.wide .amodal,body.wide .disc{position:fixed;}
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
-    <div class="r-head"><div class="fttl" id="rdyTtl">סקירת ה-NOTAMים</div><div class="r-big"><span id="rdyBig"></span> <small>סומנו</small></div></div>
+    <div class="r-head"><div class="fttl" id="rdyTtl">סקירת ה-NOTAMים</div><div class="r-big" id="rdyBig"></div></div>
     <div class="r-bar"><i id="rdyBar"></i></div>
+    <div class="r-note" id="rdyNote"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.5"/></svg><span id="rdyNoteT"></span></div>
     <div class="r-rows" id="rdyRows"></div>
     <label class="r-opt r-chk r-sw"><span>הצג גם NOTAMים שסימנתי כ"לא רלוונטי לי"</span><input type="checkbox" id="optIrr"></label>
+    <button type="button" class="fgo f-cont" id="rdyGo" onclick="startReview()">התחל סקירה</button>
     <button type="button" class="fgrip" id="g_rdy" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
+  <div class="rvdim" id="rvDim"></div>
+  <div class="rvc" id="rvc" role="region" aria-label="סקירת ה-NOTAMים">
+    <div class="rvq"><div class="cur" id="rvQm"><div class="bar"><i id="rvBm"></i></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <b id="rvNm">0/0</b></small></div>
+      <div id="rvQn"><div class="bar"><i id="rvBn"></i></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <b id="rvNn">0/0</b></small></div></div>
+    <div class="rvc-mid rvbox" id="rvMid"></div>
+    <div class="rvc-btns"><button type="button" id="rvPrev" onclick="rvStep(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button type="button" class="nx" id="rvNext" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+    <button type="button" class="rvc-grip" id="rvGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
+  </div>
   <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
     <button type="button" class="fd-pill" id="fdPill" onclick="gisPanelToggle(true)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 17.6a1.2 1.2 0 0 0 2.2.3l2.1-3.1 4.9 4.9a1.1 1.1 0 0 0 1.5 0l1-1a1.1 1.1 0 0 0 0-1.5l-4.9-4.9 3.1-2.1a1.2 1.2 0 0 0-.3-2.2L4 4z"/></svg><span>סימון חופשי - הדלק שכבת נתיבים לבחירת נקודות דיווח</span></button>
@@ -1323,7 +1387,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.011 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.012 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1421,7 +1485,7 @@ function statusOf(e){
   if(e.replaces && REVIEW[e.replaces]) return "chg";
   return "new";
 }
-function offMap(id){const e=ENR_BY_ID[id]; return !!e && !SHOW_IRR && statusOf(e)==="irr";}
+function offMap(id){const e=ENR_BY_ID[id]; return !!e && !SHOW_IRR && !(typeof RV!=="undefined"&&RV.on) && statusOf(e)==="irr";}   // v1.06.012: grey always shows during the review
 function isPending(e){const s=statusOf(e); return s==="new"||s==="chg";}
 function markReviewed(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now()}; saveReview();}
 function markIrrelevant(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now(),x:1}; saveReview();}
@@ -1533,6 +1597,7 @@ function updateProgress(){
   document.getElementById("progBar").style.width=pct+"%";
   document.getElementById("t_rdy").classList.toggle("done",all);
   renderReady();
+  try{rvUi();}catch(_){}
 }
 const IC={
   clock:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/></svg>',
@@ -1564,17 +1629,14 @@ function renderReady(){
   document.getElementById("rdyBar").style.width=(R.total?Math.round(100*R.done/R.total):0)+"%";
   document.getElementById("rdyBar").parentNode.classList.toggle("done",R.total>0&&R.done>=R.total);   // v1.06.009
   const pct=(a,b)=>b?Math.round(100*a/b):100;
-  const row=(title,done,tot,go,fn)=>{
-    const left=tot-done, ok=!left;
-    return `<button type="button" class="r-row ${ok?"ok":"warn"}" onclick="${fn}">
-      <span class="rr-t"><b>${title}</b><small>${ok?"✓ הכל סומן":`נותרו ${left} לבדיקה`}</small>
-        <span class="rr-bar"><i style="width:${pct(done,tot)}%"></i></span></span>
-      <span class="rr-n">${done}/${tot}</span><span class="rr-go">${go}</span></button>`;
-  };
-  let h=`<div class="r-expl">עבור על כל NOTAM וסמן <b>"קראתי"</b> או <b>"לא רלוונטי לי"</b>. כשהכל מסומן, אתה מוכן לטיסה.</div>`;
-  h+=row("על המפה",R.geoDone,R.geoTot,"למפה ›","readyGo('map')");
-  h+=row("ללא מיקום במפה",R.noGeoDone,R.noGeo,"לרשימה ›","readyGo('list')");
-  if(R.chg) h+=`<button type="button" class="r-row warn" onclick="readyGo('list')"><span class="rr-t"><b>עודכנו מאז שבדקת</b><small>סומנו בעבר, צריך לבדוק שוב (כלולים למעלה)</small></span><span class="rr-n">${R.chg}</span><span class="rr-go">לרשימה ›</span></button>`;
+  // v1.06.012: screen 4 / 4b - progress only, the rows are not tappable
+  const row=(title,done,tot)=>`<div class="r-row rr-st ${tot&&done>=tot?"ok":""}"><span class="rr-t"><b>${title}</b>
+        <span class="rr-bar"><i style="width:${pct(done,tot)}%"></i></span></span><span class="rr-n">${done}/${tot}</span></div>`;
+  let h=row("על המפה",R.geoDone,R.geoTot)+row("ללא מיקום גיאוגרפי מוגדר",R.noGeoDone,R.noGeo);
+  const nt=document.getElementById("rdyNote");
+  nt.style.display= R.noGeo>0 && !RV_CARDS? "" : "none";
+  document.getElementById("rdyNoteT").innerHTML=`<b>טייס, שים לב:</b> בנוסף ל-${R.geoTot} ה-NOTAMים ${ROUTE.length>=2?"שזוהו בקרבת המסלול":"שזוהו במפה"}, קיימים עוד ${R.noGeo} NOTAMים ללא מיקום גיאוגרפי מוגדר, שייתכן שיש להם השפעה על תכנון הטיסה שלך. מומלץ לסקור גם אותם.`;
+  const go=document.getElementById("rdyGo"); go.textContent= R.done>0? "המשך סקירה" : "התחל סקירה"; go.disabled=!R.geoTot;
   document.getElementById("rdyRows").innerHTML=h;
   document.getElementById("optIrr").checked=SHOW_IRR;
   renderRte();
@@ -1615,6 +1677,7 @@ function openCurtain(id){
 }
 function closeCurtain(id){
   const d=document.getElementById(id); if(!d) return;
+  if(d.classList.contains("show")) rvReopen();
   d.querySelector(".fcard").style.transform=""; d.classList.remove("show");
   const t=document.getElementById("t_"+id); if(t) t.classList.remove("on");
 }
@@ -1786,6 +1849,7 @@ function drawTop(){ const b=document.getElementById("drawBar").getBoundingClient
   const pr=p&&p.classList.contains("show")? p.getBoundingClientRect() : null; return pr&&pr.height? Math.min(b.top,pr.top) : b.top; }
 function setSnap(v){ SNAP_ON=v; try{localStorage.setItem("airnotam_snap",v?"1":"0");}catch(e){} drawUi(); snapShow(); }
 function startDraw(){
+  if(RV.on) rvClose();
   closeCurtains(); setView("map");
   DRAWING=true; MAP.closePopup(); MAP.doubleClickZoom.disable();
   document.getElementById("map").classList.add("drawing");
@@ -1894,12 +1958,12 @@ function toggleGroup(k){
 // v1.04.024: folded-map icon replaces the ⌖ target on "show on map" buttons
 const LIST_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>';   // v1.05.028T
 const MAP_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
-function card(e,st){
+function card(e,st,rv){
   const alt=`<span class="b alt">${esc(altTxt(e))}</span>`;
   const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
   const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
-  const rt=routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
+  const rt= rv&&ROUTE.length>=2? `<span class="b rt">בקרבת המסלול</span>` : routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
   const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span></button>`
@@ -1914,7 +1978,8 @@ function card(e,st){
   }else{
     acts = lnk("listUnreview","בטל סימון")+mapBtn+lnk("listReview","סמן כנקרא");
   }
-  return`<div class="card st-${st}" data-nid="${id}">
+  if(rv) acts=rvActs(st);   // v1.06.012: review card = only the two review buttons
+  return`<div class="card st-${st}${rv?" rvbox card-flash":""}" data-nid="${id}">
     <div class="c-top">
       <div class="c-head"><span class="c-id">${id}</span>${updTag(e.id)}
         ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
@@ -1925,7 +1990,8 @@ function card(e,st){
       ? `<div class="diff"><div class="dl">לפני העדכון:</div><div class="old">${esc(UPD[e.id].old.eText||UPD[e.id].old.rawText||"")}</div><div class="dl">עכשיו:</div><div class="c-text">${esc(e.text)}</div></div>`
       : `<div class="c-text">${qHl(e.text)}</div>`}
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
-    <div class="c-acts c3">${acts}</div>
+    <div class="c-acts ${rv?"c2":"c3"}">${acts}</div>
+    ${rv&&!RV_HINT?`<div class="c-hint">${RV_INFO}לאחר הסימון, ה-NOTAM הבא ייפתח אוטומטית</div>`:""}
   </div>`;
 }
 function ghostCard(id,done){
@@ -2276,6 +2342,7 @@ function renderMap(){
   if(DRAWING||NVIS==="fade") notamFade();
   readLbls();
   if(NVIS==="fade"){ CIRCLES={}; MAP_LAYER.eachLayer(l0=>{ (l0.eachLayer? (f=>l0.eachLayer(f)) : (f=>f(l0)))(l=>{ if(l.options) l.options.interactive=false; const el=l.getElement&&l.getElement(); if(el) el.style.pointerEvents="none"; }); }); }
+  if(RV.on) rvSync();   // v1.06.012
 }
 // v1.05.015T: B7 a small "קראתי" label on the dot of a read NOTAM, only from zoom 11 (like the point names)
 let READ_LAYER=null;
@@ -2305,6 +2372,7 @@ function topStack(){ requestAnimationFrame(()=>{
   const u=document.getElementById("upd"), p=document.getElementById("nvPill");
   if(u&&s.contains(u)&&u.classList.contains("show")) b=Math.max(b,u.getBoundingClientRect().bottom-mt);
   if(p&&p.classList.contains("show")&&p.offsetHeight) b=Math.max(b,p.getBoundingClientRect().bottom-mt);
+  if(RV.on&&!WIDE) b=Math.max(b,rvTopPx());   // v1.06.012
   s.classList.toggle("top-on",b>0); if(b>0) s.style.setProperty("--toph",Math.round(b+6)+"px"); }); }
 // while a route is being drawn the NOTAMs stay only as a light background
 function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.setStyle({opacity:.12,fillOpacity:.025}); }); }
@@ -2335,6 +2403,7 @@ function idsAt(ll){
 }
 function openAt(ll,firstId){
   if(DRAWING) return;
+  if(RV.on && rvTap(ll)) return;   // v1.06.012
   let ids=idsAt(ll);
   if(firstId && !ids.includes(firstId) && CIRCLES[firstId]) ids.push(firstId);
   const gh=gisHtml(ll);
@@ -2503,6 +2572,7 @@ function mapOn(){ return currentView==="map"||WIDE; }                       // i
 function mapHost(){ return document.getElementById(WIDE?"mapside":"stage"); }  // what holds the map and its overlays
 function applyWide(boot){
   const w=!!(WIDE_MQ&&WIDE_MQ.matches); if(w===WIDE) return;
+  if(RV.on) rvClose();
   try{ gisPanelToggle(false); }catch(_){}
   if(MAP) MAP.closePopup();
   WIDE=w; document.body.classList.toggle("wide",w);
@@ -2515,6 +2585,7 @@ function applyWide(boot){
 
 function setView(v){
   if(WIDE) v="list";   // v1.06.005: wide screen: the panel is always the list, the map is always beside it
+  if(RV.on && !WIDE && v!=="map") rvClose();   // v1.06.012: the review lives on the map
   if(v!==currentView) closeCurtains();
   if(DRAWING && v!=="map" && !WIDE) drawDone();
   currentView=v;
@@ -2776,7 +2847,7 @@ function openSettings(){ closeCurtains(); try{gisPanelToggle(false);}catch(_){} 
   ap.style.setProperty("--settop",Math.round(document.getElementById("stage").getBoundingClientRect().top-ap.getBoundingClientRect().top+8)+"px");   // v1.05.017T
   document.getElementById("setp").classList.add("show"); document.getElementById("setDim").classList.add("show");
   cueAll(); }
-function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
+function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; if(p.classList.contains("show")) rvReopen(); p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
 function toggleSettings(){ document.getElementById("setp").classList.contains("show")? closeSettings() : openSettings(); }
 document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
 // v1.05.015T: B5 one close behaviour: drag the handle toward the closed side (or tap it) to close
@@ -2823,7 +2894,7 @@ function toggleFlightDlg(){
   if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
   else openFlightDlg();
 }
-function closeFlightDlg(){ const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on"); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
+function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen(); const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on"); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
 function curtainGrip(gripId,dlgId,onClose){
   const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
   let y0=null, dy=0;
@@ -3325,7 +3396,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.011 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.012 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3335,7 +3406,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.011 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.012 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3368,6 +3439,250 @@ async function alogCopy(){
       alog(`map Z${Math.round(z*10)/10} ${c.lat.toFixed(3)},${c.lng.toFixed(3)}${DRAWING?" · drawing":""}${cw}`); });
   },300);
 })();
+
+
+// ── v1.06.012: the review, map part (screens 4b, 5, 5b, M2, PC 10) ──
+// RV.list = map NOTAMים of the review set, in order along the route (no route: north to south)
+const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null};
+let RV_CARDS=false;   // stage 3: true once the cards part is reached (hides the screen 4 notice)
+let RV_HINT=false; try{RV_HINT=localStorage.getItem("airnotam_rvhint")==="1";}catch(e){}
+const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
+function rvHintSeen(){ if(RV_HINT) return; RV_HINT=true; try{localStorage.setItem("airnotam_rvhint","1");}catch(e){} }
+function routePos(lat,lon){
+  if(ROUTE.length<2) return -lat;
+  const k=Math.cos(lat*Math.PI/180), P=([a,b])=>[(b-lon)*60*k,(a-lat)*60];
+  let best=Infinity, pos=0, acc=0;
+  for(let i=0;i<ROUTE.length-1;i++){
+    const [x1,y1]=P(ROUTE[i]),[x2,y2]=P(ROUTE[i+1]),dx=x2-x1,dy=y2-y1,L2=dx*dx+dy*dy,len=Math.sqrt(L2);
+    const t=L2? Math.max(0,Math.min(1,-(x1*dx+y1*dy)/L2)) : 0, d=Math.hypot(x1+t*dx,y1+t*dy);
+    if(d<best-1e-9){ best=d; pos=acc+t*len; } acc+=len;
+  }
+  return pos;
+}
+function rvBuild(){
+  return reviewSet().filter(e=>e.geo&&CIRCLES[e.id])
+    .map(e=>({id:e.id,p:routePos(e.lat,e.lon),lat:e.lat})).sort((a,b)=>a.p-b.p||b.lat-a.lat).map(x=>x.id);
+}
+function rvPend(id){ const e=ENR_BY_ID[id]; return !!e&&isPending(e); }
+function rvNextPending(from){ const n=RV.list.length; for(let k=1;k<=n;k++){ const j=((from+k)%n+n)%n; if(rvPend(RV.list[j])) return j; } return -1; }
+function rvTopPx(){   // strip bottom, from the top of the map (layout height, so a sliding strip measures right)
+  const r=document.getElementById("rvc"), st=document.getElementById("stage");
+  return r&&RV.on&&!WIDE? Math.max(0,r.offsetHeight-st.offsetTop) : 0;
+}
+function rvUi(){
+  if(!RV.on) return;
+  const R=READY, pc=(a,b)=>b?Math.round(100*a/b):100;
+  document.getElementById("rvNm").textContent=`${R.geoDone}/${R.geoTot}`;
+  document.getElementById("rvNn").textContent=`${R.noGeoDone}/${R.noGeo}`;
+  document.getElementById("rvBm").style.width=pc(R.geoDone,R.geoTot)+"%";
+  document.getElementById("rvBn").style.width=pc(R.noGeoDone,R.noGeo)+"%";
+  document.getElementById("rvQm").classList.toggle("full",R.geoTot>0&&R.geoDone>=R.geoTot);
+  document.getElementById("rvQn").classList.toggle("full",R.noGeo>0&&R.noGeoDone>=R.noGeo);
+  const n=RV.list.length;
+  document.getElementById("rvPrev").disabled= RV.lock || !n || (!RV.end && RV.i<=0);
+  document.getElementById("rvNext").disabled= RV.lock || !n || (RV.end? rvNextPending(-1)<0 : (RV.i>=n-1 && rvNextPending(RV.i)<0));
+}
+function startReview(){
+  closeCurtain("rdy");
+  setTimeout(()=>{
+    if(DRAWING) drawDone();
+    if(LQ||QPT){ ptClear(); LQ=""; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); }
+    FAM="all"; FAM_I=-1;
+    if(NVIS!=="normal"){ NVIS="normal"; document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.checked=r.value==="normal"); }
+    const was=RV.on; RV.on=true; RV.end=false;
+    if(!was){ setView("map"); if(!MAP) return; }
+    RV.list=rvBuild();
+    document.getElementById("rvc").classList.add("show");
+    document.getElementById("rvDim").classList.toggle("show",WIDE);
+    document.getElementById("stage").classList.add("rv-on");
+    setTimeout(()=>{ document.getElementById("stage").style.setProperty("--rvtop",rvTopPx()+"px"); topStack(); },470);
+    topStack(); alog("review start "+RV.list.length);
+    const j=rvNextPending(-1);
+    if(j<0){ RV.i=RV.list.length-1; RV.end=true; rvUi(); return; }
+    rvGo(j);
+  }, document.getElementById("rdy").classList.contains("show")? 380 : 0);
+}
+function rvClose(){
+  if(!RV.on) return;
+  clearTimeout(RV.t); RV.on=false; RV.lock=false; RV.shown=null; RV.end=false; RV.list=[]; RV.i=-1;
+  rvRingClear(); if(MAP) MAP.closePopup();
+  document.getElementById("rvc").classList.remove("show"); document.getElementById("rvDim").classList.remove("show");
+  document.getElementById("rvMid").innerHTML="";
+  document.getElementById("stage").classList.remove("rv-on");
+  topStack(); alog("review close");
+  if(!SHOW_IRR && MAP) renderMap();
+}
+function rvReopen(){   // a tile curtain / settings closed over the review: show the current NOTAM's popup again
+  if(!RV.on||WIDE||RV.lock||!RV.shown) return;
+  const id=RV.shown; setTimeout(()=>{ if(RV.on&&!RV.lock&&RV.shown===id&&!(MAP._popup&&MAP._popup.isOpen())) rvShow(id); },420);
+}
+function rvSync(){   // after a full map redraw (feed update, a filter): keep the review in step, no glide
+  if(!RV.list.length) return;
+  const cur=RV.shown||RV.list[RV.i];
+  RV.list=rvBuild(); const k=RV.list.indexOf(cur);
+  RV.i= k>=0? k : Math.min(Math.max(RV.i,0),RV.list.length-1);
+  if(RV.shown&&!RV.lock){ if(k>=0) rvShow(RV.shown); else { RV.shown=null; rvRingClear(); } }
+  rvUi();
+}
+function rvTap(ll){
+  const ids=idsAt(ll).filter(id=>RV.list.includes(id)); if(!ids.length) return false;
+  if(RV.lock) return true;
+  const pick= ids.includes(RV.shown)? RV.shown : (ids.find(rvPend)||ids[0]);
+  if(pick===RV.shown){ if(!WIDE&&!(MAP._popup&&MAP._popup.isOpen())) rvShow(pick); return true; }
+  rvGo(RV.list.indexOf(pick)); return true;
+}
+function rvStep(d){
+  if(RV.lock||!RV.list.length) return;
+  rvHintSeen();
+  const n=RV.list.length;
+  if(RV.end){ if(d<0) rvGo(RV.i); else { const j=rvNextPending(-1); if(j>=0) rvGo(j); } return; }
+  if(d<0){ if(RV.i>0) rvGo(RV.i-1); return; }
+  if(RV.i<n-1) rvGo(RV.i+1); else { const j=rvNextPending(RV.i); if(j>=0) rvGo(j); }
+}
+// where to fly: the NOTAM fits, zoom kept when it already fits; phone: the dot sits low so the popup has room above it
+function rvTarget(c){
+  const b=c.getBounds(), cur=MAP.getZoom(), ms=MAP.getSize(), top=rvTopPx();
+  let z=Math.min(13,Math.max(8,MAP.getBoundsZoom(b,false,L.point(70,70+top))));
+  if(cur>=9 && cur<=14 && MAP.getBoundsZoom(b,false,L.point(40,40+top))>=cur) z=cur;
+  // the shape is centred in the free part of the map; phone: the dot stays low enough (and far enough from the sides)
+  // for the popup above it, zooming out a step when that would push the shape off the bottom
+  const vis= top+(ms.y-top)/2;
+  let cx,cy;
+  for(let zz=z;zz>=Math.max(8,z-3);zz--){
+    const bc=MAP.project(b.getCenter(),zz), pa=MAP.project(c.getLatLng(),zz), bs=MAP.project(b.getSouthWest(),zz);
+    cx=bc.x; cy=bc.y-(vis-ms.y/2); z=zz;
+    if(WIDE) break;
+    const need=top+270, ay=pa.y-cy+ms.y/2; if(ay<need) cy-=need-ay;
+    const side=Math.min(165,ms.x/2), ax=pa.x-cx+ms.x/2;
+    if(ax<side) cx-=side-ax; else if(ax>ms.x-side) cx+=ax-(ms.x-side);
+    if(bs.y-cy+ms.y/2<=ms.y-10) break;
+  }
+  const cen=MAP.unproject(L.point(cx,cy),z);
+  const now=MAP.latLngToContainerPoint(cen), mid=ms.divideBy(2);
+  return {c:cen,z,same: z===cur && now.distanceTo(mid)<4};
+}
+function rvHideItem(cb){
+  if(WIDE){ const m=document.getElementById("rvMid"); if(!m.innerHTML){ cb(); return; } m.style.opacity="0"; setTimeout(cb,200); return; }
+  const pp=MAP._popup;
+  if(pp&&pp.isOpen()){ const el=pp.getElement(); if(el) el.classList.add("rv-out"); setTimeout(()=>{ MAP.closePopup(); cb(); },200); }
+  else cb();
+}
+function rvGo(i){
+  if(!RV.on||i<0||i>=RV.list.length) return;
+  clearTimeout(RV.t); RV.i=i; RV.lock=true; RV.end=false; rvUi();
+  const id=RV.list[i];
+  rvHideItem(()=>{
+    if(!RV.on) return;
+    rvRingClear(); RV.shown=null;
+    const c=CIRCLES[id]; if(!c){ RV.lock=false; rvUi(); return; }
+    const tg=rvTarget(c); let done=false;
+    const fin=()=>{ if(done) return; done=true; if(!RV.on) return; RV.lock=false; rvShow(id); };
+    if(tg.same) fin();
+    else{ MAP.once("moveend",fin);
+      if(tg.z===MAP.getZoom()) MAP.panTo(tg.c,{animate:true,duration:.55,easeLinearity:.25});
+      else MAP.flyTo(tg.c,tg.z,{duration:.55,easeLinearity:.25});
+      setTimeout(fin,1100); }
+  });
+}
+function rvActs(st){
+  if(st==="new"||st==="chg") return '<button class="c-act c-ok" onclick="rvAct(\'ok\',this)">✓ קראתי</button><button class="c-act c-hide" onclick="rvAct(\'irr\',this)">לא רלוונטי לי</button>';
+  return '<button class="c-act c-lnk" onclick="rvAct(\'un\',this)">בטל סימון</button>'
+    +(st==="ok"? '<button class="c-act c-lnk" onclick="rvAct(\'irr2\',this)">סמן כלא רלוונטי</button>' : '<button class="c-act c-lnk" onclick="rvAct(\'ok2\',this)">סמן כנקרא</button>');
+}
+function rvPuHtml(e){
+  const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
+  return `<div class="pu-wrap rvbox"><div class="pu-item pu-s-${st}" data-nid="${id}">
+    <div class="pu-top"><b class="pu-id">${id}${updTag(e.id)}</b><span class="pu-st">${ST_LBL[st]}</span></div>
+    <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
+    ${ROUTE.length>=2?'<span class="pu-rt">בקרבת המסלול</span>':""}
+    ${e.shape&&e.shape.diversionNames?`<div class="pu-div">נתיב חלופי: ${esc(e.shape.diversionNames.join(" - "))}</div>`:""}
+    <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
+    <div class="pu-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+    ${st==="chg"?`<div class="pu-upd">הנוטאם עודכן מאז שסימנת אותו. קרא שוב ובדוק שהסימון עדיין נכון</div>`:""}
+    <div class="pu-acts c-acts c2">${rvActs(st)}</div>
+    ${RV_HINT?"":`<div class="pu-hint">${RV_INFO}לאחר הסימון, ה-NOTAM הבא ייפתח אוטומטית</div>`}
+  </div></div>`;
+}
+function rvShow(id){
+  const e=ENR_BY_ID[id], c=CIRCLES[id]; if(!e||!c||!MAP) return;
+  RV.shown=id; RV.end=false; RV.i=RV.list.indexOf(id);
+  rvRingDraw(id);
+  if(WIDE){
+    const m=document.getElementById("rvMid"); m.style.opacity="0"; m.innerHTML=card(e,statusOf(e),true); m.scrollTop=0;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
+  }else{
+    MAP.closePopup();
+    const node=document.createElement("div"); node.innerHTML=rvPuHtml(e);
+    const top=rvTopPx()+10, w=node.querySelector(".pu-wrap");
+    if(w) w.style.maxHeight=Math.max(180,Math.min(340,MAP.getSize().y-top-90))+"px";
+    L.popup({pane:"popTop",className:"rv-pop",maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,20]})
+      .setLatLng(c.getLatLng()).setContent(node).openOn(MAP);
+  }
+  rvUi();
+}
+function rvRestyle(id){
+  const e=ENR_BY_ID[id], c=CIRCLES[id]; if(c) c.setStyle(ST_STYLE[statusOf(e)]);
+  refreshGroupLook(MAP_INDEX[id]&&MAP_INDEX[id].key);
+}
+function rvAct(k,btn){
+  if(!RV.on||RV.lock||!RV.shown) return;
+  const id=RV.shown, e=ENR_BY_ID[id]; if(!e) return;
+  rvHintSeen();
+  if(k==="un"||k==="ok2"||k==="irr2"){   // back on a marked item: change the mark, stay on it
+    if(k==="un") unmarkReviewed(id); else if(k==="ok2") markReviewed(id); else markIrrelevant(id);
+    rvRestyle(id); render({skipMap:true}); rvShow(id); return;
+  }
+  RV.lock=true;
+  if(k==="ok") markReviewed(id); else markIrrelevant(id);
+  rvRestyle(id);
+  const st=statusOf(e), box=btn.closest(".pu-item,.card");
+  box.querySelectorAll(".c-act").forEach(b=>{ if(b!==btn) b.disabled=true; });
+  btn.classList.add("rv-fill"); btn.innerHTML=`<span>${k==="ok"?"✓ סומן כנקרא":"✓ סומן כלא רלוונטי"}</span>`;
+  const chip=box.querySelector(".pu-st,.c-st"); if(chip) chip.textContent=ST_LBL[st];
+  box.className=box.className.replace(/\b(pu-s|st)-(new|chg|ok|irr)\b/,"$1-"+st);
+  render({skipMap:true}); rvUi();
+  RV.t=setTimeout(()=>{ if(!RV.on) return; const n=rvNextPending(RV.i); if(n<0) rvEnd(); else rvGo(n); },1000);
+}
+function rvEnd(){   // stage 2: the map part ends at the last map NOTAM (the ceremony comes in stage 3)
+  RV.lock=true;
+  rvHideItem(()=>{ RV.lock=false; RV.end=true; RV.shown=null; rvRingClear(); document.getElementById("rvMid").innerHTML=""; rvUi(); });
+}
+function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); }
+function rvRingDraw(id){
+  if(!MAP) return;
+  if(!MAP.getPane("rvRing")){ const p=MAP.createPane("rvRing"); p.style.zIndex=450; p.style.pointerEvents="none";
+    RV.lay=L.layerGroup().addTo(MAP); MAP.on("zoomend",()=>{ if(RV.on&&RV.shown&&!RV.lock) rvRingDraw(RV.shown); }); }
+  rvRingClear(); const c=CIRCLES[id]; if(!c) return;
+  const halo={pane:"rvRing",color:"#fff",weight:7,opacity:.8,fill:false,interactive:false};
+  const ring={pane:"rvRing",color:"#2f9a57",weight:3.5,fill:false,interactive:false,className:"rv-ring"};
+  (c._shapes||[c]).forEach(l=>{ [halo,ring].forEach(o=>{
+    (l instanceof L.Circle? L.circle(l.getLatLng(),Object.assign({radius:l.getRadius()},o)) : L.polygon(l.getLatLngs(),o)).addTo(RV.lay); }); });
+  if(WIDE) rvPill(id,c);
+}
+// PC: the NOTAM number as a callout from the ring edge, on the side clear of the route and other shapes
+function rvPill(id,c){
+  const b=c.getBounds(), ms=MAP.getSize(), ne=MAP.latLngToContainerPoint(b.getNorthEast()), sw=MAP.latLngToContainerPoint(b.getSouthWest());
+  const cx=(ne.x+sw.x)/2, cy=(ne.y+sw.y)/2, rx=Math.max(4,(ne.x-sw.x)/2), ry=Math.max(4,(sw.y-ne.y)/2);
+  const pw=id.length*7.6+18, ph=22, D=.7071;
+  const rt=ROUTE.map(p=>MAP.latLngToContainerPoint([p[0],p[1]])), samp=[];
+  for(let i=0;i<rt.length-1;i++){ const a=rt[i],q=rt[i+1],n=Math.max(1,Math.ceil(a.distanceTo(q)/8)); for(let k=0;k<=n;k++) samp.push(L.point(a.x+(q.x-a.x)*k/n,a.y+(q.y-a.y)*k/n)); }
+  const others=Object.keys(CIRCLES).filter(x=>x!==id).map(x=>{ const bb=CIRCLES[x].getBounds(), p1=MAP.latLngToContainerPoint(bb.getNorthEast()), p2=MAP.latLngToContainerPoint(bb.getSouthWest()); return [p2.x,p1.y,p1.x,p2.y]; });
+  let best=null;
+  [[-1,0],[1,0],[0,-1],[0,1],[-D,-D],[D,-D],[-D,D],[D,D]].forEach(([dx,dy],ix)=>{
+    const ex=cx+dx*rx, ey=cy+dy*ry, lx=ex+dx*38, ly=ey+dy*38, mx=lx+dx*pw/2, my=ly+dy*ph/2;
+    const R=[mx-pw/2-4,my-ph/2-4,mx+pw/2+4,my+ph/2+4];
+    let sc=ix*.01;
+    samp.forEach(p=>{ if(p.x>R[0]&&p.x<R[2]&&p.y>R[1]&&p.y<R[3]) sc+=3; });
+    others.forEach(o=>{ if(o[0]<R[2]&&o[2]>R[0]&&o[1]<R[3]&&o[3]>R[1]) sc+=1; });
+    if(R[0]<6||R[1]<6||R[2]>ms.x-6||R[3]>ms.y-6) sc+=20;
+    if(!best||sc<best.sc) best={sc,e:L.point(ex,ey),l:L.point(lx,ly),m:L.point(mx,my)};
+  });
+  const ll=p=>MAP.containerPointToLatLng(p);
+  L.polyline([ll(best.e),ll(best.l)],{pane:"rvRing",color:"#0e2348",weight:1.5,interactive:false}).addTo(RV.lay);
+  L.circleMarker(ll(best.e),{pane:"rvRing",radius:3,color:"#0e2348",weight:1.5,fillColor:"#fff",fillOpacity:1,interactive:false}).addTo(RV.lay);
+  L.marker(ll(best.m),{pane:"rvRing",interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],html:`<div class="rv-pill">${esc(id)}</div>`})}).addTo(RV.lay);
+}
+dragClose(document.getElementById("rvGrip"),document.getElementById("rvc"),"y",-1,rvClose);
 
 // ── boot ──
 FLIGHT=loadFlight();
