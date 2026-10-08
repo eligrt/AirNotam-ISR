@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.015 · built by eligrt
+     AirNotam-ISR · v1.06.017 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1212,11 +1212,59 @@ body.wide .rvdim.show{display:block;}
   font-family:var(--font-mono);font-size:12px;font-weight:700;border-radius:10px;padding:2px 8px;box-shadow:0 1px 4px rgba(14,35,72,.35);pointer-events:none;}
 #stage.v-map.rv-on .upd{top:calc(var(--rvtop,0px) + 8px) !important;}
 /* v1.06.015: PC review card has a FIXED height, so הקודם / הבא never move; the NOTAM text scrolls inside, fade while more text exists */
-body.wide .rvc-mid:not(:empty){height:clamp(260px,calc(100vh - 370px),460px);flex:none;overflow:hidden;}
+body.wide .rvc-mid:not(:empty){height:clamp(260px,calc(100vh - 370px),400px);flex:none;overflow:hidden;}   /* v1.06.016: about 10 text lines (no scroll for ~95% of NOTAMים) */
 body.wide .rvc-mid .card{height:100%;display:flex;flex-direction:column;}
 body.wide .rvc-mid .card>.c-text,body.wide .rvc-mid .card>.diff{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
 body.wide .rvc-mid .card>.c-text::-webkit-scrollbar,body.wide .rvc-mid .card>.diff::-webkit-scrollbar{width:0;height:0;}
 body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent);mask-image:linear-gradient(to bottom,#000 78%,transparent);}
+
+/* v1.06.017: stage 3 - ceremony (screen 6), cards part (7, 7b), PC 11 */
+.rvcer{display:flex;flex-direction:column;gap:10px;min-width:0;}
+.rvc>.ms-chips,.rvcer>.ms-chips{min-width:0;max-width:100%;}
+.rvcer[hidden],.ms-chips[hidden]{display:none !important;}
+.cer{position:relative;display:flex;justify-content:center;align-items:center;min-height:160px;margin:0 -6px;}
+.cer-map{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent);}
+.stamp{position:relative;border:3px solid var(--done-g);color:var(--done-g);background:rgba(251,246,232,.9);border-radius:8px;padding:8px 18px;text-align:center;
+  box-shadow:0 2px 10px rgba(14,35,72,.12);pointer-events:none;opacity:0;transform:rotate(-6deg) scale(1.45);
+  transition:opacity .25s ease .35s,transform .45s cubic-bezier(.2,1.6,.4,1) .35s;}
+.stamp.landed{opacity:1;transform:rotate(-6deg) scale(1);}
+.st-l1{display:flex;gap:6px;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:var(--font-ui);}
+.st-l1 svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+.st-l2{display:block;font-size:12.5px;font-weight:700;margin-top:2px;font-family:var(--font-ui);}
+.st-l2 bdi{font-family:var(--font-mono);}
+.ms-sep{border-top:1px dashed var(--paper-edge);}
+.cer-warn{flex-direction:column;gap:3px;}
+.cer-warn b.h{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:700;}
+.cer-warn b.h svg{margin:0;}
+.cer-warn .n{font-size:15px;}
+.mv-nudge{opacity:0;transform:translateY(-6px);transition:opacity .3s ease .75s,transform .35s ease .75s;}
+.mv-nudge.shown{opacity:1;transform:none;}
+.ms-chips{display:flex;flex-wrap:nowrap;gap:5px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;flex:none;}
+.ms-chips::-webkit-scrollbar{display:none;}
+.ms-chips span{flex:none;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:12px;padding:3px 8px;font-size:11.5px;color:var(--ink-muted);transition:background .3s ease,color .3s ease;}
+.ms-chips b{font-family:var(--font-mono);color:var(--ink);font-weight:600;}
+.ms-chips span.cur{background:var(--ink);border-color:var(--ink);color:var(--paper-hi);font-weight:700;}
+.ms-chips span.cur b{color:var(--gold-lite);}
+.ms-chips span.done{border-color:var(--done-g);color:var(--done-g);font-weight:700;}
+.ms-chips.fl{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 34px);mask-image:linear-gradient(to right,transparent 0,#000 34px);}
+.ms-chips.fr{-webkit-mask-image:linear-gradient(to left,transparent 0,#000 34px);mask-image:linear-gradient(to left,transparent 0,#000 34px);}
+.ms-chips.fl.fr{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 34px,#000 calc(100% - 34px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 34px,#000 calc(100% - 34px),transparent 100%);}
+.rvc-btns button.nx.wide{flex:3;}
+.rvc-btns button[hidden]{display:none;}
+.rvc.anim{overflow:hidden;}
+.rvbox.card.st-irr{opacity:1;filter:none;}   /* the review card keeps its fill readable; chip + edge show the grey look */
+.rvc.cards .rvc-mid{transition:opacity .2s ease;}
+body:not(.wide) .rvc.cards .rvc-mid:not(:empty){display:block;flex:none;}
+body:not(.wide) .rvc.cards .rvc-mid .card>.c-text,body:not(.wide) .rvc.cards .rvc-mid .card>.diff{height:var(--rvth,118px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+body:not(.wide) .rvc.cards .rvc-mid .card>.c-text::-webkit-scrollbar,body:not(.wide) .rvc.cards .rvc-mid .card>.diff::-webkit-scrollbar{width:0;height:0;}
+body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000 62%,transparent);mask-image:linear-gradient(to bottom,#000 62%,transparent);}
+.rvnomap{position:absolute;inset:0;z-index:1150;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 34px;
+  background:rgba(233,223,214,.94);color:var(--ink-muted);font-family:var(--font-ui);opacity:0;transition:opacity .45s ease;}
+.rvnomap.show{opacity:1;}
+.rvnomap>div{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:300px;}
+.rvnomap svg{width:22px;height:22px;fill:none;stroke:var(--ink-muted);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;}
+.rvnomap b{color:var(--ink);font-size:14.5px;}
+.rvnomap span{font-size:13px;line-height:1.5;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1353,6 +1401,8 @@ body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000
   <div class="rvc" id="rvc" role="region" aria-label="סקירת ה-NOTAMים">
     <div class="rvq"><div class="cur" id="rvQm"><div class="bar"><i id="rvBm"></i></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <b id="rvNm">0/0</b></small></div>
       <div id="rvQn"><div class="bar"><i id="rvBn"></i></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <b id="rvNn">0/0</b></small></div></div>
+    <div class="rvcer" id="rvCer" hidden></div>
+    <div class="ms-chips" id="rvChips" hidden></div>
     <div class="rvc-mid rvbox" id="rvMid"></div>
     <div class="rvc-btns"><button type="button" id="rvPrev" onclick="rvStep(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button type="button" class="nx" id="rvNext" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
     <button type="button" class="rvc-grip" id="rvGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
@@ -1394,7 +1444,7 @@ body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.015 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.017 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1643,7 +1693,7 @@ function renderReady(){
   const nt=document.getElementById("rdyNote");
   nt.style.display= R.noGeo>0 && !RV_CARDS? "" : "none";
   document.getElementById("rdyNoteT").innerHTML=`<b>טייס, שים לב:</b> בנוסף ל-${R.geoTot} ה-NOTAMים ${ROUTE.length>=2?"שזוהו בקרבת המסלול":"שזוהו במפה"}, קיימים עוד ${R.noGeo} NOTAMים ללא מיקום גיאוגרפי מוגדר, שייתכן שיש להם השפעה על תכנון הטיסה שלך. מומלץ לסקור גם אותם.`;
-  const go=document.getElementById("rdyGo"); go.textContent= R.done>0? "המשך סקירה" : "התחל סקירה"; go.disabled=!R.geoTot;
+  const go=document.getElementById("rdyGo"); go.textContent= R.done>0? "המשך סקירה" : "התחל סקירה"; go.disabled=!R.total;   /* v1.06.017: cards-only review possible */
   document.getElementById("rdyRows").innerHTML=h;
   document.getElementById("optIrr").checked=SHOW_IRR;
   renderRte();
@@ -1970,7 +2020,7 @@ function card(e,st,rv){
   const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
   const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
-  const rt= rv&&ROUTE.length>=2? `<span class="b rt">בקרבת המסלול</span>` : routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
+  const rt= rv&&e.geo&&ROUTE.length>=2? `<span class="b rt">בקרבת המסלול</span>` : routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
   const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span></button>`
@@ -1986,7 +2036,7 @@ function card(e,st,rv){
     acts = lnk("listUnreview","בטל סימון")+mapBtn+lnk("listReview","סמן כנקרא");
   }
   if(rv) acts=rvActs(st);   // v1.06.012: review card = only the two review buttons
-  return`<div class="card st-${st}${rv?" rvbox card-flash":""}" data-nid="${id}">
+  return`<div class="card st-${st}${rv?" rvbox"+(e.geo?" card-flash":""):""}" data-nid="${id}">
     <div class="c-top">
       <div class="c-head"><span class="c-id">${id}</span>${updTag(e.id)}
         ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
@@ -3403,7 +3453,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.015 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.017 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3413,7 +3463,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.015 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.017 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3450,7 +3500,7 @@ async function alogCopy(){
 
 // ── v1.06.012: the review, map part (screens 4b, 5, 5b, M2, PC 10) ──
 // RV.list = map NOTAMים of the review set, in order along the route (no route: north to south)
-const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null};
+const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null,mode:"map",cards:[],ci:-1,cend:false,th:118};   // v1.06.017: mode map | cer | cards
 let RV_CARDS=false;   // stage 3: true once the cards part is reached (hides the screen 4 notice)
 let RV_HINT=false;   // v1.06.013: the hint shows on the first NOTAM of each review start / resume
 const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
@@ -3485,9 +3535,19 @@ function rvUi(){
   document.getElementById("rvBn").style.width=pc(R.noGeoDone,R.noGeo)+"%";
   document.getElementById("rvQm").classList.toggle("full",R.geoTot>0&&R.geoDone>=R.geoTot);
   document.getElementById("rvQn").classList.toggle("full",R.noGeo>0&&R.noGeoDone>=R.noGeo);
+  const pv=document.getElementById("rvPrev"), nx=document.getElementById("rvNext"), md=RV.mode;
+  document.getElementById("rvQm").classList.toggle("cur",md==="map");
+  document.getElementById("rvQn").classList.toggle("cur",md!=="map");
+  const nxH= md==="cer"? `סקירת ${RV.cards.length} NOTAMים ללא מיקום${RV_CHEV_L}` : `הבא${RV_CHEV_L}`;
+  if(nx._h!==nxH){ nx.innerHTML=nxH; nx._h=nxH; }
+  nx.classList.toggle("wide",md==="cer"); nx.hidden= md==="cer" && !RV.cards.length;
+  if(md==="cer"){ pv.disabled= RV.lock || !RV.list.length; nx.disabled=RV.lock; return; }
+  if(md==="cards"){ const n=RV.cards.length;
+    pv.disabled= RV.lock || (RV.ci<=0 && !RV.cend && !RV.list.length);
+    nx.disabled= RV.lock || !n || (RV.cend? rvNextCard(-1)<0 : (RV.ci>=n-1 && rvNextCard(RV.ci)<0)); return; }
   const n=RV.list.length;
-  document.getElementById("rvPrev").disabled= RV.lock || !n || (!RV.end && RV.i<=0);
-  document.getElementById("rvNext").disabled= RV.lock || !n || (RV.end? rvNextPending(-1)<0 : (RV.i>=n-1 && rvNextPending(RV.i)<0));
+  pv.disabled= RV.lock || !n || (!RV.end && RV.i<=0);
+  nx.disabled= RV.lock || !n || (RV.end? rvNextPending(-1)<0 : (RV.i>=n-1 && rvNextPending(RV.i)<0));
 }
 function startReview(){
   closeCurtain("rdy");
@@ -3498,20 +3558,24 @@ function startReview(){
     if(NVIS!=="normal"){ NVIS="normal"; document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.checked=r.value==="normal"); }
     const was=RV.on; RV.on=true; RV.end=false; RV_HINT=false;
     if(!was){ setView("map"); if(!MAP) return; }
-    RV.list=rvBuild();
+    rvModeReset();
+    RV.list=rvBuild(); RV.cards=rvCardsBuild();
     document.getElementById("rvc").classList.add("show");
     document.getElementById("rvDim").classList.toggle("show",WIDE);
     document.getElementById("stage").classList.add("rv-on");
     setTimeout(()=>{ document.getElementById("stage").style.setProperty("--rvtop",rvTopPx()+"px"); topStack(); },470);
-    topStack(); alog("review start "+RV.list.length);
+    topStack(); alog("review start "+RV.list.length+" map, "+RV.cards.length+" cards");
     const j=rvNextPending(-1);
-    if(j<0){ RV.i=RV.list.length-1; RV.end=true; rvUi(); return; }
-    rvGo(j);
+    if(j>=0) return rvGo(j);
+    RV.i=RV.list.length-1; RV.end=true;
+    const c=rvNextCard(-1);   // v1.06.017: map part all marked: straight to the next unmarked card (Q6 A)
+    if(c>=0 || !RV.list.length) return rvCardsEnter(Math.max(c,0));
+    rvCer(true);
   }, document.getElementById("rdy").classList.contains("show")? 380 : 0);
 }
 function rvClose(){
   if(!RV.on) return;
-  clearTimeout(RV.t); RV.on=false; RV.lock=false; RV.shown=null; RV.end=false; RV.list=[]; RV.i=-1;
+  clearTimeout(RV.t); rvModeReset(); RV.on=false; RV.lock=false; RV.shown=null; RV.end=false; RV.list=[]; RV.i=-1;
   rvRingClear(); if(MAP) MAP.closePopup();
   document.getElementById("rvc").classList.remove("show"); document.getElementById("rvDim").classList.remove("show");
   document.getElementById("rvMid").innerHTML="";
@@ -3520,10 +3584,11 @@ function rvClose(){
   if(!SHOW_IRR && MAP) renderMap();
 }
 function rvReopen(){   // a tile curtain / settings closed over the review: show the current NOTAM's popup again
-  if(!RV.on||WIDE||RV.lock||!RV.shown) return;
+  if(!RV.on||WIDE||RV.lock||!RV.shown||RV.mode!=="map") return;
   const id=RV.shown; setTimeout(()=>{ if(RV.on&&!RV.lock&&RV.shown===id&&!(MAP._popup&&MAP._popup.isOpen())) rvShow(id); },420);
 }
 function rvSync(){   // after a full map redraw (feed update, a filter): keep the review in step, no glide
+  if(RV.mode!=="map"){ RV.list=rvBuild(); rvUi(); return; }   // v1.06.017: ceremony / cards: no map work
   if(!RV.list.length) return;
   const cur=RV.shown||RV.list[RV.i];
   RV.list=rvBuild(); const k=RV.list.indexOf(cur);
@@ -3533,13 +3598,20 @@ function rvSync(){   // after a full map redraw (feed update, a filter): keep th
 }
 function rvTap(ll){
   const ids=idsAt(ll).filter(id=>RV.list.includes(id)); if(!ids.length) return false;
-  if(RV.lock) return true;
+  if(RV.lock||RV.mode==="cards") return true;
+  if(RV.mode==="cer"){ rvCerBack(RV.list.indexOf(ids.find(rvPend)||ids[0])); return true; }
   const pick= ids.includes(RV.shown)? RV.shown : (ids.find(rvPend)||ids[0]);
   if(pick===RV.shown){ if(!WIDE&&!(MAP._popup&&MAP._popup.isOpen())) rvShow(pick); return true; }
   rvGo(RV.list.indexOf(pick)); return true;
 }
 function rvStep(d){
-  if(RV.lock||!RV.list.length) return;
+  if(RV.lock) return;
+  if(RV.mode==="cer"){ if(d<0){ if(RV.list.length) rvCerBack(); } else if(RV.cards.length) rvCardsEnter(Math.max(rvNextCard(-1),0)); return; }
+  if(RV.mode==="cards"){ rvHintSeen(); const n=RV.cards.length; if(!n) return;
+    if(RV.cend){ if(d<0) rvCardGo(RV.ci); else { const j=rvNextCard(-1); if(j>=0) rvCardGo(j); } return; }
+    if(d<0){ if(RV.ci>0) rvCardGo(RV.ci-1); else if(RV.list.length) rvCardsBack(); return; }
+    if(RV.ci<n-1) rvCardGo(RV.ci+1); else { const j=rvNextCard(RV.ci); if(j>=0) rvCardGo(j); } return; }
+  if(!RV.list.length) return;
   rvHintSeen();
   const n=RV.list.length;
   if(RV.end){ if(d<0) rvGo(RV.i); else { const j=rvNextPending(-1); if(j>=0) rvGo(j); } return; }
@@ -3634,28 +3706,185 @@ function rvRestyle(id){
   refreshGroupLook(MAP_INDEX[id]&&MAP_INDEX[id].key);
 }
 function rvAct(k,btn){
-  if(!RV.on||RV.lock||!RV.shown) return;
-  const id=RV.shown, e=ENR_BY_ID[id]; if(!e) return;
-  rvHintSeen(); alog(`review mark ${k} ${id}`);
+  const cm=RV.mode==="cards";   // v1.06.017: the same marking in the cards part, no map work
+  if(!RV.on||RV.lock||(cm? RV.ci<0 : !RV.shown)) return;
+  const id= cm? RV.cards[RV.ci] : RV.shown, e=ENR_BY_ID[id]; if(!e) return;
+  rvHintSeen(); alog(`review mark ${k} ${id}${cm?" (card)":""}`);
   if(k==="un"||k==="ok2"||k==="irr2"){   // back on a marked item: change the mark, stay on it
     if(k==="un") unmarkReviewed(id); else if(k==="ok2") markReviewed(id); else markIrrelevant(id);
+    if(cm){ render({skipMap:true}); rvShowCard(RV.ci,true); return; }
     rvRestyle(id); render({skipMap:true}); rvShow(id); return;
   }
   RV.lock=true;
   if(k==="ok") markReviewed(id); else markIrrelevant(id);
-  rvRestyle(id);
+  if(!cm) rvRestyle(id);
   const st=statusOf(e), box=btn.closest(".pu-item,.card");
   box.querySelectorAll(".c-act").forEach(b=>{ if(b!==btn) b.disabled=true; });
   btn.classList.add("rv-fill"); btn.innerHTML=`<span>${k==="ok"?"✓ סומן כנקרא":"✓ סומן כלא רלוונטי"}</span>`;
   const chip=box.querySelector(".pu-st,.c-st"); if(chip) chip.textContent=ST_LBL[st];
   box.className=box.className.replace(/\b(pu-s|st)-(new|chg|ok|irr)\b/,"$1-"+st);
   render({skipMap:true}); rvUi();
+  if(cm){ rvChips(); RV.t=setTimeout(()=>{ if(!RV.on) return; const n=rvNextCard(RV.ci); if(n<0) rvCardsEnd(); else rvCardGo(n); },1000); return; }
   RV.t=setTimeout(()=>{ if(!RV.on) return; const n=rvNextPending(RV.i); if(n<0) rvEnd(); else rvGo(n); },1000);
 }
-function rvEnd(){   // stage 2: the map part ends at the last map NOTAM (the ceremony comes in stage 3)
+function rvEnd(){   // the map part is done: the ceremony (v1.06.017, screen 6 + M1)
   RV.lock=true; alog("review map part done");
-  rvHideItem(()=>{ RV.lock=false; RV.end=true; RV.shown=null; rvRingClear(); document.getElementById("rvMid").innerHTML=""; rvUi(); });
+  rvHideItem(()=>{ RV.lock=false; RV.end=true; RV.shown=null; rvRingClear(); document.getElementById("rvMid").innerHTML=""; rvCer(true); });
 }
+// ── v1.06.017: stage 3 - the ceremony (screen 6, M1) and the cards part (screens 7, 7b, PC 11) ──
+const RV_CHEV_L='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
+const CHIP_ORDER=["gnss","comms","ad","navaid","ils","obstacle","airspace","route","warning","other"];   // review order, "אחרים" last
+const CER_SVG=`<svg class="cer-map" viewBox="0 0 374 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="cerF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".07" stop-color="#fff"/><stop offset=".93" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="cerM"><rect width="374" height="160" fill="url(#cerF)"/></mask></defs><g mask="url(#cerM)" opacity=".92"><rect width="374" height="160" fill="#f2efe9"/><path d="M0 0H30C22 36 34 60 22 96C12 122 20 146 16 160H0Z" fill="#aad3df"/><ellipse cx="160" cy="34" rx="26" ry="14" fill="#cdebb0"/><ellipse cx="290" cy="128" rx="30" ry="18" fill="#cdebb0"/><ellipse cx="96" cy="138" rx="18" ry="10" fill="#cdebb0"/><ellipse cx="350" cy="50" rx="14" ry="24" fill="#cdebb0"/><ellipse cx="236" cy="132" rx="8" ry="14" fill="#aad3df"/><polyline points="24,70 120,110 210,160" fill="none" stroke="#d2c8b2" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="24,70 120,110 210,160" fill="none" stroke="#f9b29c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><polyline points="60,0 150,56 250,80 374,98" fill="none" stroke="#d2c8b2" stroke-width="3.8000000000000003" stroke-linecap="round" stroke-linejoin="round"/><polyline points="60,0 150,56 250,80 374,98" fill="none" stroke="#fcd6a4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="214,0 236,64 250,160" fill="none" stroke="#d2c8b2" stroke-width="3.4000000000000004" stroke-linecap="round" stroke-linejoin="round"/><polyline points="214,0 236,64 250,160" fill="none" stroke="#f7fabf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="300,0 312,46 352,70" fill="none" stroke="#d2c8b2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="300,0 312,46 352,70" fill="none" stroke="#fcd6a4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polyline points="42,140 100,46 282,136 336,36" fill="none" stroke="#c8a04a" stroke-opacity=".28" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="104" r="8" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><circle cx="128" cy="62" r="9" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><circle cx="176" cy="86" r="11" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><circle cx="230" cy="110" r="8" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><circle cx="256" cy="126" r="8" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><circle cx="316" cy="74" r="8" fill="#b94a3a" fill-opacity=".22" stroke="#b94a3a" stroke-width="1.8" stroke-dasharray="4 3"/><polyline points="42,140 100,46 282,136 336,36" fill="none" stroke="#0e2348" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><polyline points="42,140 100,46 282,136 336,36" fill="none" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 140V122" stroke="#0e2348" stroke-width="2.4" stroke-linecap="round"/><path d="M43 122h12l-3 4 3 4H43z" fill="#c8a04a" stroke="#0e2348" stroke-width="1.2"/><g transform="translate(100 46) scale(.7)"><path d="M0 0C0 0 -11 -13 -11 -20.5A11 11 0 0 1 11 -20.5C11 -13 0 0 0 0Z" fill="#0e2348" stroke="#fff" stroke-width="2"/><text x="0" y="-16.5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#f5c518">1</text></g><g transform="translate(282 136) scale(.7)"><path d="M0 0C0 0 -11 -13 -11 -20.5A11 11 0 0 1 11 -20.5C11 -13 0 0 0 0Z" fill="#0e2348" stroke="#fff" stroke-width="2"/><text x="0" y="-16.5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="11" fill="#f5c518">2</text></g><path d="M336 36V18" stroke="#0e2348" stroke-width="2.4" stroke-linecap="round"/><rect x="337" y="18" width="13" height="9" fill="#fff" stroke="#0e2348" stroke-width="1.2"/><path d="M337 18h3v3h-3zM343 18h3v3h-3zM340 21h3v3h-3zM346 21h3v3h-3zM337 24h3v3h-3zM343 24h3v3h-3z" fill="#1a1308"/></g></svg>`;
+function chipLbl(k){ return k==="other"? "אחרים" : catLabel(k); }
+function rvCardsBuild(){
+  return reviewSet().filter(e=>!e.geo)
+    .sort((a,b)=>CHIP_ORDER.indexOf(a.cat)-CHIP_ORDER.indexOf(b.cat)||(a.start||0)-(b.start||0)||(a.id<b.id?-1:1)).map(e=>e.id);
+}
+function rvNextCard(from){ const n=RV.cards.length; for(let k=1;k<=n;k++){ const j=((from+k)%n+n)%n; if(rvPend(RV.cards[j])) return j; } return -1; }
+function rvChipsHtml(stat){   // stat: show done / current / waiting (cards part); plain in the ceremony
+  const g={}; RV.cards.forEach(id=>{ const c=(ENR_BY_ID[id]||{}).cat||"other"; (g[c]=g[c]||[]).push(id); });
+  const cur= stat&&!RV.cend&&RV.ci>=0? (ENR_BY_ID[RV.cards[RV.ci]]||{}).cat : null;
+  return CHIP_ORDER.filter(k=>g[k]).map(k=>{
+    const done= stat && g[k].every(id=>!rvPend(id)), cls= k===cur? "cur" : done? "done" : "";
+    return cls==="done"? `<span class="done">✓ <bdi>${esc(chipLbl(k))}</bdi></span>`
+      : `<span class="${cls}" data-k="${k}"><bdi>${esc(chipLbl(k))}</bdi>&rlm; <b>(${g[k].length})</b></span>`;
+  }).join("");
+}
+function rvChipsFade(row){   // fade only on the side where chips are hidden (RTL: scrollLeft goes negative)
+  if(!row) return; const max=row.scrollWidth-row.clientWidth, pos=Math.abs(row.scrollLeft);
+  row.classList.toggle("fr", max>2 && pos>2); row.classList.toggle("fl", max>2 && pos<max-2);
+}
+function rvChipsHook(row){
+  if(!row||row._hk) return; row._hk=1;
+  row.addEventListener("scroll",()=>rvChipsFade(row),{passive:true});
+  row.addEventListener("wheel",e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ row.scrollLeft-=e.deltaY; e.preventDefault(); } },{passive:false});
+}
+function rvChips(){
+  const row=document.getElementById("rvChips"); if(!row||RV.mode!=="cards") return;
+  row.innerHTML=rvChipsHtml(true); rvChipsHook(row);
+  requestAnimationFrame(()=>{ const c=row.querySelector(".cur");   // keep the current chip in view (row only, never the page)
+    if(c){ const r=c.getBoundingClientRect(), b=row.getBoundingClientRect();
+      if(r.left<b.left+24) row.scrollBy({left:r.left-b.left-34,behavior:"smooth"});
+      else if(r.right>b.right-24) row.scrollBy({left:r.right-b.right+34,behavior:"smooth"}); }
+    rvChipsFade(row); setTimeout(()=>rvChipsFade(row),420); });
+}
+function rvCerHtml(){
+  const R=READY, n=RV.cards.length, l2= ROUTE.length>=2? "NOTAMים בקרבת המסלול" : "NOTAMים שזוהו במפה";
+  return `<div class="cer">${CER_SVG}<div class="stamp"><span class="st-l1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>המפה נסקרה</span>`
+    +`<span class="st-l2"><bdi>${R.geoDone}/${R.geoTot}</bdi> · ${l2}</span></div></div>`
+    +(n? `<div class="ms-sep mv-nudge"></div><div class="sp-warn cer-warn mv-nudge"><b class="h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg>טייס, שים לב: המפה לא מראה הכל!</b>`
+      +`<span>קיימים עוד <b class="n">${n}</b> NOTAMים ללא מיקום גיאוגרפי מוגדר. ייתכן שיש להם השפעה על תכנון הטיסה שלך.</span></div>`
+      +`<div class="ms-chips mv-nudge" id="cerChips">${rvChipsHtml(false)}</div>` : "");
+}
+// the strip curtain changes height smoothly (about 0.45 s, the curtain easing) around a content change
+function rvResize(fn){
+  const r=document.getElementById("rvc"), h0=r.offsetHeight; clearTimeout(r._rt); r.style.height=""; r.style.transition=""; fn(); const h1=r.offsetHeight;
+  if(Math.abs(h1-h0)<2){ rvTopSync(); return; }
+  r.classList.add("anim"); r.style.height=h0+"px"; void r.offsetHeight;
+  r.style.transition="height .45s cubic-bezier(.22,.61,.36,1)"; r.style.height=h1+"px";
+  r._rt=setTimeout(()=>{ r.style.height=""; r.style.transition=""; r.classList.remove("anim"); rvTopSync(); },470);
+}
+function rvTopSync(){
+  const st=document.getElementById("stage"); st.style.setProperty("--rvtop",rvTopPx()+"px"); topStack();
+  const o=document.getElementById("rvNoMap"); if(o) o.style.paddingTop= WIDE? "" : rvTopPx()+"px";
+}
+function rvModeReset(){   // drop the ceremony / cards view at once (no motion)
+  RV.mode="map"; RV.ci=-1; RV.cend=false;
+  const r=document.getElementById("rvc"), cer=document.getElementById("rvCer"), ch=document.getElementById("rvChips"), m=document.getElementById("rvMid");
+  r.classList.remove("cards","m-cer","anim"); r.style.height=""; r.style.transition="";
+  cer.hidden=true; cer.innerHTML=""; ch.hidden=true; ch.innerHTML=""; m.style.opacity=""; m.style.visibility="";
+  rvNoMap(false);
+}
+function rvCer(zoom){
+  RV.mode="cer"; RV.cend=false; RV.ci=-1; RV.cards=rvCardsBuild(); RV.shown=null; rvRingClear(); if(MAP) MAP.closePopup();
+  alog(`review ceremony (${RV.cards.length} cards)`);
+  const r=document.getElementById("rvc"), cer=document.getElementById("rvCer"), ch=document.getElementById("rvChips"), m=document.getElementById("rvMid");
+  rvNoMap(false); m.innerHTML=""; m.style.opacity=""; m.style.visibility="";
+  rvResize(()=>{ r.classList.remove("cards"); r.classList.add("m-cer"); ch.hidden=true; ch.innerHTML=""; cer.innerHTML=rvCerHtml(); cer.hidden=false; rvUi(); });
+  const cc=document.getElementById("cerChips"); if(cc){ rvChipsHook(cc); requestAnimationFrame(()=>rvChipsFade(cc)); }
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    cer.querySelectorAll(".stamp").forEach(x=>x.classList.add("landed"));
+    cer.querySelectorAll(".mv-nudge").forEach(x=>x.classList.add("shown")); }));
+  if(zoom) setTimeout(rvZoomOut,480);
+}
+function rvZoomOut(){   // one zoom-out: the whole route and all map NOTAMים below the curtain
+  if(!MAP||!RV.on||RV.mode!=="cer") return;
+  let b=null; const add=bb=>{ b= b? b.extend(bb) : L.latLngBounds(bb.getSouthWest? [bb.getSouthWest(),bb.getNorthEast()] : [bb,bb]); };
+  RV.list.forEach(id=>{ const c=CIRCLES[id]; if(c){ try{ add(c.getBounds()); }catch(_){} } });
+  ROUTE.forEach(p=>add(L.latLng(p[0],p[1])));
+  if(!b||!b.isValid()) return;
+  alog("review ceremony zoom-out");
+  MAP.flyToBounds(b,{paddingTopLeft:[30,rvTopPx()+24],paddingBottomRight:[30,40],maxZoom:13,duration:.55,easeLinearity:.25});
+}
+function rvCerBack(to){   // "הקודם" in the ceremony (or a tap on a map NOTAM): back to the map part, the curtain shrinks to the slim strip
+  if(RV.lock) return; alog("review ceremony back");
+  const r=document.getElementById("rvc"), cer=document.getElementById("rvCer");
+  rvResize(()=>{ RV.mode="map"; r.classList.remove("m-cer"); cer.hidden=true; cer.innerHTML=""; rvUi(); });
+  RV.end=false; rvGo(to!=null? to : RV.i>=0&&RV.i<RV.list.length? RV.i : RV.list.length-1);
+}
+function rvNoMap(on){   // the faded map + message while the cards part is open
+  let o=document.getElementById("rvNoMap");
+  if(!on){ if(o){ o.classList.remove("show"); const x=o; setTimeout(()=>{ if(!x.classList.contains("show")) x.remove(); },460); } return; }
+  if(!o){ o=document.createElement("div"); o.id="rvNoMap"; o.className="rvnomap";
+    o.innerHTML='<div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>'
+      +'<b>לא כל NOTAM מופיע על המפה</b><span>בשלב זה נסקרים NOTAMים ללא מיקום גיאוגרפי מוגדר. ייתכן שיש להם השפעה על תכנון הטיסה שלך.</span></div>';
+    ["pointerdown","click","wheel","touchstart","dblclick"].forEach(t=>o.addEventListener(t,e=>{ e.stopPropagation(); },{passive:true})); }
+  if(o.parentNode!==mapHost()) mapHost().appendChild(o);
+  o.style.paddingTop= WIDE? "" : rvTopPx()+"px";
+  requestAnimationFrame(()=>o.classList.add("show"));
+}
+function rvCardsEnter(i){   // gold button (or resume): the cards part opens at card i
+  RV.lock=true; RV_CARDS=true; RV.cend=false; RV.shown=null; rvRingClear(); if(MAP) MAP.closePopup();
+  if(!RV.cards.length) RV.cards=rvCardsBuild();
+  alog(`review cards part (${RV.cards.length})`);
+  const r=document.getElementById("rvc"), cer=document.getElementById("rvCer"), ch=document.getElementById("rvChips"), m=document.getElementById("rvMid");
+  const go=()=>{
+    rvResize(()=>{ RV.mode="cards"; r.classList.remove("m-cer"); r.classList.add("cards"); cer.hidden=true; cer.innerHTML=""; ch.hidden=false;
+      RV.ci=Math.min(Math.max(i,0),RV.cards.length-1); m.style.opacity="0"; m.innerHTML=card(ENR_BY_ID[RV.cards[RV.ci]],statusOf(ENR_BY_ID[RV.cards[RV.ci]]),true);
+      rvChips(); rvFitText(); RV.lock=false; rvUi(); });
+    rvNoMap(true); rvCardFade();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
+    renderReady();
+  };
+  if(!cer.hidden){ cer.style.transition="opacity .2s ease"; cer.style.opacity="0"; setTimeout(()=>{ cer.style.transition=""; cer.style.opacity=""; go(); },200); }
+  else go();
+}
+function rvCardsBack(){   // "הקודם" on the first card: back to the ceremony
+  if(RV.lock) return; RV.lock=true; alog("review cards back to ceremony");
+  const m=document.getElementById("rvMid"); m.style.opacity="0";
+  setTimeout(()=>{ RV.lock=false; rvCer(false); },200);
+}
+function rvShowCard(i,instant){
+  const m=document.getElementById("rvMid"), id=RV.cards[i], e=ENR_BY_ID[id]; if(!e) return;
+  RV.ci=i; RV.cend=false; m.style.visibility="";
+  if(!instant) m.style.opacity="0";
+  m.innerHTML=card(e,statusOf(e),true); m.scrollTop=0;
+  rvChips(); rvFitText(); rvCardFade(); rvUi();
+  if(!instant) requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
+}
+function rvCardGo(i){   // "הבא" / "הקודם" / after a mark: the card fades out, the next fades in (no map work)
+  if(!RV.on||i<0||i>=RV.cards.length) return;
+  clearTimeout(RV.t); RV.lock=true; rvUi(); alog(`review card ${RV.cards[i]} (${i+1}/${RV.cards.length})`);
+  const m=document.getElementById("rvMid"); m.style.opacity="0";
+  setTimeout(()=>{ if(!RV.on||RV.mode!=="cards") return; RV.lock=false; rvShowCard(i); },200);
+}
+function rvCardsEnd(){   // stage 3 end state: last card fades, all chips green, "הבא" pale, "הקודם" brings the last card back
+  RV.lock=true; alog("review cards part done");
+  const m=document.getElementById("rvMid"); m.style.opacity="0";
+  setTimeout(()=>{ RV.lock=false; RV.cend=true; m.style.visibility="hidden"; rvChips(); rvUi(); },200);
+}
+function rvCardFade(){   // NOTAM text scrolls inside a fixed height: fade at the bottom while more text exists
+  const tx=document.querySelector("#rvMid .card>.c-text,#rvMid .card>.diff"); if(!tx) return;
+  const f=()=>tx.classList.toggle("more",tx.scrollTop+tx.clientHeight<tx.scrollHeight-4);
+  tx.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f);
+}
+function rvFitText(){   // phone: the curtain always leaves at least 90px of the faded map (text height only shrinks, so buttons stay put)
+  if(WIDE) return; const r=document.getElementById("rvc"), st=document.getElementById("stage");
+  r.style.setProperty("--rvth",RV.th+"px");
+  const gap=st.getBoundingClientRect().bottom - (st.getBoundingClientRect().top + rvTopPx());
+  if(gap<90){ RV.th=Math.max(54,RV.th-(90-gap)); r.style.setProperty("--rvth",RV.th+"px"); }
+}
+window.addEventListener("resize",()=>{ RV.th=118; if(RV.on&&RV.mode==="cards"){ rvFitText(); rvTopSync(); } });
 function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); if(RV.glow) RV.glow.clearLayers(); }
 function rvRingDraw(id,blink){
   if(!MAP) return;
