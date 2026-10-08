@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.028 · built by eligrt
+     AirNotam-ISR · v1.06.029 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1300,6 +1300,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
 .pgdots i.on{background:var(--ink)}
 .disc .dbd .big{display:block;text-align:center;margin:2px 0 10px;font-family:var(--font-mono);font-size:30px;font-weight:700;color:var(--stamp-red);line-height:1.1}
 .disc .dbd .big.ld{color:var(--paper-edge)}
+.disc .dbd .big .wn{display:inline-block;direction:ltr}   /* v1.06.029: own LTR box, so iPhone Safari centres the dashes / number */
 .disc .dbd .big small{display:block;font-family:var(--font-ui);font-size:12.5px;font-weight:600;color:var(--ink-muted)}
 .disc .dbd .rtn{display:flex;flex-direction:column;align-items:center;margin:4px 0 10px;font-weight:700;font-size:16px;color:var(--ink);line-height:1.5}
 .disc .dbd .rtn small{display:block;font-size:13px;font-weight:600;color:var(--ink-muted);margin-top:2px}
@@ -1522,7 +1523,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.028 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.029 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -2892,7 +2893,7 @@ const DISC_KEY='airnotam_disc_day';
 function discToday(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
 // v1.06.027: page 2 of the card. Welcome (screen 1) while no route is saved; returning (screen 9) with a saved route,
 // unless a future flight time is set (still mid-planning, Q4 A). Page 1 (disclaimer) stays once a day.
-let PG2=null, WEL_FETCHED=false, WEL_ERR=false, WEL_T0=0, WEL_TM=null; const WEL_MIN=1500;   // v1.06.028: loading step shows at least 1.5 s
+let WEL_RUN=0, PG2=null, WEL_FETCHED=false, WEL_ERR=false, WEL_T0=0, WEL_TM=null; const WEL_MIN=1500;   // v1.06.028: loading step shows at least 1.5 s
 function pg2Mode(){ return ROUTE.length<2? "wel" : flightValid(FLIGHT)? null : "ret"; }
 function showDisc(){let last=null;try{last=localStorage.getItem(DISC_KEY);}catch(e){}
   PG2=pg2Mode(); const p1=last!==discToday();
@@ -2915,7 +2916,7 @@ function pg2Show(){
   if(PG2==="wel"){
     pg.innerHTML=dots+'<div class="dhd">ברוך הבא</div><div class="dbd">'
       +'<div class="w-src" id="wSrc"><div class="w-src-t" id="wSrcT"></div><div class="w-bar"><i id="wBar"></i></div></div>'
-      +'<span class="big ld" id="wBig">---<small>NOTAMים פעילים</small></span>'
+      +'<span class="big ld" id="wBig"><span class="wn">---</span><small>NOTAMים פעילים</small></span>'
       +'<span class="lead" id="wLead" style="visibility:hidden">סביר להניח שרק חלקם רלוונטיים לתוכנית הטיסה שלך. בוא נסנן אותם יחד.</span></div>'
       +'<div class="dbtn off" id="wBtns"><button id="wGo" disabled onclick="welcomeGo()">נתחיל: לאן אתה טס?</button><button class="sec" id="wSkip" disabled onclick="discHide()">תודה, אני אסתדר לבד</button></div>';
     welcomeUi();
@@ -2934,15 +2935,24 @@ function welcomeUi(err){   // screen 1 data-source line: loading (gold bar, dash
   if(!WEL_T0) WEL_T0=Date.now();
   const left=WEL_MIN-(Date.now()-WEL_T0); clearTimeout(WEL_TM); if(left>0) WEL_TM=setTimeout(()=>welcomeUi(),left+20);
   const ok=WEL_FETCHED&&SNAP&&left<=0, b=document.getElementById("wBar"); err=WEL_FETCHED&&WEL_ERR&&!SNAP;
-  document.getElementById("wSrc").classList.toggle("ok",!!ok);
-  if(!ok){ t.innerHTML=W_SYNC+'<span>מתעדכן מפרסומי רת״א…</span>'; requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(b) b.style.width="88%"; }));
+  if(!ok){ document.getElementById("wSrc").classList.remove("ok"); t.innerHTML=W_SYNC+'<span>מתעדכן מפרסומי רת״א…</span>'; requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(b) b.style.width="88%"; }));
     if(err) document.getElementById("wSkip").disabled=false; return; }
-  const gen=SNAP.generatedAt? new Date(SNAP.generatedAt) : new Date(SNAP.savedAt);
-  t.innerHTML=W_OK+`<span>עודכן מפרסומי רת״א · <bdi dir="ltr">${fmtLocalHM(gen)} LT</bdi></span>`;
-  const big=document.getElementById("wBig"); big.classList.remove("ld");
-  big.innerHTML=ENR.filter(e=>!e.admin).length+'<small>NOTAMים פעילים</small>';
-  document.getElementById("wLead").style.visibility="";
-  document.getElementById("wBtns").classList.remove("off"); document.getElementById("wGo").disabled=false; document.getElementById("wSkip").disabled=false;
+  const gen=SNAP.generatedAt? new Date(SNAP.generatedAt) : new Date(SNAP.savedAt), N=ENR.filter(e=>!e.admin).length;
+  const big=document.getElementById("wBig"), lbl='<small>NOTAMים פעילים</small>';
+  const done=()=>{ t.innerHTML=W_OK+`<span>עודכן מפרסומי רת״א · <bdi dir="ltr">${fmtLocalHM(gen)} LT</bdi></span>`; };
+  if(WEL_RUN){ done(); if(WEL_RUN===2) big.innerHTML='<span class="wn">'+N+'</span>'+lbl; return; }   // already shown: later data only updates the values
+  // v1.06.029: the gold bar first fills to the end (FIX 2), then all turns green and the number runs up 0 -> N (about 0.7 s, slowing down at the end, like a fuel pump), then lead + buttons
+  WEL_RUN=1; b.style.transition="width .3s ease"; b.style.width="100%";
+  setTimeout(()=>{
+    b.style.transition=""; b.style.width=""; document.getElementById("wSrc").classList.add("ok"); done();
+    big.classList.remove("ld"); const t0=performance.now(), D=700;
+    const step=now=>{ const k=Math.min(1,(now-t0)/D), v=Math.round(N*(1-Math.pow(1-k,3)));
+      big.innerHTML='<span class="wn">'+v+'</span>'+lbl;
+      if(k<1) return requestAnimationFrame(step);
+      WEL_RUN=2; document.getElementById("wLead").style.visibility="";
+      document.getElementById("wBtns").classList.remove("off"); document.getElementById("wGo").disabled=false; document.getElementById("wSkip").disabled=false; };
+    requestAnimationFrame(step);
+  },320);
 }
 function welcomeGo(){ discHide(); setTimeout(()=>openCurtain("rte"),250); }   // empty לאן curtain (2a), not straight into drawing
 function returnYes(){ discHide(); setTimeout(openFlightDlg,250); }
@@ -3602,7 +3612,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.028 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.029 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3612,7 +3622,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.028 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.029 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
