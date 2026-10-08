@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.008 · built by eligrt
+     AirNotam-ISR · v1.06.009 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1125,7 +1125,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 #mapside>.draw-bar{left:50%;right:auto;width:410px;max-width:calc(100% - 20px);transform:translateX(-50%);}
 /* v1.06.008: stage 1 - tiles לאן / מתי / סקירה, the tile curtains cover the search row, one done-green */
 :root{--done-g:#2f9a57;}
-.below{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;}
+.below{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden;}   /* v1.06.009: clip, so a curtain slides out from under the tiles */
 .below>.stage{flex:1;}
 .below>.fdlg{z-index:1300;}
 .res{display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1px solid var(--paper-edge);border-radius:8px;padding:9px 12px;}
@@ -1141,6 +1141,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .tile.on.done .t-lbl{color:var(--ink);}
 .tile.done .pg-bar i,.tile.on.done .pg-bar i,.r-row.ok .rr-bar i{background:var(--done-g);}
 .r-row.ok .rr-n{color:var(--done-g);}
+.r-bar.done i{background:var(--done-g);}   /* v1.06.009 */
 .r-row .rr-go{flex:none;min-width:64px;text-align:left;}
 #rteCorrBox.dis{opacity:.45;pointer-events:none;}
 </style>
@@ -1310,7 +1311,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.008 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.009 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1482,6 +1483,7 @@ function render(opts){
 
   const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נקראו"],["ok","קראתי"],["irr","סימנתי כלא רלוונטיים לי"]];
   // list search: plain text, case-insensitive, anywhere in ID / airfield / full text (list only, the map is not affected)
+  if(ROUTE.length>=2) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>!e.geo||inCorridor(e)); });   // v1.06.009: list = the review set
   const QT=qTerms(), q=QT.join(",")+(LOC!=="all"?"|"+LOC:"");   // q: any narrowing of the list (search or location)
   if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>qMatch(e,QT)&&locPass(e)); });
   const html=G.map(([k,title])=>{
@@ -1548,6 +1550,7 @@ function renderReady(){
   const R=READY, big=document.getElementById("rdyBig"); if(!big) return;
   big.textContent=`${R.done}/${R.total}`;
   document.getElementById("rdyBar").style.width=(R.total?Math.round(100*R.done/R.total):0)+"%";
+  document.getElementById("rdyBar").parentNode.classList.toggle("done",R.total>0&&R.done>=R.total);   // v1.06.009
   const pct=(a,b)=>b?Math.round(100*a/b):100;
   const row=(title,done,tot,go,fn)=>{
     const left=tot-done, ok=!left;
@@ -1582,9 +1585,17 @@ function renderRte(){
   if(hasR){ document.getElementById("rteResN").textContent=nearRoute().length;
     document.getElementById("rteResS").innerHTML=`עד <bdi>${CORR_NM}NM</bdi> מהמסלול`; }
 }
-function rteContinue(){ closeCurtain("rte"); openFlightDlg(); }
+function rteContinue(){ openFlightDlg(); }   // v1.06.009: לאן closes, then מתי opens
 const CURTAINS=["rdy","rte"];
+// v1.06.009: switching tiles = the open curtain closes first, then the next one opens (never both at once)
+const TILE_DLGS=["rte","fdlg","rdy"]; let _swT=null;
+function seqOpen(id,fn){
+  const o=TILE_DLGS.find(c=>c!==id&&document.getElementById(c).classList.contains("show")); if(!o) return false;
+  if(o==="fdlg") closeFlightDlg(); else closeCurtain(o);
+  clearTimeout(_swT); _swT=setTimeout(fn,380); return true;
+}
 function openCurtain(id){
+  if(seqOpen(id,()=>openCurtain(id))) return;
   if(MAP) MAP.closePopup();   // v1.05.012T: the popup now sits above the map's panels, so close it under a curtain
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
   document.getElementById(id).classList.add("show"); const tt=document.getElementById("t_"+id); if(tt) tt.classList.add("on");
@@ -2723,6 +2734,7 @@ function whenLive(){
   clearTimeout(_whenT); _whenT=setTimeout(()=>{ renderFlightBar(); render(); whenUi(); },250);
 }
 function openFlightDlg(){
+  if(seqOpen("fdlg",openFlightDlg)) return;   // v1.06.009
   try{CURTAINS.forEach(closeCurtain);}catch(_){}
   const f=FLIGHT||(()=>{const n=new Date();n.setMinutes(0,0,0);n.setHours(n.getHours()+1);
     const l=new Date(n.getTime()+2*3600*1000);
@@ -2809,7 +2821,7 @@ function saveFlight(){
   if(!flightValid(f)){err.textContent="חלון הטיסה כבר עבר, בדוק תאריך ושעות";err.style.display="block";return;}
   FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
   timeMode= document.getElementById("optTime").checked? "flight" : "all";
-  closeFlightDlg(); renderFlightBar(); render(); openCurtain("rdy");   // v1.06.008: "המשך: סקירת ה-NOTAMים"
+  renderFlightBar(); render(); openCurtain("rdy");   // v1.06.008: "המשך: סקירת ה-NOTAMים"; v1.06.009: מתי closes, then סקירה opens
 }
 function skipFlight(){
   closeFlightDlg();
@@ -3293,7 +3305,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.008 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.009 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3303,7 +3315,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.008 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.009 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
