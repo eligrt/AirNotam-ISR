@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.018 · built by eligrt
+     AirNotam-ISR · v1.06.019 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1445,7 +1445,7 @@ body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradie
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.018 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.019 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3454,7 +3454,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.018 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.019 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3464,7 +3464,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.018 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.019 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3778,12 +3778,12 @@ function rvCerHtml(){
       +`<div class="ms-chips mv-nudge" id="cerChips">${rvChipsHtml(false)}</div>` : "");
 }
 // the strip curtain changes height smoothly (about 0.45 s, the curtain easing) around a content change
-function rvResize(fn){
+function rvResize(fn,dur){   // dur: seconds (default .45)
   const r=document.getElementById("rvc"), h0=r.offsetHeight; clearTimeout(r._rt); r.style.height=""; r.style.transition=""; fn(); const h1=r.offsetHeight;
   if(Math.abs(h1-h0)<2){ rvTopSync(); return; }
   r.classList.add("anim"); r.style.height=h0+"px"; void r.offsetHeight;
-  r.style.transition="height .45s cubic-bezier(.22,.61,.36,1)"; r.style.height=h1+"px";
-  r._rt=setTimeout(()=>{ r.style.height=""; r.style.transition=""; r.classList.remove("anim"); rvTopSync(); },470);
+  dur=dur||.45; r.style.transition=`height ${dur}s cubic-bezier(.22,.61,.36,1)`; r.style.height=h1+"px";
+  r._rt=setTimeout(()=>{ r.style.height=""; r.style.transition=""; r.classList.remove("anim"); rvTopSync(); },dur*1000+20);
 }
 function rvTopSync(){
   const st=document.getElementById("stage"); st.style.setProperty("--rvtop",rvTopPx()+"px"); topStack();
@@ -3848,14 +3848,14 @@ function rvCardsEnter(i){   // gold button (or resume): the cards part opens at 
   const go=()=>{
     rvResize(()=>{ RV.mode="cards"; r.classList.remove("m-cer"); r.classList.add("cards"); cer.hidden=true; cer.innerHTML=""; ch.hidden=false;
       RV.ci=Math.min(Math.max(i,0),RV.cards.length-1); m.style.opacity="0"; m.innerHTML=card(ENR_BY_ID[RV.cards[RV.ci]],statusOf(ENR_BY_ID[RV.cards[RV.ci]]),true);
-      rvChips(); rvFitText(); RV.lock=false; rvUi(); });
+      rvChips(); rvFitText(); RV.lock=false; rvUi(); }, .6);
     rvNoMap(true); rvCardFade();
-    m.style.transition="none"; m.style.transform="translateY(-10px)";   // v1.06.018: the card fades in only after the curtain has changed size
-    setTimeout(()=>{ m.style.transition="opacity .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)"; m.style.opacity="1"; m.style.transform="";
-      setTimeout(()=>{ m.style.transition=""; },400); },430);
+    m.style.transition="none"; m.style.transform="translateY(-14px)";   // v1.06.019: slower, the curtain stretches first, then the card fades in
+    setTimeout(()=>{ m.style.transition="opacity .5s ease,transform .55s cubic-bezier(.22,.61,.36,1)"; m.style.opacity="1"; m.style.transform="";
+      setTimeout(()=>{ m.style.transition=""; },600); },520);
     renderReady();
   };
-  if(!cer.hidden){ cer.style.transition="opacity .25s ease"; cer.style.opacity="0"; setTimeout(()=>{ cer.style.transition=""; cer.style.opacity=""; go(); },250); }
+  if(!cer.hidden){ cer.style.transition="opacity .35s ease"; cer.style.opacity="0"; setTimeout(()=>{ cer.style.transition=""; cer.style.opacity=""; go(); },380); }
   else go();
 }
 function rvCardsBack(){   // "הקודם" on the first card: back to the ceremony
