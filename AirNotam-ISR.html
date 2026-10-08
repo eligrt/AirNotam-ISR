@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.013 · built by eligrt
+     AirNotam-ISR · v1.06.015 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1211,6 +1211,12 @@ body.wide .rvdim.show{display:block;}
 .rv-pill{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;direction:ltr;background:var(--ink-dark);color:#fff;
   font-family:var(--font-mono);font-size:12px;font-weight:700;border-radius:10px;padding:2px 8px;box-shadow:0 1px 4px rgba(14,35,72,.35);pointer-events:none;}
 #stage.v-map.rv-on .upd{top:calc(var(--rvtop,0px) + 8px) !important;}
+/* v1.06.015: PC review card has a FIXED height, so הקודם / הבא never move; the NOTAM text scrolls inside, fade while more text exists */
+body.wide .rvc-mid:not(:empty){height:clamp(260px,calc(100vh - 370px),460px);flex:none;overflow:hidden;}
+body.wide .rvc-mid .card{height:100%;display:flex;flex-direction:column;}
+body.wide .rvc-mid .card>.c-text,body.wide .rvc-mid .card>.diff{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+body.wide .rvc-mid .card>.c-text::-webkit-scrollbar,body.wide .rvc-mid .card>.diff::-webkit-scrollbar{width:0;height:0;}
+body.wide .rvc-mid .card>.more{-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent);mask-image:linear-gradient(to bottom,#000 78%,transparent);}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1388,7 +1394,7 @@ body.wide .rvdim.show{display:block;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.013 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.015 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3397,7 +3403,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.013 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.015 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3407,7 +3413,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.013 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.015 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3610,6 +3616,8 @@ function rvShow(id){
   rvRingDraw(id,true);
   if(WIDE){
     const m=document.getElementById("rvMid"); m.style.opacity="0"; m.innerHTML=card(e,statusOf(e),true); m.scrollTop=0;
+    const tx=m.querySelector(".card>.c-text,.card>.diff");
+    if(tx){ const f=()=>tx.classList.toggle("more",tx.scrollTop+tx.clientHeight<tx.scrollHeight-4); tx.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); }
     requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
   }else{
     MAP.closePopup();
@@ -3670,9 +3678,18 @@ function rvPill(id,c){
   const rt=ROUTE.map(p=>MAP.latLngToContainerPoint([p[0],p[1]])), samp=[];
   for(let i=0;i<rt.length-1;i++){ const a=rt[i],q=rt[i+1],n=Math.max(1,Math.ceil(a.distanceTo(q)/8)); for(let k=0;k<=n;k++) samp.push(L.point(a.x+(q.x-a.x)*k/n,a.y+(q.y-a.y)*k/n)); }
   const others=Object.keys(CIRCLES).filter(x=>x!==id).map(x=>{ const bb=CIRCLES[x].getBounds(), p1=MAP.latLngToContainerPoint(bb.getNorthEast()), p2=MAP.latLngToContainerPoint(bb.getSouthWest()); return [p2.x,p1.y,p1.x,p2.y]; });
+  // v1.06.014: the line starts ON the NOTAM's outline - the outermost outline point toward each side (was the box edge,
+  // which floated in empty space for irregular or multi-part shapes)
+  const ol=[], flat=a=>a.forEach(x=>Array.isArray(x)? flat(x) : ol.push(MAP.latLngToContainerPoint(x)));
+  (c._shapes||[c]).forEach(l=>{
+    if(l instanceof L.Circle){ const ctr=MAP.latLngToContainerPoint(l.getLatLng()), r=ctr.distanceTo(MAP.latLngToContainerPoint([l.getLatLng().lat+l.getRadius()/111320,l.getLatLng().lng]));
+      for(let k=0;k<48;k++){ const t=k*Math.PI/24; ol.push(L.point(ctr.x+r*Math.cos(t),ctr.y+r*Math.sin(t))); } }
+    else flat(l.getLatLngs()); });
+  if(!ol.length) ol.push(L.point(cx,cy));
   let best=null;
   [[-1,0],[1,0],[0,-1],[0,1],[-D,-D],[D,-D],[-D,D],[D,D]].forEach(([dx,dy],ix)=>{
-    const ex=cx+dx*rx, ey=cy+dy*ry, lx=ex+dx*38, ly=ey+dy*38, mx=lx+dx*pw/2, my=ly+dy*ph/2;
+    let ep=ol[0], bd=-Infinity; ol.forEach(p=>{ const v=(p.x-cx)*dx+(p.y-cy)*dy; if(v>bd){ bd=v; ep=p; } });
+    const ex=ep.x, ey=ep.y, lx=ex+dx*38, ly=ey+dy*38, mx=lx+dx*pw/2, my=ly+dy*ph/2;
     const R=[mx-pw/2-4,my-ph/2-4,mx+pw/2+4,my+ph/2+4];
     let sc=ix*.01;
     samp.forEach(p=>{ if(p.x>R[0]&&p.x<R[2]&&p.y>R[1]&&p.y<R[3]) sc+=3; });
