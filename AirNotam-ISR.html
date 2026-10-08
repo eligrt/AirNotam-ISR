@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.012 · built by eligrt
+     AirNotam-ISR · v1.06.013 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1144,7 +1144,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .r-bar.done i{background:var(--done-g);}   /* v1.06.009 */
 /* v1.06.010: iPhone Safari draws date / time fields wider than their box; make them respect it (fit the curtain, keep the gap) */
 .fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;}
-/* v1.06.012: iPhone only: value centred in the field, both ways (it sat in the top-right corner) */
+/* v1.06.011: iPhone only: value centred in the field, both ways (it sat in the top-right corner) */
 @supports (-webkit-touch-callout:none){
   .fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{line-height:42px;padding-top:0;padding-bottom:0;text-align:center;}
   .fdlg label.fld input::-webkit-date-and-time-value{text-align:center;margin:0;line-height:42px;}
@@ -1205,8 +1205,9 @@ body.wide .rvdim.show{display:block;}
 .pu-hint,.c-hint{display:flex;align-items:center;gap:5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--paper-edge);font-size:11.5px;font-weight:700;color:var(--gold-deep);direction:rtl;}
 .pu-hint svg,.c-hint svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;}
 .leaflet-popup.rv-out{opacity:0 !important;transition:opacity .2s ease !important;}
-.rv-ring{animation:rvRing 1.1s ease-in-out infinite alternate;}
-@keyframes rvRing{from{stroke-opacity:1;}to{stroke-opacity:.45;}}
+/* v1.06.013: the current NOTAM = a green glow under its outline, in its own layer; it blinks ~3 s, then stays steady */
+.leaflet-pane.rv-blink{animation:rvBlink .6s ease-in-out 5 alternate;}
+@keyframes rvBlink{from{opacity:1;}to{opacity:.25;}}
 .rv-pill{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;direction:ltr;background:var(--ink-dark);color:#fff;
   font-family:var(--font-mono);font-size:12px;font-weight:700;border-radius:10px;padding:2px 8px;box-shadow:0 1px 4px rgba(14,35,72,.35);pointer-events:none;}
 #stage.v-map.rv-on .upd{top:calc(var(--rvtop,0px) + 8px) !important;}
@@ -1387,7 +1388,7 @@ body.wide .rvdim.show{display:block;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.012 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.013 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3396,7 +3397,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.012 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.013 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3406,7 +3407,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.012 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.013 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3445,9 +3446,9 @@ async function alogCopy(){
 // RV.list = map NOTAMים of the review set, in order along the route (no route: north to south)
 const RV={on:false,list:[],i:-1,shown:null,lock:false,end:false,t:null,lay:null};
 let RV_CARDS=false;   // stage 3: true once the cards part is reached (hides the screen 4 notice)
-let RV_HINT=false; try{RV_HINT=localStorage.getItem("airnotam_rvhint")==="1";}catch(e){}
+let RV_HINT=false;   // v1.06.013: the hint shows on the first NOTAM of each review start / resume
 const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
-function rvHintSeen(){ if(RV_HINT) return; RV_HINT=true; try{localStorage.setItem("airnotam_rvhint","1");}catch(e){} }
+function rvHintSeen(){ RV_HINT=true; }
 function routePos(lat,lon){
   if(ROUTE.length<2) return -lat;
   const k=Math.cos(lat*Math.PI/180), P=([a,b])=>[(b-lon)*60*k,(a-lat)*60];
@@ -3489,7 +3490,7 @@ function startReview(){
     if(LQ||QPT){ ptClear(); LQ=""; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); }
     FAM="all"; FAM_I=-1;
     if(NVIS!=="normal"){ NVIS="normal"; document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.checked=r.value==="normal"); }
-    const was=RV.on; RV.on=true; RV.end=false;
+    const was=RV.on; RV.on=true; RV.end=false; RV_HINT=false;
     if(!was){ setView("map"); if(!MAP) return; }
     RV.list=rvBuild();
     document.getElementById("rvc").classList.add("show");
@@ -3570,7 +3571,7 @@ function rvHideItem(cb){
 function rvGo(i){
   if(!RV.on||i<0||i>=RV.list.length) return;
   clearTimeout(RV.t); RV.i=i; RV.lock=true; RV.end=false; rvUi();
-  const id=RV.list[i];
+  const id=RV.list[i]; alog(`review go ${id} (${i+1}/${RV.list.length}) Z${MAP.getZoom()}`);
   rvHideItem(()=>{
     if(!RV.on) return;
     rvRingClear(); RV.shown=null;
@@ -3606,7 +3607,7 @@ function rvPuHtml(e){
 function rvShow(id){
   const e=ENR_BY_ID[id], c=CIRCLES[id]; if(!e||!c||!MAP) return;
   RV.shown=id; RV.end=false; RV.i=RV.list.indexOf(id);
-  rvRingDraw(id);
+  rvRingDraw(id,true);
   if(WIDE){
     const m=document.getElementById("rvMid"); m.style.opacity="0"; m.innerHTML=card(e,statusOf(e),true); m.scrollTop=0;
     requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; }));
@@ -3627,7 +3628,7 @@ function rvRestyle(id){
 function rvAct(k,btn){
   if(!RV.on||RV.lock||!RV.shown) return;
   const id=RV.shown, e=ENR_BY_ID[id]; if(!e) return;
-  rvHintSeen();
+  rvHintSeen(); alog(`review mark ${k} ${id}`);
   if(k==="un"||k==="ok2"||k==="irr2"){   // back on a marked item: change the mark, stay on it
     if(k==="un") unmarkReviewed(id); else if(k==="ok2") markReviewed(id); else markIrrelevant(id);
     rvRestyle(id); render({skipMap:true}); rvShow(id); return;
@@ -3644,19 +3645,21 @@ function rvAct(k,btn){
   RV.t=setTimeout(()=>{ if(!RV.on) return; const n=rvNextPending(RV.i); if(n<0) rvEnd(); else rvGo(n); },1000);
 }
 function rvEnd(){   // stage 2: the map part ends at the last map NOTAM (the ceremony comes in stage 3)
-  RV.lock=true;
+  RV.lock=true; alog("review map part done");
   rvHideItem(()=>{ RV.lock=false; RV.end=true; RV.shown=null; rvRingClear(); document.getElementById("rvMid").innerHTML=""; rvUi(); });
 }
-function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); }
-function rvRingDraw(id){
+function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); if(RV.glow) RV.glow.clearLayers(); }
+function rvRingDraw(id,blink){
   if(!MAP) return;
-  if(!MAP.getPane("rvRing")){ const p=MAP.createPane("rvRing"); p.style.zIndex=450; p.style.pointerEvents="none";
-    RV.lay=L.layerGroup().addTo(MAP); MAP.on("zoomend",()=>{ if(RV.on&&RV.shown&&!RV.lock) rvRingDraw(RV.shown); }); }
+  if(!MAP.getPane("rvRing")){
+    const p=MAP.createPane("rvRing"); p.style.zIndex=450; p.style.pointerEvents="none";   // PC callout
+    const g=MAP.createPane("rvGlow"); g.style.zIndex=395; g.style.pointerEvents="none";   // glow, just under the NOTAM shapes
+    RV.lay=L.layerGroup().addTo(MAP); RV.glow=L.layerGroup().addTo(MAP); RV.glowR=L.canvas({pane:"rvGlow"});
+    MAP.on("zoomend",()=>{ if(RV.on&&RV.shown&&!RV.lock) rvRingDraw(RV.shown,false); }); }
   rvRingClear(); const c=CIRCLES[id]; if(!c) return;
-  const halo={pane:"rvRing",color:"#fff",weight:7,opacity:.8,fill:false,interactive:false};
-  const ring={pane:"rvRing",color:"#2f9a57",weight:3.5,fill:false,interactive:false,className:"rv-ring"};
-  (c._shapes||[c]).forEach(l=>{ [halo,ring].forEach(o=>{
-    (l instanceof L.Circle? L.circle(l.getLatLng(),Object.assign({radius:l.getRadius()},o)) : L.polygon(l.getLatLngs(),o)).addTo(RV.lay); }); });
+  const o={pane:"rvGlow",renderer:RV.glowR,color:"#34c26a",weight:16,opacity:.6,fill:false,interactive:false,lineJoin:"round"};
+  (c._shapes||[c]).forEach(l=>{ (l instanceof L.Circle? L.circle(l.getLatLng(),Object.assign({radius:l.getRadius()},o)) : L.polygon(l.getLatLngs(),o)).addTo(RV.glow); });
+  if(blink){ const g=MAP.getPane("rvGlow"); g.classList.remove("rv-blink"); void g.offsetWidth; g.classList.add("rv-blink"); }
   if(WIDE) rvPill(id,c);
 }
 // PC: the NOTAM number as a callout from the ring edge, on the side clear of the route and other shapes
