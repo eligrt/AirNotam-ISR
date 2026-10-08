@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.027 · built by eligrt
+     AirNotam-ISR · v1.06.028 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1311,7 +1311,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
 .w-src-t svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .w-src.ok .w-src-t{color:var(--done-g)}
 .w-bar{height:6px;border-radius:3px;background:var(--paper-edge);overflow:hidden}
-.w-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width 2.4s cubic-bezier(.2,.7,.3,1)}
+.w-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width 1.5s cubic-bezier(.2,.7,.3,1)}
 .w-src.ok .w-bar i{width:100% !important;background:var(--done-g);transition:width .35s ease,background .35s ease}
 .soft-box{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border:1px solid var(--gold-lite);background:var(--paper-hi);border-radius:8px;font-size:13.5px;line-height:1.5;color:var(--ink-body);text-align:right}
 .soft-box svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--gold-deep);stroke-width:2;stroke-linecap:round;margin-top:1px}
@@ -1522,7 +1522,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.027 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.028 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -2800,7 +2800,6 @@ function applyData(data,save,savedAt,later){
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
   PENDING=null; showUpdate(null);
   updTidy();
-  if(save || (Date.now()-(SNAP.savedAt||0))<SNAP_MAX_AGE){ WEL_READY=true; }   // v1.06.027: welcome card loaded state
   setTimeout(()=>welcomeUi(),0);
   if(later) setTimeout(render,later); else render();
 }
@@ -2828,7 +2827,8 @@ function showUpdate(d){
   u.classList.add("show"); updPos();
 }
 function applyPending(){ if(PENDING) applyData(PENDING,true,undefined,800); rvOpen(280); }
-async function load(manual){
+async function load(manual){ try{ await load0(manual); } finally{ WEL_FETCHED=true; welcomeUi(); } }   // v1.06.028: the welcome card waits for the real feed check
+async function load0(manual){
   const meta=document.getElementById("meta");
   if(!SNAP){meta.textContent="טוען…";meta.className="metabar";}
   try{
@@ -2842,8 +2842,7 @@ async function load(manual){
     }
   }catch(e){
     if(!SNAP){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
-    else WEL_READY=true;
-    welcomeUi(true);   // v1.06.027
+    WEL_ERR=true;   // v1.06.027
   }
 }
 
@@ -2893,7 +2892,7 @@ const DISC_KEY='airnotam_disc_day';
 function discToday(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
 // v1.06.027: page 2 of the card. Welcome (screen 1) while no route is saved; returning (screen 9) with a saved route,
 // unless a future flight time is set (still mid-planning, Q4 A). Page 1 (disclaimer) stays once a day.
-let PG2=null, WEL_READY=false;
+let PG2=null, WEL_FETCHED=false, WEL_ERR=false, WEL_T0=0, WEL_TM=null; const WEL_MIN=1500;   // v1.06.028: loading step shows at least 1.5 s
 function pg2Mode(){ return ROUTE.length<2? "wel" : flightValid(FLIGHT)? null : "ret"; }
 function showDisc(){let last=null;try{last=localStorage.getItem(DISC_KEY);}catch(e){}
   PG2=pg2Mode(); const p1=last!==discToday();
@@ -2932,7 +2931,9 @@ function pg2Show(){
 }
 function welcomeUi(err){   // screen 1 data-source line: loading (gold bar, dashes, buttons off) or loaded (green, real feed time)
   const t=document.getElementById("wSrcT"); if(!t) return;
-  const ok=WEL_READY&&SNAP, b=document.getElementById("wBar");
+  if(!WEL_T0) WEL_T0=Date.now();
+  const left=WEL_MIN-(Date.now()-WEL_T0); clearTimeout(WEL_TM); if(left>0) WEL_TM=setTimeout(()=>welcomeUi(),left+20);
+  const ok=WEL_FETCHED&&SNAP&&left<=0, b=document.getElementById("wBar"); err=WEL_FETCHED&&WEL_ERR&&!SNAP;
   document.getElementById("wSrc").classList.toggle("ok",!!ok);
   if(!ok){ t.innerHTML=W_SYNC+'<span>מתעדכן מפרסומי רת״א…</span>'; requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(b) b.style.width="88%"; }));
     if(err) document.getElementById("wSkip").disabled=false; return; }
@@ -3601,7 +3602,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.027 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.028 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3611,7 +3612,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.027 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.028 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
