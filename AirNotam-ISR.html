@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.009 · built by eligrt
+     AirNotam-ISR · v1.06.010 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1142,6 +1142,14 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .tile.done .pg-bar i,.tile.on.done .pg-bar i,.r-row.ok .rr-bar i{background:var(--done-g);}
 .r-row.ok .rr-n{color:var(--done-g);}
 .r-bar.done i{background:var(--done-g);}   /* v1.06.009 */
+/* v1.06.010: iPhone Safari draws date / time fields wider than their box; make them respect it (fit the curtain, keep the gap) */
+.fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;text-align:right;}
+.fdlg label.fld input::-webkit-date-and-time-value{text-align:right;}
+/* v1.06.010: מתי past date / time = the result box warns, "המשך" pale */
+#whenRes.warn{background:#fbeceb;border-color:#e6a9a3;}
+#whenRes.warn .n{font-size:30px;}
+#whenRes.warn #whenResT{font-weight:700;color:var(--stamp-red);font-size:15px;}
+#fdlg .f-cont:disabled{opacity:.45;cursor:default;}
 .r-row .rr-go{flex:none;min-width:64px;text-align:left;}
 #rteCorrBox.dis{opacity:.45;pointer-events:none;}
 </style>
@@ -1281,7 +1289,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
     <button type="button" class="db-snap" id="snapSw" role="switch" aria-checked="true"><span class="dbs-l">סימון נקודות מסלול:</span><b class="dbs-v" id="snapTxt">על בסיס נקודות דיווח</b><i class="dbs-sw"><i></i></i></button>
     <div class="db-btns">
       <button type="button" id="dbUndo" onclick="drawUndo()">בטל נקודה</button>
-      <button type="button" id="dbClear" onclick="drawClear()">נקה</button>
+      <button type="button" id="dbClear" onclick="drawClear()">מחק מסלול</button>
       <button type="button" class="db-done" onclick="drawDone(1)">סיים</button>
     </div>
   </div>
@@ -1311,7 +1319,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.009 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.010 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1825,7 +1833,7 @@ function appConfirm(o){
 }
 function amodalClose(v){ document.getElementById("amodal").classList.remove("show"); if(_amRes){const r=_amRes;_amRes=null;r(v);} }
 async function drawClear(){
-  if(ROUTE.length && !(await appConfirm({title:"לנקות את נקודות המסלול?",text:"כל הנקודות שסימנת יימחקו ותוכל לסמן מחדש.",ok:"נקה"}))) return;
+  if(ROUTE.length && !(await appConfirm({title:"למחוק את המסלול?",text:"כל הנקודות שסימנת יימחקו ותוכל לסמן מסלול חדש.",ok:"מחק מסלול"}))) return;
   ROUTE=[]; drawUi(); drawRoute();
 }
 function drawDone(showRes){
@@ -2718,7 +2726,15 @@ function whenUi(){
   const f=readDlg(), w=flightWindow(f), ok=flightValid(f);
   document.getElementById("optTime").checked= flightValid(FLIGHT)? timeMode==="flight" : true;
   document.getElementById("optTimeLbl").classList.toggle("dis",!ok);
-  const box=document.getElementById("whenRes"); box.style.display= ok? "" : "none"; if(!ok) return;
+  const box=document.getElementById("whenRes"), go=document.querySelector("#fdlg .f-cont");
+  const past= !!w && !ok;   // v1.06.010: a complete window that has already ended
+  box.classList.toggle("warn",past); go.disabled=past;
+  box.style.display= (ok||past)? "" : "none";
+  if(past){ document.getElementById("fErr").style.display="none";
+    document.getElementById("whenResN").textContent="!";
+    document.getElementById("whenResT").textContent="חלון הטיסה כבר עבר";
+    document.getElementById("whenResS").textContent="בחר תאריך ושעות עתידיים כדי להמשיך"; return; }
+  if(!ok) return;
   const hasR=ROUTE.length>=2, base= hasR? nearRoute() : ENR.filter(e=>!e.admin);
   document.getElementById("whenResN").textContent=base.filter(e=>inWin(e,w)).length;
   document.getElementById("whenResT").textContent= hasR? `מתוך ${base.length} NOTAMים בקרבת המסלול` : `מתוך ${base.length} NOTAMים`;
@@ -3305,7 +3321,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.009 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.010 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3315,7 +3331,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.009 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.010 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
