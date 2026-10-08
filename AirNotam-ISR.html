@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.021 · built by eligrt
+     AirNotam-ISR · v1.06.022 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1272,6 +1272,16 @@ body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradie
 .rvnomap svg{width:22px;height:22px;fill:none;stroke:var(--ink-muted);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;}
 .rvnomap b{color:var(--ink);font-size:14.5px;}
 .rvnomap span{font-size:13px;line-height:1.5;}
+
+/* v1.06.022: "סקירת עדכונים" speaks the review's visual language: fixed card height (text scrolls with fade, no gap), equal nav buttons, "הבא" gold */
+.rv-body{min-height:0;padding:12px 14px 10px;}
+.rv-body .card{display:flex;flex-direction:column;height:300px;}
+body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
+.rv-body .card>.c-text,.rv-body .card>.diff{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+.rv-body .card>.c-text::-webkit-scrollbar,.rv-body .card>.diff::-webkit-scrollbar{width:0;height:0;}
+.rv-nav{gap:8px;border-top:none;padding:0 14px 4px;}
+.rv-nav button{flex:1;justify-content:center;height:44px;font-size:14px;}
+.rv-nav button:nth-child(2){background:var(--gold);border:none;color:var(--ink-dark);}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1451,7 +1461,7 @@ body:not(.wide) .rvc.cards .rvc-mid .card>.more{-webkit-mask-image:linear-gradie
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.021 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.022 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3460,7 +3470,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.021 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.022 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3470,7 +3480,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.021 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.022 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
