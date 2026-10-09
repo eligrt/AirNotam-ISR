@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.033 · built by eligrt
+     AirNotam-ISR · v1.06.034 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1525,7 +1525,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.033 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.034 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1925,7 +1925,7 @@ function drawUi(){
 }
 // ── snapping: route taps stick to the nearest known point (sportive + CVFR points, airfields) ──
 let SNAP_ON=true; try{SNAP_ON=localStorage.getItem("airnotam_snap")!=="0";}catch(e){}
-let SNAP_PTS=null, SNAP_LAYER=null;
+let SNAP_PTS=null, SNAP_LAYER=null, SNAP_R=null;
 const SNAP_PX=28;
 function snapLoad(){
   if(SNAP_PTS) return Promise.resolve(SNAP_PTS);
@@ -1954,7 +1954,8 @@ function snapShow(){
   // so a point named in a NOTAM can be found on the map. While drawing, the snap switch still hides them.
   const PTS=snapVis();
   if(!(PTS.length&&MAP.getZoom()>=9&&(!DRAWING||SNAP_ON))){ MAP.removeLayer(SNAP_LAYER); return; }
-  const r=L.canvas({pane:"g_snap"});
+  if(!SNAP_R) SNAP_R=L.canvas({pane:"g_snap"});   // v1.06.034: ONE canvas for the dots, made once (a new one per map move leaked, iPhone crash HIGH 2)
+  const r=SNAP_R;
   PTS.forEach(o=>L.circleMarker([o.lat,o.lon],{renderer:r,pane:"g_snap",interactive:false,radius:3.5,weight:1.5,color:"#8a6a2a",fillColor:"#fbf6e8",fillOpacity:1}).addTo(SNAP_LAYER));
   if(MAP.getZoom()>=11){
     const b=MAP.getBounds().pad(0.2), used=new Set(ROUTE.map(p=>p[2]).filter(Boolean));
@@ -3614,7 +3615,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.033 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.034 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3624,7 +3625,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.033 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.034 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
