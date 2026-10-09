@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T08:49:30.043Z",
+  "generatedAt": "2026-10-09T09:10:51.763Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "count": 111,
@@ -3610,10 +3610,89 @@
       "replaces": null,
       "rawText": "C2080/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /005/015/3234N03425E034 A) LLLL B) 2610051930 C) 2610111300 D) 05 1930-2059, 06 0900-1000, 07 11 DAILY 1200-1300 E) HEL RTE CLSD EXC BY ATC GALIM-SUVAS. GALIM-KONFO. GALIM-DAFNA. GALIM-MERVA. GALIM-INBAR.)",
       "rowID": "2066052",
-      "geometryReject": "no closed leg found in the route layers (GALIM-SUVAS, GALIM-KONFO, GALIM-DAFNA, GALIM-MERVA, GALIM-INBAR)",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.16944,
+                33.9925
+              ]
+            ],
+            "leg": "GALIM-SUVAS",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.42833,
+                34.11556
+              ]
+            ],
+            "leg": "GALIM-KONFO",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.54333,
+                34.23
+              ]
+            ],
+            "leg": "GALIM-DAFNA",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.78167,
+                34.54389
+              ]
+            ],
+            "leg": "GALIM-MERVA",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          }
+        ],
+        "anchor": [
+          32.505275,
+          34.486805
+        ],
+        "missing": [
+          "GALIM-INBAR"
+        ]
+      },
       "geometryFlag": {
-        "kind": "rejected",
-        "reason": "no closed leg found in the route layers (GALIM-SUVAS, GALIM-KONFO, GALIM-DAFNA, GALIM-MERVA, GALIM-INBAR)"
+        "kind": "legs missing",
+        "reason": "route legs not in the GIS: GALIM-INBAR"
       }
     },
     {

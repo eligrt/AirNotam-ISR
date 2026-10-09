@@ -38,5 +38,10 @@
     "id": "C1830/26",
     "kind": "Q/E mismatch",
     "first": "2026-10-09"
+  },
+  "legs missing|HEL RTE CLSD EXC BY ATC GALIM-SUVAS. GALIM-KONFO. GALIM-DAFNA. GALIM-MERVA. GALIM-INBAR.": {
+    "id": "C2080/26",
+    "kind": "legs missing",
+    "first": "2026-10-09"
   }
 }
