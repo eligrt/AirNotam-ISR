@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.035 · built by eligrt
+     AirNotam-ISR · v1.06.036 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -185,6 +185,9 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .pu-div{margin-top:5px;font-size:12.5px;font-weight:700;color:#1f7a3f;background:#eef6f0;border:1.5px solid #1f7a3f;border-radius:5px;padding:4px 8px;direction:rtl;}   /* v1.05.010T */
 .div-tag{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:max-content;white-space:nowrap;background:#fbf6e8;border:1.5px solid;border-radius:5px;
   padding:2px 6px;font:700 11px var(--font-ui);direction:rtl;box-shadow:0 0 0 3px rgba(255,255,255,.8);pointer-events:none;}   /* v1.05.010T */
+.pu-con{text-align:right;margin-top:6px;font-size:11.5px;line-height:1.45;color:#5a3d06;background:#fdf1d8;border:1.5px solid #c8a04a;border-radius:5px;padding:5px 8px;direction:rtl;}   /* v1.06.036 */
+.pu-con b{display:block;font-size:12px;color:#8a5a00;margin-bottom:2px;}
+.pu-con .cd{display:block;margin-top:4px;padding-top:4px;border-top:1px dashed #d9c08a;font-size:10.5px;color:#7a6440;}
 .pu-upd{margin-top:6px;font-size:11.5px;font-weight:600;color:#7a2418;background:#f6e3df;border-radius:5px;padding:5px 8px;}
 .pu-done-irr{color:#6b6b6b;}
 .pu-meta{font-size:11px;color:var(--ink-muted);margin-top:3px;direction:rtl;}
@@ -1527,7 +1530,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.035 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.036 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -2399,7 +2402,7 @@ function shapeRouteGap(shape){          // NM between the shape's edge and the r
 // ── v1.05.002T: show one shape family at a time; unbuilt families are greyed ──
 // v1.05.005T: one flat list by what you see on the map. [key, label, built?]  (v1.05.012T: רצועת גבול, מקטע נתיב)
 const FAMS=[["all","הכל",1],["poly","פוליגון",1],["ringE","טבעת E",1],["ringQ","טבעת Q",1],["half","חצי טבעת",1],
-            ["linked","אזורים מקושרים",1],["point","נקודה",1],["strip","רצועת גבול",1],["leg","מקטע נתיב",1],["flag","לבדיקה",1]];   // v1.05.008T: לבדיקה = what the scraper flags as an issue
+            ["linked","אזורים מקושרים",1],["point","נקודה",1],["strip","רצועת גבול",1],["leg","מקטע נתיב",1],["mism","אי התאמה Q/E",1],["flag","לבדיקה",1]];   // v1.06.036: אי התאמה Q/E = the NOTAM's own items disagree (issue #7)   // v1.05.008T: לבדיקה = what the scraper flags as an issue
 let FAM="all", FAM_I=-1;
 function famOf(e){ if(!e.shape) return "ring"; return ({e_text:"coord"})[e.shape.source]||"ring"; }
 function famIs(e,k){
@@ -2409,6 +2412,7 @@ function famIs(e,k){
   if(k==="strip") return !!sh && (sh.source==="border" || P.some(p=>p.role==="strip"));   // v1.05.013T: + the Gaza border strip (C1825)
   if(k==="leg") return !!sh && sh.source==="route";      // v1.05.006T
   if(k==="flag") return !!(e.raw&&e.raw.geometryFlag);    // v1.05.008T
+  if(k==="mism") return !!(sh&&sh.mismatch);              // v1.06.036
   if(k==="poly" && sh && sh.source==="named") return true;           // v1.05.012T: named airspace (CTR, LLR...) is a polygon
   if(k==="linked" && sh && sh.source==="named") return P.length>1;
   if(!sh || sh.source!=="e_text") return false;
@@ -2531,6 +2535,20 @@ function topStack(){ requestAnimationFrame(()=>{
 // while a route is being drawn the NOTAMs stay only as a light background
 function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.setStyle({opacity:.12,fillOpacity:.025}); }); }
 
+// v1.06.036: gold box when the NOTAM's own items disagree (parser "mismatch", issue #7): a calm line for the pilot,
+// then a small technical line (Item Q / Item E) that can be copied for רת״א. Shown to every pilot.
+const MISM_B={lebanon:"לבנון",syria:"סוריה",jordan:"ירדן",egypt:"מצרים",gaza:"רצועת עזה"}, MISM_D={NB:"צפונה",SB:"דרומה",EB:"מזרחה",WB:"מערבה"};
+function mismHtml(e){
+  const m=e.shape&&e.shape.mismatch; if(!m) return "";
+  let t,b,d;
+  if(m.kind==="q-e"){ t="אי התאמה: Q מול E"; b="ה-NOTAM מציין שני מקומות שונים. כדי שלא תפספס, שניהם מוצגים במפה ומחוברים בקו מקווקו.";
+    d=`פירוט: מיקום Q רחוק <bdi dir="ltr">${esc(String(m.distNm))} NM</bdi> מהאזור שבשדה E.`; }
+  else if(m.kind==="e-dir"){ const c=MISM_B[m.border]||esc(m.border||""), w=MISM_D[m.dir]||"";
+    t="אי התאמה בשדה E"; b=`הכיוון שכתוב ב-NOTAM מפנה לתוך ${c}. הרצועה מוצגת בצד הישראלי של הגבול, כמו בשאר הגבולות.`;
+    d=`פירוט: <bdi dir="ltr">${esc(m.width||"")} ${esc(m.dir||"")}</bdi> מגבול ${c} = ${w}, לתוך ${c}.`; }
+  else return "";
+  return `<div class="pu-con"><b>ⓘ ${t}</b>${b}<span class="cd">${d}</span></div>`;
+}
 // popup: one card per NOTAM at this spot
 function puItem(e){
   const st=statusOf(e), id=esc(e.id), txt=e.text||"", long=txt.length>170;
@@ -2544,6 +2562,7 @@ function puItem(e){
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
     ${routeTag(e)?`<span class="pu-rt">${routeTag(e)}</span>`:""}
     ${e.shape&&e.shape.diversionNames?`<div class="pu-div">נתיב חלופי: ${esc(e.shape.diversionNames.join(" - "))}</div>`:""}
+    ${mismHtml(e)}
     <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';this.closest('.leaflet-popup')&&MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
     <div class="pu-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     ${st==="chg"?`<div class="pu-upd">הנוטאם עודכן מאז שסימנת אותו. קרא שוב ובדוק שהסימון עדיין נכון</div>`:""}
@@ -3618,7 +3637,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.035 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.036 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3628,7 +3647,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.035 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.036 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -3889,6 +3908,7 @@ function rvPuHtml(e){
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
     ${ROUTE.length>=2?'<span class="pu-rt">בקרבת המסלול</span>':""}
     ${e.shape&&e.shape.diversionNames?`<div class="pu-div">נתיב חלופי: ${esc(e.shape.diversionNames.join(" - "))}</div>`:""}
+    ${mismHtml(e)}
     <div class="pu-txt">${esc(long?txt.slice(0,170):txt)}${long?`<span class="pu-more" style="display:none">${esc(txt.slice(170))}</span><a class="pu-tg" onclick="var m=this.previousElementSibling,o=m.style.display==='none';m.style.display=o?'inline':'none';this.textContent=o?' פחות ▴':' עוד ▾';MAP._popup&&MAP._popup.update()"> עוד ▾</a>`:""}</div>
     <div class="pu-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     ${st==="chg"?`<div class="pu-upd">הנוטאם עודכן מאז שסימנת אותו. קרא שוב ובדוק שהסימון עדיין נכון</div>`:""}
