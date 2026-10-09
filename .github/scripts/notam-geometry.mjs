@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.012 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.013 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -44,6 +44,9 @@
  *   - a leg whose two points are not directly joined in the GIS is accepted only through ONE
  *     possible path of at most 3 segments, no longer than 1.3 x the straight distance
  *     (the NOTAM skipped a point in between, e.g. MCZVA-YARHV = MCZVA-SSOMR-YARHV); "via" lists them
+ *   - v1.00.013 (Eli, issue #5 C2071): a point named in the middle of a published leg does not break the leg.
+ *     If the NOTAM closes A-B-C, the GIS has neither A-B nor B-C, but has the published leg A-C and point B lies on it
+ *     (within 0.5 km of the line), the leg A-C is drawn ("pointOn":["B"]). E.g. AHIUD-YASIF-AAKKO = AHIUD-AAKKO.
  *   - anything after "DIVERTED" is the diversion (open), never drawn as closed. It is kept as parts with
  *     "role":"diversion" (drawn by the app as the published route, highlighted, not as a restriction):
  *       "DIVERTED VIA FRDIS-HASID."  -> the diversion is that chain
@@ -137,6 +140,7 @@
  *   closed route legs: "source":"route",
  *                 "parts":[{"type":"line","coords":[[lat,lon],...],"leg":"NOAAM-GOVRN","layer":"cvfr",
  *                           "via":["SSOMR"] (only when a skipped point was filled in),
+ *                           "pointOn":["YASIF"] (v1.00.013: a named point lying on this published leg),
  *                           "otherLayer":true (only when found in the other layer)}, ...],
  *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
  *                 diversion: extra parts {"type":"line","role":"diversion","coords":[...],"leg":"MYTAR-MZDOT",
@@ -498,6 +502,18 @@ function resolveLeg(a, b, pref) {
   }
   return null;
 }
+// v1.00.013: A-B-C where B is only a point lying on the published leg A-C (within ON_LEG_KM): that leg
+const ON_LEG_KM = 0.5;
+function pointOnLeg(a, b, c, pref) {
+  for (const layer of pref.concat(ROUTE_LAYERS.filter(l => !pref.includes(l)))) {
+    const R = ROUTES[layer], A = al(layer, a), B = al(layer, b), C = al(layer, c), line = R.seg.get(`${A}|${C}`), pb = R.pts.get(B);
+    if (!line || !pb || lineDistKm(pb, line) > ON_LEG_KM) continue;
+    const wd = [A, B, C].filter(x => R.wPts.has(x)); if (R.wSeg.has(`${A}|${C}`)) wd.push(`${A}-${C}`);
+    return Object.assign({ type: "line", coords: line.map(RP), leg: `${a}-${c}`, layer, t: R.segT.get(`${A}|${C}`) || "", pointOn: [b] },
+                         pref.includes(layer) ? {} : { otherLayer: true }, wd.length ? { withdrawn: wd } : {});
+  }
+  return null;
+}
 const ptName = (layer, c) => ROUTES[layer].names.get(al(layer, c)) || c;
 function routeLegs(notam) {
   const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
@@ -554,7 +570,13 @@ function routeLegs(notam) {
   }
   if (!legs.length) return null;
   const parts = [], missing = [];
-  for (const { a, b, layers: pref } of legs) { const hit = resolveLeg(a, b, pref); if (hit) parts.push(hit); else missing.push(`${a}-${b}`); }
+  const res = legs.map(({ a, b, layers: pref }) => resolveLeg(a, b, pref));
+  for (let i = 0; i < legs.length - 1; i++) {                                     // v1.00.013: A-B + B-C both missing, B on the leg A-C
+    if (res[i] || res[i + 1] || legs[i].b !== legs[i + 1].a) continue;
+    const hit = pointOnLeg(legs[i].a, legs[i].b, legs[i + 1].b, legs[i].layers);
+    if (hit) { res[i] = hit; res[i + 1] = false; i++; }
+  }
+  legs.forEach(({ a, b }, i) => { if (res[i]) parts.push(res[i]); else if (res[i] !== false) missing.push(`${a}-${b}`); });
   if (!parts.length) return { reject: `no closed leg found in the route layers (${missing.join(", ")})` };
   const qp = notam.qLine?.position || notam.position;
   const inQ = q => !(qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) || distNm([qp.lat, qp.lon], q) <= qp.radiusNm + ROUTE_Q_SLACK_NM;
