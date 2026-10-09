@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.011 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.012 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -99,6 +99,8 @@
  *   - "area missing" a named airspace (CTR / TMA / LLP / training area...) that is not in the GIS layers
  *   - "outward"      "... TO N KM OUTWARD" that could not be drawn (anything but the Gaza Strip boundary)
  *   - "patch"        a leg in a chart patch file refused by its distance check (a typo in the patch)
+ *   - "Q/E mismatch" (v1.00.012) the NOTAM's own items disagree: the Item E area lies outside the Item Q circle
+ *                    (both drawn, linked), or a border strip's direction word points away from Israel
  *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
  *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
  *                    CENTERED, "WI 5NM", coordinate-like numbers); ATS airways are ignored
@@ -111,7 +113,11 @@
  *   - polygon: 3+ distinct points, not self-crossing, not zero-area
  *   - circle radius between 10 m and 50 NM
  *   - the whole shape must lie inside the NOTAM's own Q-line circle (+1.5 NM slack),
- *     so a misread number can never move a restriction somewhere else
+ *     so a misread number can never move a restriction somewhere else.
+ *     v1.00.012 (Eli, issue #7 C2099): when the Item E shape reaches outside the Q circle, it is no longer
+ *     rejected: the E shape is drawn as the main area AND the Q circle is kept as a second, linked area
+ *     ("role":"q"), so whichever of the two is wrong, the pilot still sees the other. Marked with
+ *     "mismatch":{"kind":"q-e","distNm":20.7} (Q centre to the E area's anchor) and flagged "Q/E mismatch".
  *   - "SEMI-CIRCLE TO EAST" (or NORTH / SOUTH / WEST) becomes a half circle on that side;
  *     a semi-circle with no clear direction is drawn as a full circle (never smaller than the real area)
  *
@@ -141,6 +147,10 @@
  *                 and "strip":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"};
  *                 when the strip lies entirely inside the NOTAM's own polygon: no extra part, only
  *                 "stripInside":{"border":"gaza","km":6,"marginKm":1,"of":"GAZA-STRIP"}
+ *   mismatch (v1.00.012): "mismatch":{"kind":"q-e","distNm":20.7}  (Item E area outside the Q circle; extra part
+ *                 {"type":"circle","role":"q","center":[lat,lon],"radiusNm":1} = the Q circle) or
+ *                 "mismatch":{"kind":"e-dir","border":"egypt","width":"6KM","dir":"WB"}  (border strip direction word
+ *                 points away from Israel). The app shows a gold box in the popup and lists them under "אי התאמה Q/E".
  *   "geometryReject": "reason"      // only when coordinates / route legs were found but rejected
  *   "geometryFlag": {"kind":"legs missing","reason":"..."}   // only on flagged NOTAMs (see FLAGS);
  *                                   the test copy lists them under "לבדיקה" and shows the reason
@@ -319,7 +329,9 @@ function rdp(pts, tolKm) {                                                      
 function borderStrip(text) {
   const m = String(text || "").toUpperCase().match(RX_BORDER);
   if (!m) return null;
-  return buildStrip(m[1].toLowerCase(), parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), m[4] || null);
+  const g = buildStrip(m[1].toLowerCase(), parseFloat(m[2]) * (m[3] === "NM" ? 1.852 : 1), m[4] || null);
+  if (g && g.geometry && g.geometry.note && m[4]) g.geometry.mismatch = { kind: "e-dir", border: m[1].toLowerCase(), width: m[2] + m[3], dir: m[4] };   // v1.00.012
+  return g;
 }
 // one border strip: along the border line "id", on the Israeli side, km deep + the safety margin (also used for Gaza)
 function buildStrip(id, km, dirWord) {
@@ -669,11 +681,10 @@ export function geometryFor(notam) {
     }
   }
   const qp = notam.qLine?.position || notam.position;
+  let qOut = false;                                                  // v1.00.012: E shape outside the Q circle = Q/E mismatch, both drawn
   if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) {
     const c = [qp.lat, qp.lon], lim = qp.radiusNm + Q_SLACK_NM;
-    for (const p of parts) for (const q of allPoints(p)) {
-      if (distNm(c, q) > lim) return { reject: `shape reaches outside the Q-line circle (${distNm(c, q).toFixed(1)} > ${lim} NM)` };
-    }
+    qOut = parts.some(p => allPoints(p).some(q => distNm(c, q) > lim));
   }
   // "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": the Gaza border strip, as a second area (must pass the same checks)
   let strip = null, stripFlag = null, stripInside = null;
@@ -705,6 +716,10 @@ export function geometryFor(notam) {
   if (stripFlag) g.stripFlag = stripFlag;
   if (stripInside) g.stripInside = stripInside;
   if (r.semi) g.note = "semi-circle drawn as full circle";
+  if (qOut) {                                                        // v1.00.012: keep the Q circle too, linked to the E area
+    g.parts.push({ type: "circle", role: "q", center: RP([qp.lat, qp.lon]), radiusNm: qp.radiusNm });
+    g.mismatch = { kind: "q-e", distNm: Math.round(distNm([qp.lat, qp.lon], anchor) * 10) / 10 };
+  }
   return { geometry: g };
 }
 
@@ -729,6 +744,10 @@ export function flagsFor(notams) {
     if (g && g.outsideQ) { add(n, "outside Q", "route legs reach outside the NOTAM's Q circle, not drawn: " + g.outsideQ.join(", ")); continue; }
     const wd = g && g.parts ? [...new Set(g.parts.flatMap(p => p.withdrawn || []))] : [];
     if (wd.length) { add(n, "withdrawn", "uses what the 2025 chart withdrew: " + wd.join(", ")); continue; }
+    if (g && g.mismatch && g.mismatch.kind === "q-e") { const q = n.qLine?.position || n.position || {};
+      add(n, "Q/E mismatch", `Item Q position (${q.lat},${q.lon} r=${q.radiusNm}NM) does not cover the Item E area: ${g.mismatch.distNm} NM apart; both drawn, linked`); continue; }
+    if (g && g.mismatch && g.mismatch.kind === "e-dir") {
+      add(n, "Q/E mismatch", `Item E: "${g.mismatch.width} ${g.mismatch.dir}" from the ${g.mismatch.border.toUpperCase()} boundary points away from Israel; strip drawn on the Israeli side`); continue; }
     if (g && g.note === "semi-circle drawn as full circle") { add(n, "semi-circle", "semi-circle with no side, drawn as a full circle"); continue; }
     if (g || !t || /\bATS\s+RTE\b/.test(t)) continue;
     const hits = AREA_WORDS.filter(([, rx]) => { rx.lastIndex = 0; return rx.test(t); }).map(([w]) => w);
