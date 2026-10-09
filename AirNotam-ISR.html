@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.032 · built by eligrt
+     AirNotam-ISR · v1.06.033 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1381,7 +1381,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
   <div class="setp" id="setp" role="dialog" aria-labelledby="setTtl">
     <button type="button" class="sp-grip" id="spGrip" aria-label="סגור"><i></i><em class="cg-x"><b>×</b>סגור</em></button>
     <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
-      <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a></div>   <!-- v1.06.004 -->
+      <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a> · <a id="stressLnk" onclick="stressToggle()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">stress test</a></div>   <!-- v1.06.004; v1.06.033: stress test -->
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMים העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
       <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
@@ -1525,7 +1525,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.032 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.033 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3076,7 +3076,7 @@ function dragClose(h,panel,axis,sign,onClose){
   const end=()=>{ if(s==null) return; s=null; panel.classList.remove("drag"); panel.style.transform=""; if(raw*sign>40||Math.abs(raw)<4) onClose(); };
   h.addEventListener("pointerup",end); h.addEventListener("pointercancel",end);
 }
-dragClose(document.getElementById("spGrip"),document.getElementById("setp"),"y",1,closeSettings);
+dragClose(document.getElementById("spGrip"),document.getElementById("setp"),"y",1,()=>closeSettings());   // v1.06.033: by name, so the log sees it
 // v1.05.015T: B4 scroll hint in a curtain whose content runs past its bottom: faded strip + bouncing chevron, gone at the end
 function cueAdd(sc){
   const c=document.createElement("div"); c.className="cue hide";
@@ -3614,7 +3614,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.032 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.033 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3624,11 +3624,11 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.032 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.033 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
-  document.addEventListener("visibilitychange",()=>{ if(closed) return; const h=document.visibilityState==="hidden"; set(h?"h":"1"); alog(h?"app hidden":"app visible"); });
+  document.addEventListener("visibilitychange",()=>{ if(closed) return; const h=document.visibilityState==="hidden"; set(h?"h":"1"); alog(h?"app hidden":"app visible"); if(!h) setTimeout(()=>memSnap("visible"),1500); });
   window.addEventListener("pagehide",()=>{ closed=true; set("0"); alog("page closed"); });
   window.addEventListener("pageshow",e=>{ if(e.persisted){ closed=false; set("1"); alog("page restored"); } });
   window.addEventListener("error",e=>alog("ERROR "+(e.message||"")+" @"+(e.lineno||"")));
@@ -3652,11 +3652,60 @@ async function alogCopy(){
   // map: zoom / position after every change; with a route, also the corridor width in pixels at this zoom
   wrap("initMap",()=>MAP?"":"map created");
   const hook=setInterval(()=>{ if(typeof MAP==="undefined"||!MAP) return; clearInterval(hook);
-    MAP.on("moveend",()=>{ const c=MAP.getCenter(), z=MAP.getZoom();
+    MAP.on("moveend",()=>{ if(STRESS.on){ STRESS.n++; return; } const c=MAP.getCenter(), z=MAP.getZoom();
       let cw=""; if(ROUTE.length>=2){ const mpp=40075016.686*Math.cos(c.lat*Math.PI/180)/Math.pow(2,z+8); cw=` · route ${ROUTE.length} pts · corridor ${Math.round(2*CORR_NM*1852/mpp)}px`; }
       alog(`map Z${Math.round(z*10)/10} ${c.lat.toFixed(3)},${c.lng.toFixed(3)}${DRAWING?" · drawing":""}${cw}`); });
+    memTiles(); setTimeout(()=>memSnap("start"),2000);
   },300);
+  // v1.06.033: log gaps from the crash task
+  wrap("setNvis",a=>"NOTAMים on map: "+a[0]);
+  const dd=window.drawDone; window.drawDone=function(...a){ const r=dd.apply(this,a); memSnap("drawDone"); return r; };
+  const rm=window.renderMap; window.renderMap=function(...a){ const r=rm.apply(this,a);
+    try{ if(!STRESS.on) alog("renderMap "+Object.keys(CIRCLES).length+" shapes"); }catch(e){} return r; };
 })();
+
+// ── v1.06.033: crash watch (roadmap HIGH 2). memSnap = what the map holds in memory right now, measured, one log line.
+//    canvas = every <canvas> on the page, backing pixels x 4 bytes (the dpr is already in canvas.width / height).
+//    tiles = map tile images on the page; tl = tiles loaded since the last snapshot (and per minute). ──
+let TL_N=0, TL_ALL=0, TL_T=Date.now();
+function memTiles(){
+  if(!MAP_BASES) return;
+  Object.values(MAP_BASES).forEach(b=>{ const on=l=>l.on&&l.on("tileload",()=>{TL_N++;TL_ALL++;}); b.eachLayer&&!b.getTileUrl? b.eachLayer(on) : on(b); });
+}
+function memSnap(tag){
+  try{
+    if(!MAP) return;
+    const cv=[...document.querySelectorAll("canvas")]; let px=0; cv.forEach(c=>{ px+=c.width*c.height; });
+    const tiles=document.querySelectorAll("#map img.leaflet-tile").length;
+    const secs=Math.max(1,(Date.now()-TL_T)/1000), perMin=Math.round(TL_N*60/secs);
+    const gis=GIS_IDS.filter(id=>GIS.lay[id]&&MAP.hasLayer(GIS.lay[id])).join(",")||"none";
+    const base=MAP_BASE==="פשוטה"?"gray":MAP_BASE;
+    alog(`mem ${tag} · canvas ${cv.length} ${Math.round(px*4/1048576)}MB · tile img ${tiles} · tl ${TL_N} in ${Math.round(secs)}s (${perMin}/min, ${TL_ALL} total) · base ${base} · gis ${gis} · shapes ${Object.keys(CIRCLES).length} · Z${Math.round(MAP.getZoom())}`);
+    TL_N=0; TL_T=Date.now();
+  }catch(e){ alog("mem error "+e.message); }
+}
+// stress test: the map glides by itself along a fixed path in central Israel, Z9 -> Z10 -> Z11 -> Z10, one move every 1.2 s,
+// same glide as the review (0.55 s). Pauses while the app is in the background. No per-move log lines; one mem line every 30 s.
+const STRESS={on:false,i:0,n:0,t:null,m:null};
+const STRESS_PTS=[[32.08,34.80],[32.30,34.87],[32.50,34.95],[32.60,35.25],[32.40,35.05],[32.15,34.85]];
+const STRESS_Z=[9,10,11,10];
+function stressLabel(){ const l=document.getElementById("stressLnk"); if(l) l.textContent= STRESS.on? "stop stress test" : "stress test";
+  const z=document.querySelector(".zoom-ro"); if(z&&MAP) z.textContent="Z"+Math.round(MAP.getZoom())+(STRESS.on?" · stress "+STRESS.n:""); }
+function stressStep(){
+  if(!STRESS.on) return;
+  if(document.visibilityState!=="hidden" && MAP){
+    const p=STRESS_PTS[STRESS.i%STRESS_PTS.length], z=STRESS_Z[STRESS.i%STRESS_Z.length]; STRESS.i++;
+    MAP.flyTo(p,z,{duration:.55,easeLinearity:.25}); setTimeout(stressLabel,700);
+  }
+  STRESS.t=setTimeout(stressStep,1200);
+}
+function stressToggle(){
+  if(STRESS.on){ STRESS.on=false; clearTimeout(STRESS.t); clearInterval(STRESS.m); alog("stress stop · "+STRESS.n+" moves"); memSnap("stress stop"); stressLabel(); return; }
+  closeSettings(); if(DRAWING) drawDone(); setView("map");
+  STRESS.on=true; STRESS.i=0; STRESS.n=0; alog("stress start"); memSnap("stress start"); stressLabel();
+  STRESS.m=setInterval(()=>{ if(document.visibilityState!=="hidden") memSnap("stress "+STRESS.n); },30000);
+  STRESS.t=setTimeout(stressStep,600);
+}
 
 
 // ── v1.06.012: the review, map part (screens 4b, 5, 5b, M2, PC 10) ──
@@ -3725,7 +3774,7 @@ function startReview(){
     document.getElementById("rvDim").classList.toggle("show",WIDE);
     document.getElementById("stage").classList.add("rv-on");
     setTimeout(()=>{ document.getElementById("stage").style.setProperty("--rvtop",rvTopPx()+"px"); topStack(); },470);
-    topStack(); alog("review start "+RV.list.length+" map, "+RV.cards.length+" cards");
+    topStack(); alog("review start "+RV.list.length+" map, "+RV.cards.length+" cards"); memSnap("review start");
     const j=rvNextPending(-1);
     if(j>=0) return rvGo(j);
     RV.i=RV.list.length-1; RV.end=true;
