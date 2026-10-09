@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.06.036 · built by eligrt
+     AirNotam-ISR · v1.06.037 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -186,7 +186,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .div-tag{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:max-content;white-space:nowrap;background:#fbf6e8;border:1.5px solid;border-radius:5px;
   padding:2px 6px;font:700 11px var(--font-ui);direction:rtl;box-shadow:0 0 0 3px rgba(255,255,255,.8);pointer-events:none;}   /* v1.05.010T */
 .pu-con{text-align:right;margin-top:6px;font-size:11.5px;line-height:1.45;color:#5a3d06;background:#fdf1d8;border:1.5px solid #c8a04a;border-radius:5px;padding:5px 8px;direction:rtl;}   /* v1.06.036 */
-.pu-con b{display:block;font-size:12px;color:#8a5a00;margin-bottom:2px;}
+.pu-con .ci{font-weight:700;color:#8a5a00;margin-inline-end:4px;}   /* v1.06.037 */
 .pu-con .cd{display:block;margin-top:4px;padding-top:4px;border-top:1px dashed #d9c08a;font-size:10.5px;color:#7a6440;}
 .pu-upd{margin-top:6px;font-size:11.5px;font-weight:600;color:#7a2418;background:#f6e3df;border-radius:5px;padding:5px 8px;}
 .pu-done-irr{color:#6b6b6b;}
@@ -1530,7 +1530,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.06.036 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.06.037 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -2538,16 +2538,19 @@ function notamFade(){ if(MAP_LAYER) MAP_LAYER.eachLayer(l=>{ if(l.setStyle) l.se
 // v1.06.036: gold box when the NOTAM's own items disagree (parser "mismatch", issue #7): a calm line for the pilot,
 // then a small technical line (Item Q / Item E) that can be copied for רת״א. Shown to every pilot.
 const MISM_B={lebanon:"לבנון",syria:"סוריה",jordan:"ירדן",egypt:"מצרים",gaza:"רצועת עזה"}, MISM_D={NB:"צפונה",SB:"דרומה",EB:"מזרחה",WB:"מערבה"};
-function mismHtml(e){
-  const m=e.shape&&e.shape.mismatch; if(!m) return "";
-  let t,b,d;
-  if(m.kind==="q-e"){ t="אי התאמה: Q מול E"; b="ה-NOTAM מציין שני מקומות שונים. כדי שלא תפספס, שניהם מוצגים במפה ומחוברים בקו מקווקו.";
-    d=`פירוט: מיקום Q רחוק <bdi dir="ltr">${esc(String(m.distNm))} NM</bdi> מהאזור שבשדה E.`; }
-  else if(m.kind==="e-dir"){ const c=MISM_B[m.border]||esc(m.border||""), w=MISM_D[m.dir]||"";
-    t="אי התאמה בשדה E"; b=`הכיוון שכתוב ב-NOTAM מפנה לתוך ${c}. הרצועה מוצגת בצד הישראלי של הגבול, כמו בשאר הגבולות.`;
-    d=`פירוט: <bdi dir="ltr">${esc(m.width||"")} ${esc(m.dir||"")}</bdi> מגבול ${c} = ${w}, לתוך ${c}.`; }
-  else return "";
-  return `<div class="pu-con"><b>ⓘ ${t}</b>${b}<span class="cd">${d}</span></div>`;
+function mismHtml(e){   // v1.06.037: pilot line on top, the technical label inside פירוט; + undrawn route legs (issue #4)
+  const sh=e.shape; if(!sh) return "";
+  const box=(b,d)=>`<div class="pu-con"><span class="ci">ⓘ</span>${b}<span class="cd">${d}</span></div>`;
+  let out="", m=sh.mismatch;
+  if(m&&m.kind==="q-e") out+=box("ה-NOTAM מציין שני מקומות שונים. כדי שלא תפספס, שניהם מוצגים במפה ומחוברים בקו מקווקו.",
+    `פירוט (אי התאמה: Q מול E): מיקום Q רחוק <bdi dir="ltr">${esc(String(m.distNm))} NM</bdi> מהאזור שבשדה E.`);
+  else if(m&&m.kind==="e-dir"){ const c=MISM_B[m.border]||esc(m.border||""), w=MISM_D[m.dir]||"";
+    out+=box(`ה-NOTAM מפנה לתוך ${c}, אך משיקולי בטיחות טיסה הרצועה במפה מוצגת בצד הישראלי של הגבול.`,
+      `פירוט (אי התאמה בשדה E): <bdi dir="ltr">${esc(m.width||"")} ${esc(m.dir||"")}</bdi> מגבול ${c} = ${w}, לתוך ${c}.`); }
+  if(sh.source==="route"&&Array.isArray(sh.missing)&&sh.missing.length)
+    out+=box("שים לב: מקטע נתיב סגור אחד לפחות אינו מופיע במפה (ראה פירוט מטה).",
+      `פירוט (מקטע חסר): <bdi dir="ltr">${esc(sh.missing.join(", "))}</bdi> לא נמצא בשכבות ה-GIS.`);
+  return out;
 }
 // popup: one card per NOTAM at this spot
 function puItem(e){
@@ -3637,7 +3640,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.06.036 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.06.037 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3647,7 +3650,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.06.036 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.06.037 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
