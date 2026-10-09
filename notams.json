@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-09T00:14:09.396Z",
+  "generatedAt": "2026-10-09T04:32:27.929Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 112,
+  "count": 111,
   "notams": [
     {
       "id": "C2130/26",
@@ -6084,57 +6084,6 @@
         "anchor": [
           32.866111,
           35.056806
-        ]
-      }
-    },
-    {
-      "id": "C2066/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-07T16:00:00.000Z",
-      "toDate": "2026-10-09T02:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 33.1,
-          "lon": 35.583333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL",
-      "position": {
-        "lat": 33.1,
-        "lon": 35.583333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2066/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/020/3306N03535E001 A) LLLL B) 2610071600 C) 2610090200 D) DAILY 0001-0200 1600-2359 E) CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL)",
-      "rowID": "2065973",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              33.106111,
-              35.581667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          33.106111,
-          35.581667
         ]
       }
     },
@@ -14419,7 +14368,17 @@
           30.374301,
           34.648529
         ],
-        "note": "text says WB, which points away from Israel; drawn on the Israeli side"
+        "note": "text says WB, which points away from Israel; drawn on the Israeli side",
+        "mismatch": {
+          "kind": "e-dir",
+          "border": "egypt",
+          "width": "6KM",
+          "dir": "WB"
+        }
+      },
+      "geometryFlag": {
+        "kind": "Q/E mismatch",
+        "reason": "Item E: \"6KM WB\" from the EGYPT boundary points away from Israel; strip drawn on the Israeli side"
       }
     },
     {
