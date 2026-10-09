@@ -1,9 +1,84 @@
 {
-  "generatedAt": "2026-10-09T09:10:51.763Z",
+  "generatedAt": "2026-10-09T14:07:50.532Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 111,
+  "count": 110,
   "notams": [
+    {
+      "id": "C2131/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-10T04:00:00.000Z",
+      "toDate": "2026-10-10T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "004",
+        "position": {
+          "lat": 31.966667,
+          "lon": 34.733333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT WEEKEND RTE CLSD TYONA-SHEFC-SOREK.",
+      "position": {
+        "lat": 31.966667,
+        "lon": 34.733333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2131/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /000/004/3158N03444E004 A) LLLL B) 2610100400 C) 2610101100 E) ULTRALIGHT WEEKEND RTE CLSD TYONA-SHEFC-SOREK.)",
+      "rowID": "2067965",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.00469,
+                34.72734
+              ],
+              [
+                31.94,
+                34.70611
+              ]
+            ],
+            "leg": "TYONA-SHEFC",
+            "layer": "sport",
+            "t": "OPEN · Weekend · חד כיווני"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.94,
+                34.70611
+              ],
+              [
+                31.94194,
+                34.75194
+              ]
+            ],
+            "leg": "SHEFC-SOREK",
+            "layer": "sport",
+            "t": "OPEN · Weekend · חד כיווני"
+          }
+        ],
+        "anchor": [
+          31.972345,
+          34.716725
+        ]
+      }
+    },
     {
       "id": "C2130/26",
       "location": "LLLL",
@@ -3495,40 +3570,6 @@
       "rowID": "2066428"
     },
     {
-      "id": "C2084/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-08T10:00:00.000Z",
-      "toDate": "2026-10-09T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2084/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610081000 C) 2610091100 D) 08 1000-1545, 09 0500-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
-      "rowID": "2066367"
-    },
-    {
       "id": "A0802/26",
       "location": "LLBG",
       "locationDescription": "Ben-Gurion",
@@ -6865,40 +6906,6 @@
           35.31088
         ]
       }
-    },
-    {
-      "id": "C2009/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-09T09:15:00.000Z",
-      "toDate": "2026-10-09T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "110",
-        "position": {
-          "lat": 31.283333,
-          "lon": 34.716667,
-          "radiusNm": 4,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL",
-      "position": {
-        "lat": 31.283333,
-        "lon": 34.716667,
-        "radiusNm": 4,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2009/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610090915 C) 2610091100 E) PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL)",
-      "rowID": "2061925"
     },
     {
       "id": "C1983/26",
