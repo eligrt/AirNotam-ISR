@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.013 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.014 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -47,6 +47,10 @@
  *   - v1.00.013 (Eli, issue #5 C2071): a point named in the middle of a published leg does not break the leg.
  *     If the NOTAM closes A-B-C, the GIS has neither A-B nor B-C, but has the published leg A-C and point B lies on it
  *     (within 0.5 km of the line), the leg A-C is drawn ("pointOn":["B"]). E.g. AHIUD-YASIF-AAKKO = AHIUD-AAKKO.
+ *   - v1.00.014 (Eli, issue #4 C2080): a closed leg found in no route layer, where one end is known ONLY as an IFR point
+ *     (gis/ifr.json, e.g. the offshore HEL routes GALIM-SUVAS), is drawn as a straight line between the two points
+ *     ("straight":true). The other end uses its VFR position when it has one. Such a leg always gets the Q check (+3 NM).
+ *     A point in no file at all (e.g. INBAR) stays in "missing".
  *   - anything after "DIVERTED" is the diversion (open), never drawn as closed. It is kept as parts with
  *     "role":"diversion" (drawn by the app as the published route, highlighted, not as a restriction):
  *       "DIVERTED VIA FRDIS-HASID."  -> the diversion is that chain
@@ -141,6 +145,7 @@
  *                 "parts":[{"type":"line","coords":[[lat,lon],...],"leg":"NOAAM-GOVRN","layer":"cvfr",
  *                           "via":["SSOMR"] (only when a skipped point was filled in),
  *                           "pointOn":["YASIF"] (v1.00.013: a named point lying on this published leg),
+ *                           "straight":true (v1.00.014: no published route, straight line to an IFR point),
  *                           "otherLayer":true (only when found in the other layer)}, ...],
  *                 "missing":["AFULA-EITAN"] (only when some legs could not be found)
  *                 diversion: extra parts {"type":"line","role":"diversion","coords":[...],"leg":"MYTAR-MZDOT",
@@ -371,6 +376,7 @@ function buildStrip(id, km, dirWord) {
 // ── closed route legs ────────────────────────────────────────────────────────
 // ROUTES[layer] = { seg: Map "A|B" -> [[lat,lon],...] from A to B, adj: Map A -> Set(B) }
 let ROUTES = null;
+let IFR_PTS = null;                                                                // v1.00.014: IFR point positions only (no airways)
 const ROUTE_LAYERS = ["cvfr", "sport"];
 export const PATCH_ERRORS = [];                                                   // refused patch legs, reported as flags
 // ── GIS patch (gis/<layer>-patch-*.json laid over gis/<layer>.json) ──
@@ -455,6 +461,9 @@ export function loadRoutes(dir) {
     }
     ROUTES[id] = { seg, adj, pts, names, segT, wSeg, wPts, alias: d._alias || {} };
   }
+  IFR_PTS = new Map();
+  try { for (const f of JSON.parse(readFileSync(`${dir}/ifr.json`, "utf8")).p.features) { const [lon, lat] = f.geometry.coordinates; IFR_PTS.set(f.properties.c, [lat, lon]); } }
+  catch (e) { IFR_PTS = new Map(); }
 }
 const al = (layer, c) => ROUTES[layer].alias[c] || c;                           // chart patch aliases (per layer)
 function lineKm(line) { let d = 0; for (let i = 0; i < line.length - 1; i++) d += Math.hypot(...kmVec(line[i], line[i + 1])); return d; }
@@ -513,6 +522,17 @@ function pointOnLeg(a, b, c, pref) {
                          pref.includes(layer) ? {} : { otherLayer: true }, wd.length ? { withdrawn: wd } : {});
   }
   return null;
+}
+// v1.00.014: a leg to a point known only as an IFR point: straight line (VFR position first for the other end)
+function straightLeg(a, b, pref) {
+  if (!IFR_PTS || !IFR_PTS.size) return null;
+  const order = pref.concat(ROUTE_LAYERS.filter(l => !pref.includes(l)));
+  const vfr = c => { for (const l of order) { const q = ROUTES[l].pts.get(al(l, c)); if (q) return q; } return null; };
+  const va = vfr(a), vb = vfr(b);
+  if (va && vb) return null;                                                      // both VFR points: not this rule
+  const pa = va || IFR_PTS.get(a), pb = vb || IFR_PTS.get(b);
+  if (!pa || !pb) return null;
+  return { type: "line", coords: [pa, pb].map(RP), leg: `${a}-${b}`, layer: pref[0] || "cvfr", t: "", straight: true };
 }
 const ptName = (layer, c) => ROUTES[layer].names.get(al(layer, c)) || c;
 function routeLegs(notam) {
@@ -576,6 +596,7 @@ function routeLegs(notam) {
     const hit = pointOnLeg(legs[i].a, legs[i].b, legs[i + 1].b, legs[i].layers);
     if (hit) { res[i] = hit; res[i + 1] = false; i++; }
   }
+  legs.forEach(({ a, b, layers: pref }, i) => { if (res[i] === null) res[i] = straightLeg(a, b, pref); });   // v1.00.014
   legs.forEach(({ a, b }, i) => { if (res[i]) parts.push(res[i]); else if (res[i] !== false) missing.push(`${a}-${b}`); });
   if (!parts.length) return { reject: `no closed leg found in the route layers (${missing.join(", ")})` };
   const qp = notam.qLine?.position || notam.position;
@@ -587,7 +608,7 @@ function routeLegs(notam) {
   // exact leg = both named end points are published points of that layer, joined directly (no skipped point filled in):
   // drawn even outside the Q circle (round 3 rule). Only legs filled in through a skipped point get the Q check.
   const exact = p => { const [a, b] = p.leg.split("-"), R = ROUTES[p.layer];
-                       return !p.via && R.pts.has(al(p.layer, a)) && R.pts.has(al(p.layer, b)); };
+                       return !p.via && !p.straight && R.pts.has(al(p.layer, a)) && R.pts.has(al(p.layer, b)); };
   const outQ = parts.filter(p => !exact(p) && !p.coords.every(inQ)).map(p => p.leg);
   if (outQ.length === parts.length) return { reject: `route legs reach outside the Q-line circle (${outQ.join(", ")})` };
   for (let i = parts.length - 1; i >= 0; i--) if (outQ.includes(parts[i].leg)) parts.splice(i, 1);
