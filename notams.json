@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T04:32:27.929Z",
+  "generatedAt": "2026-10-09T05:04:24.870Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "count": 111,
@@ -4899,6 +4899,25 @@
             "type": "line",
             "coords": [
               [
+                32.91194,
+                35.18111
+              ],
+              [
+                32.91861,
+                35.09639
+              ]
+            ],
+            "leg": "AHIUD-AAKKO",
+            "layer": "sport",
+            "t": "BR · AllWeek",
+            "pointOn": [
+              "YASIF"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
                 32.91861,
                 35.09639
               ],
@@ -5799,15 +5818,7 @@
         "anchor": [
           32.78773,
           35.186752
-        ],
-        "missing": [
-          "AHIUD-YASIF",
-          "YASIF-AAKKO"
         ]
-      },
-      "geometryFlag": {
-        "kind": "legs missing",
-        "reason": "route legs not in the GIS: AHIUD-YASIF, YASIF-AAKKO"
       }
     },
     {
