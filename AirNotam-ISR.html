@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.027 · built by eligrt
+     AirNotam-ISR · v1.07.028 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1674,7 +1674,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.027 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.028 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1869,7 +1869,9 @@ function filtReset(){
   LOC="all";
   renderFlightBar(); render();
 }
+let RENDER_AT=Date.now();
 function render(opts){
+  RENDER_AT=Date.now();
   opts=opts||{};
   const items=ENR.filter(passFilters);
   LAST_ITEMS=items;
@@ -1884,7 +1886,7 @@ function render(opts){
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
   // v1.07.027: count strip = a chain: everything in the feed -> after the family choices and time window -> after the route; every stage that narrowed is struck through
   const hasR=ROUTE_ONLY&&ROUTE.length>=2, onMap0= hasR? items.filter(e=>e.geo&&!offMap(e.id)).length : onMap;
-  const full=ENR.filter(e=>!e.admin&&!offMap(e.id));
+  const nowT=Date.now(), full=ENR.filter(e=>!e.admin&&!offMap(e.id)&&!(e.end&&e.end.getTime()<=nowT));   // v1.07.028: the first number counts only NOTAMים that are still active
   csUi([full.filter(e=>e.geo).length,onMap0,onMap],[full.filter(e=>!e.geo).length,noGeo,noGeo]);
   updateProgress();
   READY.irr=S.irr.length;
@@ -3112,6 +3114,13 @@ window.addEventListener("resize",updateScrollCue);
 function tickUTC(){const d=new Date();const p=n=>String(n).padStart(2,"0");
   const el=document.getElementById("utc");if(el)el.textContent=p(d.getUTCHours())+":"+p(d.getUTCMinutes());}
 tickUTC();setInterval(tickUTC,1000);
+// v1.07.028: once a minute, re-render only if a NOTAM ended since the last render; never while a curtain, settings or a map popup is open or the tab is hidden
+setInterval(()=>{ try{
+  if(document.visibilityState==="hidden"||!ENR.length) return;
+  if(document.querySelector(".fdlg.show,#setp.show,.leaflet-popup")) return;
+  const now=Date.now(), t0=RENDER_AT;
+  if(ENR.some(e=>e.end&&e.end.getTime()<=now&&e.end.getTime()>t0)) render();
+}catch(_){} },60000);
 
 // ── one-time-per-day disclaimer ──
 const DISC_KEY='airnotam_disc_day';
@@ -3962,7 +3971,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.027 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.028 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3972,7 +3981,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.027 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.028 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
