@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.021 · built by eligrt
+     AirNotam-ISR · v1.07.022 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1396,9 +1396,11 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
 .sp-row.sp-static{cursor:default}
 .sp-row.press{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
 #spUpd{position:relative;overflow:hidden;flex:none}
-#spUpd .sp-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--paper-edge);opacity:0;transition:opacity .2s}
+#spUpd{padding-bottom:22px}
+#spUpd .rt2{display:block}
+#spUpd .sp-bar{position:absolute;left:13px;right:13px;bottom:8px;height:5px;border-radius:3px;overflow:hidden;background:var(--paper-edge);opacity:0;transition:opacity .2s}
 #spUpd.busy .sp-bar{opacity:1}
-#spUpd .sp-bar i{display:block;height:100%;width:0;background:var(--gold)}
+#spUpd .sp-bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:3px}
 #spUpd.ok b{color:var(--cleared)}
 .setp .fam{flex:none;border:1.5px solid var(--ink);background:#f3f6fb;border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:6px;text-align:right;overflow:hidden;margin:0}
 .setp .famr{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);min-height:28px;cursor:pointer}
@@ -1525,7 +1527,7 @@ body.wide .spl{position:fixed}
       <div class="sp-sec new">חלון זמן ברירת מחדל</div>
       <div class="sp-row sp-static"><small>כמה שעות קדימה להציג כשלא הוגדרה טיסה מתוכננת</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24">24 שעות</label><label><input type="radio" name="spwin" value="48" checked>48 שעות</label><label><input type="radio" name="spwin" value="all">הכל</label></div></div>
       <div class="sp-sec">רענון</div>
-      <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">עדכן נתונים</b><small>טוען את ה-NOTAMים העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small><span class="sp-bar"><i></i></span></button>
+      <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">עדכן נתונים</b><small>טוען את ה-NOTAMים העדכניים. הסימונים שלך נשמרים.<span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small><span class="sp-bar"><i></i></span></button>
       <button type="button" class="sp-row" onclick="setReloadApp(this)"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
       <div class="sp-sec">NOTAMים על המפה</div>
       <div class="sp-row sp-static"><div class="sp-warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>טייס, שים לב: משיקולי בטיחות טיסה, הגדרה זו תקפה רק בתכנון הטיסה הנוכחי.</span></div>
@@ -1671,7 +1673,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.021 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.022 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3014,6 +3016,7 @@ function applyData(data,save,savedAt,later){
   document.getElementById("meta").className="metabar hdr-meta";
   document.getElementById("meta").innerHTML=staleLine(gen,SNAP.count);
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
+  const dt=document.getElementById("dataTime"); if(dt) dt.textContent= gen? fmtLocalHM(gen) : "--:--";   // v1.07.022: when the checked data itself was built (the scraper)
   PENDING=null; showUpdate(null);
   updTidy();
   setTimeout(()=>welcomeUi(),0);
@@ -3952,7 +3955,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.021 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.022 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3962,7 +3965,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.021 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.022 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
