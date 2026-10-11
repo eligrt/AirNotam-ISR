@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.026 · built by eligrt
+     AirNotam-ISR · v1.07.027 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1136,6 +1136,7 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .cstrip .h{display:flex;flex-direction:column;align-items:center;padding:7px 10px;}
 .cstrip .t{display:flex;align-items:center;gap:5px;font:700 13px var(--font-ui);color:var(--ink);white-space:nowrap;}
 .cstrip .t b{font:800 16px var(--font-mono);color:var(--stamp-red);}
+.cstrip .cs-old{display:contents}
 .cstrip .t del{font:600 13px var(--font-mono);color:var(--ink-faint);text-decoration-thickness:1.5px;}
 .cstrip svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
 
@@ -1575,8 +1576,8 @@ body.wide .spl{position:fixed}
   <!-- v1.06.008: search row (סינון removed); the tile curtains open from under the tiles and cover it -->
   <div class="below" id="below">
   <div class="cstrip" id="cstrip" aria-live="polite">
-    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <del id="csMapOld" hidden></del><b id="csMap">-</b></div></div>
-    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <del id="csNoOld" hidden></del><b id="csNo">-</b></div></div>
+    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <span class="cs-old" id="csMapOld"></span><b id="csMap">-</b></div></div>
+    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <span class="cs-old" id="csNoOld"></span><b id="csNo">-</b></div></div>
   </div>
   <div class="qbar" id="qbar">
     <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
@@ -1673,7 +1674,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.026 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.027 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1881,8 +1882,10 @@ function render(opts){
 
   const onMap=items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)).length;
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
-  const hasR=ROUTE_ONLY&&ROUTE.length>=2, onMap0= hasR? items.filter(e=>e.geo&&!offMap(e.id)).length : onMap;   // v1.07.015: count strip, before-route numbers struck through
-  csUi(onMap,noGeo,onMap0,noGeo);
+  // v1.07.027: count strip = a chain: everything in the feed -> after the family choices and time window -> after the route; every stage that narrowed is struck through
+  const hasR=ROUTE_ONLY&&ROUTE.length>=2, onMap0= hasR? items.filter(e=>e.geo&&!offMap(e.id)).length : onMap;
+  const full=ENR.filter(e=>!e.admin&&!offMap(e.id));
+  csUi([full.filter(e=>e.geo).length,onMap0,onMap],[full.filter(e=>!e.geo).length,noGeo,noGeo]);
   updateProgress();
   READY.irr=S.irr.length;
 
@@ -1906,9 +1909,13 @@ function render(opts){
   try{filtUi();}catch(_){}
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
 }
-function csUi(a,b,a0,b0){
-  const set=(id,v,old,v0)=>{ document.getElementById(id).textContent=v; const o=document.getElementById(old); const st=v0!==v; o.hidden=!st; if(st) o.textContent=v0; };
-  set("csMap",a,"csMapOld",a0); set("csNo",b,"csNoOld",b0);
+function csUi(mapChain,noChain){
+  const set=(id,old,chain)=>{
+    const v=chain.filter((x,i)=>i===0||x!==chain[i-1]);   // a stage that changed nothing is not shown twice
+    document.getElementById(id).textContent=v[v.length-1];
+    document.getElementById(old).innerHTML=v.slice(0,-1).map(x=>"<del>"+x+"</del>").join("");
+  };
+  set("csMap","csMapOld",mapChain); set("csNo","csNoOld",noChain);
 }
 let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
 // v1.06.008: the review set = NOTAMs in the time window; with a route, the ones with a position must be near it
@@ -3955,7 +3962,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.026 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.027 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3965,7 +3972,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.026 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.027 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
