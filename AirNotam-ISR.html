@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.009 · built by eligrt
+     AirNotam-ISR · v1.07.010 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1343,7 +1343,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
 body.wide #msDim{display:block}
 body.wide #msDim.show{opacity:1;pointer-events:auto}
 
-/* v1.07.009: stage 1 - splash (F0) + one-card first launch (F1) */
+/* v1.07.010: stage 1 - splash (F0) + one-card first launch (F1) */
 .spl{position:absolute;inset:0;z-index:3100;background:var(--paper);display:none;flex-direction:column;align-items:center;font-family:var(--font-ui);cursor:pointer;transition:opacity .25s ease;-webkit-tap-highlight-color:transparent}
 .spl.show{display:flex}
 .spl.out{opacity:0;pointer-events:none}
@@ -1408,7 +1408,7 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
   .lnch .dbanner{padding:6px 16px}.lnch .dbanner img{width:36px;height:36px}.lnch .dbanner .dname{font-size:17px}
   .lnch .dbd{padding-top:6px}.lnch .prom{padding-bottom:5px}.lnch .hook{margin:3px 0 5px}.lnch .hook b{font-size:30px}
   .lnch .famr{min-height:24px}.lnch .fam-h{padding:6px 12px}.lnch .fam{gap:4px}
-  .lnch .dbox{margin-top:7px}.lnch .dbox-in{height:70px}.lnch .dagree{margin-top:5px}
+  .lnch .dbox{margin-top:7px}.lnch .dbox-in{height:88px}.lnch .dagree{margin-top:5px}
   .lnch .dbtn{padding:8px 22px 10px}.lnch .dbtn button{padding:10px}.lnch .pnote{margin-top:4px}
 }
 body.wide .spl{position:fixed}
@@ -1628,7 +1628,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.009 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.010 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3084,7 +3084,7 @@ function returnYes(){ discHide(); setTimeout(openFlightDlg,250); }
 function returnNo(){ ROUTE=[]; saveRoute(); ROUTE_ONLY=false; try{localStorage.setItem("airnotam_route_only","0");}catch(e){}
   render(); try{drawRoute();}catch(_){} discHide(); setTimeout(()=>openCurtain("rte"),250); }
 
-// ── v1.07.009: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
+// ── v1.07.010: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
 const FAM_KEY='airnotam_fam';   // presence = the pilot already did the first-launch card; S1 only saves the choices, S2 filters by them
 function famSaved(){ try{ return !!localStorage.getItem(FAM_KEY); }catch(e){ return false; } }
 let SPL_DONE=false, SPL_TM=[];
@@ -3797,7 +3797,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.009 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.010 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3807,7 +3807,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.009 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.010 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
