@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.010 · built by eligrt
+     AirNotam-ISR · v1.07.011 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1343,7 +1343,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
 body.wide #msDim{display:block}
 body.wide #msDim.show{opacity:1;pointer-events:auto}
 
-/* v1.07.010: stage 1 - splash (F0) + one-card first launch (F1) */
+/* v1.07.011: stage 1 - splash (F0) + one-card first launch (F1) */
 .spl{position:absolute;inset:0;z-index:3100;background:var(--paper);display:none;flex-direction:column;align-items:center;font-family:var(--font-ui);cursor:pointer;transition:opacity .25s ease;-webkit-tap-highlight-color:transparent}
 .spl.show{display:flex}
 .spl.out{opacity:0;pointer-events:none}
@@ -1391,9 +1391,11 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
 .lnch .dbox{position:relative;margin-top:10px;border:1px solid var(--paper-edge);border-radius:8px;background:var(--paper-hi)}
 .lnch .dbox-in{height:92px;overflow-y:auto;padding:8px 12px;font-size:12px;line-height:1.55;color:var(--ink-body);text-align:right;white-space:pre-line;scrollbar-width:none}
 .lnch .dbox-in::-webkit-scrollbar{width:0}
-.lnch .scroll-fade{height:40px;border-radius:0 0 8px 8px;background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi))}
-.lnch .scroll-btn{width:28px;height:28px;bottom:5px}
-.lnch .scroll-btn svg{width:14px;height:14px}
+.lnch .dbox .scroll-fade{height:40px;border-radius:0 0 8px 8px;background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi))}
+.lnch .dcard{position:relative}
+.lnch .dbox .scroll-btn{width:28px;height:28px;bottom:5px}
+.lnch .dcard>.scroll-fade{height:44px}
+.lnch .dbox .scroll-btn svg{width:14px;height:14px}
 .lnch .dbox-in b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
 .lnch .dbox-in strong{color:var(--stamp-red);font-weight:700}
 .lnch .dagree{display:flex;gap:9px;align-items:center;margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);text-align:right;line-height:1.45}
@@ -1473,6 +1475,7 @@ body.wide .spl{position:fixed}
       <label class="dagree off" id="lnchAg"><input type="checkbox" id="lnchTick" disabled><span>קראתי והבנתי <small id="lnchHint">(גלול עד סוף הטקסט)</small></span></label>
     </div><div class="dbtn"><button id="lnchGo" disabled>למפה</button>
       <div class="pnote">כמו בכל כלי דיגיטלי, ייתכנו אי-דיוקים או תקלות. אם הבחנת במשהו, <a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20%D7%9E%D7%A9%D7%95%D7%91">אשמח שתעדכן</a>.</div></div></div>
+    <div class="scroll-fade hide" id="lnchFade2"></div><button type="button" class="scroll-btn hide" id="lnchChev2" aria-label="גלול למטה"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
   </div></div>
 
   <div class="amodal" id="amodal" onclick="if(event.target===this)amodalClose(false)"><div class="am-card" role="alertdialog" aria-labelledby="amTtl" aria-describedby="amTxt">
@@ -1628,7 +1631,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.010 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.011 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3084,7 +3087,7 @@ function returnYes(){ discHide(); setTimeout(openFlightDlg,250); }
 function returnNo(){ ROUTE=[]; saveRoute(); ROUTE_ONLY=false; try{localStorage.setItem("airnotam_route_only","0");}catch(e){}
   render(); try{drawRoute();}catch(_){} discHide(); setTimeout(()=>openCurtain("rte"),250); }
 
-// ── v1.07.010: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
+// ── v1.07.011: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
 const FAM_KEY='airnotam_fam';   // presence = the pilot already did the first-launch card; S1 only saves the choices, S2 filters by them
 function famSaved(){ try{ return !!localStorage.getItem(FAM_KEY); }catch(e){ return false; } }
 let SPL_DONE=false, SPL_TM=[];
@@ -3116,7 +3119,9 @@ function lnchCount(){ const n=document.getElementById("lnchN"); if(!n) return;
 function lnchScroll(){   // the tick unlocks only once the text is scrolled to its end (or it fits without scrolling); it is never ticked automatically
   const t=document.getElementById("lnchTxt"), tick=document.getElementById("lnchTick");
   const end=t.scrollTop+t.clientHeight>=t.scrollHeight-2;
-  document.getElementById("lnchFade").classList.toggle("hide",end); document.getElementById("lnchChev").classList.toggle("hide",end);   // same cue as the rest of the app: fade + bouncing chevron, gone at the end
+  const bd=document.querySelector("#lnch .dbody"), more=bd.scrollTop+bd.clientHeight<bd.scrollHeight-4;   // very short window (phone on its side): the card itself scrolls, so it gets the same cue; the text box cue waits until the card is at its end
+  document.getElementById("lnchFade2").classList.toggle("hide",!more); document.getElementById("lnchChev2").classList.toggle("hide",!more);
+  document.getElementById("lnchFade").classList.toggle("hide",end||more); document.getElementById("lnchChev").classList.toggle("hide",end||more);   // same cue as the rest of the app: fade + bouncing chevron, gone at the end
   if(end&&tick.disabled){ tick.disabled=false; document.getElementById("lnchAg").classList.remove("off"); document.getElementById("lnchHint").hidden=true; }
 }
 function lnchWarn(){ const on=document.getElementById("lnF1").checked, f=document.getElementById("lnchFF");
@@ -3136,6 +3141,8 @@ function lnchGo(){
 }
 (function(){
   document.getElementById("lnchTxt").addEventListener("scroll",lnchScroll,{passive:true});
+  document.querySelector("#lnch .dbody").addEventListener("scroll",lnchScroll,{passive:true});
+  document.getElementById("lnchChev2").addEventListener("click",()=>{ const d=document.querySelector("#lnch .dbody"); d.scrollBy({top:d.clientHeight*.8,behavior:"smooth"}); });
   document.getElementById("lnchChev").addEventListener("click",()=>{ const t=document.getElementById("lnchTxt"); t.scrollBy({top:t.clientHeight*.8,behavior:"smooth"}); });
   window.addEventListener("resize",()=>{ if(document.getElementById("lnch").classList.contains("show")) lnchScroll(); });
   ["lnF1","lnF2","lnF3","lnF4"].forEach(i=>document.getElementById(i).addEventListener("change",lnchWarn));
@@ -3797,7 +3804,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.010 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.011 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3807,7 +3814,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.010 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.011 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
