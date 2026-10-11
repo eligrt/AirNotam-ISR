@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-11T18:44:52.997Z",
+  "generatedAt": "2026-10-11T23:33:23.779Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 101,
+  "count": 99,
   "notams": [
     {
       "id": "A0821/26",
@@ -3318,57 +3318,6 @@
       }
     },
     {
-      "id": "C2103/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-10T18:00:00.000Z",
-      "toDate": "2026-10-11T20:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "001",
-        "position": {
-          "lat": 31.3,
-          "lon": 35.383333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV AIR-SHOW WILL TAKE PLACE S OF LLMZ. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 311828N0352235E CLSD FM GND UP TO 50M AGL, (MINUS) -920FT AMSL. CTN ADZ. F) GND G) 100FT AMSL",
-      "position": {
-        "lat": 31.3,
-        "lon": 35.383333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2103/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/001/3118N03523E001 A) LLLL B) 2610101800 C) 2610112000 D) DAILY 1800-2000 E) UAS/UAV AIR-SHOW WILL TAKE PLACE S OF LLMZ. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 311828N0352235E CLSD FM GND UP TO 50M AGL, (MINUS) -920FT AMSL. CTN ADZ. F) GND G) 100FT AMSL)",
-      "rowID": "2067145",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.307778,
-              35.376389
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          31.307778,
-          35.376389
-        ]
-      }
-    },
-    {
       "id": "C2097/26",
       "location": "LLIB",
       "locationDescription": "Rosh-Pina",
@@ -3612,57 +3561,6 @@
       "replaces": null,
       "rawText": "A0798/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3123N03515E999 A) LLLL B) 2610290001 C) 2611112159 E) TRIGGER NOTAM - NIL AIRAC AIP AMDT WEF 29 OCT 2026.)",
       "rowID": "2066031"
-    },
-    {
-      "id": "C2055/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-03T21:00:00.000Z",
-      "toDate": "2026-10-11T20:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "018",
-        "position": {
-          "lat": 32.816667,
-          "lon": 35.166667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT TAMRAH. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 324850N0351002E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL",
-      "position": {
-        "lat": 32.816667,
-        "lon": 35.166667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2055/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/018/3249N03510E001 A) LLLL B) 2610032100 C) 2610112059 E) CAPTIVE BALLOON WILL TAKE PLACE AT TAMRAH. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 324850N0351002E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL)",
-      "rowID": "2064111",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              32.813889,
-              35.167222
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          32.813889,
-          35.167222
-        ]
-      }
     },
     {
       "id": "A0787/26",
