@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.011 · built by eligrt
+     AirNotam-ISR · v1.07.018 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1132,6 +1132,13 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 :root{--done-g:#2f9a57;}
 .below{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden;}   /* v1.06.009: clip, so a curtain slides out from under the tiles */
 .below>.stage{flex:1;}
+.cstrip{flex:none;display:grid;grid-template-columns:1fr 1fr;background:var(--paper-hi);border-bottom:1px solid var(--paper-edge);direction:rtl;}
+.cstrip .h{display:flex;flex-direction:column;align-items:center;padding:7px 10px;}
+.cstrip .t{display:flex;align-items:center;gap:5px;font:700 13px var(--font-ui);color:var(--ink);white-space:nowrap;}
+.cstrip .t b{font:800 16px var(--font-mono);color:var(--stamp-red);}
+.cstrip .t del{font:600 13px var(--font-mono);color:var(--ink-faint);text-decoration-thickness:1.5px;}
+.cstrip svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
+
 .below>.fdlg{z-index:1300;}
 .res{display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1px solid var(--paper-edge);border-radius:8px;padding:9px 12px;}
 .res .n{font-family:var(--font-mono);font-size:24px;font-weight:700;color:var(--stamp-red);min-width:34px;text-align:center;}
@@ -1383,6 +1390,24 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
 .lnch .fam-h{margin:0 -12px 0;padding:8px 12px;background:var(--ink);color:var(--paper-hi);font-size:14px;font-weight:700}
 .lnch .famr{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);min-height:28px;cursor:pointer}
 .lnch .famr input{width:19px;height:19px;accent-color:var(--ink);margin:0;flex:none}
+.lnch .famr:has(input:disabled),.setp .famr:has(input:disabled){cursor:default}
+.lnch .famr small,.setp .famr small{unicode-bidi:isolate}   /* keeps the bracket text out of the Latin run in 'ו-ATS' */
+.sp-sec.new{color:var(--ink);font-size:12px}
+.sp-row.sp-static{cursor:default}
+.sp-row.press{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+#spUpd{position:relative;overflow:hidden;flex:none}
+#spUpd .sp-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--paper-edge);opacity:0;transition:opacity .2s}
+#spUpd.busy .sp-bar{opacity:1}
+#spUpd .sp-bar i{display:block;height:100%;width:0;background:var(--gold)}
+#spUpd.ok b{color:var(--cleared)}
+.setp .fam{flex:none;border:1.5px solid var(--ink);background:#f3f6fb;border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:6px;text-align:right;overflow:hidden;margin:0}
+.setp .famr{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);min-height:28px;cursor:pointer}
+.setp .famr input{width:19px;height:19px;accent-color:var(--ink);margin:0;flex:none}
+.setp .famr span{white-space:nowrap}
+.setp .famr small{font-weight:500;color:var(--ink-muted);font-size:11.5px}
+.setp .fam-f{height:26px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;border-radius:6px;font-size:10.5px;color:var(--ink-faint)}
+.setp .fam-f.w{background:#f8e9e6;color:var(--stamp-red);font-size:11.5px;font-weight:700}
+.setp .fam-f svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 .lnch .famr span{white-space:nowrap}
 .lnch .famr small{font-weight:500;color:var(--ink-muted);font-size:11.5px}
 .lnch .fam-f{height:26px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;border-radius:6px;font-size:10.5px;color:var(--ink-faint)}
@@ -1463,10 +1488,11 @@ body.wide .spl{position:fixed}
       </div>
       <div class="hook"><b class="ld" id="lnchN">---</b><span class="h1">NOTAMים פעילים כרגע בכל הארץ</span><span class="h2">בוא נסנן את אלה שרלוונטיים לך</span></div>
       <div class="fam"><div class="fam-h">מה להציג לך?</div>
+        <label class="famr"><input type="checkbox" checked disabled><span>תמיד מוצג <small>(GNSS, מכשולים, שדות אחרים)</small></span></label>
         <label class="famr"><input type="checkbox" id="lnF1" checked><span>CVFR וספורטיבית <small>(נתיבים, אזורים, אזהרות)</small></span></label>
         <label class="famr"><input type="checkbox" id="lnF2"><span>נתב״ג, חיפה ורמון <small>(מסלולים, הסעות, תדרים)</small></span></label>
         <label class="famr"><input type="checkbox" id="lnF3"><span>נתיבי מסוקים <small>(HEL)</small></span></label>
-        <label class="famr"><input type="checkbox" id="lnF4"><span>NOTAMי מכשירים <small>(ILS, VOR)</small></span></label>
+        <label class="famr"><input type="checkbox" id="lnF4"><span>NOTAMי מכשירים ו-ATS <small>(ILS, VOR)</small></span></label>
         <div class="fam-f" id="lnchFF">אפשר לשנות בכל עת בהגדרות</div></div>
       <div class="dbox" id="lnchBox"><div class="dbox-in" id="lnchTxt"><b>טייס, שים לב</b>AirNotam מרכזת ומסננת NOTAMים רלוונטיים לטיסת LSA/CVFR בישראל, כדי לתת לך תמונה מהירה ונגישה.
 האפליקציה היא כלי עזר בלבד, ואינה מחליפה את הפרסומים הרשמיים של רת״א. המידע נאסף ממקורות אוטומטיים, עלול להיות חלקי, לא מעודכן או שגוי, ומוצג כפי שהוא (as-is) ללא כל אחריות.
@@ -1488,9 +1514,19 @@ body.wide .spl{position:fixed}
     <button type="button" class="sp-grip" id="spGrip" aria-label="סגור"><i></i><em class="cg-x"><b>×</b>סגור</em></button>
     <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
       <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a> · <a id="stressLnk" onclick="stressToggle()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">stress test</a></div>   <!-- v1.06.004; v1.06.033: stress test -->
+      <div class="sp-sec new">מה להציג לך?</div>
+      <div class="fam" id="spFam">
+        <label class="famr"><input type="checkbox" checked disabled><span>תמיד מוצג <small>(GNSS, מכשולים, שדות אחרים)</small></span></label>
+        <label class="famr"><input type="checkbox" id="spF1"><span>CVFR וספורטיבית <small>(נתיבים, אזורים, אזהרות)</small></span></label>
+        <label class="famr"><input type="checkbox" id="spF2"><span>נתב״ג, חיפה ורמון <small>(מסלולים, הסעות, תדרים)</small></span></label>
+        <label class="famr"><input type="checkbox" id="spF3"><span>נתיבי מסוקים <small>(HEL)</small></span></label>
+        <label class="famr"><input type="checkbox" id="spF4"><span>NOTAMי מכשירים ו-ATS <small>(ILS, VOR)</small></span></label>
+        <div class="fam-f" id="spFF">השינוי חל מיד על המפה והרשימה</div></div>
+      <div class="sp-sec new">חלון זמן ברירת מחדל</div>
+      <div class="sp-row sp-static"><small>כמה שעות קדימה להציג כשלא הוגדרה טיסה מתוכננת</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24">24 שעות</label><label><input type="radio" name="spwin" value="48" checked>48 שעות</label></div></div>
       <div class="sp-sec">רענון</div>
-      <button type="button" class="sp-row" onclick="setRefreshData()"><b>עדכן נתונים</b><small>טוען את ה-NOTAMים העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small></button>
-      <button type="button" class="sp-row" onclick="setReloadApp()"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
+      <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">עדכן נתונים</b><small>טוען את ה-NOTAMים העדכניים. הסימונים שלך נשמרים. עודכן לאחרונה: <span class="rtime" id="refreshTime">--:--</span></small><span class="sp-bar"><i></i></span></button>
+      <button type="button" class="sp-row" onclick="setReloadApp(this)"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה. הסימונים שלך נשמרים.</small></button>
       <div class="sp-sec">NOTAMים על המפה</div>
       <div class="sp-row sp-static"><div class="sp-warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>טייס, שים לב: משיקולי בטיחות טיסה, הגדרה זו תקפה רק בתכנון הטיסה הנוכחי.</span></div>
         <div class="gs-seg sp-nv"><label><input type="radio" name="gpNv" value="normal" checked>רגיל</label><label><input type="radio" name="gpNv" value="fade">מעומעם</label><label><input type="radio" name="gpNv" value="hide">מוסתר</label></div></div>
@@ -1536,6 +1572,10 @@ body.wide .spl{position:fixed}
 
   <!-- v1.06.008: search row (סינון removed); the tile curtains open from under the tiles and cover it -->
   <div class="below" id="below">
+  <div class="cstrip" id="cstrip" aria-live="polite">
+    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <del id="csMapOld" hidden></del><b id="csMap">-</b></div></div>
+    <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <del id="csNoOld" hidden></del><b id="csNo">-</b></div></div>
+  </div>
   <div class="qbar" id="qbar">
     <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
   </div>
@@ -1631,7 +1671,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.011 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.018 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1737,8 +1777,50 @@ function unmarkReviewed(id){delete REVIEW[id]; saveReview();}
 function setShowIrr(v){SHOW_IRR=v; try{localStorage.setItem("airnotam_show_irr",v?"1":"0");}catch(e){} const c=document.getElementById("optIrr"); if(c) c.checked=v; render();}
 const ST_LBL={new:"טרם נקרא",chg:"עודכן, בדוק שוב",ok:"קראתי",irr:"לא רלוונטי לי"};   // v1.05.015T: B7 wording
 
+// ── v1.07.013: stage 2 - family filtering + default time window ──
+// The 4 first-launch / הגדרות choices live in airnotam_fam = {cvfr, apt, hel, ins, ok}. Principle: hide only what a NOTAM is ABOUT; unsure = show.
+// One NOTAM can belong to several families (an ILS at LLBG is both apt and ins): it hides as soon as ANY of its families is unticked.
+let FAMC={cvfr:1,apt:0,hel:0,ins:0};
+function famLoad(){
+  try{
+    const f=JSON.parse(localStorage.getItem("airnotam_fam")||"null");
+    if(f) FAMC={cvfr:f.cvfr?1:0,apt:f.apt?1:0,hel:f.hel?1:0,ins:f.ins?1:0};
+  }catch(_){}
+}
+famLoad();
+const FAM_BIG=["LLBG","LLHA","LLER"];
+const FAM_ONFIELD=/\b(AD CLSD|RWY|TWY|STAND|FREQ|CPT|REFUEL|PCR|LDG|SID)\b|^\s*ILS/;
+const FAM_REASON=/\bDUE\b[^.]*\b(ILS|VOR|DME|NDB)\b/;
+const FAM_ABOUT=/^\s*(ILS|VOR|DME|NDB|VOR\/DME|DME\/VOR)\b|\bSID\b.*\b(GRADIENT|CHG)\b|\b(STAR|APCH|MNM)\b.*\b(CHG|WITHDRAWN|MNM)\b/;
+function famKinds(e){
+  const t=(e.text||"").toUpperCase(), q=e.qcode||"", L=[];
+  if(!FAM_REASON.test(t) && FAM_ABOUT.test(t)) L.push("ins");                                  // ABOUT an instrument aid, never one that only gives it as a reason
+  if(/^\s*(MAX ALT ALONG )?ATS RTE\b/.test(t)) L.push("ins");                                   // ATS airways are IFR
+  if(/^\s*HEL RTE/.test(t) && !/CVFR/.test(t) && !/ULTRALIGHT/.test(t)) L.push("hel");          // HEL-only route; mixed ones fall through
+  if(FAM_BIG.indexOf(e.loc)>=0){
+    const air= q==="QOBCE" || /^\s*(CRANE|DRILLING|\d+ OBST)/.test(t) || /\bCTR CLSD\b/.test(t);   // in-air hazards always show
+    if(!air && FAM_ONFIELD.test(t)) L.push("apt");
+  }
+  if(!L.length && /^(QAR|QAE|QW|QR)/.test(q)) L.push("cvfr");                                  // the VFR set: routes, areas, warnings
+  return L;
+}
+function famHidden(e){
+  const L=famKinds(e);
+  for(let i=0;i<L.length;i++) if(!FAMC[L[i]]) return true;
+  return false;
+}
+// default time window: a rolling "next N hours" when no planned flight is set (24 or 48, 48 by default)
+let WIN_H=48; try{ const w=+localStorage.getItem("airnotam_win"); if(w===24||w===48) WIN_H=w; }catch(_){}
+function winPass(e){
+  const now=Date.now();
+  if(e.start && e.start.getTime()>now+WIN_H*3600000) return false;
+  if(e.end && e.end.getTime()<=now) return false;
+  return true;
+}
 function passFilters(e){
   if(e.admin) return false;                      // admin/checklist NOTAMs stay out
+  if(famHidden(e)) return false;
+  if(timeMode!=="flight" && !winPass(e)) return false;
   if(timeMode==="flight"){
     const w=flightWindow(FLIGHT);
     if(w){
@@ -1797,7 +1879,8 @@ function render(opts){
 
   const onMap=items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)).length;
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
-  const mc=document.getElementById("mapCnt"); if(mc) mc.textContent="("+onMap+")";
+  const hasR=ROUTE_ONLY&&ROUTE.length>=2, onMap0= hasR? items.filter(e=>e.geo&&!offMap(e.id)).length : onMap;   // v1.07.015: count strip, before-route numbers struck through
+  csUi(onMap,noGeo,onMap0,noGeo);
   updateProgress();
   READY.irr=S.irr.length;
 
@@ -1820,6 +1903,10 @@ function render(opts){
   if(!opts.skipMap && mapOn()) renderMap();   // v1.06.005
   try{filtUi();}catch(_){}
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
+}
+function csUi(a,b,a0,b0){
+  const set=(id,v,old,v0)=>{ document.getElementById(id).textContent=v; const o=document.getElementById(old); const st=v0!==v; o.hidden=!st; if(st) o.textContent=v0; };
+  set("csMap",a,"csMapOld",a0); set("csNo",b,"csNoOld",b0);
 }
 let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
 // v1.06.008: the review set = NOTAMs in the time window; with a route, the ones with a position must be near it
@@ -3138,6 +3225,7 @@ function lnchGo(){
   try{ localStorage.setItem(FAM_KEY,JSON.stringify(fam)); localStorage.setItem(DISC_KEY,discToday()); }catch(e){}
   clearInterval(LNCH_POLL); document.getElementById("lnch").classList.remove("show");
   alog("first-launch card done: "+JSON.stringify(fam));
+  famLoad(); try{ render(); }catch(_){}
 }
 (function(){
   document.getElementById("lnchTxt").addEventListener("scroll",lnchScroll,{passive:true});
@@ -3178,7 +3266,7 @@ function renderWhenTile(){
     s.innerHTML=`<bdi dir="ltr">${hm(w.tkof)}-${hm(w.ldg)}</bdi>`;   // v1.06.008: the margin lives in the מתי curtain
   }else{
     v.innerHTML='<span class="t-cta">הגדר זמני טיסה</span>';
-    s.textContent= FLIGHT? "זמני הטיסה שהוגדרו כבר עברו" : "";
+    s.textContent= FLIGHT? "זמני הטיסה שהוגדרו כבר עברו" : WIN_H+" השעות הקרובות";
   }
 }
 function renderFlightBar(){
@@ -3253,7 +3341,7 @@ function openSettings(){ closeCurtains(); try{gisPanelToggle(false);}catch(_){} 
   ap.style.setProperty("--settop",Math.round(document.getElementById("stage").getBoundingClientRect().top-ap.getBoundingClientRect().top+8)+"px");   // v1.05.017T
   document.getElementById("setp").classList.add("show"); document.getElementById("setDim").classList.add("show");
   cueAll(); }
-function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; if(p.classList.contains("show")) rvReopen(); p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); }
+function closeSettings(){ const p=document.getElementById("setp"); if(!p) return; if(p.classList.contains("show")) rvReopen(); p.classList.remove("show"); document.getElementById("setDim").classList.remove("show"); try{spUpdReset();}catch(_){} }
 function toggleSettings(){ document.getElementById("setp").classList.contains("show")? closeSettings() : openSettings(); }
 document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.addEventListener("change",()=>setNvis(r.value)));
 // v1.05.015T: B5 one close behaviour: drag the handle toward the closed side (or tap it) to close
@@ -3277,13 +3365,73 @@ function cueAdd(sc){
   sc._cue=f;
 }
 function cueAll(){ document.querySelectorAll(".fcard,.sp-body").forEach(sc=>{ if(!sc._cue) cueAdd(sc); setTimeout(sc._cue,60); setTimeout(sc._cue,520); }); }
-function renderSettings(){ try{renderRte();}catch(_){} }
+function renderSettings(){ try{renderRte();}catch(_){} try{spFamSync();}catch(_){} }
+// ── v1.07.014: הגדרות mirror of the first-launch family box + default time window ──
+function spWarn(){
+  const on=document.getElementById("spF1").checked, f=document.getElementById("spFF");
+  f.classList.toggle("w",!on);
+  f.innerHTML=on? "השינוי חל מיד על המפה והרשימה" : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5"/><path d="M12 17.2v.3"/></svg>'+'שים לב: רוב ה-NOTAMים לטיסת VFR יוסתרו';
+}
+function spFamSync(){
+  ["cvfr","apt","hel","ins"].forEach((k,i)=>{ const c=document.getElementById("spF"+(i+1)); if(c) c.checked=!!FAMC[k]; });
+  spWarn();
+  const w=document.querySelector('input[name="spwin"][value="'+WIN_H+'"]'); if(w) w.checked=true;
+}
+function spFamChange(){
+  const g=i=>document.getElementById("spF"+i).checked?1:0;
+  FAMC={cvfr:g(1),apt:g(2),hel:g(3),ins:g(4)};
+  let cur={}; try{ cur=JSON.parse(localStorage.getItem(FAM_KEY)||"{}")||{}; }catch(e){}
+  const o=Object.assign({},cur,FAMC);
+  try{ localStorage.setItem(FAM_KEY,JSON.stringify(o)); }catch(e){}
+  spWarn(); alog("family choices changed: "+JSON.stringify(FAMC));
+  render();
+}
+function spWinChange(v){
+  WIN_H=v===24?24:48; try{ localStorage.setItem("airnotam_win",String(WIN_H)); }catch(e){}
+  alog("default window: "+WIN_H+" h");
+  try{ renderWhenTile(); }catch(_){}
+  render();
+}
+(function(){
+  ["spF1","spF2","spF3","spF4"].forEach(i=>document.getElementById(i).addEventListener("change",spFamChange));
+  document.querySelectorAll('input[name="spwin"]').forEach(r=>r.addEventListener("change",()=>spWinChange(+r.value)));
+})();
+
 document.querySelectorAll("#corrSeg button").forEach(b=>b.addEventListener("click",()=>{
   CORR_NM=+b.dataset.c; try{localStorage.setItem("airnotam_corr",String(CORR_NM));}catch(e){}
   renderSettings(); render(); try{drawRoute();}catch(_){}
 }));
-function setRefreshData(){ closeSettings(); load(true); }
-async function setReloadApp(){
+// v1.07.016: "עדכן נתונים" keeps the curtain open: pressed gold border, title "מעדכן נתונים…", thin progress bar, then the green result line
+let UPD_BUSY=false;
+const _sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function spUpdReset(){
+  const r=document.getElementById("spUpd"); if(!r||UPD_BUSY) return;
+  r.classList.remove("press","busy","ok"); document.getElementById("spUpdT").textContent="עדכן נתונים";
+  const i=r.querySelector(".sp-bar i"); i.style.transition="none"; i.style.width="0";
+}
+async function setRefreshData(){
+  if(UPD_BUSY) return; UPD_BUSY=true;
+  const r=document.getElementById("spUpd"), t=document.getElementById("spUpdT"), i=r.querySelector(".sp-bar i");
+  r.classList.remove("ok"); r.classList.add("press","busy"); t.textContent="מעדכן נתונים…";
+  i.style.transition="none"; i.style.width="0"; void i.offsetWidth;
+  i.style.transition="width 2.6s cubic-bezier(.1,.6,.2,1)"; i.style.width="90%";
+  const before=SNAP&&SNAP.savedAt, t0=Date.now();
+  try{ await load(true); }catch(e){}
+  const wait=700-(Date.now()-t0); if(wait>0) await _sleep(wait);   // fast feed: the feedback is still seen
+  const ok=!!SNAP && SNAP.savedAt!==before;
+  if(ok){
+    i.style.transition="width .2s ease-out"; i.style.width="100%"; await _sleep(260);
+    r.classList.remove("busy"); r.classList.add("ok");
+    t.textContent="✓ עודכן · "+ENR.filter(e=>!e.admin).length+" NOTAMים · "+fmtLocalHM(new Date(SNAP.savedAt));
+    alog("manual update ok: "+ENR.filter(e=>!e.admin).length+" NOTAMs");
+  }else{
+    r.classList.remove("press","busy"); t.textContent="עדכן נתונים"; i.style.transition="none"; i.style.width="0";
+    alog("manual update FAILED (feed not reachable)");
+  }
+  UPD_BUSY=false;
+}
+async function setReloadApp(row){
+  if(row){ row.classList.add("press"); await _sleep(220); }   // v1.07.016: only the pressed gold border, no text change
   try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
   const u=new URL(location.href); u.searchParams.set("r",Date.now().toString(36)); location.replace(u.toString());
 }
@@ -3804,7 +3952,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.011 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.018 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3814,7 +3962,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.011 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.018 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
