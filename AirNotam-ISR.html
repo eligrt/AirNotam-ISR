@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.003 · built by eligrt
+     AirNotam-ISR · v1.07.006 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1343,7 +1343,7 @@ body.wide .rv-body .card{height:clamp(260px,calc(100vh - 370px),400px);}
 body.wide #msDim{display:block}
 body.wide #msDim.show{opacity:1;pointer-events:auto}
 
-/* v1.07.003: stage 1 - splash (F0) + one-card first launch (F1) */
+/* v1.07.006: stage 1 - splash (F0) + one-card first launch (F1) */
 .spl{position:absolute;inset:0;z-index:3100;background:var(--paper);display:none;flex-direction:column;align-items:center;font-family:var(--font-ui);cursor:pointer;transition:opacity .25s ease;-webkit-tap-highlight-color:transparent}
 .spl.show{display:flex}
 .spl.out{opacity:0;pointer-events:none}
@@ -1381,18 +1381,21 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
 .lnch .hook .h2{font-size:13px;font-weight:600;color:var(--stamp-red);margin-top:4px}
 .lnch .fam{border:1.5px solid var(--ink);background:#f3f6fb;border-radius:8px;padding:0 12px 8px;display:flex;flex-direction:column;gap:6px;text-align:right;overflow:hidden}
 .lnch .fam-h{margin:0 -12px 0;padding:8px 12px;background:var(--ink);color:var(--paper-hi);font-size:14px;font-weight:700}
-.lnch .famr{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:700;color:var(--ink);min-height:28px;cursor:pointer}
+.lnch .famr{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);min-height:28px;cursor:pointer}
 .lnch .famr input{width:19px;height:19px;accent-color:var(--ink);margin:0;flex:none}
-.lnch .famr small{font-weight:500;color:var(--ink-muted);font-size:inherit}
+.lnch .famr span{white-space:nowrap}
+.lnch .famr small{font-weight:500;color:var(--ink-muted);font-size:11.5px}
 .lnch .fam-f{height:26px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;border-radius:6px;font-size:10.5px;color:var(--ink-faint)}
 .lnch .fam-f.w{background:#f8e9e6;color:var(--stamp-red);font-size:11.5px;font-weight:700}
 .lnch .fam-f svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 .lnch .dbox{position:relative;margin-top:10px;border:1px solid var(--paper-edge);border-radius:8px;background:var(--paper-hi)}
-.lnch .dbox-in{height:92px;overflow-y:auto;padding:8px 12px;font-size:12px;line-height:1.55;color:var(--ink-body);text-align:right;white-space:pre-line;scrollbar-width:thin}
+.lnch .dbox-in{height:92px;overflow-y:auto;padding:8px 12px;font-size:12px;line-height:1.55;color:var(--ink-body);text-align:right;white-space:pre-line;scrollbar-width:none}
+.lnch .dbox-in::-webkit-scrollbar{width:0}
+.lnch .scroll-fade{height:40px;border-radius:0 0 8px 8px;background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi))}
+.lnch .scroll-btn{width:28px;height:28px;bottom:5px}
+.lnch .scroll-btn svg{width:14px;height:14px}
 .lnch .dbox-in b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
 .lnch .dbox-in strong{color:var(--stamp-red);font-weight:700}
-.lnch .dbox:after{content:"";position:absolute;left:1px;right:1px;bottom:1px;height:26px;border-radius:0 0 8px 8px;background:linear-gradient(rgba(251,246,236,0),var(--paper-hi));pointer-events:none;transition:opacity .2s ease}
-.lnch .dbox.end:after{opacity:0}
 .lnch .dagree{display:flex;gap:9px;align-items:center;margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);text-align:right;line-height:1.45}
 .lnch .dagree input{width:19px;height:19px;accent-color:var(--ink);margin:0;flex:none}
 .lnch .dagree.off{opacity:.55}
@@ -1465,7 +1468,8 @@ body.wide .spl{position:fixed}
         <div class="fam-f" id="lnchFF">אפשר לשנות בכל עת בהגדרות</div></div>
       <div class="dbox" id="lnchBox"><div class="dbox-in" id="lnchTxt"><b>טייס, שים לב</b>AirNotam מרכזת ומסננת NOTAMים רלוונטיים לטיסת LSA/CVFR בישראל, כדי לתת לך תמונה מהירה ונגישה.
 האפליקציה היא כלי עזר בלבד, ואינה מחליפה את הפרסומים הרשמיים של רת״א. המידע נאסף ממקורות אוטומטיים, עלול להיות חלקי, לא מעודכן או שגוי, ומוצג כפי שהוא (as-is) ללא כל אחריות.
-<strong>כטייס מפקד (PIC) באחריותך תמיד לאמת את ה-NOTAMים מול המקור הרשמי של רת״א לפני כל טיסה.</strong></div></div>
+<strong>כטייס מפקד (PIC) באחריותך תמיד לאמת את ה-NOTAMים מול המקור הרשמי של רת״א לפני כל טיסה.</strong></div>
+        <div class="scroll-fade" id="lnchFade"></div><button type="button" class="scroll-btn" id="lnchChev" aria-label="גלול למטה"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></div>
       <label class="dagree off" id="lnchAg"><input type="checkbox" id="lnchTick" disabled><span>קראתי והבנתי <small id="lnchHint">(גלול עד סוף הטקסט)</small></span></label>
     </div><div class="dbtn"><button id="lnchGo" disabled>למפה</button>
       <div class="pnote">כמו בכל כלי דיגיטלי, ייתכנו אי-דיוקים או תקלות. אם הבחנת במשהו, <a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20%D7%9E%D7%A9%D7%95%D7%91">אשמח שתעדכן</a>.</div></div></div>
@@ -1624,7 +1628,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.003 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.006 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3080,7 +3084,7 @@ function returnYes(){ discHide(); setTimeout(openFlightDlg,250); }
 function returnNo(){ ROUTE=[]; saveRoute(); ROUTE_ONLY=false; try{localStorage.setItem("airnotam_route_only","0");}catch(e){}
   render(); try{drawRoute();}catch(_){} discHide(); setTimeout(()=>openCurtain("rte"),250); }
 
-// ── v1.07.003: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
+// ── v1.07.006: stage 1 - splash (every open, tap to skip) + one-card first launch (once per device) ──
 const FAM_KEY='airnotam_fam';   // presence = the pilot already did the first-launch card; S1 only saves the choices, S2 filters by them
 function famSaved(){ try{ return !!localStorage.getItem(FAM_KEY); }catch(e){ return false; } }
 let SPL_DONE=false, SPL_TM=[];
@@ -3096,13 +3100,13 @@ function splashRun(){
   if(calm){ sp.classList.add("k1","k2","k3","k5"); draw(L1.length); at(1200,splashEnd); return; }
   at(60,()=>sp.classList.add("k1")); at(450,()=>sp.classList.add("k2")); at(800,()=>sp.classList.add("k3"));
   at(1150,()=>{ sp.classList.add("typing"); let i=0; const t=setInterval(()=>{ draw(++i); if(i>=L1.length){ clearInterval(t); } },34); SPL_TM.push(t); });
-  at(2400,()=>sp.classList.add("k5")); at(5000,splashEnd);   // v1.07.003: the finished splash stays about 2.6 s before it turns into the card
+  at(2400,()=>sp.classList.add("k5")); at(5000,splashEnd);   // v1.07.006: the finished splash stays about 2.6 s before it turns into the card
 }
 function splashEnd(){
   if(SPL_DONE) return; SPL_DONE=true; SPL_TM.forEach(t=>{clearTimeout(t);clearInterval(t);});
   const sp=document.getElementById("spl"); sp.classList.add("out");
   setTimeout(()=>{ sp.classList.remove("show"); },260);
-  if(famSaved()) showDisc(); else lnchShow();   // returning pilot: no card (old start card stays until stage 4)
+  if(!famSaved()) lnchShow();   // first launch: the one card. Returning pilot: straight to the map (the old start card is no longer shown; stage 4 builds the returning flow)
 }
 let LNCH_POLL=null;
 function lnchCount(){ const n=document.getElementById("lnchN"); if(!n) return;
@@ -3111,7 +3115,7 @@ function lnchCount(){ const n=document.getElementById("lnchN"); if(!n) return;
 function lnchScroll(){   // the tick unlocks only once the text is scrolled to its end (or it fits without scrolling); it is never ticked automatically
   const t=document.getElementById("lnchTxt"), tick=document.getElementById("lnchTick");
   const end=t.scrollTop+t.clientHeight>=t.scrollHeight-2;
-  document.getElementById("lnchBox").classList.toggle("end",end);
+  document.getElementById("lnchFade").classList.toggle("hide",end); document.getElementById("lnchChev").classList.toggle("hide",end);   // same cue as the rest of the app: fade + bouncing chevron, gone at the end
   if(end&&tick.disabled){ tick.disabled=false; document.getElementById("lnchAg").classList.remove("off"); document.getElementById("lnchHint").hidden=true; }
 }
 function lnchWarn(){ const on=document.getElementById("lnF1").checked, f=document.getElementById("lnchFF");
@@ -3130,7 +3134,8 @@ function lnchGo(){
   alog("first-launch card done: "+JSON.stringify(fam));
 }
 (function(){
-  document.getElementById("lnchTxt").addEventListener("scroll",lnchScroll);
+  document.getElementById("lnchTxt").addEventListener("scroll",lnchScroll,{passive:true});
+  document.getElementById("lnchChev").addEventListener("click",()=>{ const t=document.getElementById("lnchTxt"); t.scrollBy({top:t.clientHeight*.8,behavior:"smooth"}); });
   window.addEventListener("resize",()=>{ if(document.getElementById("lnch").classList.contains("show")) lnchScroll(); });
   ["lnF1","lnF2","lnF3","lnF4"].forEach(i=>document.getElementById(i).addEventListener("change",lnchWarn));
   document.getElementById("lnchTick").addEventListener("change",e=>{ document.getElementById("lnchGo").disabled=!e.target.checked; });
@@ -3791,7 +3796,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.003 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.006 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3801,7 +3806,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.003 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.006 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
