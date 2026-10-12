@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.028 · built by eligrt
+     AirNotam-ISR · v1.07.041 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -300,32 +300,6 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .pu-rt{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:var(--gold-deep);}
 
 
-/* 3 header tiles (v1.03.007) */
-.tiles{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:6px;}
-.tile{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0;border:1px solid rgba(244,236,220,.22);
-  background:rgba(0,0,0,.18);border-radius:8px;padding:4px 8px 5px;cursor:pointer;font-family:var(--font-ui);direction:rtl;
-  color:var(--info-ink);text-align:right;position:relative;}
-.tile.on{background:var(--paper);border-color:var(--paper);color:var(--ink);border-radius:8px 8px 0 0;}
-.tile.on::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-9px;height:10px;background:var(--paper);}
-.tile:focus{outline:none;}
-.tile:focus-visible:not(.on){outline:2px solid var(--info-gold);outline-offset:1px;}
-.tile.on{border-bottom-color:var(--paper);box-shadow:none;}
-.tile .t-lbl{font-size:10.5px;font-weight:700;opacity:.85;white-space:nowrap;}
-.tile .t-val{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;min-height:16px;white-space:nowrap;overflow:hidden;}
-.tile .t-val.dim{opacity:.55;font-weight:500;}
-.tile .pg-bar{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden;min-width:20px;}
-.tile.on .pg-bar{background:#e3d4ad;}
-.tile .pg-bar i{display:block;height:100%;width:0;background:var(--info-accent);transition:width .35s;}
-.tile.on .pg-bar i{background:#26497e;}
-.tile .pg-n{font-family:var(--font-mono);font-size:11.5px;}
-.t-dot{display:none;width:7px;height:7px;border-radius:50%;background:#ff6b5e;box-shadow:0 0 5px rgba(255,107,94,.8);flex:none;}
-.t-ic{display:inline-flex;width:17px;height:17px;opacity:.35;}
-.t-ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-.t-ic.on{opacity:1;color:var(--info-gold);}
-.tile.on .t-ic.on{color:var(--gold-deep);}
-.t-cnt{font-family:var(--font-mono);font-size:11px;margin-inline-start:auto;}
-.tile.done .t-lbl{color:#9fe0b0;opacity:1;} .tile.done .pg-bar i{background:#6fcf8a;}
-.flightbar .tiles + *{margin-top:0;}
 
 .r-expl{font-size:12.5px;color:var(--ink-muted);line-height:1.5;}
 .r-expl b{color:var(--ink);}
@@ -678,7 +652,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 /* v1.04.002: map layers panel, tile status word, iPhone full-screen */
 @media (max-width:599px){#app{max-width:none;}}
 .sp-head{padding-top:max(14px, calc(env(safe-area-inset-top, 0px) + 8px));}
-.vh-f{color:var(--info-gold);} .tile.on .vh-f{color:var(--gold-deep);}
+.vh-f{color:var(--info-gold);}
 .leaflet-control-attribution{direction:ltr;text-align:left;}
 .gis-ctl{position:relative;}
 .gis-ctl .gp{display:none;position:absolute;top:0;left:calc(100% + 8px);width:250px;overflow-y:auto;
@@ -818,15 +792,7 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .gs-alls{display:flex;gap:6px;margin-inline-start:auto;}
 
 /* v1.04.007: 1-2-3 header, NOTAM layer in the sheet, filter strip */
-.flightbar .fl-row{display:none !important;}
-.tiles{grid-template-columns:1.25fr 1fr 1.25fr !important;}
-.tile .t-num{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;
-  background:var(--info-gold);color:var(--ink-dark);font-size:9.5px;font-weight:800;margin-inline-end:5px;vertical-align:1px;}
-.tile .t-sub{font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--info-ink-muted);white-space:normal;line-height:1.3;letter-spacing:-.2px;}
 .gs-nt .gchip span{white-space:normal;overflow:visible;line-height:1.2;}
-.tile .t-sub:empty{display:none;}
-.tile .t-cta{color:var(--info-gold);font-weight:700;}
-.tile.on .t-cta{color:var(--gold-deep);}
 .gsheet{padding:4px 10px 8px;}
 .gs-grip{margin:2px auto 4px;}
 .gs-row{margin-bottom:5px;}
@@ -1052,9 +1018,11 @@ body.ios-sa .footer-strip{padding-bottom:26px;}
   padding:8px 12px;min-height:44px;text-align:right;font-family:var(--font-ui);cursor:pointer;color:var(--ink-body);}
 .qch button:first-child{border-top:none;}
 .qch button:active{background:rgba(200,160,74,.14);}
-.qch .qk{font-size:10.5px;font-weight:700;color:var(--gold-deep);white-space:nowrap;min-width:62px;}
+.qch .qk{font-size:10.5px;font-weight:700;color:var(--gold-deep);white-space:nowrap;min-width:96px;}
 .qch .qn{flex:1;min-width:0;font-size:13.5px;font-weight:700;color:var(--ink-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .qch .qid{font-family:var(--font-mono);direction:ltr;text-align:right;}
+.qch button.qall{justify-content:center;background:rgba(200,160,74,.10);}
+.qch button.qall .qn{flex:none;color:var(--gold-deep);font-size:13px;}
 .qch .qc{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);direction:ltr;white-space:nowrap;}
 .pt-hl{position:relative;width:0;height:0;}
 .pt-hl i{position:absolute;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;border:3px solid var(--gold);box-sizing:border-box;
@@ -1146,26 +1114,17 @@ body.wide .amodal,body.wide .disc{position:fixed;}
 .res .t{font-size:13px;color:var(--ink-body);line-height:1.4;}
 .res .t small{display:block;font-size:11.5px;color:var(--ink-muted);}
 .fcard .f-cont{flex:none;width:100%;height:50px;border:none;border-radius:6px;background:var(--gold);color:var(--ink-dark);font-family:var(--font-ui);font-size:15px;font-weight:700;cursor:pointer;}
-.tile .t-val .rt-nm{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tile .t-val .rt-ar{flex:none;}
-#t_rte .t-val{gap:4px;}
-.tile.on .t-sub{color:var(--ink-muted);}
-.tile.done .t-lbl{color:inherit;opacity:.85;}
-.tile.on.done .t-lbl{color:var(--ink);}
-.tile.done .pg-bar i,.tile.on.done .pg-bar i,.r-row.ok .rr-bar i{background:var(--done-g);}
+.r-row.ok .rr-bar i{background:var(--done-g);}
 .r-row.ok .rr-n{color:var(--done-g);}
 .r-bar.done i{background:var(--done-g);}   /* v1.06.009 */
 /* v1.06.010: iPhone Safari draws date / time fields wider than their box; make them respect it (fit the curtain, keep the gap) */
-.fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;}
+.fdlg label.fld input[type=datetime-local],.fdlg label.fld input[type=time]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;}
 /* v1.06.011: iPhone only: value centred in the field, both ways (it sat in the top-right corner) */
 @supports (-webkit-touch-callout:none){
-  .fdlg label.fld input[type=date],.fdlg label.fld input[type=time]{line-height:42px;padding-top:0;padding-bottom:0;text-align:center;}
+  .fdlg label.fld input[type=datetime-local],.fdlg label.fld input[type=time]{line-height:42px;padding-top:0;padding-bottom:0;text-align:center;}
   .fdlg label.fld input::-webkit-date-and-time-value{text-align:center;margin:0;line-height:42px;}
 }
 /* v1.06.010: מתי past date / time = the result box warns, "המשך" pale */
-#whenRes.warn{background:#fbeceb;border-color:#e6a9a3;}
-#whenRes.warn .n{font-size:30px;}
-#whenRes.warn #whenResT{font-weight:700;color:var(--stamp-red);font-size:15px;}
 #fdlg .f-cont:disabled{opacity:.45;cursor:default;}
 .r-row .rr-go{flex:none;min-width:64px;text-align:left;}
 #rteCorrBox.dis{opacity:.45;pointer-events:none;}
@@ -1442,6 +1401,56 @@ body.wide #msDim.show{opacity:1;pointer-events:auto}
   .lnch .dbtn{padding:8px 22px 10px}.lnch .dbtn button{padding:10px}.lnch .pnote{margin-top:4px}
 }
 body.wide .spl{position:fixed}
+
+/* v1.07.029: stage 3 - slim 3-slot bar (canvas F2), slot curtains (F4, F5), review slot (F8) */
+.flightbar{padding:0;gap:0;}
+.cbar{display:flex;gap:6px;padding:4px 10px 7px;background:var(--ink);direction:rtl;}
+.cseg{flex:1;min-width:0;height:34px;border-radius:8px;border:1px solid rgba(244,236,220,.28);background:rgba(244,236,220,.08);color:var(--paper-hi);
+  display:flex;flex-direction:row;align-items:center;gap:6px;justify-content:flex-start;padding:0 7px;font-family:var(--font-ui);text-align:right;cursor:pointer;position:relative;}
+.cseg:focus{outline:none;}
+.cseg:focus-visible{outline:2px solid var(--info-gold);outline-offset:1px;}
+.cseg .cl{font-size:11px;font-weight:600;color:var(--info-gold);flex:none;}
+.cseg .cv{font-size:13px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;display:flex;align-items:center;gap:5px;}
+.cseg .cv bdi{font-family:var(--font-mono);font-size:11px;letter-spacing:-.2px;}
+.cseg .cv .rt-nm{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cseg .cv .rt-ar{flex:none;font-size:11px;}
+#rteHint{gap:3px;} #rteHint .rt-nm{font-size:11.5px;}
+.cseg.gold{background:var(--gold);border-color:var(--gold);color:var(--ink-dark);}
+.cseg.gold .cl{color:var(--ink-dark);opacity:.75;}
+.cseg.done{background:var(--done-g);border-color:var(--done-g);color:#fff;}
+.cseg.done .cl{color:#fff;opacity:.85;}
+.cseg.on,.cbar:not(:has(#t_rte.on,#t_when.on)) .cseg.on2{background:var(--paper) !important;border-color:var(--paper) !important;color:var(--ink) !important;border-radius:8px 8px 0 0;height:42px;margin-bottom:-8px;z-index:2000;}
+.cseg.on .cl,.cbar:not(:has(#t_rte.on,#t_when.on)) .cseg.on2 .cl{color:var(--gold-deep) !important;opacity:1 !important;}
+@media (max-width:379px){ .cbar{gap:5px;padding-inline:8px;} .cseg{padding:0 5px;gap:4px;} .cseg .cv{font-size:12.5px;} .cseg .cv bdi{font-size:10px;letter-spacing:-.3px;} }
+.below>.fdlg{top:0;}
+.below>.fdlg .fcard{max-width:none;}
+.tmode{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.tmode button{height:auto;min-height:48px;border-radius:6px;border:1.5px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink-muted);font-family:var(--font-ui);font-size:14px;font-weight:700;padding:6px 6px;line-height:1.25;cursor:pointer;}
+.tmode button small{display:block;font-size:11px;font-weight:600;color:var(--ink-faint);}
+.tmode button small:empty{display:none;}
+.tmode button.on{border:2px solid var(--ink);color:var(--ink);background:#f3f6fb;}
+.tmode button.on small{color:var(--ink-muted);}
+/* one family: the planned-flight button and its two fields sit in one box (like the 24 / 48 / הכל buttons, it turns navy when chosen) */
+.wplan{border:1.5px solid var(--paper-edge);border-radius:6px;background:var(--paper-hi);overflow:hidden;}
+.wplan.on{border:2px solid var(--ink);background:#f3f6fb;}
+.wplan>button{width:100%;min-height:48px;border:none;background:none;color:var(--ink-muted);font-family:var(--font-ui);font-size:14px;font-weight:700;padding:6px;line-height:1.25;cursor:pointer;}
+.wplan>button small{display:block;font-size:11px;font-weight:600;color:var(--ink-faint);}
+.wplan.on>button{color:var(--ink);} .wplan.on>button small{color:var(--ink-muted);}
+/* the fields slide open inside the box (the curtain grows with them), and fold back the same way */
+#wFields{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .4s cubic-bezier(.22,.61,.36,1),opacity .25s ease,visibility 0s linear .4s;}
+.wplan.on #wFields{grid-template-rows:1fr;opacity:1;visibility:visible;transition:grid-template-rows .4s cubic-bezier(.22,.61,.36,1),opacity .3s ease .1s,visibility 0s;}
+#wFields>.wf-in{min-height:0;overflow:hidden;}
+#wFields .wf-row{display:flex;gap:8px;padding:0 10px 10px;}
+@media (prefers-reduced-motion:reduce){ #wFields,.wplan.on #wFields{transition:none;} }
+#wFields .fld{flex:1 1 0;min-width:0;}
+#wFields label.fld input{font-family:var(--font-ui);font-size:13px;padding:0 4px;height:42px;}
+#wFields label.fld input{text-align:center;}
+@supports not (-webkit-touch-callout:none){ #wFields label.fld input{display:flex;justify-content:center;} #wFields input::-webkit-datetime-edit{flex:none;} }   /* desktop browsers: value centred in the field (iPhone has its own rule above) */
+#wFields input::-webkit-calendar-picker-indicator{margin:0 0 0 2px;padding:0;width:14px;}
+#wFields label.fld input.bad{border-color:var(--stamp-red);box-shadow:0 0 0 3px rgba(185,74,58,.28);animation:badGlow 2.2s ease-in-out 2;}
+@keyframes badGlow{0%,100%{box-shadow:0 0 0 3px rgba(185,74,58,.4);}50%{box-shadow:0 0 0 3px rgba(185,74,58,.08);}}
+.rvq>div{display:flex;flex-direction:column-reverse;}   /* F8: the label and number sit above the thin progress bar */
+.rvq>div small{margin-top:0;margin-bottom:4px;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1526,7 +1535,7 @@ body.wide .spl{position:fixed}
         <label class="famr"><input type="checkbox" id="spF4"><span>NOTAMי IFR ו-ATS <small>(ILS, VOR, SID)</small></span></label>
         <div class="fam-f" id="spFF">השינוי חל מיד על המפה והרשימה</div></div>
       <div class="sp-sec new">חלון זמן ברירת מחדל</div>
-      <div class="sp-row sp-static"><small>כמה שעות קדימה להציג כשלא הוגדרה טיסה מתוכננת</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24">24 שעות</label><label><input type="radio" name="spwin" value="48" checked>48 שעות</label><label><input type="radio" name="spwin" value="all">הכל</label></div></div>
+      <div class="sp-row sp-static"><small>החלון שמוצג כשלא הוגדר טווח שעות מותאם אישית</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24">24 שעות</label><label><input type="radio" name="spwin" value="48" checked>48 שעות</label><label><input type="radio" name="spwin" value="all">הכל</label></div></div>
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">בדוק NOTAMים חדשים</b><small><span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small><span class="sp-bar"><i></i></span></button>
       <button type="button" class="sp-row" onclick="setReloadApp(this)"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה.</small></button>
@@ -1556,20 +1565,10 @@ body.wide .spl{position:fixed}
   </div>
   <div class="metabar hdr-meta" id="meta">טוען…</div>
   <div class="flightbar" id="flightbar">
-    <div class="fl-row"><svg class="fl-ico" viewBox="0 0 24 24" fill="none" stroke="#e6c878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10h4a2 2 0 0 1 0 4h-4l-4 7h-3l2 -7h-4l-2 2h-3l2 -4l-2 -4h3l2 2h4l-2 -7h3z"/></svg><div class="fl-txt" id="flTxt"><span class="fl-none">לא הוגדרה טיסה</span></div>
-      <button class="fl-edit" id="flEdit" onclick="toggleFlightDlg()">הגדר זמני טיסה</button></div>
-    <div class="tiles">
-      <button type="button" class="tile" id="t_rte" onclick="toggleCurtain('rte')">
-        <span class="t-lbl"><span class="t-num">1</span>לאן</span><span class="t-val" id="rteHint">אין מסלול</span><span class="t-sub" id="rteHint2"></span>
-      </button>
-      <button type="button" class="tile" id="t_when" onclick="toggleFlightDlg()">
-        <span class="t-lbl"><span class="t-num">2</span>מתי</span><span class="t-val" id="whenVal"></span><span class="t-sub" id="whenSub"></span>
-      </button>
-      <button type="button" class="tile" id="t_rdy" onclick="toggleCurtain('rdy')">
-        <span class="t-lbl"><span class="t-num">3</span><span id="progTxt">סקירה</span></span>
-        <span class="t-val"><span class="pg-bar"><i id="progBar"></i></span><span class="pg-n" id="progN">0/0</span><i class="t-dot" id="rdyDot"></i></span>
-      </button>
-      <span id="viwHint" hidden></span>
+    <div class="cbar" id="cbar">
+      <button type="button" class="cseg" id="t_rte" onclick="toggleCurtain('rte')"><span class="cl">לאן</span><span class="cv" id="rteHint"></span></button>
+      <button type="button" class="cseg" id="t_when" onclick="toggleFlightDlg()"><span class="cl">מתי</span><span class="cv" id="whenVal"></span></button>
+      <button type="button" class="cseg" id="t_rdy" onclick="slotReview()"><span class="cl">סקירה</span><span class="cv" id="rdyVal"></span></button>
     </div>
   </div>
 
@@ -1588,28 +1587,24 @@ body.wide .spl{position:fixed}
     <div id="rteCorrBox"><div class="fglbl">עד כמה רחוק מהמסלול לחפש NOTAMים?</div>
       <div class="fgrace sp-corr" id="corrSeg" style="margin-top:5px"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
     <label class="r-opt r-chk r-sw" id="optRouteLbl"><span>הצג במפה רק NOTAMים בקרבת המסלול<small id="optRouteSub">סמן מסלול כדי להפעיל</small></span><input type="checkbox" id="optRoute"></label>
-    <div class="res" id="rteRes"><span class="n" id="rteResN"></span><span class="t">NOTAMים בקרבת המסלול<small id="rteResS"></small></span></div>
-    <button type="button" class="fgo f-cont" id="rteCont" onclick="rteContinue()">המשך: מתי אתה טס?</button>
     <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="fdlg" id="fdlg" onclick="if(event.target===this)skipFlight()"><div class="fcard rcard" role="dialog" aria-labelledby="fdlgTtl">
     <div><div class="fttl" id="fdlgTtl">מתי אתה טס?</div>
-      <div class="fsub">מועד הטיסה קובע אילו NOTAMים רלוונטיים לבדיקה</div></div>
-    <div class="frow"><label class="fld">תאריך<input type="date" id="fDate"></label></div>
-    <div class="frow">
-      <label class="fld">המראה מתוכננת (LT)<input type="time" id="fTkof"></label>
-      <label class="fld">נחיתה מתוכננת (LT)<input type="time" id="fLdg"></label>
+      <div class="fsub">סנן רק NOTAMים פעילים בטווח השעות הבא</div></div>
+    <div class="tmode" id="wSeg">
+      <button type="button" data-w="24">24 שעות<small></small></button>
+      <button type="button" data-w="48">48 שעות<small></small></button>
+      <button type="button" data-w="all">הכל<small></small></button>
     </div>
-    <div>
-      <div class="fglbl">עד כמה שעות לפני ואחרי הטיסה לחפש NOTAMים בתוקף?</div>
-      <div class="fgrace" id="fGrace" style="margin-top:5px">
-        <button data-g="2" class="on">2 שעות</button><button data-g="3">3 שעות</button><button data-g="5">5 שעות</button>
-      </div>
+    <div class="wplan" id="wPlan">
+      <button type="button" id="wFlight" data-w="flight">טווח שעות מותאם אישית</button>
+      <div id="wFields"><div class="wf-in"><div class="wf-row">
+        <label class="fld">המראה (LT)<input type="datetime-local" id="fTkof"></label>
+        <label class="fld">נחיתה (LT)<input type="datetime-local" id="fLdg"></label>
+      </div></div></div>
     </div>
-    <label class="r-opt r-chk r-sw" id="optTimeLbl"><span>הצג רק NOTAMים בתוקף בחלון הזמן שהוגדר</span><input type="checkbox" id="optTime"></label>
-    <div class="res" id="whenRes"><span class="n" id="whenResN"></span><span class="t"><span id="whenResT"></span><small id="whenResS"></small></span></div>
     <div class="ferr" id="fErr"></div>
-    <button type="button" class="fgo f-cont" onclick="saveFlight()">המשך: סקירת ה-NOTAMים</button>
     <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
   </div></div>
   <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
@@ -1635,7 +1630,7 @@ body.wide .spl{position:fixed}
     <div class="chipw" id="rvChipsW" hidden><div class="ms-chips" id="rvChips"></div></div>
     <div class="rvc-mid rvbox" id="rvMid"></div>
     <div class="rvc-btns"><button type="button" id="rvPrev" onclick="rvStep(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button type="button" class="nx" id="rvNext" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-    <button type="button" class="rvc-grip" id="rvGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
+    <button type="button" class="rvc-grip" id="rvGrip" aria-label="סיום סקירה"><span></span><em class="cg-x"><b>×</b>סיום סקירה</em></button>
   </div>
   <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
@@ -1674,7 +1669,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.028 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.041 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -1814,29 +1809,42 @@ function famHidden(e){
 }
 // default time window: a rolling "next N hours" when no planned flight is set (24 or 48, 48 by default)
 let WIN_H=48; try{ const w=localStorage.getItem("airnotam_win"); if(w==="24") WIN_H=24; else if(w==="all") WIN_H=0; }catch(_){}   // 0 = no limit ahead ("הכל"); ended NOTAMs stay hidden in every mode
+let WIN_CUR=null;   // v1.07.029: the מתי curtain's own choice (24 / 48 / 0 = הכל); null = follow the default from הגדרות; not saved, so every launch starts from the default
+function winH(){ return WIN_CUR===null? WIN_H : WIN_CUR; }
 function winPass(e){
-  const now=Date.now();
-  if(WIN_H && e.start && e.start.getTime()>now+WIN_H*3600000) return false;
+  const now=Date.now(), H=winH();
+  if(H && e.start && e.start.getTime()>now+H*3600000) return false;
   if(e.end && e.end.getTime()<=now) return false;
   return true;
 }
 function passFilters(e){
   if(e.admin) return false;                      // admin/checklist NOTAMs stay out
+  if(PIN.has(e.id)) return true;                 // v1.07.037: shown by a tap in the search list
   if(famHidden(e)) return false;
-  if(timeMode!=="flight" && !winPass(e)) return false;
-  if(timeMode==="flight"){
-    const w=flightWindow(FLIGHT);
-    if(w){
-      if(e.start&&e.start>w.to)return false;
-      if(e.end&&e.end<w.from)return false;
-    }
-  }
-  return true;
+  return timePass(e);
 }
 
 // ── render list + counters (+ map unless skipMap) ──
 let LAST_ITEMS=[];
 let LQ="";
+// v1.07.037: search looks through the whole active feed. A match that the normal choices hide gets a row in the search list with the reason;
+// a tap pins it (this search only: PIN is cleared with the search), so the family rows, time window and route are left as the pilot set them
+const PIN=new Set();
+function timePass(e){ if(timeMode!=="flight") return winPass(e); const w=flightWindow(FLIGHT); if(!w) return true; return !(e.start&&e.start>w.to)&&!(e.end&&e.end<w.from); }
+function qWhy(e){
+  if(famHidden(e)) return "fam";
+  if(!timePass(e)) return "time";
+  if(e.geo&&ROUTE.length>=2&&!inCorridor(e)) return "route";
+  if(offMap(e.id)) return "irr";
+  if(!e.geo&&currentView==="map"&&!WIDE) return "nopos";
+  return "";
+}
+const QWHY={fam:"מסונן: הגדרות",time:"מסונן: זמן",route:"מסונן: מסלול",irr:"מוסתר: לא רלוונטי",nopos:"ללא מיקום"};
+function qHidden(skip){   // active NOTAMים that match the search but are not shown by the normal view
+  const T=qTerms(); if(!T.length) return []; const now=Date.now(), ord={fam:0,time:1,route:2,irr:3,nopos:4};
+  return ENR.filter(e=>!e.admin&&!(e.end&&e.end.getTime()<=now)&&!PIN.has(e.id)&&!(skip&&skip.includes(e.id))&&qMatch(e,T)&&qWhy(e))
+    .map(e=>({e,w:qWhy(e)})).sort((a,b)=>ord[a.w]-ord[b.w]||a.e.id.localeCompare(b.e.id));
+}
 let LOC="all";   // v1.04.025: list only: all | geo | nogeo (not saved, back to "all" on every load)
 // search: comma separates terms, a NOTAM shows if it matches any of them (list and map)
 function qTerms(){ return (LQ||"").split(",").map(t=>t.trim().toUpperCase()).filter(Boolean); }
@@ -1887,13 +1895,15 @@ function render(opts){
   // v1.07.027: count strip = a chain: everything in the feed -> after the family choices and time window -> after the route; every stage that narrowed is struck through
   const hasR=ROUTE_ONLY&&ROUTE.length>=2, onMap0= hasR? items.filter(e=>e.geo&&!offMap(e.id)).length : onMap;
   const nowT=Date.now(), full=ENR.filter(e=>!e.admin&&!offMap(e.id)&&!(e.end&&e.end.getTime()<=nowT));   // v1.07.028: the first number counts only NOTAMים that are still active
-  csUi([full.filter(e=>e.geo).length,onMap0,onMap],[full.filter(e=>!e.geo).length,noGeo,noGeo]);
+  const QS=qTerms();   // v1.07.041: while a search is typed, the strip also counts what the search found (the last step of the chain)
+  const sMap= QS.length? items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)&&qMatch(e,QS)).length : null, sNo= QS.length? items.filter(e=>!e.geo&&!offMap(e.id)&&qMatch(e,QS)).length : null;
+  csUi([full.filter(e=>e.geo).length,onMap0,onMap].concat(QS.length?[sMap]:[]),[full.filter(e=>!e.geo).length,noGeo,noGeo].concat(QS.length?[sNo]:[]));
   updateProgress();
   READY.irr=S.irr.length;
 
   const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נקראו"],["ok","קראתי"],["irr","סימנתי כלא רלוונטיים לי"]];
   // list search: plain text, case-insensitive, anywhere in ID / airfield / full text (list only, the map is not affected)
-  if(ROUTE.length>=2) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>!e.geo||inCorridor(e)); });   // v1.06.009: list = the review set
+  if(ROUTE.length>=2) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>!e.geo||inCorridor(e)||PIN.has(e.id)); });   // v1.06.009: list = the review set
   const QT=qTerms(), q=QT.join(",")+(LOC!=="all"?"|"+LOC:"");   // q: any narrowing of the list (search or location)
   if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>qMatch(e,QT)&&locPass(e)); });
   const html=G.map(([k,title])=>{
@@ -1921,7 +1931,7 @@ function csUi(mapChain,noChain){
 }
 let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
 // v1.06.008: the review set = NOTAMs in the time window; with a route, the ones with a position must be near it
-function mapRoutePass(e){ return !(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)); }
+function mapRoutePass(e){ return PIN.has(e.id) || !(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)); }
 function reviewSet(){ return LAST_ITEMS.filter(e=>!e.geo || ROUTE.length<2 || inCorridor(e)); }
 function updateProgress(){
   const items=reviewSet(), total=items.length, done=items.filter(e=>{const s=statusOf(e);return s==="ok"||s==="irr";}).length;
@@ -1934,10 +1944,6 @@ function updateProgress(){
   READY.geoDone=READY.geoTot-items.filter(e=>e.geo&&isPending(e)).length;
   READY.noGeoDone=READY.noGeo-READY.noGeoPend;
   const all=total>0&&done>=total, pct=total? Math.round(100*done/total):0;
-  document.getElementById("rdyDot").style.display= (!all && (READY.noGeoPend||READY.chg))? "inline-block":"none";
-  document.getElementById("progN").textContent=`${done}/${total}`;
-  document.getElementById("progBar").style.width=pct+"%";
-  document.getElementById("t_rdy").classList.toggle("done",all);
   renderReady();
   try{rvUi();}catch(_){}
 }
@@ -1956,13 +1962,22 @@ function renderFilterStrip(T,R,G){
   el.innerHTML= t? '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg><span>'+esc(t)+'</span>' : "";
   el.hidden=!t;
 }
-function renderHints(){   // v1.06.008: לאן tile = "first ← last" point names (• = a free point), the length under it
-  const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint"), r2=document.getElementById("rteHint2");
+function renderHints(){   // v1.07.029: לאן slot = "first ← last" point names (• = a free point), or the gold invitation
+  const hasR=ROUTE.length>=2, rh=document.getElementById("rteHint"); if(!rh) return;
   if(hasR){ const nm=p=>p[2]? esc(p[2]) : "•";
-    rh.innerHTML=`<span class="rt-nm">${nm(ROUTE[0])}</span><span class="rt-ar">←</span><span class="rt-nm">${nm(ROUTE[ROUTE.length-1])}</span>`;
-    r2.innerHTML=`<bdi dir="ltr">${routeLenNm().toFixed(0)}NM</bdi>`; }
-  else { rh.textContent="אין מסלול"; r2.textContent=""; }
-  rh.classList.toggle("dim",!hasR);
+    rh.innerHTML=`<span class="rt-nm">${nm(ROUTE[0])}</span><span class="rt-ar">←</span><span class="rt-nm">${nm(ROUTE[ROUTE.length-1])}</span>`; }
+  else rh.textContent="הגדר מסלול";
+  renderBarState();
+}
+// v1.07.029: gold = the next step. No route: לאן. Route set: סקירה. Review done: סקירה green. During the review the slot is paper ("בסקירה").
+function renderBarState(){
+  const t=id=>document.getElementById(id); if(!t("t_rte")) return;
+  const hasR=ROUTE.length>=2, R=READY, all=R.total>0&&R.done>=R.total, inRv=!!(typeof RV!=="undefined"&&RV.on);
+  t("t_rte").classList.toggle("gold",!hasR);
+  t("t_rdy").classList.toggle("gold",hasR&&!all&&!inRv);
+  t("t_rdy").classList.toggle("done",all&&!inRv);
+  t("t_rdy").classList.toggle("on2",inRv);
+  t("rdyVal").textContent= inRv? "בסקירה" : R.done>0? `${R.done}/${R.total}` : "התחל ›";
 }
 function renderReady(){
   try{renderHints();}catch(_){}
@@ -2008,16 +2023,12 @@ function renderRte(){
   document.getElementById("optRouteLbl").classList.toggle("dis",!hasR);
   document.getElementById("optRouteSub").style.display= hasR? "none" : "";
   const cb=document.getElementById("optRoute"); cb.disabled=!hasR; cb.checked=hasR&&ROUTE_ONLY;
-  document.getElementById("rteRes").style.display= hasR? "" : "none";
-  document.getElementById("rteCont").style.display= hasR? "" : "none";
-  if(hasR){ document.getElementById("rteResN").textContent=nearRoute().length;
-    document.getElementById("rteResS").innerHTML=`עד <bdi>${CORR_NM}NM</bdi> מהמסלול`; }
 }
-function rteContinue(){ openFlightDlg(); }   // v1.06.009: לאן closes, then מתי opens
 const CURTAINS=["rdy","rte"];
 // v1.06.009: switching tiles = the open curtain closes first, then the next one opens (never both at once)
 const TILE_DLGS=["rte","fdlg","rdy"]; let _swT=null;
 function seqOpen(id,fn){
+  if(RV.on){ rvClose(); clearTimeout(_swT); _swT=setTimeout(fn,380); return true; }   // v1.07.036: the review curtain closes itself first, like any other curtain
   const o=TILE_DLGS.find(c=>c!==id&&document.getElementById(c).classList.contains("show")); if(!o) return false;
   if(o==="fdlg") closeFlightDlg(); else closeCurtain(o);
   clearTimeout(_swT); _swT=setTimeout(fn,380); return true;
@@ -2046,10 +2057,6 @@ function readyGo(v){
 }
 function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); closeSettings(); }
 document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(ev.target.checked));
-document.getElementById("optTime").addEventListener("change",ev=>{   // v1.06.008: on = only NOTAMים valid in the window
-  const f=readDlg(); if(!flightValid(f)){ ev.target.checked=!ev.target.checked; return; }
-  FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
-  timeMode= ev.target.checked? "flight" : "all"; renderFlightBar(); render(); whenUi(); });
 
 // ── route: tap points on the map, 3NM corridor each side ──
 const ROUTE_KEY="airnotam_route";
@@ -3260,98 +3267,83 @@ function lnchGo(){
 // ── v1.03: planned flight window (kept on device) ──
 const FLIGHT_KEY='airnotam_flight';
 let FLIGHT=null;              // {date:"YYYY-MM-DD", tkof:"HH:MM", ldg:"HH:MM", grace:2}
-let fGrace=2;
-function loadFlight(){try{const f=JSON.parse(localStorage.getItem(FLIGHT_KEY)||"null");return f&&f.date&&f.tkof&&f.ldg?f:null;}catch(e){return null;}}
+function loadFlight(){try{const f=JSON.parse(localStorage.getItem(FLIGHT_KEY)||"null");return f&&/T/.test(f.tkof||"")&&/T/.test(f.ldg||"")?f:null;}catch(e){return null;}}
+// v1.07.029: the planned flight is two fields, each one date + time in local time (LT): tkof / ldg = "YYYY-MM-DDTHH:MM". A flight over midnight is just a landing on the next date.
 function flightWindow(f){
   if(!f)return null;
-  const t=new Date(`${f.date}T${f.tkof}:00`), l=new Date(`${f.date}T${f.ldg}:00`);
-  if(isNaN(t)||isNaN(l))return null;
-  if(l<=t) l.setDate(l.getDate()+1);            // landing after midnight
-  const g=(f.grace||2)*3600*1000;
+  const t=new Date(f.tkof), l=new Date(f.ldg);
+  if(isNaN(t)||isNaN(l)||l<=t) return null;
+  const g=(f.grace||2)*3600*1000;   // fixed 2 h margin before and after (no longer chosen)
   return {tkof:t, ldg:l, from:new Date(t.getTime()-g), to:new Date(l.getTime()+g)};
 }
 function flightValid(f){const w=flightWindow(f);return !!(w&&w.to>new Date());}
 const _pad=n=>String(n).padStart(2,"0");
 const hm=d=>_pad(d.getHours())+":"+_pad(d.getMinutes());
+const dtv=d=>d.getFullYear()+"-"+_pad(d.getMonth()+1)+"-"+_pad(d.getDate())+"T"+hm(d);
 function dayLbl(d){
   let wd="";try{wd=new Intl.DateTimeFormat("he-IL",{weekday:"short"}).format(d).replace("יום ","");}catch(_){}
   return (wd?wd+" ":"")+_pad(d.getDate())+"/"+_pad(d.getMonth()+1);
 }
-function renderWhenTile(){
-  const v=document.getElementById("whenVal"), s=document.getElementById("whenSub"); if(!v) return;
-  if(flightValid(FLIGHT)){
-    const w=flightWindow(FLIGHT);
-    v.innerHTML=esc(dayLbl(w.tkof));
-    s.innerHTML=`<bdi dir="ltr">${hm(w.tkof)}-${hm(w.ldg)}</bdi>`;   // v1.06.008: the margin lives in the מתי curtain
-  }else{
-    v.innerHTML='<span class="t-cta">הגדר זמני טיסה</span>';
-    s.textContent= FLIGHT? "זמני הטיסה שהוגדרו כבר עברו" : (WIN_H? WIN_H+" ש׳" : "כל ה-NOTAMים");   // one line only: a two-line sub text made the tiles taller and moved the screen
-  }
+function flightDefault(){ const n=new Date(); n.setMinutes(0,0,0); n.setHours(n.getHours()+1); return {tkof:dtv(n), ldg:dtv(new Date(n.getTime()+2*3600*1000)), grace:2}; }
+function renderWhenTile(){   // מתי slot: the current choice (planned take-off date + time, or the window)
+  const v=document.getElementById("whenVal"); if(!v) return;
+  if(timeMode==="flight"&&flightValid(FLIGHT)){ const w=flightWindow(FLIGHT);
+    v.innerHTML=`<bdi dir="ltr">${_pad(w.tkof.getDate())}/${_pad(w.tkof.getMonth()+1)} ${hm(w.tkof)}</bdi>`; }
+  else v.textContent= winH()? winH()+" ש׳" : "הכל";
 }
 function renderFlightBar(){
-  const txt=document.getElementById("flTxt"), ed=document.getElementById("flEdit");
-  const w=flightWindow(FLIGHT), ok=flightValid(FLIGHT);
-  if(ok){
-    txt.innerHTML=`<b>${esc(dayLbl(w.tkof))}</b> · <span class="mono">${hm(w.tkof)}-${hm(w.ldg)}</span> LT <span class="fl-grace">±${FLIGHT.grace} ש׳</span>`;
-    ed.textContent="עריכה";
-  }else{
-    txt.innerHTML=`<span class="fl-none">${FLIGHT?"זמני הטיסה שהוגדרו כבר עברו":"לא הוגדרו זמני טיסה"}</span>`;
-    ed.textContent="הגדר זמני טיסה";
-    if(timeMode==="flight") timeMode="all";
-  }
+  if(timeMode==="flight"&&!flightValid(FLIGHT)) timeMode="all";
   renderWhenTile();
   try{renderHints();}catch(_){}
   try{renderReady();}catch(_){}
+  renderBarState();
 }
-function readDlg(){
-  return {date:document.getElementById("fDate").value, tkof:document.getElementById("fTkof").value,
-          ldg:document.getElementById("fLdg").value, grace:fGrace};
-}
-// v1.06.008: מתי curtain result (screen 3); without a route it compares with all NOTAMים
-function inWin(e,w){ return !(e.start&&e.start>w.to) && !(e.end&&e.end<w.from); }
+// the מתי curtain: 24 / 48 / הכל (the default from הגדרות is tagged) or the planned flight
 function whenUi(){
-  const f=readDlg(), w=flightWindow(f), ok=flightValid(f);
-  document.getElementById("optTime").checked= flightValid(FLIGHT)? timeMode==="flight" : true;
-  document.getElementById("optTimeLbl").classList.toggle("dis",!ok);
-  const box=document.getElementById("whenRes"), go=document.querySelector("#fdlg .f-cont");
-  const past= !!w && !ok;   // v1.06.010: a complete window that has already ended
-  box.classList.toggle("warn",past); go.disabled=past;
-  box.style.display= (ok||past)? "" : "none";
-  if(past){ document.getElementById("fErr").style.display="none";
-    document.getElementById("whenResN").textContent="!";
-    document.getElementById("whenResT").textContent="חלון הטיסה כבר עבר";
-    document.getElementById("whenResS").textContent="בחר תאריך ושעות עתידיים כדי להמשיך"; return; }
-  if(!ok) return;
-  const hasR=ROUTE.length>=2, base= hasR? nearRoute() : ENR.filter(e=>!e.admin);
-  document.getElementById("whenResN").textContent=base.filter(e=>inWin(e,w)).length;
-  document.getElementById("whenResT").textContent= hasR? `מתוך ${base.length} NOTAMים בקרבת המסלול` : `מתוך ${base.length} NOTAMים`;
-  document.getElementById("whenResS").innerHTML=`בתוקף בין <bdi dir="ltr">${hm(w.from)}</bdi> ל-<bdi dir="ltr">${hm(w.to)}</bdi>, כולל ${f.grace} שעות לפני ואחרי`;
+  const fl=timeMode==="flight", H=winH();
+  document.querySelectorAll("#wSeg button").forEach(b=>{
+    const hv= b.dataset.w==="all"? 0 : +b.dataset.w;
+    b.classList.toggle("on",!fl&&hv===H);
+    b.querySelector("small").textContent= hv===WIN_H? "ברירת מחדל" : "";
+  });
+  document.getElementById("wPlan").classList.toggle("on",fl);
 }
-// v1.06.008: closing never clears: a valid date / time is kept as soon as it is entered
+function wPick(w){
+  document.getElementById("fErr").style.display="none"; document.getElementById("fLdg").classList.remove("bad");
+  if(w==="flight"){
+    const f= flightValid(FLIGHT)? FLIGHT : flightDefault();
+    FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
+    document.getElementById("fTkof").value=f.tkof; document.getElementById("fLdg").value=f.ldg;
+    timeMode="flight"; alog("when: planned flight "+f.tkof+" - "+f.ldg);
+  } else { WIN_CUR= w==="all"? 0 : +w; timeMode="all"; alog("when: window "+(WIN_CUR||"all")); }
+  whenUi(); renderFlightBar(); render();
+}
+// a valid date / time is kept as soon as it is entered; closing never clears
 let _whenT=null;
-function whenLive(){
-  const f=readDlg(); document.getElementById("fErr").style.display="none"; whenUi();
-  if(!flightValid(f)) return;
-  const was=flightValid(FLIGHT); FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
-  if(!was) timeMode="flight";
+function whenLive(src){
+  const tk=document.getElementById("fTkof"), ld=document.getElementById("fLdg"), err=document.getElementById("fErr");
+  err.style.display="none"; ld.classList.remove("bad");
+  if(src==="tkof"&&tk.value&&ld.value&&new Date(tk.value)>=new Date(ld.value)){ const t=new Date(tk.value); if(!isNaN(t)) ld.value=dtv(new Date(t.getTime()+2*3600*1000)); }   // take-off moved past the landing: the landing follows (2 h after)
+  if(!tk.value||!ld.value) return;
+  const f={tkof:tk.value, ldg:ld.value, grace:2};
+  if(!flightWindow(f)){ ld.classList.add("bad"); return; }
+  if(!flightValid(f)){ err.textContent="חלון הטיסה כבר עבר, בדוק תאריך ושעות"; err.style.display="block"; return; }
+  FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
+  timeMode="flight";
   clearTimeout(_whenT); _whenT=setTimeout(()=>{ renderFlightBar(); render(); whenUi(); },250);
 }
 function openFlightDlg(){
   if(RV_ON){ updRvClose(true); setTimeout(openFlightDlg,380); return; }   // v1.06.023
   if(seqOpen("fdlg",openFlightDlg)) return;   // v1.06.009
+  if(MAP) MAP.closePopup();   // like the other curtains: a NOTAM popup does not stay open under it (the review reopens it on close)
   try{CURTAINS.forEach(closeCurtain);}catch(_){}
-  const f=FLIGHT||(()=>{const n=new Date();n.setMinutes(0,0,0);n.setHours(n.getHours()+1);
-    const l=new Date(n.getTime()+2*3600*1000);
-    return {date:`${n.getFullYear()}-${_pad(n.getMonth()+1)}-${_pad(n.getDate())}`,tkof:hm(n),ldg:hm(l),grace:2};})();
-  document.getElementById("fDate").value=f.date;
+  const f= flightValid(FLIGHT)? FLIGHT : flightDefault();
   document.getElementById("fTkof").value=f.tkof;
   document.getElementById("fLdg").value=f.ldg;
-  fGrace=f.grace||2;
-  document.querySelectorAll("#fGrace button").forEach(b=>b.classList.toggle("on",+b.dataset.g===fGrace));
-  document.getElementById("fErr").style.display="none";
+  document.getElementById("fErr").style.display="none"; document.getElementById("fLdg").classList.remove("bad");
   whenUi();
   document.getElementById("fdlg").classList.add("show");
-  document.getElementById("flEdit").classList.add("on"); document.getElementById("t_when").classList.add("on");   // v1.06.008
+  document.getElementById("t_when").classList.add("on");
   cueAll();
 }
 // v1.05.015T: B4 settings = a curtain from the footer (the footer stays; tap the dim, "× סגור" or swipe the handle down to close)
@@ -3406,9 +3398,9 @@ function spFamChange(){
   render();
 }
 function spWinChange(v){
-  WIN_H= v==="24"?24 : v==="all"?0 : 48; try{ localStorage.setItem("airnotam_win",v==="all"?"all":String(WIN_H)); }catch(e){}
+  WIN_H= v==="24"?24 : v==="all"?0 : 48; WIN_CUR=null; try{ localStorage.setItem("airnotam_win",v==="all"?"all":String(WIN_H)); }catch(e){}
   alog("default window: "+(WIN_H||"all"));
-  try{ renderWhenTile(); }catch(_){}
+  try{ renderWhenTile(); whenUi(); }catch(_){}
   render();
 }
 (function(){
@@ -3467,7 +3459,7 @@ function toggleFlightDlg(){
   if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
   else openFlightDlg();
 }
-function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen(); const fe=document.getElementById("flEdit"); if(fe) fe.classList.remove("on"); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
+function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen(); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
 function curtainGrip(gripId,dlgId,onClose){
   const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
   let y0=null, dy=0;
@@ -3479,26 +3471,14 @@ function curtainGrip(gripId,dlgId,onClose){
 }
 curtainGrip("fGrip","fdlg",()=>skipFlight());
 CURTAINS.forEach(c=>curtainGrip("g_"+c,c,()=>closeCurtain(c)));
-function saveFlight(){
-  const f=readDlg(), err=document.getElementById("fErr");
-  if(!flightWindow(f)){err.textContent="חסר תאריך או שעה";err.style.display="block";return;}
-  if(!flightValid(f)){err.textContent="חלון הטיסה כבר עבר, בדוק תאריך ושעות";err.style.display="block";return;}
-  FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
-  timeMode= document.getElementById("optTime").checked? "flight" : "all";
-  renderFlightBar(); render(); openCurtain("rdy");   // v1.06.008: "המשך: סקירת ה-NOTAMים"; v1.06.009: מתי closes, then סקירה opens
-}
 function skipFlight(){
   closeFlightDlg();
   if(!flightValid(FLIGHT)) timeMode="all";
   renderFlightBar(); render();
 }
-document.querySelectorAll("#fGrace button").forEach(b=>b.addEventListener("click",()=>{
-  fGrace=+b.dataset.g;
-  document.querySelectorAll("#fGrace button").forEach(x=>x.classList.toggle("on",x===b));
-  whenLive();
-}));
-["fDate","fTkof","fLdg"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{
-  whenLive();}));
+document.querySelectorAll("#wSeg button,#wFlight").forEach(b=>b.addEventListener("click",()=>wPick(b.dataset.w)));
+document.getElementById("fTkof").addEventListener("input",()=>whenLive("tkof"));
+document.getElementById("fLdg").addEventListener("input",()=>whenLive("ldg"));
 // ask for the flight once the disclaimer is out of the way
 function maybeAskFlight(){ /* v1.04.018: no auto-open, the "מתי" tile asks for the flight time */ }
 
@@ -3837,31 +3817,38 @@ function qPts(q){
   const ex=p=>qNorm(p.name)===Q||qNorm(p.code)===Q;
   return out.sort((a,b)=>ex(b)-ex(a)||a.name.localeCompare(b.name,"he")||b.lat-a.lat).slice(0,6);
 }
-function qIds(q){ const Q=qNorm(q); if(Q.length<2) return []; return ENR.filter(e=>!e.admin&&qNorm(e.id).includes(Q)).slice(0,5); }
+function qIds(q){ const Q=qNorm(q); if(Q.length<2) return []; const now=Date.now(); return ENR.filter(e=>!e.admin&&!(e.end&&e.end.getTime()<=now)&&qNorm(e.id).includes(Q)).slice(0,5); }   // v1.07.040: ended NOTAMים stay out
 function qChooser(){
   const box=document.getElementById("qch"), inp=document.getElementById("lq"); if(!box) return;
   const q=(LQ||"").trim();
   QCH= QPT? [{t:"p",p:QPT}] : q.length<2||q.includes(",")? [] : qPts(q).map(p=>({t:"p",p})).concat(qIds(q).map(e=>({t:"n",id:e.id})));
+  if(!QPT&&q.length>=2){   // v1.07.037: matches the normal view hides
+    const nid=QCH.filter(x=>x.t==="n").map(x=>x.id), H=qHidden();
+    H.filter(h=>!nid.includes(h.e.id)).slice(0,5).forEach(h=>QCH.push({t:"h",id:h.e.id,w:h.w}));
+    if(H.length>=2) QCH.push({t:"a",ids:H.map(h=>h.e.id)});
+  }
   if(!QCH.length||document.activeElement!==inp){ box.classList.remove("show"); return; }
   const em=document.getElementById("mapEmpty"); if(em&&QCH[0].t==="p") em.style.display="none";   // looking up a point, not NOTAM text
   const LN={sport:"ספורטיבית",cvfr:"CVFR"};
   box.innerHTML=QCH.map((x,i)=> x.t==="p"
     ? `<button type="button" data-i="${i}"><span class="qk">נקודת דיווח</span><span class="qn">${esc(x.p.name)}</span><span class="qc">${esc(x.p.code)} · ${x.p.layers.map(l=>LN[l]||l).join(", ")}</span></button>`
-    : `<button type="button" data-i="${i}"><span class="qk">NOTAM</span><span class="qn qid">${esc(x.id)}</span><span class="qc">${esc((ENR_BY_ID[x.id]||{}).loc||"")}</span></button>`).join("");
+    : x.t==="h"? `<button type="button" data-i="${i}"><span class="qk">${QWHY[x.w]}</span><span class="qn qid">${esc(x.id)}</span><span class="qc">${esc((ENR_BY_ID[x.id]||{}).loc||"")}</span></button>`
+    : x.t==="a"? `<button type="button" data-i="${i}" class="qall"><span class="qn">הצג את כולם (${x.ids.length})</span></button>`
+    : `<button type="button" data-i="${i}"><span class="qk">${QWHY[qWhy(ENR_BY_ID[x.id]||{})]||"NOTAM"}</span><span class="qn qid">${esc(x.id)}</span><span class="qc">${esc((ENR_BY_ID[x.id]||{}).loc||"")}</span></button>`).join("");
   box.classList.add("show");
 }
 // v1.05.016T: what you chose stays in the bar until the x: a NOTAM number filters to it (as typing it does);
 // a reporting point marks a place (stays highlighted) and does not filter the NOTAMs
 let QPT=null;
-function ptClear(){ QPT=null; clearTimeout(ptGo._t); if(PT_HL&&MAP){ MAP.removeLayer(PT_HL); } PT_HL=null; }
+function ptClear(){ QPT=null; PIN.clear(); clearTimeout(ptGo._t); if(PT_HL&&MAP){ MAP.removeLayer(PT_HL); } PT_HL=null; }
 function qGo(x){
   const inp=document.getElementById("lq"); document.getElementById("qch").classList.remove("show");
   ptClear(); document.getElementById("lsearch").classList.add("has-q"); inp.blur();
   if(x.t==="p"){ QPT=x.p; inp.value=x.p.name; LQ=""; const was=!!MAP; setView("map"); render(); setTimeout(()=>ptGo(x.p), was?60:400); return; }
+  if(x.t==="a"){ x.ids.forEach(id=>PIN.add(id)); inp.blur(); render(); return; }   // v1.07.037: show all the hidden matches of this search
   inp.value=x.id; LQ=x.id;
   const e=ENR_BY_ID[x.id]; if(!e) return;
-  if(ROUTE_ONLY&&ROUTE.length>=2&&!inCorridor(e)) ROUTE_ONLY=false;       // make sure the filters let it through
-  if(timeMode==="flight"&&!passFilters(e)){ timeMode="all"; renderFlightBar(); }
+  PIN.add(x.id);       // v1.07.037: this one passes the family rows, time window and route; the pilot's choices are not changed
   if(offMap(x.id)) SHOW_IRR=true;
   render();
   if(WIDE){ focusOnList(x.id); if(e.geo) focusOnMap(x.id); }   // v1.06.005: both are on screen
@@ -3971,7 +3958,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.028 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.041 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -3981,7 +3968,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.028 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.041 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4116,8 +4103,15 @@ function rvUi(){
   pv.disabled= RV.lock || !n || (!RV.end && RV.i<=0);
   nx.disabled= RV.lock || !n;   /* v1.06.018: on the last map NOTAM with all marked, "הבא" leads to the ceremony */
 }
+function slotReview(){   // v1.07.029: the סקירה slot starts the review straight away (no review curtain); when everything is marked it opens the summary
+  if(RV.on) return;
+  const R=READY; if(!R.total) return;
+  if(R.done>=R.total){ openCurtain("rdy"); return; }
+  startReview();
+}
 function startReview(){
-  closeCurtain("rdy");
+  const _open=TILE_DLGS.some(c=>document.getElementById(c).classList.contains("show"));
+  TILE_DLGS.forEach(c=>{ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); });
   setTimeout(()=>{
     if(DRAWING) drawDone();
     if(LQ||QPT){ ptClear(); LQ=""; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); }
@@ -4127,7 +4121,7 @@ function startReview(){
     if(!was){ setView("map"); if(!MAP) return; }
     rvModeReset(); RV.cerSeen=false;
     RV.list=rvBuild(); RV.cards=rvCardsBuild();
-    document.getElementById("rvc").classList.add("show");
+    document.getElementById("rvc").classList.add("show"); renderBarState();
     document.getElementById("rvDim").classList.toggle("show",WIDE);
     document.getElementById("stage").classList.add("rv-on");
     setTimeout(()=>{ document.getElementById("stage").style.setProperty("--rvtop",rvTopPx()+"px"); topStack(); },470);
@@ -4138,13 +4132,13 @@ function startReview(){
     const c=rvNextCard(-1);   // v1.06.017: map part all marked: straight to the next unmarked card (Q6 A)
     if(c>=0 || !RV.list.length) return rvCardsEnter(Math.max(c,0));
     rvCer(true);
-  }, document.getElementById("rdy").classList.contains("show")? 380 : 0);
+  }, _open? 380 : 0);
 }
 function rvClose(){
   if(!RV.on) return;
   clearTimeout(RV.t); rvModeReset(); RV.on=false; RV.lock=false; RV.shown=null; RV.end=false; RV.list=[]; RV.i=-1;
   rvRingClear(); if(MAP) MAP.closePopup();
-  document.getElementById("rvc").classList.remove("show"); document.getElementById("rvDim").classList.remove("show");
+  document.getElementById("rvc").classList.remove("show"); document.getElementById("rvDim").classList.remove("show"); renderBarState();
   document.getElementById("rvMid").innerHTML="";
   document.getElementById("stage").classList.remove("rv-on");
   topStack(); alog("review close");
