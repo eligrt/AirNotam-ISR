@@ -48,5 +48,15 @@
     "id": "C2150/26",
     "kind": "unfamiliar",
     "first": "2026-10-13"
+  },
+  "unfamiliar|CVFR RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM BOKER-TLLIM-NEGEV. HEL RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM HAGAY--TLLIM-NEGEV.": {
+    "id": "C2156/26",
+    "kind": "unfamiliar",
+    "first": "2026-10-13"
+  },
+  "Q/E mismatch|AN AREA AT TLALIM WI 2NM RADIUS CENTERED ON PSN 305257N0344552E CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 11,000FT AMSL. CTN ADZ.": {
+    "id": "C2155/26",
+    "kind": "Q/E mismatch",
+    "first": "2026-10-13"
   }
 }

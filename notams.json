@@ -1,9 +1,115 @@
 {
-  "generatedAt": "2026-10-13T15:31:18.359Z",
+  "generatedAt": "2026-10-13T16:01:59.487Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 111,
+  "count": 113,
   "notams": [
+    {
+      "id": "C2156/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-14T14:00:00.000Z",
+      "toDate": "2026-10-14T15:15:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "022",
+        "upperLimitFl": "040",
+        "position": {
+          "lat": 30.966667,
+          "lon": 34.8,
+          "radiusNm": 7,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM BOKER-TLLIM-NEGEV. HEL RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM HAGAY--TLLIM-NEGEV.",
+      "position": {
+        "lat": 30.966667,
+        "lon": 34.8,
+        "radiusNm": 7,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2156/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /022/040/3058N03448E007 A) LLLL B) 2610141400 C) 2610141515 E) CVFR RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM BOKER-TLLIM-NEGEV. HEL RTE CLSD, TFC WILL BE DIVERTED VIA YRUHM HAGAY--TLLIM-NEGEV.)",
+      "rowID": "2069540",
+      "geometryFlag": {
+        "kind": "unfamiliar",
+        "reason": "no shape, but the text has: RTE CLSD"
+      }
+    },
+    {
+      "id": "C2155/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-14T14:00:00.000Z",
+      "toDate": "2026-10-14T15:15:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "110",
+        "position": {
+          "lat": 30.983333,
+          "lon": 34.766667,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT TLALIM WI 2NM RADIUS CENTERED ON PSN 305257N0344552E CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 11,000FT AMSL. CTN ADZ.",
+      "position": {
+        "lat": 30.983333,
+        "lon": 34.766667,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2155/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/110/3059N03446E002 A) LLLL B) 2610141400 C) 2610141515 E) AN AREA AT TLALIM WI 2NM RADIUS CENTERED ON PSN 305257N0344552E CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 11,000FT AMSL. CTN ADZ.)",
+      "rowID": "2069538",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              30.8825,
+              34.764444
+            ],
+            "radiusNm": 2
+          },
+          {
+            "type": "circle",
+            "role": "q",
+            "center": [
+              30.983333,
+              34.766667
+            ],
+            "radiusNm": 2
+          }
+        ],
+        "anchor": [
+          30.8825,
+          34.764444
+        ],
+        "mismatch": {
+          "kind": "q-e",
+          "distNm": 6.1
+        }
+      },
+      "geometryFlag": {
+        "kind": "Q/E mismatch",
+        "reason": "Item Q position (30.983333,34.766667 r=2NM) does not cover the Item E area: 6.1 NM apart; both drawn, linked"
+      }
+    },
     {
       "id": "C2154/26",
       "location": "LLRS",
