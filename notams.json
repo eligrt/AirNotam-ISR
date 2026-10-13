@@ -1,9 +1,111 @@
 {
-  "generatedAt": "2026-10-13T13:01:31.969Z",
+  "generatedAt": "2026-10-13T13:31:10.080Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 99,
+  "count": 102,
   "notams": [
+    {
+      "id": "A0826/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 OBST DATA LINK ON RWY ADDED, AD ADMIN DATA, PCR UPDATED, LGT AND SRY POWER SUPPLY DATA, TAX LIMITATIONS, FLT PROC UPDATED, CHARTS UPDATED ADC, SIDS.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0826/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3201N03453E005 A) LLBG B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 OBST DATA LINK ON RWY ADDED, AD ADMIN DATA, PCR UPDATED, LGT AND SRY POWER SUPPLY DATA, TAX LIMITATIONS, FLT PROC UPDATED, CHARTS UPDATED ADC, SIDS.)",
+      "rowID": "2069498"
+    },
+    {
+      "id": "C2145/26",
+      "location": "LLBS",
+      "locationDescription": "Beer-Sheba/Teyman",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.283333,
+          "lon": 34.716667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 NISPACH A UPDATED.",
+      "position": {
+        "lat": 31.283333,
+        "lon": 34.716667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2145/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3117N03443E005 A) LLBS B) 2611260001 C) 2612092159 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 NISPACH A UPDATED.)",
+      "rowID": "2069499"
+    },
+    {
+      "id": "A0827/26",
+      "location": "LLER",
+      "locationDescription": "Ramon",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 29.733333,
+          "lon": 35.016667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 AD OBST DATA LINK ADDED, CHART UPDATED ADC, ADCV.",
+      "position": {
+        "lat": 29.733333,
+        "lon": 35.016667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0827/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/2944N03501E005 A) LLER B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 AD OBST DATA LINK ADDED, CHART UPDATED ADC, ADCV.)",
+      "rowID": "2069500"
+    },
     {
       "id": "C2143/26",
       "location": "LLLL",
