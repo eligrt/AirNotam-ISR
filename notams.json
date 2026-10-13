@@ -1,9 +1,73 @@
 {
-  "generatedAt": "2026-10-12T22:50:56.224Z",
+  "generatedAt": "2026-10-13T06:33:50.553Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 96,
+  "count": 97,
   "notams": [
+    {
+      "id": "C2139/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-13T09:00:00.000Z",
+      "toDate": "2026-10-13T19:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "013",
+        "position": {
+          "lat": 31.9,
+          "lon": 35,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315510N0350130E 315300N0350128E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL",
+      "position": {
+        "lat": 31.9,
+        "lon": 35,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2139/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/013/3154N03500E002 A) LLLL B) 2610130900 C) 2610131930 E) UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315510N0350130E 315300N0350128E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL)",
+      "rowID": "2069369",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.919167,
+                34.982222
+              ],
+              [
+                31.919444,
+                35.025
+              ],
+              [
+                31.883333,
+                35.024444
+              ],
+              [
+                31.883333,
+                34.9825
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.901319,
+          35.003542
+        ]
+      }
+    },
     {
       "id": "C2138/26",
       "location": "LLLL",
