@@ -1,9 +1,81 @@
 {
-  "generatedAt": "2026-10-13T11:44:22.719Z",
+  "generatedAt": "2026-10-13T13:01:31.969Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 98,
+  "count": 99,
   "notams": [
+    {
+      "id": "C2143/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-19T06:00:00.000Z",
+      "toDate": "2026-10-21T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "024",
+        "position": {
+          "lat": 31.05,
+          "lon": 34.7,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL",
+      "position": {
+        "lat": 31.05,
+        "lon": 34.7,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2143/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/024/3103N03442E006 A) LLLL B) 2610190600 C) 2610211400 D) 19 0600-0930 1800-1920, 20 1150-1400, 21 0630-0900 1150-1400 E) PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL)",
+      "rowID": "2069479",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.12,
+                34.763889
+              ],
+              [
+                31.086389,
+                34.655556
+              ],
+              [
+                31.081944,
+                34.615278
+              ],
+              [
+                30.991944,
+                34.6375
+              ],
+              [
+                31.009722,
+                34.735833
+              ],
+              [
+                31.066389,
+                34.788889
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.059398,
+          34.699491
+        ]
+      }
+    },
     {
       "id": "C2142/26",
       "location": "LLLL",
