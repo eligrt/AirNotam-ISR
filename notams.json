@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-13T19:01:46.432Z",
+  "generatedAt": "2026-10-13T19:31:12.599Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 113,
+  "count": 112,
   "notams": [
     {
       "id": "C2156/26",
@@ -759,70 +759,6 @@
       "replaces": null,
       "rawText": "A0824/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3249N03503E005 A) LLHA B) 2611030625 C) 2611031100 D) 0625-0825 0930-1100 E) AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.)",
       "rowID": "2069441"
-    },
-    {
-      "id": "C2141/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-13T09:00:00.000Z",
-      "toDate": "2026-10-13T19:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "013",
-        "position": {
-          "lat": 31.9,
-          "lon": 35,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315507N0350100E 315300N0350055E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL",
-      "position": {
-        "lat": 31.9,
-        "lon": 35,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2141/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/013/3154N03500E002 A) LLLL B) 2610130900 C) 2610131930 E) UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315507N0350100E 315300N0350055E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL)",
-      "rowID": "2069388",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.919167,
-                34.982222
-              ],
-              [
-                31.918611,
-                35.016667
-              ],
-              [
-                31.883333,
-                35.015278
-              ],
-              [
-                31.883333,
-                34.9825
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.901111,
-          34.999167
-        ]
-      }
     },
     {
       "id": "C2138/26",
