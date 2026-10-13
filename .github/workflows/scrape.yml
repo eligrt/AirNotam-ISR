@@ -1,12 +1,19 @@
-# scrape.yml · v1.00.002 · AirNotam-ISR · built by eligrt
+# scrape.yml · v1.00.003 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
+# No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
+# A Cloudflare Worker starts this workflow (workflow_dispatch) every 30 minutes with mode=light,
+# and once a day at 00:30 UTC with mode=full. The manual "Run workflow" button works the same way.
 on:
-  schedule:
-    # GitHub throttles tight schedules; */15 was effectively running ~2h anyway.
-    # Set an honest 2h cadence. Trigger manually via workflow_dispatch when needed.
-    - cron: "0 */2 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "light = read the list page, fetch only NOTAMs not stored yet. full = re-read every NOTAM."
+        type: choice
+        options:
+          - full
+          - light
+        default: full
 
 permissions:
   contents: write
@@ -29,6 +36,8 @@ jobs:
           node-version: "24"
 
       - name: Run scraper
+        env:
+          MODE: ${{ inputs.mode || 'full' }}
         run: |
           node --input-type=module <<'SCRAPER_EOF'
           /**
@@ -41,11 +50,17 @@ jobs:
            *   2. GET maiDetails.aspx?rowID=  -> full Q/A/B/C/E text per NOTAM
            *   3. parse -> write ../notams.json
            *
+           * Two modes (env MODE):
+           *   full  - step 2 for every NOTAM on the list (the daily sweep, and the default).
+           *   light - step 2 only for numbers not stored yet. Stored numbers still on the list are
+           *           kept exactly as saved (no re-fetch); numbers gone from the list are dropped.
+           *           If notams.json is missing or unreadable, light falls back to full.
+           *
            * No headless browser needed — plain HTTP. Runs the same locally and in CI.
            *   node scrape.mjs
            */
           
-          import { writeFileSync } from "fs";
+          import { writeFileSync, readFileSync } from "fs";
           import { join } from "path";
           
           const OUT = join(process.cwd(), "notams.json");
@@ -58,7 +73,8 @@ jobs:
           const HEADERS = { "User-Agent": UA, "Accept-Language": "en-US,en;q=0.9,he;q=0.8" };
           const DETAIL_DELAY_MS = 150;
           const MAX_RETRIES = 3;
-          
+          const REQUESTED_MODE = process.env.MODE === "light" ? "light" : "full";
+
           const sleep = ms => new Promise(r => setTimeout(r, ms));
           
           async function fetchText(url, attempt = 1) {
@@ -166,22 +182,50 @@ jobs:
               throw new Error("No rows parsed from list page — see diagnostics above.");
             }
           
+            // Light mode: the stored notams.json is the memory. Records with an earlier fetch error
+            // are not kept, so they get fetched again.
+            let mode = REQUESTED_MODE;
+            const stored = new Map();
+            if (mode === "light") {
+              try {
+                const old = JSON.parse(readFileSync(OUT, "utf-8"));
+                if (!Array.isArray(old.notams)) throw new Error("no notams list in the stored file");
+                for (const rec of old.notams) if (rec && rec.id && !rec.detailError) stored.set(rec.id, rec);
+              } catch (e) {
+                console.error(`Light mode needs the stored notams.json (${e.message}); running a full sweep instead.`);
+                mode = "full";
+              }
+            }
+            console.error(`Mode: ${mode}`);
+
             const notams = [];
+            let kept = 0, fetched = 0;
             for (let i = 0; i < rows.length; i++) {
               const { rowID, id } = rows[i];
+              if (mode === "light" && stored.has(id)) {
+                notams.push(stored.get(id));   // untouched, exactly as saved
+                kept++;
+                continue;
+              }
               try {
                 const html = await fetchText(DETAIL_URL(rowID));
                 const n = parseDetail(html, id);
                 n.rowID = rowID;
                 notams.push(n);
-                if ((i + 1) % 20 === 0) console.error(`  …${i + 1}/${rows.length}`);
               } catch (e) {
                 console.error(`  ! ${id} (row ${rowID}) failed: ${e.message}`);
                 notams.push({ id, rowID, eText: "", detailError: e.message });
               }
+              fetched++;
+              if (fetched % 20 === 0) console.error(`  …${fetched} fetched`);
               await sleep(DETAIL_DELAY_MS);
             }
-          
+            if (mode === "light") {
+              const onList = new Set(rows.map(r => r.id));
+              const dropped = [...stored.keys()].filter(k => !onList.has(k)).length;
+              console.error(`Light run: ${kept} kept, ${fetched} fetched (new), ${dropped} dropped.`);
+            }
+
             const payload = {
               generatedAt,
               source: LIST_URL,
