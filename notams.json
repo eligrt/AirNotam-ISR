@@ -1,11 +1,143 @@
 {
-  "generatedAt": "2026-10-13T06:33:50.553Z",
+  "generatedAt": "2026-10-13T11:38:26.956Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 97,
+  "count": 98,
   "notams": [
     {
-      "id": "C2139/26",
+      "id": "C2142/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-18T06:00:00.000Z",
+      "toDate": "2026-10-18T08:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 31.85,
+          "lon": 34.933333,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "FIREFIGHTING ACT WILL TAKE PLACE AT NACHSHON. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 314953N0345531E 315139N0345452E 315146N0345658E 315015N0345804E. CTN ADZ.",
+      "position": {
+        "lat": 31.85,
+        "lon": 34.933333,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2142/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/015/3151N03456E002 A) LLLL B) 2610180600 C) 2610180830 E) FIREFIGHTING ACT WILL TAKE PLACE AT NACHSHON. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 314953N0345531E 315139N0345452E 315146N0345658E 315015N0345804E. CTN ADZ.)",
+      "rowID": "2069466",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.831389,
+                34.925278
+              ],
+              [
+                31.860833,
+                34.914444
+              ],
+              [
+                31.862778,
+                34.949444
+              ],
+              [
+                31.8375,
+                34.967778
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.848125,
+          34.939236
+        ]
+      }
+    },
+    {
+      "id": "A0825/26",
+      "location": "LLHA",
+      "locationDescription": "Haifa",
+      "fromDate": "2026-11-23T00:01:00.000Z",
+      "toDate": "2026-12-31T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMPLC",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.816667,
+          "lon": 35.05,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "ACFT STAND A2 CLSD DUE WIP.",
+      "position": {
+        "lat": 32.816667,
+        "lon": 35.05,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0825/26 NOTAMN Q) LLLL/QMPLC/IV/BO /A /000/999/3249N03503E005 A) LLHA B) 2611230001 C) 2612312159 E) ACFT STAND A2 CLSD DUE WIP.)",
+      "rowID": "2069443"
+    },
+    {
+      "id": "A0824/26",
+      "location": "LLHA",
+      "locationDescription": "Haifa",
+      "fromDate": "2026-11-03T06:25:00.000Z",
+      "toDate": "2026-11-03T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.816667,
+          "lon": 35.05,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.",
+      "position": {
+        "lat": 32.816667,
+        "lon": 35.05,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0824/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3249N03503E005 A) LLHA B) 2611030625 C) 2611031100 D) 0625-0825 0930-1100 E) AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.)",
+      "rowID": "2069441"
+    },
+    {
+      "id": "C2141/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
       "fromDate": "2026-10-13T09:00:00.000Z",
@@ -25,7 +157,7 @@
           "source": "q_line"
         }
       },
-      "eText": "UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315510N0350130E 315300N0350128E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL",
+      "eText": "UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315507N0350100E 315300N0350055E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL",
       "position": {
         "lat": 31.9,
         "lon": 35,
@@ -35,8 +167,8 @@
       "administrative": false,
       "notamType": "N",
       "replaces": null,
-      "rawText": "C2139/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/013/3154N03500E002 A) LLLL B) 2610130900 C) 2610131930 E) UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315510N0350130E 315300N0350128E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL)",
-      "rowID": "2069369",
+      "rawText": "C2141/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/013/3154N03500E002 A) LLLL B) 2610130900 C) 2610131930 E) UAS ACT WILL TAKE PLACE AT MODIIN. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,300FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 315509N0345856E 315507N0350100E 315300N0350055E 315300N0345857E. CTN ADZ. F) GND G) 1300FT AMSL)",
+      "rowID": "2069388",
       "geometry": {
         "source": "e_text",
         "parts": [
@@ -48,12 +180,12 @@
                 34.982222
               ],
               [
-                31.919444,
-                35.025
+                31.918611,
+                35.016667
               ],
               [
                 31.883333,
-                35.024444
+                35.015278
               ],
               [
                 31.883333,
@@ -63,8 +195,8 @@
           }
         ],
         "anchor": [
-          31.901319,
-          35.003542
+          31.901111,
+          34.999167
         ]
       }
     },
@@ -254,40 +386,6 @@
       "replaces": null,
       "rawText": "A0823/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610140400 C) 2610141100 E) RWY 08/26 CLSD EXC RWY INT, DUE WIP.)",
       "rowID": "2068993"
-    },
-    {
-      "id": "A0822/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-13T05:00:00.000Z",
-      "toDate": "2026-10-13T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 03/21 CLSD DUE WIP BTN 0500-0700UTC (0800-1000LMT) RWY CLSD INCLUDING RWY INT. BTN 0700-1000UTC (1000-1300LMT) RWY CLSD EXC RWY INT.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0822/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610130500 C) 2610131000 E) RWY 03/21 CLSD DUE WIP BTN 0500-0700UTC (0800-1000LMT) RWY CLSD INCLUDING RWY INT. BTN 0700-1000UTC (1000-1300LMT) RWY CLSD EXC RWY INT.)",
-      "rowID": "2068992"
     },
     {
       "id": "A0820/26",
@@ -3103,70 +3201,6 @@
         "anchor": [
           30.59125,
           35.068335
-        ]
-      }
-    },
-    {
-      "id": "C2108/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-13T04:00:00.000Z",
-      "toDate": "2026-10-13T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "017",
-        "position": {
-          "lat": 32.566667,
-          "lon": 35.45,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT BET-HASHITA. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,700FT AMSL 323326N0352802E 323431N0352815E 323441N0352700E 323344N0352635E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 1700FT AMSL",
-      "position": {
-        "lat": 32.566667,
-        "lon": 35.45,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2108/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/017/3234N03527E002 A) LLLL B) 2610130400 C) 2610131000 E) UAS/UAV ACT WILL TAKE PLACE AT BET-HASHITA. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,700FT AMSL 323326N0352802E 323431N0352815E 323441N0352700E 323344N0352635E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 1700FT AMSL)",
-      "rowID": "2067242",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                32.557222,
-                35.467222
-              ],
-              [
-                32.575278,
-                35.470833
-              ],
-              [
-                32.578056,
-                35.45
-              ],
-              [
-                32.562222,
-                35.443056
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.568194,
-          35.457778
         ]
       }
     },
