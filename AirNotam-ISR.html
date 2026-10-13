@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.043 · built by eligrt
+     AirNotam-ISR · v1.07.044 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -60,6 +60,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 .metabar.err{color:#ff9a8f;}
 .metabar .mb-txt{line-height:1.4;color:var(--info-ink);}
 .metabar .stale-warn{color:#ff9a8f;}
+.metabar .mb-txt.mb-old{color:#ff9a8f;}
 .metabar .stale-fresh{background:#4ad06a;box-shadow:0 0 6px rgba(74,208,106,.7);}
 .metabar .stale-aging{background:#f0b429;box-shadow:0 0 6px rgba(240,180,41,.7);}
 .metabar .stale-old{background:#ff6b5e;box-shadow:0 0 7px rgba(255,107,94,.7);}
@@ -918,6 +919,7 @@ body.ios-sa .footer-strip{padding-bottom:26px;}
 .rv-nav button{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--paper-edge);background:var(--paper-hi);border-radius:8px;height:38px;padding:0 12px;
   font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
 .rv-nav button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+.rv-nav button:disabled{opacity:.35;cursor:default;}   /* v1.07.044 */
 .rv-nav .later{border:none;background:none;color:var(--ink-muted);font-weight:600;}
 .rv-grip{display:block;border:none;background:none;padding:6px 0 9px;width:100%;cursor:pointer;}
 .rv-grip span{display:block;width:38px;height:4px;border-radius:2px;background:var(--paper-edge);margin:0 auto;}
@@ -1631,8 +1633,8 @@ body.wide .spl{position:fixed}
     <div class="rv-top" id="rvTop" onclick="if(event.target===this)updRvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
       <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
       <div class="rv-body" id="rvBody"></div>
-      <div class="rv-nav"><button type="button" onclick="updRvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
-        <button type="button" onclick="updRvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+      <div class="rv-nav"><button type="button" id="rvuPrev" onclick="updRvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
+        <button type="button" id="rvuNext" onclick="updRvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
       <button type="button" class="rv-grip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
     </div></div>
     <div class="list" id="list"></div>
@@ -1653,7 +1655,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.043 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.044 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3182,14 +3184,15 @@ function fmtLocalHM(d){
 function staleLine(gen,count){
   if(!gen) return `<span class="stale-dot stale-old"></span><span class="mb-txt">בסיס נתוני נוטאם IAA · <span class="stale-warn">עדכון לא ידוע</span></span>`;
   const mins=Math.round((Date.now()-gen.getTime())/60000);
-  let cls,warn="";
-  if(mins<150){cls="stale-fresh";}
-  else if(mins<300){cls="stale-aging";}
-  else{cls="stale-old";warn=` · <span class="stale-warn">ישן, בדוק מקור רשמי</span>`;}
+  // v1.07.044: one short line in every state (the strip never changes height); the colour carries the age: up to 3 h green, up to 6 h amber, more than 6 h red (dot and text)
+  let cls,old="";
+  if(mins<=180){cls="stale-fresh";}
+  else if(mins<=360){cls="stale-aging";}
+  else{cls="stale-old";old=" mb-old";}
   const ago = mins<60? `לפני ${mins} דק'` : `לפני ${Math.floor(mins/60)} שע'`;
   const hm=fmtLocalHM(gen);
   return `<span class="stale-dot ${cls}"></span>`
-       + `<span class="mb-txt">בסיס נתוני נוטאם IAA עדכני לשעה ${hm} LT (${ago})${warn}</span>`;
+       + `<span class="mb-txt${old}">בסיס נתוני נוטאם IAA עדכני לשעה ${hm} LT (${ago})</span>`;
 }
 
 
@@ -3977,7 +3980,7 @@ function rvToast(t,act){
   setTimeout(()=>el.classList.add("show"),300);
   RV_TT=setTimeout(()=>el.classList.remove("show"),act?6000:3600);
 }
-function updRvStep(d){ const n=RV_LIST.length; if(!n) return updRvClose(); RV_I=(RV_I+d+n)%n; RV_LIST[RV_I].seen=rvDone(RV_LIST[RV_I]); rvRender(); }
+function updRvStep(d){ const n=RV_LIST.length; if(!n) return updRvClose(); const j=RV_I+d; if(j<0||j>=n) return; RV_I=j; RV_LIST[RV_I].seen=rvDone(RV_LIST[RV_I]); rvRender(); }   // v1.07.044: no wrap-around: "הקודם" does nothing on the first card, "הבא" on the last (same rule as the NOTAM review)
 function rvRender(){
   if(!RV_ON) return;
   const L=RV_LIST, n=L.length; if(!n) return updRvClose();
@@ -3989,6 +3992,7 @@ function rvRender(){
   it.seen=rvDone(it);
   const e=ENR_BY_ID[it.id];
   document.getElementById("rvCnt").textContent=`${RV_I+1} מתוך ${n}`;
+  document.getElementById("rvuPrev").disabled=RV_I<=0; document.getElementById("rvuNext").disabled=RV_I>=n-1;   // v1.07.044: no wrap-around, the end buttons are dimmed
   document.getElementById("rvDots").innerHTML=L.map((x,i)=>`<i class="${i===RV_I?"cur":rvDone(x)?"done":""}"></i>`).join("");
   const b=document.getElementById("rvBody"), had=UPD[it.id]; UPD[it.id]=it.u;   // the card as it arrived (diff, "חדש" tag), also once handled
   try{ b.innerHTML= it.t==="can"? ghostCard(it.id,!had) : card(e,statusOf(e)); }
@@ -4035,7 +4039,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.043 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.044 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4045,7 +4049,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.043 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.044 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
