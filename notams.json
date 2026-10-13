@@ -1,9 +1,353 @@
 {
-  "generatedAt": "2026-10-13T13:31:10.080Z",
+  "generatedAt": "2026-10-13T14:01:20.995Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 102,
+  "count": 111,
   "notams": [
+    {
+      "id": "C2154/26",
+      "location": "LLRS",
+      "locationDescription": "Rishon Letzion",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.966667,
+          "lon": 34.75,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 CHIMNEY S OF CIRCUIT PATTERN, WEEKDAY RTE ADDED, NISPACH UPDATED B, C, D, E.",
+      "position": {
+        "lat": 31.966667,
+        "lon": 34.75,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2154/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3158N03445E005 A) LLRS B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 CHIMNEY S OF CIRCUIT PATTERN, WEEKDAY RTE ADDED, NISPACH UPDATED B, C, D, E.)",
+      "rowID": "2069511"
+    },
+    {
+      "id": "C2152/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.183333,
+          "lon": 35.25,
+          "radiusNm": 15,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 MNM ACFT FOR FLYPAST, NISPACH A-11-C UPDATED, AIS PHONE NR UPDATED, NAURAH CLOSURE ADDED, P/R/D UPDATED, UAV PLUGOT AREA ADDED, NISPACH A-17-A UPDATED. PREFERENCE FLT ADDED, OPS HR OF SHDEROTH BUBBLE, PHONE NR UPDATED.",
+      "position": {
+        "lat": 32.183333,
+        "lon": 35.25,
+        "radiusNm": 15,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2152/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3211N03515E015 A) LLLL B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 MNM ACFT FOR FLYPAST, NISPACH A-11-C UPDATED, AIS PHONE NR UPDATED, NAURAH CLOSURE ADDED, P/R/D UPDATED, UAV PLUGOT AREA ADDED, NISPACH A-17-A UPDATED. PREFERENCE FLT ADDED, OPS HR OF SHDEROTH BUBBLE, PHONE NR UPDATED.)",
+      "rowID": "2069508"
+    },
+    {
+      "id": "A0829/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.383333,
+          "lon": 35.25,
+          "radiusNm": 999,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 DIFFERENCES UPDATED, SAR UPDATED, NOTE UPDATE FOR LLR01.",
+      "position": {
+        "lat": 31.383333,
+        "lon": 35.25,
+        "radiusNm": 999,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0829/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3123N03515E999 A) LLLL B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 DIFFERENCES UPDATED, SAR UPDATED, NOTE UPDATE FOR LLR01.)",
+      "rowID": "2069509"
+    },
+    {
+      "id": "C2153/26",
+      "location": "LLMZ",
+      "locationDescription": "Metzada",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 AIRSTRIP OPS HR UPDATED.",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2153/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3120N03523E005 A) LLMZ B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 AIRSTRIP OPS HR UPDATED.)",
+      "rowID": "2069510"
+    },
+    {
+      "id": "C2149/26",
+      "location": "LLHZ",
+      "locationDescription": "Herzlia",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.183333,
+          "lon": 34.833333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 RESTRICTIONS OF OPR AEROBATIC FLT WI LLHZ TRG AREA NR 12 COMPLETELY WITHDRAWN.",
+      "position": {
+        "lat": 32.183333,
+        "lon": 34.833333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2149/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3211N03450E005 A) LLHZ B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 RESTRICTIONS OF OPR AEROBATIC FLT WI LLHZ TRG AREA NR 12 COMPLETELY WITHDRAWN.)",
+      "rowID": "2069505"
+    },
+    {
+      "id": "C2150/26",
+      "location": "LLIB",
+      "locationDescription": "Rosh-Pina",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.983333,
+          "lon": 35.566667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 COOR VOR PROC EXER, TWR PHONE NR UPDATED, PRKG OF GLD, RESPONSIBILITY OF PILOT/TWR, WING SPAN ON APN M, WINDSOCKS LOCATIONS UPDATED, CTR BOUNDARY UPDATED, NISPACH B UPDATED.",
+      "position": {
+        "lat": 32.983333,
+        "lon": 35.566667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2150/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3259N03534E005 A) LLIB B) 2611260001 C) 2612092159 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 COOR VOR PROC EXER, TWR PHONE NR UPDATED, PRKG OF GLD, RESPONSIBILITY OF PILOT/TWR, WING SPAN ON APN M, WINDSOCKS LOCATIONS UPDATED, CTR BOUNDARY UPDATED, NISPACH B UPDATED.)",
+      "rowID": "2069506",
+      "geometryFlag": {
+        "kind": "unfamiliar",
+        "reason": "no shape, but the text has: BOUNDARY"
+      }
+    },
+    {
+      "id": "C2151/26",
+      "location": "LLKS",
+      "locationDescription": "Kiryat-Shmona",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 33.216667,
+          "lon": 35.6,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 NISPACH A UPDATED.",
+      "position": {
+        "lat": 33.216667,
+        "lon": 35.6,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2151/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3313N03536E005 A) LLKS B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 NISPACH A UPDATED.)",
+      "rowID": "2069507"
+    },
+    {
+      "id": "C2146/26",
+      "location": "LLEY",
+      "locationDescription": "Eyn-Yahav",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 30.616667,
+          "lon": 35.2,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 AIRSTRIP OPS HR UPDATED.",
+      "position": {
+        "lat": 30.616667,
+        "lon": 35.2,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2146/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3037N03512E005 A) LLEY B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 AIRSTRIP OPS HR UPDATED.)",
+      "rowID": "2069501"
+    },
+    {
+      "id": "A0828/26",
+      "location": "LLHA",
+      "locationDescription": "Haifa",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.816667,
+          "lon": 35.05,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 AD OBST DATA LINK ADDED, J10 STAND WITHDRAWN, APN PCR UPDATED, TWY Z WIDTH UPDATED, CPT FREQ ADDED, DEP/ARR FLT PROC UPDATED, CHART UPDATED APDC, APDCN, APDCZ, VCC.",
+      "position": {
+        "lat": 32.816667,
+        "lon": 35.05,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0828/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3249N03503E005 A) LLHA B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 AD OBST DATA LINK ADDED, J10 STAND WITHDRAWN, APN PCR UPDATED, TWY Z WIDTH UPDATED, CPT FREQ ADDED, DEP/ARR FLT PROC UPDATED, CHART UPDATED APDC, APDCN, APDCZ, VCC.)",
+      "rowID": "2069502"
+    },
+    {
+      "id": "C2147/26",
+      "location": "LLHA",
+      "locationDescription": "Haifa",
+      "fromDate": "2026-11-26T00:01:00.000Z",
+      "toDate": "2026-12-09T23:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOATT",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.816667,
+          "lon": 35.05,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 OPS HR AD OPS CENTER UPDATED, FREQ UPDATED, MET DATA UPDATED, LIMITATIONS ON APN G ADDED, POWERED TAX WI APN UPDATED, REMOVAL OF MADATORY REP FORCE LDG EXER, CHART UPDATED B, B2, B3, G.",
+      "position": {
+        "lat": 32.816667,
+        "lon": 35.05,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": true,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2147/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3249N03503E005 A) LLHA B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 OPS HR AD OPS CENTER UPDATED, FREQ UPDATED, MET DATA UPDATED, LIMITATIONS ON APN G ADDED, POWERED TAX WI APN UPDATED, REMOVAL OF MADATORY REP FORCE LDG EXER, CHART UPDATED B, B2, B3, G.)",
+      "rowID": "2069503"
+    },
     {
       "id": "A0826/26",
       "location": "LLBG",
@@ -3302,81 +3646,6 @@
       "replaces": null,
       "rawText": "C2128/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610150930 C) 2610161100 D) 15 0930-1530, 16 0600-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
       "rowID": "2067616"
-    },
-    {
-      "id": "C2126/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-13T06:00:00.000Z",
-      "toDate": "2026-10-13T13:40:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "035",
-        "upperLimitFl": "045",
-        "position": {
-          "lat": 30.616667,
-          "lon": 35,
-          "radiusNm": 11,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.",
-      "position": {
-        "lat": 30.616667,
-        "lon": 35,
-        "radiusNm": 11,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2126/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /035/045/3037N03500E011 A) LLLL B) 2610130600 C) 2610131340 E) CVFR RTE CLSD ZOFAR-HRGVS-RUHOT.)",
-      "rowID": "2067277",
-      "geometry": {
-        "source": "route",
-        "parts": [
-          {
-            "type": "line",
-            "coords": [
-              [
-                30.55972,
-                35.18667
-              ],
-              [
-                30.62278,
-                34.95
-              ]
-            ],
-            "leg": "ZOFAR-HRGVS",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                30.62278,
-                34.95
-              ],
-              [
-                30.66,
-                34.80889
-              ]
-            ],
-            "leg": "HRGVS-RUHOT",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          }
-        ],
-        "anchor": [
-          30.59125,
-          35.068335
-        ]
-      }
     },
     {
       "id": "C2107/26",

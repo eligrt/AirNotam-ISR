@@ -43,5 +43,10 @@
     "id": "C2080/26",
     "kind": "legs missing",
     "first": "2026-10-09"
+  },
+  "unfamiliar|TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 COOR VOR PROC EXER, TWR PHONE NR UPDATED, PRKG OF GLD, RESPONSIBILITY OF PILOT/TWR, WING SPAN ON APN M, WINDSOCKS LOCATIONS UPDATED, CTR BOUNDARY UPDATED, NISPACH B UPDATED.": {
+    "id": "C2150/26",
+    "kind": "unfamiliar",
+    "first": "2026-10-13"
   }
 }
