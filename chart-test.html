@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Chart test v1.00.003</title>
+<title>Chart test v1.00.004</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   html,body{margin:0;height:100%;background:#111;font-family:-apple-system,system-ui,sans-serif;color:#eee}
@@ -57,8 +57,9 @@
 <script>
 (function(){
 'use strict';
-var VER='v1.00.003';
-var DB_NAME='chartTestDB', STORE='tiles';
+var VER='v1.00.004';
+var DB_NAME='chartTestDB2', STORE='tiles';   /* v1.00.004: new name, the old database held file-backed blobs that iPhone cannot decode again */
+try{ indexedDB.deleteDatabase('chartTestDB'); }catch(e){}
 var GIS_URL='gis/sport.json';
 
 /* ---------- admin log (same idea as the main app: last 300 events kept on the device) ---------- */
@@ -89,7 +90,7 @@ window.addEventListener('unhandledrejection',function(e){ alog('ERROR (promise) 
 })();
 
 /* ---------- IndexedDB (own storage; nothing leaves the device) ----------
-   v1.00.003: iOS can close the database connection behind the page's back (memory pressure, background).
+   v1.00.004: iOS can close the database connection behind the page's back (memory pressure, background).
    The old code kept the dead connection for ever, so every tile came back empty. Now: reopen and retry once. */
 var dbp=null, DBERR=0, DBREOPEN=0;
 function dbReset(why){ if(dbp){ dbp=null; DBREOPEN++; alog('db handle dropped ('+why+'), will reopen'); } }
@@ -166,7 +167,8 @@ function readZip(file,onProgress){
 function readEntry(file,e){
   return file.slice(e.lho,e.lho+30).arrayBuffer().then(function(hb){
     var h=new DataView(hb), nl=u16(h,26), el=u16(h,28), start=e.lho+30+nl+el;
-    return file.slice(start,start+e.csize,'image/webp');
+    /* v1.00.004: copy the real bytes. A file slice stored as-is is only a pointer to the picked file on iPhone, and it dies. */
+    return file.slice(start,start+e.csize).arrayBuffer();
   });
 }
 function importZip(file){
@@ -213,11 +215,12 @@ var ChartLayer=L.TileLayer.extend({
     var key=coords.z+'/'+coords.x+'/'+coords.y; tc('req');
     var finished=false, fin=function(e){ if(finished) return; finished=true; done(e,img); };
     dbGet(key).then(function(blob){
-      if(!blob){ tc('miss'); fin(null); return; }   /* a miss is normal for blank (white) areas of the chart */
+      if(!blob){ tc('miss'); fin(null); return; }
+      if(!(blob instanceof Blob)) blob=new Blob([blob],{type:'image/webp'});   /* a miss is normal for blank (white) areas of the chart */
       var url=URL.createObjectURL(blob); live[url]=1; liveN++;
       var rel=function(){ if(live[url]){ URL.revokeObjectURL(url); delete live[url]; liveN--; } };
       img.onload=function(){ tc('ok'); rel(); fin(null); };
-      img.onerror=function(){ tc('imgerr'); if(FAILLOG++<15) alog('tile image decode ERROR '+key+' ('+(blob.size||0)+' B)'); rel(); fin(null); };
+      img.onerror=function(){ tc('imgerr'); if(FAILLOG++<15) alog('tile image decode ERROR '+key+' ('+(blob.size||0)+' B, type '+(blob.type||'none')+')'); rel(); fin(null); };
       img.src=url;
     }).catch(function(e){
       tc('fail'); if(FAILLOG++<15) alog('tile read FAILED '+key+' '+(e&&e.name)+': '+(e&&e.message)); fin(null);
