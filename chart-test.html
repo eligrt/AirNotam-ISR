@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Chart test v1.00.002</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  html,body{margin:0;height:100%;background:#111;font-family:-apple-system,system-ui,sans-serif;color:#eee}
+  #map{position:absolute;inset:0}
+  #bar{position:absolute;left:0;right:0;bottom:0;z-index:1000;background:rgba(20,20,24,.92);padding:10px 14px calc(10px + env(safe-area-inset-bottom));font-size:14px}
+  #bar .row{display:flex;align-items:center;gap:10px;margin:4px 0}
+  #bar input[type=range]{flex:1;height:32px}
+  button{font-size:15px;padding:8px 12px;border-radius:8px;border:1px solid #666;background:#2a2a30;color:#fff}
+  button.main{background:#1f6feb;border-color:#1f6feb}
+  #stat{font-size:12px;color:#9ab;white-space:pre-wrap;line-height:1.35}
+  #load{position:absolute;inset:0;z-index:1100;background:rgba(10,10,14,.94);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:14px}
+  #load.on{display:flex}
+  #load h2{margin:0;font-size:20px}
+  #prog{width:80%;max-width:360px;height:10px;display:none}
+  .gdot{background:#e11;border:1px solid #fff;border-radius:50%;width:8px;height:8px;margin:-4px 0 0 -4px}
+  .glab{background:rgba(255,255,255,.85);color:#900;border:0;box-shadow:none;font-size:11px;padding:0 3px}
+  label{display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div id="load">
+  <h2>Sport chart tiles</h2>
+  <div id="loadmsg">No chart stored on this device yet.<br>Pick the zip file (sport-tiles.zip).</div>
+  <input id="file" type="file" accept=".zip,application/zip,application/x-zip-compressed" style="display:none">
+  <button class="main" id="pick">Choose zip file</button>
+  <progress id="prog" value="0" max="100"></progress>
+</div>
+
+<div id="bar">
+  <div class="row"><span style="width:92px">Chart opacity</span><input id="op" type="range" min="0" max="100" value="70"><span id="opv" style="width:38px;text-align:right">70%</span></div>
+  <div class="row">
+    <label><input id="gis" type="checkbox"> GIS points</label>
+    <button id="osmbtn">Base: Street</button>
+    <button id="repick">Reload zip</button>
+    <button id="clear">Clear</button>
+  </div>
+  <div id="stat"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+'use strict';
+var VER='v1.00.002';
+var DB_NAME='chartTestDB', STORE='tiles';
+var GIS_URL='gis/sport.json';
+
+/* ---------- IndexedDB (own storage; nothing leaves the device) ---------- */
+var dbp=null;
+function db(){
+  if(dbp) return dbp;
+  dbp=new Promise(function(res,rej){
+    var r=indexedDB.open(DB_NAME,1);
+    r.onupgradeneeded=function(){ r.result.createObjectStore(STORE); };
+    r.onsuccess=function(){ res(r.result); };
+    r.onerror=function(){ rej(r.error); };
+  });
+  return dbp;
+}
+function dbGet(key){
+  return db().then(function(d){ return new Promise(function(res){
+    var q=d.transaction(STORE).objectStore(STORE).get(key);
+    q.onsuccess=function(){ res(q.result); }; q.onerror=function(){ res(undefined); };
+  });});
+}
+function dbPutMany(items){
+  return db().then(function(d){ return new Promise(function(res,rej){
+    var t=d.transaction(STORE,'readwrite'), s=t.objectStore(STORE);
+    items.forEach(function(it){ s.put(it[1],it[0]); });
+    t.oncomplete=function(){ res(); }; t.onerror=function(){ rej(t.error); }; t.onabort=function(){ rej(t.error); };
+  });});
+}
+function dbCount(){
+  return db().then(function(d){ return new Promise(function(res){
+    var q=d.transaction(STORE).objectStore(STORE).count(); q.onsuccess=function(){ res(q.result); }; q.onerror=function(){ res(0); };
+  });});
+}
+function dbClear(){
+  return db().then(function(d){ return new Promise(function(res){
+    var t=d.transaction(STORE,'readwrite'); t.objectStore(STORE).clear(); t.oncomplete=function(){ res(); };
+  });});
+}
+
+/* ---------- minimal zip reader (tiles are stored without compression) ---------- */
+function u16(v,o){ return v.getUint16(o,true); }
+function u32(v,o){ return v.getUint32(o,true); }
+function readZip(file,onProgress){
+  var size=file.size, tailLen=Math.min(size,66000);
+  return file.slice(size-tailLen,size).arrayBuffer().then(function(tb){
+    var v=new DataView(tb), eocd=-1;
+    for(var i=tb.byteLength-22;i>=0;i--){ if(u32(v,i)===0x06054b50){ eocd=i; break; } }
+    if(eocd<0) throw new Error('This does not look like a zip file');
+    var total=u16(v,eocd+10), cdSize=u32(v,eocd+12), cdOff=u32(v,eocd+16);
+    if(total===0xffff||cdOff===0xffffffff) throw new Error('Zip64 zip files are not supported here');
+    return file.slice(cdOff,cdOff+cdSize).arrayBuffer().then(function(cb){
+      var cv=new DataView(cb), p=0, entries=[];
+      while(p+46<=cb.byteLength && u32(cv,p)===0x02014b50){
+        var method=u16(cv,p+10), csize=u32(cv,p+20), usize=u32(cv,p+24), nl=u16(cv,p+28), el=u16(cv,p+30), cl=u16(cv,p+32), lho=u32(cv,p+42);
+        var name=new TextDecoder().decode(new Uint8Array(cb,p+46,nl));
+        entries.push({name:name,method:method,csize:csize,usize:usize,lho:lho});
+        p+=46+nl+el+cl;
+      }
+      return entries;
+    });
+  });
+}
+function readEntry(file,e){
+  return file.slice(e.lho,e.lho+30).arrayBuffer().then(function(hb){
+    var h=new DataView(hb), nl=u16(h,26), el=u16(h,28), start=e.lho+30+nl+el;
+    return file.slice(start,start+e.csize,'image/webp');
+  });
+}
+function importZip(file){
+  var msg=document.getElementById('loadmsg'), prog=document.getElementById('prog');
+  prog.style.display='block'; prog.value=0;
+  msg.textContent='Reading the zip...';
+  return readZip(file).then(function(entries){
+    var tiles=entries.filter(function(e){ return /(^|\/)(\d+)\/(\d+)\/(\d+)\.webp$/i.test(e.name); });
+    if(!tiles.length) throw new Error('No tiles (z/x/y.webp) found in this zip');
+    if(tiles.some(function(e){ return e.method!==0; })) throw new Error('This zip is compressed; it needs to be a "stored" zip');
+    msg.textContent='Saving '+tiles.length+' tiles on this device...';
+    var i=0, BATCH=60;
+    function step(){
+      if(i>=tiles.length) return Promise.resolve();
+      var part=tiles.slice(i,i+BATCH);
+      return Promise.all(part.map(function(e){
+        var m=e.name.match(/(\d+)\/(\d+)\/(\d+)\.webp$/i);
+        return readEntry(file,e).then(function(b){ return [m[1]+'/'+m[2]+'/'+m[3],b]; });
+      })).then(dbPutMany).then(function(){
+        i+=BATCH; prog.value=Math.min(100,Math.round(i/tiles.length*100)); return step();
+      });
+    }
+    return step().then(function(){ return tiles.length; });
+  });
+}
+
+/* ---------- map ---------- */
+var map=L.map('map',{zoomControl:true,minZoom:6,maxZoom:15,zoomSnap:1}).setView([32.0,35.0],8);
+var BASES=[
+  {n:'Street (Esri)',l:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri'})},
+  {n:'OSM',l:L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'})},
+  {n:'Carto',l:L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',{maxZoom:19,subdomains:'abcd',attribution:'&copy; OpenStreetMap, &copy; CARTO'})},
+  {n:'Satellite (Esri)',l:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri'})},
+  {n:'off',l:null}
+];
+var bi=0; BASES[0].l.addTo(map);
+
+var live={}, liveN=0;   /* object URLs currently alive, so they can be released again */
+var ChartLayer=L.TileLayer.extend({
+  createTile:function(coords,done){
+    var img=document.createElement('img'); img.alt=''; img.setAttribute('role','presentation');
+    var key=coords.z+'/'+coords.x+'/'+coords.y;
+    dbGet(key).then(function(blob){
+      if(!blob){ done(null,img); return; }
+      var url=URL.createObjectURL(blob); live[url]=1; liveN++;
+      var rel=function(){ if(live[url]){ URL.revokeObjectURL(url); delete live[url]; liveN--; } };
+      img.onload=function(){ rel(); done(null,img); };
+      img.onerror=function(){ rel(); done(null,img); };
+      img.src=url;
+    });
+    return img;
+  }
+});
+var chart=new ChartLayer('',{minZoom:7,maxNativeZoom:12,maxZoom:15,opacity:0.7,updateWhenZooming:false,keepBuffer:1,tileSize:256}).addTo(map);
+
+/* ---------- GIS points (to see whether they fall inside the printed triangles) ---------- */
+var gisLayer=L.layerGroup(), gisLoaded=false;
+function loadGis(){
+  if(gisLoaded) return; gisLoaded=true;
+  fetch(GIS_URL).then(function(r){ return r.json(); }).then(function(j){
+    (j.p.features||[]).forEach(function(f){
+      var c=f.geometry.coordinates, ll=[c[1],c[0]];
+      L.marker(ll,{icon:L.divIcon({className:'gdot',iconSize:[8,8]}),interactive:false,keyboard:false})
+        .bindTooltip(f.properties.c||'',{permanent:true,direction:'right',offset:[6,0],className:'glab'}).addTo(gisLayer);
+    });
+  }).catch(function(e){ gisLoaded=false; alert('GIS points could not be loaded: '+e.message); });
+}
+document.getElementById('gis').onchange=function(){
+  if(this.checked){ loadGis(); gisLayer.addTo(map); } else map.removeLayer(gisLayer);
+};
+
+/* ---------- controls ---------- */
+var op=document.getElementById('op'), opv=document.getElementById('opv');
+op.oninput=function(){ chart.setOpacity(op.value/100); opv.textContent=op.value+'%'; };
+document.getElementById('osmbtn').onclick=function(){
+  if(BASES[bi].l) map.removeLayer(BASES[bi].l);
+  bi=(bi+1)%BASES.length;
+  if(BASES[bi].l) BASES[bi].l.addTo(map).bringToBack();
+  this.textContent='Base: '+BASES[bi].n;
+};
+var fileIn=document.getElementById('file');
+document.getElementById('pick').onclick=function(){ fileIn.click(); };
+document.getElementById('repick').onclick=function(){ document.getElementById('load').classList.add('on'); };
+document.getElementById('clear').onclick=function(){
+  if(!confirm('Delete the stored chart tiles from this device?')) return;
+  dbClear().then(function(){ chart.redraw(); showLoad('No chart stored on this device yet.<br>Pick the zip file (sport-tiles.zip).'); upd(); });
+};
+function showLoad(html){ document.getElementById('loadmsg').innerHTML=html; document.getElementById('prog').style.display='none'; document.getElementById('load').classList.add('on'); }
+fileIn.onchange=function(){
+  var f=fileIn.files&&fileIn.files[0]; if(!f) return;
+  importZip(f).then(function(n){
+    document.getElementById('load').classList.remove('on'); chart.redraw(); upd();
+    if(navigator.storage&&navigator.storage.persist) navigator.storage.persist();
+  }).catch(function(e){ showLoad('<b>Failed:</b> '+(e&&e.message?e.message:e)+'<br>Try again.'); });
+  fileIn.value='';
+};
+
+/* ---------- status line (memory numbers for the iPhone test) ---------- */
+function upd(){
+  Promise.all([dbCount(), (navigator.storage&&navigator.storage.estimate)?navigator.storage.estimate():Promise.resolve({})]).then(function(r){
+    var imgs=document.querySelectorAll('#map img.leaflet-tile').length;
+    var heap=(performance&&performance.memory)?(' · JS heap '+Math.round(performance.memory.usedJSHeapSize/1048576)+' MB'):'';
+    var q=r[1]&&r[1].usage?(' · site storage '+Math.round(r[1].usage/1048576)+' MB'):'';
+    document.getElementById('stat').textContent=VER+' · stored tiles '+r[0]+q+'\nZ'+map.getZoom()+' · tile images on page '+imgs+' · temp picture links alive '+liveN+heap;
+  });
+}
+map.on('zoomend moveend',upd); setInterval(upd,2000);
+
+/* ---------- start ---------- */
+dbCount().then(function(n){
+  if(n===0) showLoad('No chart stored on this device yet.<br>Pick the zip file (sport-tiles.zip).');
+  upd();
+});
+window.__test={chart:chart,map:map,importZip:importZip,dbCount:dbCount};
+})();
+</script>
+</body>
+</html>
