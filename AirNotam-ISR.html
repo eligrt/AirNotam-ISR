@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.052 · built by eligrt
+     AirNotam-ISR · v1.07.053 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -739,15 +739,14 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .gsheet .gs-sl small{font-size:10px;font-weight:400;color:var(--ink-faint);}
 .gsheet .gs-seg label.soon{color:#b9ab8a;cursor:default;line-height:1.05;padding:3px 0;}
 .gsheet .gs-seg label.soon small{display:block;font-size:8.5px;}
-.gsheet .gs-seg label.lsa{cursor:pointer;font-weight:700;letter-spacing:.5px;}
-.gsheet .gs-seg label.lsa.on{background:var(--ink);color:var(--paper-hi);}
+.gchip.on{border-color:var(--ink);color:var(--ink-dark);font-weight:700;background:#f3f6fb;} .gchip.on .gsw{opacity:1;} #lsaBtn{cursor:pointer;}
 .lsa-box{display:none;margin-top:8px;font-size:12px;color:var(--ink-muted);}
 .lsa-box.show{display:block;}
 .lsa-st{min-height:16px;font-size:11.5px;} .lsa-st.lsa-err{color:#b00020;font-weight:700;}
 .lsa-op{display:flex;align-items:center;gap:8px;margin-top:4px;} .lsa-op input{flex:1;accent-color:var(--ink);} .lsa-op b{width:38px;text-align:left;font-weight:600;direction:ltr;}
 .lsa-ln{margin-top:6px;display:flex;gap:16px;font-size:11px;} .lsa-ln a{text-decoration:underline;text-underline-offset:2px;cursor:pointer;color:var(--ink-faint);}
 .lsa-inset-border{fill:url(#lsaGrid);fill-opacity:1;stroke:#b00020;stroke-width:3px;}
-.lsa-cap{background:#b00020;color:#fff;padding:2px 6px;border-radius:5px;font:700 13px/1.25 var(--font-ui);text-align:center;direction:rtl;box-shadow:0 1px 3px rgba(0,0,0,.4);transform:translate(-50%,0);position:absolute;box-sizing:border-box;}
+.lsa-cap{background:#b00020;color:#fff;padding:2px 6px;border-radius:5px;font:700 13px/1.25 var(--font-ui);text-align:center;direction:rtl;box-shadow:0 1px 3px rgba(0,0,0,.4);transform:translate(-50%,0);position:absolute;left:0;right:auto;box-sizing:border-box;}
 .gsheet .gs-grid{grid-template-columns:1fr 1fr;}
 .gsheet .gs-close{border:none;background:none;font-family:var(--font-ui);font-size:12.5px;font-weight:700;color:var(--ink-muted);cursor:pointer;}
 .gsheet .gs-hdl{position:absolute;top:50%;right:4px;width:4px;height:36px;margin-top:-18px;border-radius:2px;background:var(--paper-edge);}
@@ -1628,7 +1627,7 @@ body.wide .spl{position:fixed}
     <div class="rvc-btns"><button type="button" id="rvPrev" onclick="rvStep(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button type="button" class="nx" id="rvNext" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
     <button type="button" class="rvc-grip" id="rvGrip" aria-label="סיום סקירה"><span></span><em class="cg-x"><b>×</b>סיום סקירה</em></button>
   </div>
-  <!-- v1.07.052: the update review curtain sits in .below like the NOTAM review: it starts right under the three tiles and covers the count strip and the search bar -->
+  <!-- v1.07.051: the update review curtain sits in .below like the NOTAM review: it starts right under the three tiles and covers the count strip and the search bar -->
   <div class="rv-top" id="rvTop" onclick="if(event.target===this)updRvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
     <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
     <div class="rv-body" id="rvBody"></div>
@@ -1665,7 +1664,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.052 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.053 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3825,10 +3824,14 @@ function lsaInit(){
 function gisPanel(){
   const s=document.createElement("div"); s.className="gsheet"; s.id="gsheet";
   const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("")
-    +'<label class="soon">CVFR<small>בקרוב</small></label><label class="lsa" id="lsaBtn">LSA</label>';   // v1.07.052: the old אזמ"ם "soon" slot is now the LSA chart on / off button
+    ;   // v1.07.053: the LSA chart has its own block below (it is not a base map)
   const chip=(id,sw,t)=>`<label class="gchip" id="gc_${id}"><input type="checkbox" id="gis_${id}">${sw}<span>${t}</span><small id="gst_${id}"></small></label>`;
   s.innerHTML='<div class="gs-in"><div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.015T: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
-    +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div>'+LSA_BOX+'</div>'
+    +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div></div>'
+    +'<div class="gs-sec"><div class="gs-sl">מפה רשמית<small>תמונה, נשמרת רק במכשיר שלך</small></div><div class="gs-grid">'   // v1.07.053
+      +'<label class="gchip" id="lsaBtn"><i class="gsw" style="background:#e9d98a66;border-color:#8a6d1f"></i><span>LSA ספורטיבית</span></label>'
+      +'<label class="gchip dis"><i class="gsw" style="background:#e9d98a66;border-color:#8a6d1f"></i><span>LSA CVFR · בקרוב</span></label>'
+    +'</div>'+LSA_BOX+'</div>'
     +'<div class="gs-sec"><div class="gs-sl">שכבות רת"א<small>מקור: רת"א GIS</small></div><div class="gs-grid">'
       +chip("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"ספורטיבית")
       +chip("cvfr",'<i class="gsw ln gsw-cv" style="border-color:#1f7a3f"></i>',"CVFR")   // v1.06.006: same width as sport
@@ -4269,7 +4272,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.052 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.053 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4279,7 +4282,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.052 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.053 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
