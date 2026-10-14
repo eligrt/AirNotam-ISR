@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.051 · built by eligrt
+     AirNotam-ISR · v1.07.052 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -739,6 +739,15 @@ mark.qh{background:#f1d98a;color:inherit;border-radius:2px;padding:0 1px;}
 .gsheet .gs-sl small{font-size:10px;font-weight:400;color:var(--ink-faint);}
 .gsheet .gs-seg label.soon{color:#b9ab8a;cursor:default;line-height:1.05;padding:3px 0;}
 .gsheet .gs-seg label.soon small{display:block;font-size:8.5px;}
+.gsheet .gs-seg label.lsa{cursor:pointer;font-weight:700;letter-spacing:.5px;}
+.gsheet .gs-seg label.lsa.on{background:var(--ink);color:var(--paper-hi);}
+.lsa-box{display:none;margin-top:8px;font-size:12px;color:var(--ink-muted);}
+.lsa-box.show{display:block;}
+.lsa-st{min-height:16px;font-size:11.5px;} .lsa-st.lsa-err{color:#b00020;font-weight:700;}
+.lsa-op{display:flex;align-items:center;gap:8px;margin-top:4px;} .lsa-op input{flex:1;accent-color:var(--ink);} .lsa-op b{width:38px;text-align:left;font-weight:600;direction:ltr;}
+.lsa-ln{margin-top:6px;display:flex;gap:16px;font-size:11px;} .lsa-ln a{text-decoration:underline;text-underline-offset:2px;cursor:pointer;color:var(--ink-faint);}
+.lsa-inset-border{fill:url(#lsaGrid);fill-opacity:1;stroke:#b00020;stroke-width:3px;}
+.lsa-cap{background:#b00020;color:#fff;padding:2px 6px;border-radius:5px;font:700 13px/1.25 var(--font-ui);text-align:center;direction:rtl;box-shadow:0 1px 3px rgba(0,0,0,.4);transform:translate(-50%,0);position:absolute;box-sizing:border-box;}
 .gsheet .gs-grid{grid-template-columns:1fr 1fr;}
 .gsheet .gs-close{border:none;background:none;font-family:var(--font-ui);font-size:12.5px;font-weight:700;color:var(--ink-muted);cursor:pointer;}
 .gsheet .gs-hdl{position:absolute;top:50%;right:4px;width:4px;height:36px;margin-top:-18px;border-radius:2px;background:var(--paper-edge);}
@@ -1619,7 +1628,7 @@ body.wide .spl{position:fixed}
     <div class="rvc-btns"><button type="button" id="rvPrev" onclick="rvStep(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button type="button" class="nx" id="rvNext" onclick="rvStep(1)">הבא<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
     <button type="button" class="rvc-grip" id="rvGrip" aria-label="סיום סקירה"><span></span><em class="cg-x"><b>×</b>סיום סקירה</em></button>
   </div>
-  <!-- v1.07.051: the update review curtain sits in .below like the NOTAM review: it starts right under the three tiles and covers the count strip and the search bar -->
+  <!-- v1.07.052: the update review curtain sits in .below like the NOTAM review: it starts right under the three tiles and covers the count strip and the search bar -->
   <div class="rv-top" id="rvTop" onclick="if(event.target===this)updRvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
     <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
     <div class="rv-body" id="rvBody"></div>
@@ -1656,7 +1665,7 @@ body.wide .spl{position:fixed}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       הגדרות
     </span>
-    <span class="footer-build">AirNotam-ISR · v1.07.051 · built by eligrt</span>
+    <span class="footer-build">AirNotam-ISR · v1.07.052 · built by eligrt</span>
   </div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
@@ -3606,13 +3615,220 @@ function gisInitUi(){
   });
 }
 
+// ── v1.07.052: LSA chart (the official sport chart as a picture layer; personal copy, kept only on this device).
+//    Tapping "LSA" in the layers panel: first time asks for the zip (sport-tiles.zip), unzips it into this browser's own storage
+//    (IndexedDB), then shows it as a layer. Proven in the test page chart-test.html v1.00.016. Nothing leaves the device. ──
+const LSA={on:false,stored:0,busy:false,op:1,chart:null,inset:null,caps:[],file:null,ready:false};
+const LSA_DB="airnotamLsaDB", LSA_STORE="tiles";
+let LSA_DBP=null, LSA_LIVE={}, LSA_LIVEN=0, LSA_TL={req:0,ok:0,miss:0,fail:0,err:0}, LSA_FAILLOG=0;
+const LSA_TXT="תצוגה מוגדלת - אין לנווט לפי מקומה הגיאוגרפי במפה";
+const LSA_TXT_SHORT="לא במיקום האמיתי";
+const LSA_INSETS=[[[32.54932, 34.83566], [32.54909, 34.74687], [32.5488, 34.65808], [32.54845, 34.56929], [32.54803, 34.4805], [32.54755, 34.39171], [32.54701, 34.30293], [32.54641, 34.21414], [32.54574, 34.12535], [32.61548, 34.12434], [32.68522, 34.12333], [32.75497, 34.12231], [32.82471, 34.1213], [32.89445, 34.12028], [32.96419, 34.11926], [33.03393, 34.11823], [33.10367, 34.11721], [33.10472, 34.22939], [33.10566, 34.34156], [33.10651, 34.45374], [33.10726, 34.56593], [33.1079, 34.67811], [33.10845, 34.7903], [33.10889, 34.90248], [33.10924, 35.01467], [33.06892, 34.99904], [33.0286, 34.98343], [32.98828, 34.96783], [32.94796, 34.95225], [32.90763, 34.93668], [32.8673, 34.92112], [32.82697, 34.90558], [32.78664, 34.89005], [32.75698, 34.88323], [32.72731, 34.87642], [32.69765, 34.86962], [32.66798, 34.86282], [32.63832, 34.85602], [32.60865, 34.84923], [32.57898, 34.84244]], [[32.53885, 34.12547], [32.53944, 34.21358], [32.53996, 34.3017], [32.54042, 34.38982], [32.54082, 34.47794], [32.54115, 34.56606], [32.54143, 34.65418], [32.54164, 34.7423], [32.54179, 34.83042], [32.47002, 34.80976], [32.39825, 34.78913], [32.32648, 34.76853], [32.25471, 34.74796], [32.18293, 34.72743], [32.11115, 34.70693], [32.03936, 34.68646], [31.96758, 34.66602], [31.96729, 34.59931], [31.96697, 34.5326], [31.96661, 34.46589], [31.96622, 34.39918], [31.96579, 34.33247], [31.96532, 34.26576], [31.96482, 34.19905], [31.96428, 34.13234], [32.0361, 34.13149], [32.10792, 34.13063], [32.17974, 34.12977], [32.25156, 34.12892], [32.32339, 34.12806], [32.39521, 34.12719], [32.46703, 34.12633]]];
+const LSA_BOX='<div class="lsa-box" id="lsaBox"><div class="lsa-st" id="lsaSt"></div>'
+  +'<div class="lsa-op"><span>שקיפות</span><input type="range" id="lsaOp" min="0" max="100"><b id="lsaOpv"></b></div>'
+  +'<div class="lsa-ln"><a id="lsaRe">החלף קובץ</a><a id="lsaDel">מחק מהמכשיר</a></div></div>';
+function lsaDb(){
+  if(LSA_DBP) return LSA_DBP;
+  const me=LSA_DBP=new Promise((res,rej)=>{
+    const r=indexedDB.open(LSA_DB,1);
+    r.onupgradeneeded=()=>{ r.result.createObjectStore(LSA_STORE); };
+    r.onsuccess=()=>{ const d=r.result; d.onclose=()=>{ if(LSA_DBP===me) lsaDbReset("closed by browser"); }; d.onversionchange=()=>{ d.close(); if(LSA_DBP===me) lsaDbReset("versionchange"); }; res(d); };
+    r.onerror=()=>{ if(LSA_DBP===me) LSA_DBP=null; alog("lsa db open ERROR "+(r.error&&r.error.name)); rej(r.error); };
+  });
+  return me;
+}
+function lsaDbReset(why){ if(LSA_DBP){ LSA_DBP=null; alog("lsa db handle dropped ("+why+"), will reopen"); } }
+// iOS can close the connection behind the page's back: on any failure reopen and try once more
+function lsaWithDb(fn){ return lsaDb().then(fn).catch(e=>{ alog("lsa db op failed ("+(e&&e.name)+"), retrying"); LSA_DBP=null; return lsaDb().then(fn); }); }
+const lsaGet=k=>lsaWithDb(d=>new Promise((res,rej)=>{ const q=d.transaction(LSA_STORE).objectStore(LSA_STORE).get(k); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); }));
+const lsaPutMany=items=>lsaWithDb(d=>new Promise((res,rej)=>{ const t=d.transaction(LSA_STORE,"readwrite"), s=t.objectStore(LSA_STORE); items.forEach(it=>s.put(it[1],it[0])); t.oncomplete=()=>res(); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }));
+const lsaCount=()=>lsaWithDb(d=>new Promise((res,rej)=>{ const q=d.transaction(LSA_STORE).objectStore(LSA_STORE).count(); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); })).catch(()=>-1);
+const lsaClear=()=>lsaWithDb(d=>new Promise(res=>{ const t=d.transaction(LSA_STORE,"readwrite"); t.objectStore(LSA_STORE).clear(); t.oncomplete=()=>res(); }));
+// minimal reader for a "stored" (not compressed) zip
+const lsa16=(v,o)=>v.getUint16(o,true), lsa32=(v,o)=>v.getUint32(o,true);
+function lsaReadZip(file){
+  const size=file.size, tailLen=Math.min(size,66000);
+  return file.slice(size-tailLen,size).arrayBuffer().then(tb=>{
+    const v=new DataView(tb); let eocd=-1;
+    for(let i=tb.byteLength-22;i>=0;i--){ if(lsa32(v,i)===0x06054b50){ eocd=i; break; } }
+    if(eocd<0) throw new Error("not a zip");
+    const total=lsa16(v,eocd+10), cdSize=lsa32(v,eocd+12), cdOff=lsa32(v,eocd+16);
+    if(total===0xffff||cdOff===0xffffffff) throw new Error("zip64");
+    return file.slice(cdOff,cdOff+cdSize).arrayBuffer().then(cb=>{
+      const cv=new DataView(cb), out=[]; let p=0;
+      while(p+46<=cb.byteLength && lsa32(cv,p)===0x02014b50){
+        const method=lsa16(cv,p+10), csize=lsa32(cv,p+20), nl=lsa16(cv,p+28), el=lsa16(cv,p+30), cl=lsa16(cv,p+32), lho=lsa32(cv,p+42);
+        out.push({name:new TextDecoder().decode(new Uint8Array(cb,p+46,nl)),method,csize,lho}); p+=46+nl+el+cl;
+      }
+      return out;
+    });
+  });
+}
+// copy the REAL bytes of each tile (a file slice stored as it is would only be a pointer to the picked file on iPhone, and goes stale)
+const lsaReadEntry=(file,e)=>file.slice(e.lho,e.lho+30).arrayBuffer().then(hb=>{ const h=new DataView(hb), start=e.lho+30+lsa16(h,26)+lsa16(h,28); return file.slice(start,start+e.csize).arrayBuffer(); });
+async function lsaImport(file){
+  const entries=await lsaReadZip(file);
+  const tiles=entries.filter(e=>/(^|\/)(\d+)\/(\d+)\/(\d+)\.webp$/i.test(e.name));
+  if(!tiles.length) throw new Error("no tiles");
+  if(tiles.some(e=>e.method!==0)) throw new Error("compressed zip");
+  for(let i=0;i<tiles.length;i+=60){
+    const part=tiles.slice(i,i+60);
+    const items=await Promise.all(part.map(e=>{ const m=e.name.match(/(\d+)\/(\d+)\/(\d+)\.webp$/i); return lsaReadEntry(file,e).then(b=>[m[1]+"/"+m[2]+"/"+m[3],b]); }));
+    await lsaPutMany(items);
+    lsaStatus("טוען "+Math.min(100,Math.round((i+60)/tiles.length*100))+"%...");
+  }
+  return tiles.length;
+}
+function lsaStatus(t,err){
+  const s=document.getElementById("lsaSt"); if(!s) return;
+  s.textContent=t||""; s.classList.toggle("lsa-err",!!err);
+  if(GIS_PANEL&&gisPanelOpen()) gisFit();
+}
+function lsaBoxUi(){
+  const b=document.getElementById("lsaBox"), btn=document.getElementById("lsaBtn"); if(!b||!btn) return;
+  btn.classList.toggle("on",LSA.on);
+  b.classList.toggle("show",LSA.on||LSA.busy);
+  const op=document.getElementById("lsaOp"), ov=document.getElementById("lsaOpv");
+  if(op){ op.value=Math.round(LSA.op*100); ov.textContent=op.value+"%"; }
+  if(LSA.on&&!LSA.busy) lsaStatus("מוכן · נשמרת רק במכשיר שלך");
+  else if(!LSA.on&&!LSA.busy) lsaStatus("");
+  if(GIS_PANEL&&gisPanelOpen()) gisFit();
+}
+function lsaMakeLayers(){
+  if(LSA.chart) return;
+  const mk=(n,z)=>{ const pn=MAP.createPane(n); pn.style.zIndex=z; pn.style.pointerEvents="none"; };
+  mk("lsa_chart",340); mk("lsa_inset",345); mk("lsa_cap",390);
+  const Chart=L.TileLayer.extend({
+    createTile(coords,done){
+      const img=document.createElement("img"); img.alt=""; img.setAttribute("role","presentation");
+      const key=coords.z+"/"+coords.x+"/"+coords.y; LSA_TL.req++;
+      let fin=false; const end=e=>{ if(fin) return; fin=true; done(e,img); };
+      lsaGet(key).then(blob=>{
+        if(!blob){ LSA_TL.miss++; end(null); return; }       // a miss is normal: blank (white) parts of the chart have no tile
+        if(!(blob instanceof Blob)) blob=new Blob([blob],{type:"image/webp"});
+        const url=URL.createObjectURL(blob); LSA_LIVE[url]=1; LSA_LIVEN++;
+        const rel=()=>{ if(LSA_LIVE[url]){ URL.revokeObjectURL(url); delete LSA_LIVE[url]; LSA_LIVEN--; } };
+        img.onload=()=>{ LSA_TL.ok++; rel(); end(null); };
+        img.onerror=()=>{ LSA_TL.err++; if(LSA_FAILLOG++<15) alog("lsa tile decode ERROR "+key); rel(); end(null); };
+        img.src=url;
+      }).catch(e=>{ LSA_TL.fail++; if(LSA_FAILLOG++<15) alog("lsa tile read FAILED "+key+" "+(e&&e.name)); end(null); });
+      return img;
+    }
+  });
+  LSA.chart=new Chart("",{pane:"lsa_chart",minZoom:7,maxNativeZoom:12,maxZoom:19,opacity:LSA.op,updateWhenZooming:false,keepBuffer:1,tileSize:256});
+  // warning overlay on the two enlarged insets (they sit over the sea, not at their real place): fine red grid + caption
+  document.body.insertAdjacentHTML("beforeend",'<svg width="0" height="0" style="position:absolute"><defs><pattern id="lsaGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#b00020" stroke-opacity=".45" stroke-width="1"/></pattern></defs></svg>');
+  LSA.inset=L.layerGroup();
+  LSA_INSETS.forEach(P=>{
+    L.polygon(P,{className:"lsa-inset-border",interactive:false,pane:"lsa_inset"}).addTo(LSA.inset);
+    const cap=L.marker(P[0],{pane:"lsa_cap",icon:L.divIcon({className:"",html:'<div class="lsa-cap"></div>',iconSize:[0,0],iconAnchor:[0,0]}),interactive:false,keyboard:false});
+    cap._P=P; cap.addTo(LSA.inset); LSA.caps.push(cap);
+  });
+}
+// both captions get the same box (same words, size, width, lines); they stay inside the visible part of their inset
+function lsaCaptions(){
+  const sz=MAP.getSize(), topM=56, botM=60;
+  let wmin=1e9;
+  LSA.caps.forEach(c=>{ const xs=c._P.map(q=>MAP.latLngToContainerPoint(q).x); wmin=Math.min(wmin,Math.max(...xs)-Math.min(...xs)); });
+  let txt=LSA_TXT, fs=13;
+  if(wmin<150){ txt=LSA_TXT_SHORT; fs=Math.max(8,Math.min(11,wmin/9)); } else if(wmin<330){ fs=Math.max(9,Math.min(12,wmin/28)); }
+  const oneLine=txt.length*fs*0.58+16, info=[];
+  const xrOf=(pts,y)=>{ let lo=1e9,hi=-1e9; for(let i=0;i<pts.length;i++){ const a=pts[i], b=pts[(i+1)%pts.length];
+    if((a.y<=y&&b.y>=y)||(b.y<=y&&a.y>=y)){ const t=(b.y===a.y)?0:(y-a.y)/(b.y-a.y), x=a.x+(b.x-a.x)*t; if(x<lo)lo=x; if(x>hi)hi=x; } } return [lo,hi]; };
+  const roomAt=(pts,yTop,h)=>{ const r1=xrOf(pts,yTop), r2=xrOf(pts,yTop+h); return [Math.max(r1[0],r2[0],0)+8, Math.min(r1[1],r2[1],sz.x)-8]; };
+  LSA.caps.forEach(c=>{
+    const el=c._icon&&c._icon.firstChild; if(!el) return;
+    el.style.display="none";
+    const pts=c._P.map(q=>MAP.latLngToContainerPoint(q));
+    const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+    const x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+    const vx0=Math.max(x0,0), vx1=Math.min(x1,sz.x), vy0=Math.max(y0,topM), vy1=Math.min(y1,sz.y-botM);
+    if(vx1-vx0<20||vy1-vy0<14) return;
+    const wpx=x1-x0, gap=(y0>=topM)?Math.max(8,Math.min(40,wpx*0.05)):10;
+    const rm=roomAt(pts,vy0+gap,fs*2.7+8), aw=rm[1]-rm[0];
+    if(!(aw>=40)||Math.ceil(oneLine/aw)>3) return;
+    info.push({c,el,pts,vy0,vy1,gap,aw});
+  });
+  if(!info.length) return;
+  const single=info.every(o=>o.aw>=oneLine), W=Math.min(...info.map(o=>o.aw));
+  info.forEach(o=>{
+    const el=o.el; el.style.display=""; el.textContent=txt; el.style.fontSize=fs+"px";
+    if(single){ el.style.width="auto"; el.style.whiteSpace="nowrap"; } else { el.style.width=W+"px"; el.style.whiteSpace="normal"; }
+    const h=(el.offsetHeight||fs*1.4+6)+2, yTop=Math.min(o.vy0+o.gap,o.vy1-h-8);
+    if(yTop<o.vy0+2){ el.style.display="none"; return; }
+    const rm=roomAt(o.pts,yTop,h);
+    o.c.setLatLng(MAP.containerPointToLatLng(L.point((rm[0]+rm[1])/2,yTop)));
+  });
+}
+// the grid shows only where the chart shows (chart on, view inside the chart's zoom range, not fully transparent) and fades with it
+function lsaInsetSync(){
+  if(!LSA.chart) return;
+  const z=MAP.getZoom(), show=LSA.on&&LSA.stored>0&&z>=LSA.chart.options.minZoom&&LSA.op>0.02;
+  if(show&&!MAP.hasLayer(LSA.inset)) LSA.inset.addTo(MAP);
+  if(!show&&MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset);
+  if(!show) return;
+  MAP.getPane("lsa_inset").style.opacity=Math.min(1,0.25+LSA.op);
+  lsaCaptions();
+}
+let LSA_RAF=0; const lsaInsetSoon=()=>{ if(!LSA.on||LSA_RAF) return; LSA_RAF=requestAnimationFrame(()=>{ LSA_RAF=0; lsaInsetSync(); }); };
+function lsaSet(on){
+  LSA.on=!!on; try{localStorage.setItem("airnotam_lsa",LSA.on?"1":"0");}catch(e){}
+  if(LSA.on){ lsaMakeLayers(); if(!MAP.hasLayer(LSA.chart)) LSA.chart.addTo(MAP); }
+  else if(LSA.chart){ if(MAP.hasLayer(LSA.chart)) MAP.removeLayer(LSA.chart); if(MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset); }
+  lsaBoxUi(); lsaInsetSync(); alog("lsa chart "+(LSA.on?"on":"off"));
+}
+function lsaPick(){ lsaStatus("בחר את קובץ ה-zip של המפה"); document.getElementById("lsaBox").classList.add("show"); LSA.file.value=""; LSA.file.click(); }
+function lsaBtnTap(){
+  if(LSA.busy) return;
+  if(LSA.on) return lsaSet(false);
+  if(LSA.stored>0) return lsaSet(true);
+  lsaPick();
+}
+async function lsaOnFile(){
+  const f=LSA.file.files&&LSA.file.files[0]; if(!f) return;
+  alog("lsa zip picked: "+f.name+" "+Math.round(f.size/1048576)+" MB");
+  LSA.busy=true; lsaBoxUi(); lsaStatus("קורא את הקובץ...");
+  try{
+    const n=await lsaImport(f); LSA.stored=await lsaCount(); alog("lsa zip imported: "+n+" tiles");
+    LSA.busy=false; lsaSet(true);
+    if(LSA.chart) LSA.chart.redraw();
+    try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  }catch(e){
+    LSA.busy=false; alog("lsa zip import FAILED "+(e&&e.message)); lsaBoxUi();
+    lsaStatus("לא נטען, נסה שוב",true);
+  }
+  LSA.file.value="";
+}
+function lsaInit(){
+  try{ LSA.op=Math.max(0,Math.min(1,(parseInt(localStorage.getItem("airnotam_lsa_op"),10)||100)/100)); }catch(e){}
+  LSA.file=document.createElement("input"); LSA.file.type="file"; LSA.file.accept=".zip,application/zip,application/x-zip-compressed"; LSA.file.style.display="none";
+  LSA.file.addEventListener("change",lsaOnFile); document.body.appendChild(LSA.file);
+  const btn=document.getElementById("lsaBtn"); if(btn) btn.addEventListener("click",lsaBtnTap);
+  const op=document.getElementById("lsaOp");
+  if(op) op.addEventListener("input",()=>{ LSA.op=op.value/100; document.getElementById("lsaOpv").textContent=op.value+"%"; if(LSA.chart) LSA.chart.setOpacity(LSA.op); lsaInsetSync(); try{localStorage.setItem("airnotam_lsa_op",String(op.value));}catch(e){} });
+  const re=document.getElementById("lsaRe"); if(re) re.addEventListener("click",()=>{ if(!LSA.busy) lsaPick(); });
+  const del=document.getElementById("lsaDel"); if(del) del.addEventListener("click",async()=>{
+    if(LSA.busy||!confirm("למחוק את מפת LSA מהמכשיר?")) return;
+    await lsaClear(); LSA.stored=0; lsaSet(false); alog("lsa chart deleted from device");
+  });
+  MAP.on("zoomend moveend resize",lsaInsetSync); MAP.on("move",lsaInsetSoon);
+  document.addEventListener("visibilitychange",()=>{ if(document.visibilityState!=="hidden") lsaDbReset("visible"); });
+  window.addEventListener("pageshow",e=>{ if(e.persisted) lsaDbReset("pageshow"); });
+  lsaBoxUi();
+  lsaCount().then(n=>{
+    LSA.stored=n>0?n:0; alog("lsa tiles stored: "+n);
+    let want=false; try{ want=localStorage.getItem("airnotam_lsa")==="1"; }catch(e){}
+    if(want&&LSA.stored>0) lsaSet(true); else if(want) lsaSet(false);
+  });
+}
+
 function gisPanel(){
   const s=document.createElement("div"); s.className="gsheet"; s.id="gsheet";
   const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("")
-    +'<label class="soon">CVFR<small>בקרוב</small></label><label class="soon">אזמ"ם<small>בקרוב</small></label>';
+    +'<label class="soon">CVFR<small>בקרוב</small></label><label class="lsa" id="lsaBtn">LSA</label>';   // v1.07.052: the old אזמ"ם "soon" slot is now the LSA chart on / off button
   const chip=(id,sw,t)=>`<label class="gchip" id="gc_${id}"><input type="checkbox" id="gis_${id}">${sw}<span>${t}</span><small id="gst_${id}"></small></label>`;
   s.innerHTML='<div class="gs-in"><div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.015T: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
-    +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div></div>'
+    +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div>'+LSA_BOX+'</div>'
     +'<div class="gs-sec"><div class="gs-sl">שכבות רת"א<small>מקור: רת"א GIS</small></div><div class="gs-grid">'
       +chip("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"ספורטיבית")
       +chip("cvfr",'<i class="gsw ln gsw-cv" style="border-color:#1f7a3f"></i>',"CVFR")   // v1.06.006: same width as sport
@@ -3682,6 +3898,7 @@ function gisInitMap(){
   MAP.on("zoomend",()=>{ gisPts(); gisFill(); });
   MAP.on("click",ev=>{ if(gisPanelOpen()){ gisPanelToggle(false); return; } if(!DRAWING) openAt(ev.latlng); });
   gisPanel(); gisFill();
+  lsaInit();   // v1.07.052
   GIS_IDS.forEach(gisApply);
 }
 async function gisApply(id){
@@ -4052,7 +4269,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.051 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.052 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4062,7 +4279,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.051 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.052 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4118,7 +4335,7 @@ function memSnap(tag){
     const secs=Math.max(1,(Date.now()-TL_T)/1000), perMin=Math.round(TL_N*60/secs);
     const gis=GIS_IDS.filter(id=>GIS.lay[id]&&MAP.hasLayer(GIS.lay[id])).join(",")||"none";
     const base=MAP_BASE==="פשוטה"?"gray":MAP_BASE;
-    alog(`mem ${tag} · canvas ${cv.length} ${Math.round(px*4/1048576)}MB · tile img ${tiles} · tl ${TL_N} in ${Math.round(secs)}s (${perMin}/min, ${TL_ALL} total) · base ${base} · gis ${gis} · shapes ${Object.keys(CIRCLES).length} · Z${Math.round(MAP.getZoom())}`);
+    alog(`mem ${tag} · canvas ${cv.length} ${Math.round(px*4/1048576)}MB · tile img ${tiles} · tl ${TL_N} in ${Math.round(secs)}s (${perMin}/min, ${TL_ALL} total) · base ${base} · gis ${gis} · lsa ${LSA.on?"on "+LSA.stored+" tiles ok "+LSA_TL.ok+" miss "+LSA_TL.miss+" fail "+(LSA_TL.fail+LSA_TL.err)+" links "+LSA_LIVEN+" op "+Math.round(LSA.op*100):"off"} · shapes ${Object.keys(CIRCLES).length} · Z${Math.round(MAP.getZoom())}`);
     TL_N=0; TL_T=Date.now();
   }catch(e){ alog("mem error "+e.message); }
 }
