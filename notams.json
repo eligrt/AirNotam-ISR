@@ -1,9 +1,48 @@
 {
-  "generatedAt": "2026-10-15T06:00:45.608Z",
+  "generatedAt": "2026-10-15T06:30:39.934Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 105,
+  "count": 106,
   "notams": [
+    {
+      "id": "C2160/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-18T09:30:00.000Z",
+      "toDate": "2026-10-18T12:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 32.6,
+          "lon": 35.5,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB) CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 3,000FT AMSL DUE FIREFIGHTING ACT. CTN ADZ.",
+      "position": {
+        "lat": 32.6,
+        "lon": 35.5,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2160/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/030/3236N03530E008 A) LLLL B) 2610180930 C) 2610181230 E) LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB) CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 3,000FT AMSL DUE FIREFIGHTING ACT. CTN ADZ.)",
+      "rowID": "2070154",
+      "geometryReject": "named area not in the GIS layers: LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB)",
+      "geometryFlag": {
+        "kind": "area missing",
+        "reason": "named area not in the GIS layers: LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB)"
+      }
+    },
     {
       "id": "C2159/26",
       "location": "LLLL",
