@@ -1,9 +1,94 @@
 {
-  "generatedAt": "2026-10-15T11:30:30.759Z",
+  "generatedAt": "2026-10-15T12:00:41.687Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 118,
+  "count": 119,
   "notams": [
+    {
+      "id": "C2173/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-18T02:00:00.000Z",
+      "toDate": "2026-10-18T05:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWSLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.05,
+          "lon": 35.366667,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 2,000FT AMSL. CTN ADZ. F) GND G) 2000FT AMSL",
+      "position": {
+        "lat": 31.05,
+        "lon": 35.366667,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2173/26 NOTAMN Q) LLLL/QWSLW/IV/M /W /000/020/3103N03522E001 A) LLLL B) 2610180200 C) 2610180500 E) GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 2,000FT AMSL. CTN ADZ. F) GND G) 2000FT AMSL)",
+      "rowID": "2070268",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.042222,
+              35.366667
+            ],
+            "radiusNm": 0.54
+          }
+        ],
+        "anchor": [
+          31.042222,
+          35.366667
+        ]
+      }
+    },
+    {
+      "id": "A0833/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T06:00:00.000Z",
+      "toDate": "2026-10-25T10:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QNMAS",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.283333,
+          "lon": 34.716667,
+          "radiusNm": 25,
+          "source": "q_line"
+        }
+      },
+      "eText": "VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.",
+      "position": {
+        "lat": 31.283333,
+        "lon": 34.716667,
+        "radiusNm": 25,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0833/26 NOTAMN Q) LLLL/QNMAS/IV/BO /E /000/999/3117N03443E025 A) LLLL B) 2610250600 C) 2610251000 E) VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.)",
+      "rowID": "2070258"
+    },
     {
       "id": "A0832/26",
       "location": "LLBG",
@@ -2470,57 +2555,6 @@
       "replaces": "A0819/26",
       "rawText": "A0820/26 NOTAMR A0819/26 Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2610111418 C) PERM E) LNAV/VNAV OCA(H) FOR RNP RWY 19 (MAP GRADIENT 2.5 PERCENTAGE) CHG TO 730(460) FOR ALL CAT. ISRAEL AIP, PART AD, CHART AD 2 LLER IAC-19RNP. REF.)",
       "rowID": "2068751"
-    },
-    {
-      "id": "C2135/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-17T05:00:00.000Z",
-      "toDate": "2026-10-17T08:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWSLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "010",
-        "position": {
-          "lat": 31.05,
-          "lon": 35.366667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 1,000FT AMSL. CTN ADZ. F) GND G) 1000FT AMSL",
-      "position": {
-        "lat": 31.05,
-        "lon": 35.366667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2135/26 NOTAMN Q) LLLL/QWSLW/IV/M /W /000/010/3103N03522E001 A) LLLL B) 2610170500 C) 2610170800 E) GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 1,000FT AMSL. CTN ADZ. F) GND G) 1000FT AMSL)",
-      "rowID": "2068750",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.042222,
-              35.366667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          31.042222,
-          35.366667
-        ]
-      }
     },
     {
       "id": "C2133/26",
