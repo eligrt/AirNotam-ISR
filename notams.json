@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-15T21:00:29.767Z",
+  "generatedAt": "2026-10-15T21:30:36.407Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 120,
+  "count": 119,
   "notams": [
     {
       "id": "A0834/26",
@@ -3669,70 +3669,6 @@
         "anchor": [
           32.523102,
           35.31088
-        ]
-      }
-    },
-    {
-      "id": "C1983/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-09-22T07:37:00.000Z",
-      "toDate": "2026-10-15T20:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "010",
-        "position": {
-          "lat": 32.4,
-          "lon": 34.9,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT EMEK HEFER, FM GND UP TO 30M AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 950FT AMSL 322407N0345354E 322407N0345357E 322405N0345357E 322405N0345355E. CTN ADZ. F) GND G) 950FT AMSL",
-      "position": {
-        "lat": 32.4,
-        "lon": 34.9,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1983/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/010/3224N03454E001 A) LLLL B) 2609220737 C) 2610152059 E) UAS/UAV ACT WILL TAKE PLACE AT EMEK HEFER, FM GND UP TO 30M AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 950FT AMSL 322407N0345354E 322407N0345357E 322405N0345357E 322405N0345355E. CTN ADZ. F) GND G) 950FT AMSL)",
-      "rowID": "2061441",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                32.401944,
-                34.898333
-              ],
-              [
-                32.401944,
-                34.899167
-              ],
-              [
-                32.401389,
-                34.899167
-              ],
-              [
-                32.401389,
-                34.898611
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.401667,
-          34.898819
         ]
       }
     },
