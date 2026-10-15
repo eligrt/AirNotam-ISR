@@ -1,9 +1,43 @@
 {
-  "generatedAt": "2026-10-15T10:30:35.917Z",
+  "generatedAt": "2026-10-15T11:00:39.275Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 117,
+  "count": 118,
   "notams": [
+    {
+      "id": "A0832/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-10-20T06:00:00.000Z",
+      "toDate": "2026-10-20T10:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 03/21 CLSD DUE WIP.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0832/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610200600 C) 2610201000 E) RWY 03/21 CLSD DUE WIP.)",
+      "rowID": "2070238"
+    },
     {
       "id": "A0831/26",
       "location": "LLBG",
