@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-15T16:00:38.325Z",
+  "generatedAt": "2026-10-15T16:30:33.176Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 120,
+  "count": 119,
   "notams": [
     {
       "id": "C2175/26",
@@ -2837,78 +2837,6 @@
         "anchor": [
           32.813889,
           35.167222
-        ]
-      }
-    },
-    {
-      "id": "C2104/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-11T03:20:00.000Z",
-      "toDate": "2026-10-15T16:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "025",
-        "position": {
-          "lat": 30.95,
-          "lon": 34.933333,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 2,500FT AMSL. CTN ADZ. F) GND G) 2500FT AMSL",
-      "position": {
-        "lat": 30.95,
-        "lon": 34.933333,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2104/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/025/3057N03456E002 A) LLLL B) 2610110320 C) 2610151600 D) DAILY 0320-1600 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 2,500FT AMSL. CTN ADZ. F) GND G) 2500FT AMSL)",
-      "rowID": "2067150",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                30.975,
-                34.930833
-              ],
-              [
-                30.973056,
-                34.945556
-              ],
-              [
-                30.9675,
-                34.952222
-              ],
-              [
-                30.9525,
-                34.946944
-              ],
-              [
-                30.94,
-                34.937222
-              ],
-              [
-                30.947778,
-                34.914722
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          30.959306,
-          34.937917
         ]
       }
     },
