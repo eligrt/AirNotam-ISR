@@ -1,9 +1,211 @@
 {
-  "generatedAt": "2026-10-15T07:00:41.849Z",
+  "generatedAt": "2026-10-15T07:30:34.259Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 108,
+  "count": 110,
   "notams": [
+    {
+      "id": "C2166/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-18T06:00:00.000Z",
+      "toDate": "2026-10-18T07:40:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "017",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.766667,
+          "lon": 35.283333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD DUE FIREFIGHTING ACT MOVIL-KKANA.",
+      "position": {
+        "lat": 32.766667,
+        "lon": 35.283333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2166/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /017/020/3246N03517E004 A) LLLL B) 2610180600 C) 2610180740 E) ULTRALIGHT RTE CLSD DUE FIREFIGHTING ACT MOVIL-KKANA.)",
+      "rowID": "2070176",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.75917,
+                35.23333
+              ],
+              [
+                32.76304,
+                35.24037
+              ],
+              [
+                32.76451,
+                35.24431
+              ],
+              [
+                32.76541,
+                35.24685
+              ],
+              [
+                32.76643,
+                35.24856
+              ],
+              [
+                32.76802,
+                35.25075
+              ],
+              [
+                32.77046,
+                35.25436
+              ],
+              [
+                32.77123,
+                35.25728
+              ],
+              [
+                32.77168,
+                35.26165
+              ],
+              [
+                32.77234,
+                35.26924
+              ],
+              [
+                32.77275,
+                35.27495
+              ],
+              [
+                32.77285,
+                35.27881
+              ],
+              [
+                32.77223,
+                35.2819
+              ],
+              [
+                32.76973,
+                35.28811
+              ],
+              [
+                32.76923,
+                35.29245
+              ],
+              [
+                32.76916,
+                35.29548
+              ],
+              [
+                32.76932,
+                35.29881
+              ],
+              [
+                32.7689,
+                35.30158
+              ],
+              [
+                32.76632,
+                35.31242
+              ],
+              [
+                32.76347,
+                35.32581
+              ],
+              [
+                32.76315,
+                35.33037
+              ],
+              [
+                32.76274,
+                35.3366
+              ],
+              [
+                32.76234,
+                35.33995
+              ],
+              [
+                32.76201,
+                35.34284
+              ],
+              [
+                32.75917,
+                35.34556
+              ]
+            ],
+            "leg": "MOVIL-KKANA",
+            "layer": "sport",
+            "t": "BR · AllWeek"
+          }
+        ],
+        "anchor": [
+          32.769714,
+          35.288253
+        ]
+      }
+    },
+    {
+      "id": "C2163/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-18T06:00:00.000Z",
+      "toDate": "2026-10-18T07:40:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.783333,
+          "lon": 35.316667,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "FIREFIGHTING ACT WILL TAKE PLACE AT BEIT RIMON. AN AREA WI 2NM RADIUS CENTERED ON PSN 324703N0351902E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ.",
+      "position": {
+        "lat": 32.783333,
+        "lon": 35.316667,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2163/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3247N03519E002 A) LLLL B) 2610180600 C) 2610180740 E) FIREFIGHTING ACT WILL TAKE PLACE AT BEIT RIMON. AN AREA WI 2NM RADIUS CENTERED ON PSN 324703N0351902E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ.)",
+      "rowID": "2070173",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              32.784167,
+              35.317222
+            ],
+            "radiusNm": 2
+          }
+        ],
+        "anchor": [
+          32.784167,
+          35.317222
+        ]
+      }
+    },
     {
       "id": "C2162/26",
       "location": "LLEY",
