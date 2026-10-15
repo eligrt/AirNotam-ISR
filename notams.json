@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-15T14:30:38.596Z",
+  "generatedAt": "2026-10-15T15:00:50.650Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 121,
+  "count": 120,
   "notams": [
     {
       "id": "C2175/26",
@@ -2837,57 +2837,6 @@
         "anchor": [
           32.813889,
           35.167222
-        ]
-      }
-    },
-    {
-      "id": "C2105/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-11T03:00:00.000Z",
-      "toDate": "2026-10-15T14:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "037",
-        "position": {
-          "lat": 30.966667,
-          "lon": 34.933333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL",
-      "position": {
-        "lat": 30.966667,
-        "lon": 34.933333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2105/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/037/3058N03456E001 A) LLLL B) 2610110300 C) 2610151430 D) DAILY 0300-1430 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL)",
-      "rowID": "2067175",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              30.971944,
-              34.933611
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          30.971944,
-          34.933611
         ]
       }
     },
