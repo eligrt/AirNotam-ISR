@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-15T00:00:35.742Z",
+  "generatedAt": "2026-10-15T00:30:34.064Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 107,
+  "count": 105,
   "notams": [
     {
       "id": "C2159/26",
@@ -2681,74 +2681,6 @@
       "replaces": null,
       "rawText": "A0719/26 NOTAMN Q) LLLL/QFUAU/IV/NBO/A /000/999/3249N03503E005 A) LLHA B) 2609021344 C) 2612312359 E) SELF SER REFUEL FOR ACFT NOT AVBL. COOR WITH PAZ-AVIATION FOR REFUELING BY VEHICLE ONLY.)",
       "rowID": "2054455"
-    },
-    {
-      "id": "A0718/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-01T00:01:00.000Z",
-      "toDate": "2026-10-14T23:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOATT",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 31.383333,
-          "lon": 35.25,
-          "radiusNm": 999,
-          "source": "q_line"
-        }
-      },
-      "eText": "TRIGGER NOTAM - NIL AIRAC AIP AMDT WEF 01 OCT 2026.",
-      "position": {
-        "lat": 31.383333,
-        "lon": 35.25,
-        "radiusNm": 999,
-        "source": "q_line"
-      },
-      "administrative": true,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0718/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3123N03515E999 A) LLLL B) 2610010001 C) 2610142359 E) TRIGGER NOTAM - NIL AIRAC AIP AMDT WEF 01 OCT 2026.)",
-      "rowID": "2054344"
-    },
-    {
-      "id": "C1853/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-01T00:01:00.000Z",
-      "toDate": "2026-10-14T23:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOATT",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.183333,
-          "lon": 35.25,
-          "radiusNm": 15,
-          "source": "q_line"
-        }
-      },
-      "eText": "TRIGGER NOTAM - NIL AIRAC DOM AIP AMDT WEF 01 OCT 2026.",
-      "position": {
-        "lat": 32.183333,
-        "lon": 35.25,
-        "radiusNm": 15,
-        "source": "q_line"
-      },
-      "administrative": true,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C1853/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3211N03515E015 A) LLLL B) 2610010001 C) 2610142359 E) TRIGGER NOTAM - NIL AIRAC DOM AIP AMDT WEF 01 OCT 2026.)",
-      "rowID": "2054345"
     },
     {
       "id": "A0710/26",
