@@ -1,9 +1,150 @@
 {
-  "generatedAt": "2026-10-16T11:01:28.292Z",
+  "generatedAt": "2026-10-16T11:31:17.659Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "count": 119,
   "notams": [
+    {
+      "id": "C2177/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-17T09:30:00.000Z",
+      "toDate": "2026-10-17T19:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "022",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 30.966667,
+          "lon": 34.816667,
+          "radiusNm": 7,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE NEGEV-BOKER CLSD.",
+      "position": {
+        "lat": 30.966667,
+        "lon": 34.816667,
+        "radiusNm": 7,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2177/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /022/030/3058N03449E007 A) LLLL B) 2610170930 C) 2610171930 E) ULTRALIGHT RTE NEGEV-BOKER CLSD.)",
+      "rowID": "2070647",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.06611,
+                34.83806
+              ],
+              [
+                30.99056,
+                34.76222
+              ],
+              [
+                30.98538,
+                34.76892
+              ],
+              [
+                30.97615,
+                34.77272
+              ],
+              [
+                30.94755,
+                34.78832
+              ],
+              [
+                30.90522,
+                34.77894
+              ],
+              [
+                30.89862,
+                34.78219
+              ],
+              [
+                30.89142,
+                34.79161
+              ],
+              [
+                30.875,
+                34.78583
+              ]
+            ],
+            "leg": "NEGEV-BOKER",
+            "layer": "sport",
+            "t": "OPEN · Weekend",
+            "via": [
+              "TLLIM"
+            ]
+          }
+        ],
+        "anchor": [
+          30.979726,
+          34.771248
+        ]
+      }
+    },
+    {
+      "id": "C2176/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-17T09:30:00.000Z",
+      "toDate": "2026-10-17T19:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 30.983333,
+          "lon": 34.766667,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT TLALIM. AN AREA WI 1.3NM RADIUS CENTERED ON PSN 305906N0344551E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL",
+      "position": {
+        "lat": 30.983333,
+        "lon": 34.766667,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2176/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/015/3059N03446E002 A) LLLL B) 2610170930 C) 2610171930 E) UAS ACT WILL TAKE PLACE AT TLALIM. AN AREA WI 1.3NM RADIUS CENTERED ON PSN 305906N0344551E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL)",
+      "rowID": "2070640",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              30.985,
+              34.764167
+            ],
+            "radiusNm": 1.3
+          }
+        ],
+        "anchor": [
+          30.985,
+          34.764167
+        ]
+      }
+    },
     {
       "id": "A0834/26",
       "location": "LLER",
@@ -1866,40 +2007,6 @@
       }
     },
     {
-      "id": "C2159/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-16T05:00:00.000Z",
-      "toDate": "2026-10-16T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "110",
-        "position": {
-          "lat": 31.283333,
-          "lon": 34.716667,
-          "radiusNm": 4,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL",
-      "position": {
-        "lat": 31.283333,
-        "lon": 34.716667,
-        "radiusNm": 4,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2159/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610160500 C) 2610161100 E) PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL)",
-      "rowID": "2069880"
-    },
-    {
       "id": "C2154/26",
       "location": "LLRS",
       "locationDescription": "Rishon Letzion",
@@ -2788,40 +2895,6 @@
           34.937917
         ]
       }
-    },
-    {
-      "id": "C2128/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-15T09:30:00.000Z",
-      "toDate": "2026-10-16T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2128/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610150930 C) 2610161100 D) 15 0930-1530, 16 0600-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
-      "rowID": "2067616"
     },
     {
       "id": "C2107/26",
