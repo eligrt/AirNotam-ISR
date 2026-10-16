@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-16T19:31:16.109Z",
+  "generatedAt": "2026-10-16T20:01:22.844Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
-  "count": 119,
+  "count": 118,
   "notams": [
     {
       "id": "C2177/26",
@@ -12791,40 +12791,6 @@
       "replaces": "A0410/26",
       "rawText": "A0457/26 NOTAMR A0410/26 Q) LLLL/QPDCH/I /NBO/A /000/999/3201N03453E005 A) LLBG B) 2606080531 C) PERM E) MNM CMB GRADIENT CHG AS FLW CHART AD 2 LLBG SID 26-1 ALL SID MNM CMB GRADIENT REQUIRED 7.0 PERCENT UP TO 2,500FT DUE TO AIR-SPACE RESTRICTIONS. IF UNABLE ADZ ATC AND EXECUTE MNM CMB GRADIENT OF 3.5 PERCENT DUE TO OBST. CHART AD 2 LLBG SID 12-26-30-1 FOR SID PIDET1E MNM CMB GRADIENT REQUIRED OF 6.0 PERCENT UP TO 5,000FT DUE TO AIR-SPACE RESTRICTIONS. IF UNABLE ADZ ATC AND EXECUTE MNM CMB GRADIENT OF 3.5 PERCENT DUE TO OBST. FOR SID RIPUD1E MNM CMB GRADIENT REQUIRED OF 7.0 PERCENT UP TO 6,000FT DUE TO AIR-SPACE RESTRICTIONS. IF UNABLE ADZ ATC AND EXECUTE MNM CMB GRADIENT OF 3.5 PERCENT DUE TO OBST. CHART AD 2 LLBG SID 12-26-30-2, FOR SID ORLEV1E MNM CMB GRADIENT REQUIRED 8.0 PERCENT UP TO 5,000FT DUE TO AIR-SPACE RESTRICTIONS. IF UNABLE ADZ ATC AND EXECUTE MNM CMB GRADIENT OF 3.5 PERCENT DUE TO OBST. ISRAEL AIP, PART AD, CHARTS AD 2 LLBG SID 26-1, AD 2 LLBG SID 12-26-30-1, AD 2 LLBG SID 12-26-30-2. REF.)",
       "rowID": "2021902"
-    },
-    {
-      "id": "A0354/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-16T15:00:00.000Z",
-      "toDate": "2026-10-16T19:55:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AD CLSD DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0354/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610161500 C) 2610161955 E) AD CLSD DUE WIP.)",
-      "rowID": "2004611"
     },
     {
       "id": "A0281/26",
