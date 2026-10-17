@@ -1,7 +1,9 @@
 {
-  "generatedAt": "2026-10-16T23:31:20.909Z",
+  "generatedAt": "2026-10-17T09:13:04.846Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
+  "tlsVerified": false,
+  "tlsError": "CERT_HAS_EXPIRED",
   "count": 118,
   "notams": [
     {
