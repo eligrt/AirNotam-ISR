@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.059 · built by eligrt
+     AirNotam-ISR · v1.07.060 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -30,10 +30,10 @@
   --r:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);color:var(--ink-body);
+html,body{height:100%;height:var(--app-h,100%);background:var(--paper-hi);font-family:var(--font-ui);color:var(--ink-body);
   overflow:hidden;overscroll-behavior:none;
   -webkit-overflow-scrolling:touch;touch-action:manipulation;}
-#app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
+#app{height:100%;height:var(--app-h,100%);display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden;
   background:var(--paper);
   background-image:repeating-linear-gradient(0deg,transparent 0,transparent 27px,var(--paper-line) 27px,var(--paper-line) 28px);}
 
@@ -535,7 +535,7 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 
 /* ── LIST ── */
 .list{flex:1;padding:12px 14px 20px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;overscroll-behavior:contain;}
-/* v1.07.059: warning strip above the list while the data source certificate could not be verified (notams.json tlsVerified:false) */
+/* v1.07.060: warning strip above the list while the data source certificate could not be verified (notams.json tlsVerified:false) */
 .tls-warn{flex-shrink:0;display:flex;align-items:flex-start;gap:8px;padding:8px 14px;background:#fbe9c8;border-bottom:1.5px solid var(--amber);color:#6b4a0a;font-size:12.5px;line-height:1.45;}
 .tls-warn[hidden]{display:none;}
 .tls-warn svg{flex:none;width:18px;height:18px;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
@@ -1545,7 +1545,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.059 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.060 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1713,7 +1713,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.059 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.060 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -3075,7 +3075,7 @@ function updTidy(){
 }
 function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
   return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
-// v1.07.059: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
+// v1.07.060: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
 function tlsBanner(v){ const el=document.getElementById("tlsWarn"); if(el) el.hidden = (v!==false); }
 function applyData(data,save,savedAt,later){
   if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
@@ -4137,6 +4137,19 @@ function gisHtml(ll){
 }
 // iPhone home-screen app: iOS can report a viewport shorter than the screen → size the app to the real screen
 try{ if(window.navigator.standalone===true) document.body.classList.add("ios-sa"); }catch(e){}   // v1.06.035: iPhone home-screen app
+function setAppHeight(){   // v1.07.060: full-height fix, same as AirATIS/AirCheck: in an iPhone home-screen app innerHeight is shorter than the real screen and leaves a gap under the footer
+  const ios=window.navigator.standalone===true;
+  const h=ios?Math.max(window.innerHeight,screen.height):window.innerHeight;
+  document.documentElement.style.setProperty("--app-h",h+"px");
+  if(typeof MAP!=="undefined"&&MAP) setTimeout(()=>MAP.invalidateSize(),60);
+}
+function refitAppHeight(){ setAppHeight(); setTimeout(setAppHeight,250); setTimeout(setAppHeight,800); }
+setAppHeight();
+window.addEventListener("resize",setAppHeight);
+window.addEventListener("orientationchange",()=>setTimeout(setAppHeight,300));
+window.addEventListener("pageshow",refitAppHeight);
+window.addEventListener("focus",refitAppHeight);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) refitAppHeight(); });
 function fitAppHeight(){
   const app=document.getElementById("app"); if(!app) return;
   const sa=window.navigator.standalone===true || (window.matchMedia&&matchMedia("(display-mode: standalone)").matches);
@@ -4323,7 +4336,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.059 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.060 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4333,7 +4346,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.059 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.060 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
