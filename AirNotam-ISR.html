@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.058 · built by eligrt
+     AirNotam-ISR · v1.07.059 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -535,6 +535,10 @@ html,body{height:100%;background:var(--paper-hi);font-family:var(--font-ui);colo
 
 /* ── LIST ── */
 .list{flex:1;padding:12px 14px 20px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;overscroll-behavior:contain;}
+/* v1.07.059: warning strip above the list while the data source certificate could not be verified (notams.json tlsVerified:false) */
+.tls-warn{flex-shrink:0;display:flex;align-items:flex-start;gap:8px;padding:8px 14px;background:#fbe9c8;border-bottom:1.5px solid var(--amber);color:#6b4a0a;font-size:12.5px;line-height:1.45;}
+.tls-warn[hidden]{display:none;}
+.tls-warn svg{flex:none;width:18px;height:18px;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .list::-webkit-scrollbar{width:0;height:0;}
 .curtain-body::-webkit-scrollbar{width:0;}
 .curtain-body{scrollbar-width:none;}
@@ -1541,7 +1545,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.058 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.059 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1695,6 +1699,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
       <button type="button" class="db-done" onclick="drawDone(1)">סיים</button>
     </div>
   </div>
+    <div class="tls-warn" id="tlsWarn" role="alert" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18v.5"/></svg><span>החיבור למקור הנתונים אינו מאובטח במלואו כרגע. ה-NOTAMים מתעדכנים אך לא ניתן לאמת אותם. יש לבדוק מול מקורות רשמיים לפני הטיסה.</span></div>
     <div class="list" id="list"></div>
     <div id="map" style="display:none;"></div>
     <div id="mapEmpty" class="map-empty"></div>
@@ -1708,7 +1713,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.058 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.059 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -3070,15 +3075,18 @@ function updTidy(){
 }
 function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
   return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
+// v1.07.059: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
+function tlsBanner(v){ const el=document.getElementById("tlsWarn"); if(el) el.hidden = (v!==false); }
 function applyData(data,save,savedAt,later){
   if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
   ALL=data.notams||[];
   ENR=ALL.map(enrich); ENR_BY_ID={}; ENR.forEach(e=>{ENR_BY_ID[e.id]=e;});
-  SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,savedAt:savedAt||Date.now()};
+  SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,savedAt:savedAt||Date.now(),tlsVerified:data.tlsVerified};
   if(save){try{localStorage.setItem(SNAP_KEY,JSON.stringify(SNAP));}catch(e){}}
   const gen=SNAP.generatedAt?new Date(SNAP.generatedAt):null;
   document.getElementById("meta").className="metabar hdr-meta";
   document.getElementById("meta").innerHTML=staleLine(gen,SNAP.count);
+  tlsBanner(SNAP.tlsVerified);
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
   const dt=document.getElementById("dataTime"); if(dt) dt.textContent= gen? fmtLocalHM(gen) : "--:--";   // v1.07.022: when the checked data itself was built (the scraper)
   PENDING=null; PEND_N=null; showUpdate(null);
@@ -4315,7 +4323,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.058 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.059 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4325,7 +4333,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.058 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.059 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
