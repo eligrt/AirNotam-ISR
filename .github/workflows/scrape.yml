@@ -1,4 +1,4 @@
-# scrape.yml · v1.00.003 · AirNotam-ISR · built by eligrt
+# scrape.yml · v1.00.004 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
 # No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
@@ -58,10 +58,18 @@ jobs:
            *
            * No headless browser needed — plain HTTP. Runs the same locally and in CI.
            *   node scrape.mjs
+           *
+           * TLS (TEMPORARY, v1.00.004): on 2026-10-17 the IAA site started serving a certificate that
+           * Node rejects (browsers show a warning), so every run failed with "fetch failed". If, and
+           * only if, the certificate is rejected, requests to brin.iaa.gov.il (that host only) continue
+           * WITHOUT certificate checks, the run prints a warning, and notams.json gets
+           * tlsVerified:false plus tlsError:<reason code>. When the certificate is valid again nothing
+           * is relaxed and tlsVerified is true. Remove getInsecure() once IAA has fixed the certificate.
            */
-          
+
           import { writeFileSync, readFileSync } from "fs";
           import { join } from "path";
+          import https from "https";
           
           const OUT = join(process.cwd(), "notams.json");
           const BASE = "https://brin.iaa.gov.il/MobileAeroinfo/";
@@ -77,17 +85,70 @@ jobs:
 
           const sleep = ms => new Promise(r => setTimeout(r, ms));
           
+          // Node's "fetch failed" hides the real reason in e.cause (for example CERT_HAS_EXPIRED).
+          const why = e => e && e.cause ? `${e.message} (${e.cause.code || e.cause.message})` : String(e && e.message || e);
+
+          // Certificate problems that may trigger the temporary fallback below. Nothing else does.
+          const INSECURE_OK_HOST = "brin.iaa.gov.il";
+          const CERT_ERRORS = new Set([
+            "CERT_HAS_EXPIRED", "CERT_NOT_YET_VALID", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+            "UNABLE_TO_GET_ISSUER_CERT", "UNABLE_TO_GET_ISSUER_CERT_LOCALLY", "SELF_SIGNED_CERT_IN_CHAIN",
+            "DEPTH_ZERO_SELF_SIGNED_CERT", "CERT_UNTRUSTED", "ERR_TLS_CERT_ALTNAME_INVALID"
+          ]);
+          let tlsError = null;   // set once per run if the IAA certificate was rejected; the reason code
+
+          // Plain https GET with certificate checks OFF. Refuses every host except INSECURE_OK_HOST,
+          // including after a redirect. Only reached after a strict request failed on a certificate error.
+          function getInsecure(url, redirects = 0) {
+            const u = new URL(url);
+            if (u.protocol !== "https:" || u.hostname !== INSECURE_OK_HOST) {
+              return Promise.reject(new Error("unchecked request refused for " + u.hostname));
+            }
+            return new Promise((resolve, reject) => {
+              const req = https.get(u, { headers: { ...HEADERS, "Accept-Encoding": "identity" }, rejectUnauthorized: false, timeout: 20000 }, res => {
+                if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && redirects < 3) {
+                  res.resume();
+                  return resolve(getInsecure(new URL(res.headers.location, u).href, redirects + 1));
+                }
+                if (res.statusCode < 200 || res.statusCode >= 300) { res.resume(); return reject(new Error("HTTP " + res.statusCode)); }
+                const chunks = [];
+                res.on("data", c => chunks.push(c));
+                res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+                res.on("error", reject);
+              });
+              req.on("timeout", () => req.destroy(new Error("timeout")));
+              req.on("error", reject);
+            });
+          }
+
           async function fetchText(url, attempt = 1) {
             try {
-              const res = await fetch(url, { headers: HEADERS });
-              if (!res.ok) throw new Error("HTTP " + res.status);
-              const txt = await res.text();
+              let txt;
+              if (tlsError) {
+                txt = await getInsecure(url);
+              } else {
+                try {
+                  const res = await fetch(url, { headers: HEADERS });
+                  if (!res.ok) throw new Error("HTTP " + res.status);
+                  txt = await res.text();
+                } catch (e) {
+                  const code = e && e.cause && e.cause.code;
+                  if (!CERT_ERRORS.has(code) || new URL(url).hostname !== INSECURE_OK_HOST) throw e;
+                  tlsError = code;
+                  console.error(`::warning::IAA certificate rejected (${code}). Continuing WITHOUT certificate checks for ${INSECURE_OK_HOST} only; notams.json will say tlsVerified:false.`);
+                  txt = await getInsecure(url);
+                }
+              }
               if (/radware|perfdrive|captcha|are you a bot/i.test(txt) && !/NOTAM/.test(txt)) {
                 throw new Error("blocked by bot-wall");
               }
               return txt;
             } catch (e) {
-              if (attempt < MAX_RETRIES) { await sleep(500 * attempt); return fetchText(url, attempt + 1); }
+              if (attempt < MAX_RETRIES) {
+                console.error(`  retry ${attempt}/${MAX_RETRIES - 1}: ${why(e)}`);
+                await sleep(500 * attempt);
+                return fetchText(url, attempt + 1);
+              }
               throw e;
             }
           }
@@ -213,7 +274,7 @@ jobs:
                 n.rowID = rowID;
                 notams.push(n);
               } catch (e) {
-                console.error(`  ! ${id} (row ${rowID}) failed: ${e.message}`);
+                console.error(`  ! ${id} (row ${rowID}) failed: ${why(e)}`);
                 notams.push({ id, rowID, eText: "", detailError: e.message });
               }
               fetched++;
@@ -230,6 +291,8 @@ jobs:
               generatedAt,
               source: LIST_URL,
               disclaimer: "Informational only. Not a substitute for an official pre-flight briefing.",
+              tlsVerified: !tlsError,
+              tlsError: tlsError,
               count: notams.length,
               notams
             };
@@ -237,7 +300,7 @@ jobs:
             console.error(`✓ Wrote ${notams.length} NOTAMs → ${OUT}`);
           }
           
-          main().catch(err => { console.error("✗ Scrape failed:", err.message); process.exit(1); });
+          main().catch(err => { console.error("✗ Scrape failed:", why(err)); process.exit(1); });
           SCRAPER_EOF
 
       # Real shapes (polygons, circles, border strips, closed route legs) from the NOTAM text.
