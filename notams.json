@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-18T05:00:30.441Z",
+  "generatedAt": "2026-10-18T05:30:29.755Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
-  "count": 116,
+  "count": 115,
   "notams": [
     {
       "id": "A0834/26",
@@ -164,57 +164,6 @@
         "anchor": [
           32.749444,
           35.470139
-        ]
-      }
-    },
-    {
-      "id": "C2173/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T02:00:00.000Z",
-      "toDate": "2026-10-18T05:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWSLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 31.05,
-          "lon": 35.366667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 2,000FT AMSL. CTN ADZ. F) GND G) 2000FT AMSL",
-      "position": {
-        "lat": 31.05,
-        "lon": 35.366667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2173/26 NOTAMN Q) LLLL/QWSLW/IV/M /W /000/020/3103N03522E001 A) LLLL B) 2610180200 C) 2610180500 E) GAS EMISSION WILL TAKE PLACE AT SDOM POWER PLANT. AN AREA WI 1KM RADIUS CENTERED ON PSN 310232N0352200E CLSD FM GND UP TO 2,000FT AMSL. CTN ADZ. F) GND G) 2000FT AMSL)",
-      "rowID": "2070268",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.042222,
-              35.366667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          31.042222,
-          35.366667
         ]
       }
     },
