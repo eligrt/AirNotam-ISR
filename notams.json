@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-18T12:00:34.028Z",
+  "generatedAt": "2026-10-18T12:30:31.066Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
-  "count": 110,
+  "count": 111,
   "notams": [
+    {
+      "id": "C2186/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-19T00:01:00.000Z",
+      "toDate": "2026-10-25T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWCLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "018",
+        "position": {
+          "lat": 32.816667,
+          "lon": 35.166667,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT TAMRAH. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 324850N0351002E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL",
+      "position": {
+        "lat": 32.816667,
+        "lon": 35.166667,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2186/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/018/3249N03510E001 A) LLLL B) 2610190001 C) 2610252159 E) CAPTIVE BALLOON WILL TAKE PLACE AT TAMRAH. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 324850N0351002E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL)",
+      "rowID": "2071422",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              32.813889,
+              35.167222
+            ],
+            "radiusNm": 0.3
+          }
+        ],
+        "anchor": [
+          32.813889,
+          35.167222
+        ]
+      }
+    },
     {
       "id": "C2185/26",
       "location": "LLLL",
