@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-18T06:00:31.331Z",
+  "generatedAt": "2026-10-18T06:30:29.703Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
-  "count": 112,
+  "count": 108,
   "notams": [
     {
       "id": "A0834/26",
@@ -2655,108 +2655,6 @@
       "rowID": "2062298"
     },
     {
-      "id": "A0785/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-19T05:00:00.000Z",
-      "toDate": "2026-10-19T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOBCE",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "AE",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "003",
-        "position": {
-          "lat": 32,
-          "lon": 34.9,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.",
-      "position": {
-        "lat": 32,
-        "lon": 34.9,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0785/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/003/3200N03454E001 A) LLBG B) 2610190500 C) 2610191000 E) CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.)",
-      "rowID": "2062287",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.994797,
-              34.908208
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          31.994797,
-          34.908208
-        ]
-      }
-    },
-    {
-      "id": "A0786/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-26T06:00:00.000Z",
-      "toDate": "2026-10-26T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOBCE",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "AE",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "003",
-        "position": {
-          "lat": 32,
-          "lon": 34.9,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.",
-      "position": {
-        "lat": 32,
-        "lon": 34.9,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0786/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/003/3200N03454E001 A) LLBG B) 2610260600 C) 2610261100 E) CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.)",
-      "rowID": "2062288",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.994797,
-              34.908208
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          31.994797,
-          34.908208
-        ]
-      }
-    },
-    {
       "id": "C2016/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
@@ -3202,74 +3100,6 @@
       "replaces": null,
       "rawText": "A0762/26 NOTAMN Q) LLLL/QANLT/I /NBO/E /050/600/3208N03451E038 A) LLLL B) 2609171216 C) 2612312359 E) ATS RTE N134 BTN VOLFO-SALAM AVBL H24 BTN 11,000-16,000FT FOR TFC WITH ARR AT AD WITHIN AMMAN FIR, LLER, LLNV, LLOV AND LLRM ONLY, AVBL H24 ABV 17,000FT FOR MIL TFC ONLY.)",
       "rowID": "2059990"
-    },
-    {
-      "id": "A0758/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-19T05:00:00.000Z",
-      "toDate": "2026-10-19T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "DUE CRANE AT EL-AL JUNCTION, RWY 12 CLSD FOR TKOF, RWY 30 CLSD FOR LDG.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0758/26 NOTAMN Q) LLLL/QMRLT/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610190500 C) 2610191000 E) DUE CRANE AT EL-AL JUNCTION, RWY 12 CLSD FOR TKOF, RWY 30 CLSD FOR LDG.)",
-      "rowID": "2059596"
-    },
-    {
-      "id": "A0759/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-26T06:00:00.000Z",
-      "toDate": "2026-10-26T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "DUE CRANE AT EL-AL JUNCTION, RWY 12 CLSD FOR TKOF, RWY 30 CLSD FOR LDG.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0759/26 NOTAMN Q) LLLL/QMRLT/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610260600 C) 2610261100 E) DUE CRANE AT EL-AL JUNCTION, RWY 12 CLSD FOR TKOF, RWY 30 CLSD FOR LDG.)",
-      "rowID": "2059597"
     },
     {
       "id": "C1948/26",
