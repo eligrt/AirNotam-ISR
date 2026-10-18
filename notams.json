@@ -1,11 +1,75 @@
 {
-  "generatedAt": "2026-10-18T12:30:31.066Z",
+  "generatedAt": "2026-10-18T13:00:31.654Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
   "count": 111,
   "notams": [
+    {
+      "id": "C2187/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-19T05:30:00.000Z",
+      "toDate": "2026-10-19T08:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 32.7,
+          "lon": 34.816667,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324512N0345359E 323914N0345217E 323914N0344438E 324512N0344438E. CTN ADZ.",
+      "position": {
+        "lat": 32.7,
+        "lon": 34.816667,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2187/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/025/3242N03449E006 A) LLLL B) 2610190530 C) 2610190830 E) AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324512N0345359E 323914N0345217E 323914N0344438E 324512N0344438E. CTN ADZ.)",
+      "rowID": "2071435",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.753333,
+                34.899722
+              ],
+              [
+                32.653889,
+                34.871389
+              ],
+              [
+                32.653889,
+                34.743889
+              ],
+              [
+                32.753333,
+                34.743889
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.703611,
+          34.814722
+        ]
+      }
+    },
     {
       "id": "C2186/26",
       "location": "LLLL",
@@ -1613,45 +1677,6 @@
           31.849025,
           34.732635
         ]
-      }
-    },
-    {
-      "id": "C2160/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T09:30:00.000Z",
-      "toDate": "2026-10-18T12:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "030",
-        "position": {
-          "lat": 32.6,
-          "lon": 35.5,
-          "radiusNm": 8,
-          "source": "q_line"
-        }
-      },
-      "eText": "LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB) CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 3,000FT AMSL DUE FIREFIGHTING ACT. CTN ADZ.",
-      "position": {
-        "lat": 32.6,
-        "lon": 35.5,
-        "radiusNm": 8,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2160/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/030/3236N03530E008 A) LLLL B) 2610180930 C) 2610181230 E) LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB) CLSD TO ALL FLT INCLUDING AGRICULTURE FLT FM GND UP TO 3,000FT AMSL DUE FIREFIGHTING ACT. CTN ADZ.)",
-      "rowID": "2070154",
-      "geometryReject": "named area not in the GIS layers: LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB)",
-      "geometryFlag": {
-        "kind": "area missing",
-        "reason": "named area not in the GIS layers: LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB)"
       }
     },
     {
