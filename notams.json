@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-18T08:30:31.091Z",
+  "generatedAt": "2026-10-18T09:00:30.952Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
-  "count": 109,
+  "count": 108,
   "notams": [
     {
       "id": "C2183/26",
@@ -2009,70 +2009,6 @@
         "anchor": [
           31.059398,
           34.699491
-        ]
-      }
-    },
-    {
-      "id": "C2142/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T06:00:00.000Z",
-      "toDate": "2026-10-18T08:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "015",
-        "position": {
-          "lat": 31.85,
-          "lon": 34.933333,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "FIREFIGHTING ACT WILL TAKE PLACE AT NACHSHON. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 314953N0345531E 315139N0345452E 315146N0345658E 315015N0345804E. CTN ADZ.",
-      "position": {
-        "lat": 31.85,
-        "lon": 34.933333,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2142/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/015/3151N03456E002 A) LLLL B) 2610180600 C) 2610180830 E) FIREFIGHTING ACT WILL TAKE PLACE AT NACHSHON. AN AREA BTN FLW PSN CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT 314953N0345531E 315139N0345452E 315146N0345658E 315015N0345804E. CTN ADZ.)",
-      "rowID": "2069466",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.831389,
-                34.925278
-              ],
-              [
-                31.860833,
-                34.914444
-              ],
-              [
-                31.862778,
-                34.949444
-              ],
-              [
-                31.8375,
-                34.967778
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.848125,
-          34.939236
         ]
       }
     },
