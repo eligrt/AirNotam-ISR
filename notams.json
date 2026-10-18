@@ -1,11 +1,239 @@
 {
-  "generatedAt": "2026-10-18T08:00:30.759Z",
+  "generatedAt": "2026-10-18T08:30:31.091Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": false,
   "tlsError": "CERT_HAS_EXPIRED",
-  "count": 107,
+  "count": 109,
   "notams": [
+    {
+      "id": "C2183/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T06:30:00.000Z",
+      "toDate": "2026-10-21T14:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.7,
+          "lon": 35.35,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.",
+      "position": {
+        "lat": 32.7,
+        "lon": 35.35,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2183/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3242N03521E006 A) LLLL B) 2610210630 C) 2610211450 D) 0630-0730 1350-1450 E) ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.)",
+      "rowID": "2071354"
+    },
+    {
+      "id": "C2182/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T12:20:00.000Z",
+      "toDate": "2026-10-21T13:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "035",
+        "upperLimitFl": "040",
+        "position": {
+          "lat": 31.316667,
+          "lon": 35.2,
+          "radiusNm": 14,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD, TFC WILL BE DIVERTED VIA MZDOT SOKET-MYTAR-TARAD-ARRAD-HATRU-ZOHAR. MMORR-ARRAD-LLMZ.",
+      "position": {
+        "lat": 31.316667,
+        "lon": 35.2,
+        "radiusNm": 14,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2182/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /035/040/3119N03512E014 A) LLLL B) 2610211220 C) 2610211300 E) CVFR RTE CLSD, TFC WILL BE DIVERTED VIA MZDOT SOKET-MYTAR-TARAD-ARRAD-HATRU-ZOHAR. MMORR-ARRAD-LLMZ.)",
+      "rowID": "2071353",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.3075,
+                34.90111
+              ],
+              [
+                31.31472,
+                34.93806
+              ]
+            ],
+            "leg": "SOKET-MYTAR",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.31472,
+                34.93806
+              ],
+              [
+                31.2775,
+                35.12556
+              ]
+            ],
+            "leg": "MYTAR-TARAD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.2775,
+                35.12556
+              ],
+              [
+                31.25444,
+                35.20972
+              ]
+            ],
+            "leg": "TARAD-ARRAD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.20972
+              ],
+              [
+                31.21889,
+                35.24833
+              ]
+            ],
+            "leg": "ARRAD-HATRU",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.21889,
+                35.24833
+              ],
+              [
+                31.15083,
+                35.3725
+              ]
+            ],
+            "leg": "HATRU-ZOHAR",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.36833
+              ],
+              [
+                31.25444,
+                35.20972
+              ]
+            ],
+            "leg": "MMORR-ARRAD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.20972
+              ],
+              [
+                31.32917,
+                35.38833
+              ]
+            ],
+            "leg": "ARRAD-LLMZ",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "role": "diversion",
+            "coords": [
+              [
+                31.31472,
+                34.93806
+              ],
+              [
+                31.3565,
+                35.1075
+              ]
+            ],
+            "leg": "MYTAR-MZDOT",
+            "layer": "cvfr",
+            "t": "BR · CIVIL"
+          },
+          {
+            "type": "line",
+            "role": "diversion",
+            "coords": [
+              [
+                31.3565,
+                35.1075
+              ],
+              [
+                31.46417,
+                35.39483
+              ]
+            ],
+            "leg": "MZDOT-ENGDI",
+            "layer": "cvfr",
+            "t": "BR · CIVIL"
+          }
+        ],
+        "anchor": [
+          31.291805,
+          35.299025
+        ],
+        "diversionNames": [
+          "מיתר",
+          "מצודות",
+          "עין גדי"
+        ]
+      }
+    },
     {
       "id": "C2181/26",
       "location": "LLMG",
