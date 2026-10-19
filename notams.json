@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-19T08:30:30.932Z",
+  "generatedAt": "2026-10-19T09:00:30.934Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
   "count": 116,
   "notams": [
+    {
+      "id": "C2195/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-01T00:01:00.000Z",
+      "toDate": "2026-11-30T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "003",
+        "position": {
+          "lat": 31.766667,
+          "lon": 34.75,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT PARK-REEM. AN AREA WI 0.5NM RADIUS CENTERED ON PSN 314633N0344520E CLSD FM GND UP TO 25M AGL 300FT AMSL. OPS AVBL WITH PPR FM ATC ONLY. CTN ADZ. F) GND G) 300FT AMSL",
+      "position": {
+        "lat": 31.766667,
+        "lon": 34.75,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2195/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/003/3146N03445E001 A) LLLL B) 2611010001 C) 2611302159 E) UAS/UAV ACT WILL TAKE PLACE AT PARK-REEM. AN AREA WI 0.5NM RADIUS CENTERED ON PSN 314633N0344520E CLSD FM GND UP TO 25M AGL 300FT AMSL. OPS AVBL WITH PPR FM ATC ONLY. CTN ADZ. F) GND G) 300FT AMSL)",
+      "rowID": "2071745",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.775833,
+              34.755556
+            ],
+            "radiusNm": 0.5
+          }
+        ],
+        "anchor": [
+          31.775833,
+          34.755556
+        ]
+      }
+    },
     {
       "id": "C2194/26",
       "location": "LLLL",
@@ -2803,70 +2854,6 @@
       "replaces": null,
       "rawText": "C2188/26 NOTAMN Q) LLLL/QAELP/IV/NBO/E /000/020/3237N03523E005 A) LLLL B) 2610191000 C) 2610191700 E) LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-WEST (BMGWB) LTD TO MAX 1,600FT AMSL. CTN ADZ.)",
       "rowID": "2071442"
-    },
-    {
-      "id": "C2187/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-19T05:30:00.000Z",
-      "toDate": "2026-10-19T08:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "025",
-        "position": {
-          "lat": 32.7,
-          "lon": 34.816667,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324512N0345359E 323914N0345217E 323914N0344438E 324512N0344438E. CTN ADZ.",
-      "position": {
-        "lat": 32.7,
-        "lon": 34.816667,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2187/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/025/3242N03449E006 A) LLLL B) 2610190530 C) 2610190830 E) AN AREA FM GND UP TO 2,500FT AMSL CLSD TO ALL FLT BTN FLW PSN 324512N0345359E 323914N0345217E 323914N0344438E 324512N0344438E. CTN ADZ.)",
-      "rowID": "2071435",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                32.753333,
-                34.899722
-              ],
-              [
-                32.653889,
-                34.871389
-              ],
-              [
-                32.653889,
-                34.743889
-              ],
-              [
-                32.753333,
-                34.743889
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.703611,
-          34.814722
-        ]
-      }
     },
     {
       "id": "C2186/26",
