@@ -1,11 +1,175 @@
 {
-  "generatedAt": "2026-10-19T10:30:31.553Z",
+  "generatedAt": "2026-10-19T11:00:32.474Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 120,
+  "count": 122,
   "notams": [
+    {
+      "id": "C2201/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-01T00:01:00.000Z",
+      "toDate": "2026-11-30T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "006",
+        "position": {
+          "lat": 32.55,
+          "lon": 35.283333,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT TAANACHIM AND GADISH. AN AREA CLSD FM GND UP TO 100M AGL 560FT AMSL BTN FLW PSN 323333N0351719E 323219N0351747E 323221N0351759E 323207N0351803E 323201N0351722E 323254N0351640E 323313N0351637E 323317N0351558E 323335N0351558E. AN AREA WI 400M RADIUS CENTERED ON PSN 323309N0351447E CLSD FM GND UP TO 100M AGL, 560FT AMSL. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 560FT AMSL",
+      "position": {
+        "lat": 32.55,
+        "lon": 35.283333,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2201/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/006/3233N03517E002 A) LLLL B) 2611010001 C) 2611302159 E) UAS ACT WILL TAKE PLACE AT TAANACHIM AND GADISH. AN AREA CLSD FM GND UP TO 100M AGL 560FT AMSL BTN FLW PSN 323333N0351719E 323219N0351747E 323221N0351759E 323207N0351803E 323201N0351722E 323254N0351640E 323313N0351637E 323317N0351558E 323335N0351558E. AN AREA WI 400M RADIUS CENTERED ON PSN 323309N0351447E CLSD FM GND UP TO 100M AGL, 560FT AMSL. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 560FT AMSL)",
+      "rowID": "2071788",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.559167,
+                35.288611
+              ],
+              [
+                32.538611,
+                35.296389
+              ],
+              [
+                32.539167,
+                35.299722
+              ],
+              [
+                32.535278,
+                35.300833
+              ],
+              [
+                32.533611,
+                35.289444
+              ],
+              [
+                32.548333,
+                35.277778
+              ],
+              [
+                32.553611,
+                35.276944
+              ],
+              [
+                32.554722,
+                35.266111
+              ],
+              [
+                32.559722,
+                35.266111
+              ]
+            ]
+          },
+          {
+            "type": "circle",
+            "center": [
+              32.5525,
+              35.246389
+            ],
+            "radiusNm": 0.216
+          }
+        ],
+        "anchor": [
+          32.546914,
+          35.28466
+        ]
+      }
+    },
+    {
+      "id": "C2200/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T03:30:00.000Z",
+      "toDate": "2026-10-29T15:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "032",
+        "position": {
+          "lat": 30.95,
+          "lon": 34.933333,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 3,200FT AMSL. CTN ADZ. F) GND G) 3200FT AMSL",
+      "position": {
+        "lat": 30.95,
+        "lon": 34.933333,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2200/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/032/3057N03456E002 A) LLLL B) 2610250330 C) 2610291530 D) DAILY 0330-1530 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 3,200FT AMSL. CTN ADZ. F) GND G) 3200FT AMSL)",
+      "rowID": "2071778",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                30.975,
+                34.930833
+              ],
+              [
+                30.973056,
+                34.945556
+              ],
+              [
+                30.9675,
+                34.952222
+              ],
+              [
+                30.9525,
+                34.946944
+              ],
+              [
+                30.94,
+                34.937222
+              ],
+              [
+                30.947778,
+                34.914722
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          30.959306,
+          34.937917
+        ]
+      }
+    },
     {
       "id": "C2199/26",
       "location": "LLLL",
