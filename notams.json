@@ -1,11 +1,134 @@
 {
-  "generatedAt": "2026-10-19T10:00:32.648Z",
+  "generatedAt": "2026-10-19T10:30:31.553Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 118,
+  "count": 120,
   "notams": [
+    {
+      "id": "C2199/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-01T00:01:00.000Z",
+      "toDate": "2026-11-30T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 32.516667,
+          "lon": 35.3,
+          "radiusNm": 2,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT MAGEN-SHAUL, UP TO 100M AGL. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 1,500FT AMSL 323145N0351642E 323024N0351638E 323039N0352004E 323139N0351954E 323153N0351930E 323159N0351907E CTN ADZ. F) GND G) 1500FT AMSL",
+      "position": {
+        "lat": 32.516667,
+        "lon": 35.3,
+        "radiusNm": 2,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2199/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/015/3231N03518E002 A) LLLL B) 2611010001 C) 2611302159 E) UAS/UAV ACT WILL TAKE PLACE AT MAGEN-SHAUL, UP TO 100M AGL. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 1,500FT AMSL 323145N0351642E 323024N0351638E 323039N0352004E 323139N0351954E 323153N0351930E 323159N0351907E CTN ADZ. F) GND G) 1500FT AMSL)",
+      "rowID": "2071777",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.529167,
+                35.278333
+              ],
+              [
+                32.506667,
+                35.277222
+              ],
+              [
+                32.510833,
+                35.334444
+              ],
+              [
+                32.5275,
+                35.331667
+              ],
+              [
+                32.531389,
+                35.325
+              ],
+              [
+                32.533056,
+                35.318611
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.523102,
+          35.31088
+        ]
+      }
+    },
+    {
+      "id": "C2198/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T03:30:00.000Z",
+      "toDate": "2026-10-29T15:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "037",
+        "position": {
+          "lat": 30.966667,
+          "lon": 34.933333,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL",
+      "position": {
+        "lat": 30.966667,
+        "lon": 34.933333,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2198/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/037/3058N03456E001 A) LLLL B) 2610250330 C) 2610291530 D) DAILY 0330-1530 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL)",
+      "rowID": "2071772",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              30.971944,
+              34.933611
+            ],
+            "radiusNm": 0.3
+          }
+        ],
+        "anchor": [
+          30.971944,
+          34.933611
+        ]
+      }
+    },
     {
       "id": "C2197/26",
       "location": "LLLL",
