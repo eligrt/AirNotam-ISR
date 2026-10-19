@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-19T08:00:33.656Z",
+  "generatedAt": "2026-10-19T08:30:30.932Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 115,
+  "count": 116,
   "notams": [
+    {
+      "id": "C2194/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-01T08:00:00.000Z",
+      "toDate": "2026-11-30T16:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "028",
+        "position": {
+          "lat": 31.783333,
+          "lon": 35.1,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT EITANIM-HOSPITAL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 314643N0350539E CLSD FM GND UP TO 100M AGL, 2,800FT AMSL. CTN ADZ. F) GND G) 2800FT AMSL",
+      "position": {
+        "lat": 31.783333,
+        "lon": 35.1,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2194/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/028/3147N03506E001 A) LLLL B) 2611010800 C) 2611301600 D) DAILY 0800-1600 E) UAS/UAV ACT WILL TAKE PLACE AT EITANIM-HOSPITAL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 314643N0350539E CLSD FM GND UP TO 100M AGL, 2,800FT AMSL. CTN ADZ. F) GND G) 2800FT AMSL)",
+      "rowID": "2071744",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.778611,
+              35.094167
+            ],
+            "radiusNm": 0.3
+          }
+        ],
+        "anchor": [
+          31.778611,
+          35.094167
+        ]
+      }
+    },
     {
       "id": "C2193/26",
       "location": "LLLL",
