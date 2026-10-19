@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-19T06:30:30.697Z",
+  "generatedAt": "2026-10-19T07:00:33.404Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 114,
+  "count": 115,
   "notams": [
+    {
+      "id": "C2193/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-20T07:00:00.000Z",
+      "toDate": "2026-10-22T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "007",
+        "position": {
+          "lat": 33.116667,
+          "lon": 35.6,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.",
+      "position": {
+        "lat": 33.116667,
+        "lon": 35.6,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2193/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/007/3307N03536E001 A) LLLL B) 2610200700 C) 2610221200 D) DAILY 0400-1200 E) AN AREA AT HACHULA-LAKE WI 0.54NM RADIUS CENTERED ON PSN 330651N0353618E CLSD FM GND UP TO 660FT AGL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.)",
+      "rowID": "2071718",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              33.114167,
+              35.605
+            ],
+            "radiusNm": 0.54
+          }
+        ],
+        "anchor": [
+          33.114167,
+          35.605
+        ]
+      }
+    },
     {
       "id": "C2192/26",
       "location": "LLLL",
