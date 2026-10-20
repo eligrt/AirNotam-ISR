@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-20T09:30:30.631Z",
+  "generatedAt": "2026-10-20T10:00:31.031Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 118,
+  "count": 119,
   "notams": [
+    {
+      "id": "C2204/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T06:30:00.000Z",
+      "toDate": "2026-10-21T14:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 32.716667,
+          "lon": 35.4,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI 1.1NM RADIUS CENTERED ON PSN 324241N0352429E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL",
+      "position": {
+        "lat": 32.716667,
+        "lon": 35.4,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2204/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/015/3243N03524E001 A) LLLL B) 2610210630 C) 2610211430 D) 0630-0730 1330-1430 E) UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI 1.1NM RADIUS CENTERED ON PSN 324241N0352429E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL)",
+      "rowID": "2072115",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              32.711389,
+              35.408056
+            ],
+            "radiusNm": 1.1
+          }
+        ],
+        "anchor": [
+          32.711389,
+          35.408056
+        ]
+      }
+    },
     {
       "id": "C2203/26",
       "location": "LLLL",
