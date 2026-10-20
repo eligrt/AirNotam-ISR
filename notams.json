@@ -1,11 +1,99 @@
 {
-  "generatedAt": "2026-10-20T10:00:31.031Z",
+  "generatedAt": "2026-10-20T10:30:35.246Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
   "count": 119,
   "notams": [
+    {
+      "id": "C2205/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T03:30:00.000Z",
+      "toDate": "2026-10-29T03:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "050",
+        "position": {
+          "lat": 33.183333,
+          "lon": 35.733333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT FM GND UP TO 5000FT AMSL 331338N0354511E 331124N0354425E 331112N0354045E 331008N0354043E 330912N0354112E 330751N0354518E 330927N0354653E 331225N0354755E 331312N0354732E 331341N0354631E CTN ADZ.",
+      "position": {
+        "lat": 33.183333,
+        "lon": 35.733333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2205/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/050/3311N03544E004 A) LLLL B) 2610280330 C) 2610290330 E) AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT FM GND UP TO 5000FT AMSL 331338N0354511E 331124N0354425E 331112N0354045E 331008N0354043E 330912N0354112E 330751N0354518E 330927N0354653E 331225N0354755E 331312N0354732E 331341N0354631E CTN ADZ.)",
+      "rowID": "2072131",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.227222,
+                35.753056
+              ],
+              [
+                33.19,
+                35.740278
+              ],
+              [
+                33.186667,
+                35.679167
+              ],
+              [
+                33.168889,
+                35.678611
+              ],
+              [
+                33.153333,
+                35.686667
+              ],
+              [
+                33.130833,
+                35.755
+              ],
+              [
+                33.1575,
+                35.781389
+              ],
+              [
+                33.206944,
+                35.798611
+              ],
+              [
+                33.22,
+                35.792222
+              ],
+              [
+                33.228056,
+                35.775278
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          33.186944,
+          35.744028
+        ]
+      }
+    },
     {
       "id": "C2204/26",
       "location": "LLLL",
@@ -1338,40 +1426,6 @@
       "replaces": null,
       "rawText": "A0833/26 NOTAMN Q) LLLL/QNMAS/IV/BO /E /000/999/3117N03443E025 A) LLLL B) 2610250600 C) 2610251000 E) VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.)",
       "rowID": "2070258"
-    },
-    {
-      "id": "A0832/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-20T06:00:00.000Z",
-      "toDate": "2026-10-20T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 03/21 CLSD DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0832/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610200600 C) 2610201000 E) RWY 03/21 CLSD DUE WIP.)",
-      "rowID": "2070238"
     },
     {
       "id": "A0831/26",
