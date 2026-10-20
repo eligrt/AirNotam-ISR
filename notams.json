@@ -1,11 +1,79 @@
 {
-  "generatedAt": "2026-10-20T11:00:30.726Z",
+  "generatedAt": "2026-10-20T12:00:31.423Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 119,
+  "count": 120,
   "notams": [
+    {
+      "id": "C2206/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-27T10:00:00.000Z",
+      "toDate": "2026-10-28T03:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "050",
+        "position": {
+          "lat": 33.166667,
+          "lon": 35.683333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT FM GND UP TO 5000FT AMSL 331102N0353744E 331212N0353916E 331126N0354407E 330830N0354341E 330815N0353754E CTN ADZ.",
+      "position": {
+        "lat": 33.166667,
+        "lon": 35.683333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2206/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/050/3310N03541E004 A) LLLL B) 2610271000 C) 2610280330 E) AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT FM GND UP TO 5000FT AMSL 331102N0353744E 331212N0353916E 331126N0354407E 330830N0354341E 330815N0353754E CTN ADZ.)",
+      "rowID": "2072147",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.183889,
+                35.628889
+              ],
+              [
+                33.203333,
+                35.654444
+              ],
+              [
+                33.190556,
+                35.735278
+              ],
+              [
+                33.141667,
+                35.728056
+              ],
+              [
+                33.1375,
+                35.631667
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          33.171389,
+          35.675667
+        ]
+      }
+    },
     {
       "id": "C2205/26",
       "location": "LLLL",
