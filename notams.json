@@ -1,11 +1,49 @@
 {
-  "generatedAt": "2026-10-20T07:30:33.891Z",
+  "generatedAt": "2026-10-20T08:00:31.099Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 116,
+  "count": 117,
   "notams": [
+    {
+      "id": "C2202/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T17:30:00.000Z",
+      "toDate": "2026-10-21T20:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "004",
+        "position": {
+          "lat": 31.966667,
+          "lon": 34.75,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV AIR-SHOW WILL TAKE PLACE AT RISHON LEZION. AN AREA WI 0.17NM RADIUS CENTERED ON PSN 315832E0344954E CLSD FM GND UP TO 50M AGL 360FT AMSL. CTN ADZ. F) GND G) 360FT AMSL",
+      "position": {
+        "lat": 31.966667,
+        "lon": 34.75,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2202/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/004/3158N03445E001 A) LLLL B) 2610211730 C) 2610212000 E) UAS/UAV AIR-SHOW WILL TAKE PLACE AT RISHON LEZION. AN AREA WI 0.17NM RADIUS CENTERED ON PSN 315832E0344954E CLSD FM GND UP TO 50M AGL 360FT AMSL. CTN ADZ. F) GND G) 360FT AMSL)",
+      "rowID": "2072085",
+      "geometryFlag": {
+        "kind": "unfamiliar",
+        "reason": "no shape, but the text has: RADIUS, PSN, distance"
+      }
+    },
     {
       "id": "C2201/26",
       "location": "LLLL",

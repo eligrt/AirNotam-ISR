@@ -63,5 +63,10 @@
     "id": "C2160/26",
     "kind": "area missing",
     "first": "2026-10-15"
+  },
+  "unfamiliar|UAS/UAV AIR-SHOW WILL TAKE PLACE AT RISHON LEZION. AN AREA WI 0.17NM RADIUS CENTERED ON PSN 315832E0344954E CLSD FM GND UP TO 50M AGL 360FT AMSL. CTN ADZ. F) GND G) 360FT AMSL": {
+    "id": "C2202/26",
+    "kind": "unfamiliar",
+    "first": "2026-10-20"
   }
 }
