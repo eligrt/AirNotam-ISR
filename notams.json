@@ -1,11 +1,26 @@
 {
-  "generatedAt": "2026-10-20T16:30:31.992Z",
+  "generatedAt": "2026-10-20T17:00:32.212Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 122,
+  "count": 121,
   "notams": [
+    {
+      "id": "A0842/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T14:00:00.000Z",
+      "toDate": "2026-10-22T23:59:00.000Z",
+      "qLine": null,
+      "eText": "ATS RTE J14 CLSD BTN ZACCI-MEGID.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0842/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /050/060/3230N03510E008 A) LLLL B) 2610211400 C) 2610222359 E) ATS RTE J14 CLSD BTN ZACCI-MEGID.)",
+      "rowID": "2072230"
+    },
     {
       "id": "C2207/26",
       "location": "LLLL",
@@ -56,21 +71,6 @@
           35.279167
         ]
       }
-    },
-    {
-      "id": "A0840/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-21T14:00:00.000Z",
-      "toDate": "2026-10-22T00:01:00.000Z",
-      "qLine": null,
-      "eText": "ATS RTE J14 CLSD BTN ZACCI-MEGID.",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0840/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /050/060/3230N03510E008 A) LLLL B) 2610211400 C) 2610220001 E) ATS RTE J14 CLSD BTN ZACCI-MEGID.)",
-      "rowID": "2072212"
     },
     {
       "id": "C2206/26",
@@ -1365,40 +1365,6 @@
       "replaces": null,
       "rawText": "C2181/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3236N03514E005 A) LLMG B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 HEL LDG AND TAX PROCEDURES UPDATED.)",
       "rowID": "2071336"
-    },
-    {
-      "id": "A0834/26",
-      "location": "LLER",
-      "locationDescription": "Ramon",
-      "fromDate": "2026-10-19T10:05:00.000Z",
-      "toDate": "2026-10-20T16:40:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 29.733333,
-          "lon": 35.016667,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AD CLSD TO ALL FLT DUE WIP. IN CASE OF EMERG AVBL WI 10MIN PPR FM ATC.",
-      "position": {
-        "lat": 29.733333,
-        "lon": 35.016667,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0834/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/2944N03501E005 A) LLER B) 2610191005 C) 2610201640 D) 19 1005-1105, 1205-1255, 1350-1445, 1545-1640, 20 1205-1255, 1350-1445, 1545-1640 E) AD CLSD TO ALL FLT DUE WIP. IN CASE OF EMERG AVBL WI 10MIN PPR FM ATC.)",
-      "rowID": "2070353"
     },
     {
       "id": "C2175/26",
