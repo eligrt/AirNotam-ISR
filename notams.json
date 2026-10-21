@@ -1,11 +1,186 @@
 {
-  "generatedAt": "2026-10-21T12:30:30.723Z",
+  "generatedAt": "2026-10-21T13:00:33.172Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 123,
+  "count": 124,
   "notams": [
+    {
+      "id": "C2213/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-23T04:15:00.000Z",
+      "toDate": "2026-10-23T05:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "005",
+        "upperLimitFl": "018",
+        "position": {
+          "lat": 32,
+          "lon": 34.983333,
+          "radiusNm": 12,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD, EXC PARTICIPATING ACFT IN FLY-PAST MEYAL-ELYAU-ZNYMN-YARHV-SSOMR-MCZVA-LAPID-REUTE- HORON-SHARG.",
+      "position": {
+        "lat": 32,
+        "lon": 34.983333,
+        "radiusNm": 12,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2213/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /005/018/3200N03459E012 A) LLLL B) 2610230415 C) 2610230530 E) ULTRALIGHT RTE CLSD, EXC PARTICIPATING ACFT IN FLY-PAST MEYAL-ELYAU-ZNYMN-YARHV-SSOMR-MCZVA-LAPID-REUTE- HORON-SHARG.)",
+      "rowID": "2072556",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.2075,
+                34.96278
+              ],
+              [
+                32.19222,
+                34.95528
+              ]
+            ],
+            "leg": "MEYAL-ELYAU",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.19222,
+                34.95528
+              ],
+              [
+                32.17222,
+                34.95861
+              ]
+            ],
+            "leg": "ELYAU-ZNYMN",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.17222,
+                34.95861
+              ],
+              [
+                32.15028,
+                34.97056
+              ]
+            ],
+            "leg": "ZNYMN-YARHV",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.15028,
+                34.97056
+              ],
+              [
+                32.10639,
+                34.99611
+              ]
+            ],
+            "leg": "YARHV-SSOMR",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.10639,
+                34.99611
+              ],
+              [
+                32.02891,
+                35.02368
+              ],
+              [
+                31.97333,
+                35.0325
+              ]
+            ],
+            "leg": "SSOMR-MCZVA",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.97333,
+                35.0325
+              ],
+              [
+                31.91639,
+                35.02694
+              ]
+            ],
+            "leg": "MCZVA-LAPID",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.91639,
+                35.02694
+              ],
+              [
+                31.87833,
+                35.02444
+              ]
+            ],
+            "leg": "LAPID-REUTE",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.85028,
+                35.02917
+              ],
+              [
+                31.81972,
+                35.02111
+              ]
+            ],
+            "leg": "HORON-SHARG",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          32.040815,
+          35.019444
+        ]
+      }
+    },
     {
       "id": "C2212/26",
       "location": "LLLL",
