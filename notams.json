@@ -1,13 +1,81 @@
 {
-  "generatedAt": "2026-10-21T13:30:30.627Z",
+  "generatedAt": "2026-10-21T14:00:32.381Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 125,
+  "count": 127,
   "notams": [
     {
-      "id": "C2215/26",
+      "id": "C2221/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-22T10:00:00.000Z",
+      "toDate": "2026-10-23T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "080",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 3,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 3,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2221/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610221000 C) 2610231100 D) 22 1000-1530, 23 0630-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
+      "rowID": "2072571"
+    },
+    {
+      "id": "C2219/26",
+      "location": "LLMZ",
+      "locationDescription": "Metzada",
+      "fromDate": "2026-10-23T04:15:00.000Z",
+      "toDate": "2026-10-23T13:10:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2219/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3120N03523E005 A) LLMZ B) 2610230415 C) 2610231310 D) 0415-0630 1145-1310 E) AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.)",
+      "rowID": "2072569"
+    },
+    {
+      "id": "C2218/26",
       "location": "LLRS",
       "locationDescription": "Rishon Letzion",
       "fromDate": "2026-10-23T03:30:00.000Z",
@@ -27,7 +95,7 @@
           "source": "q_line"
         }
       },
-      "eText": "AIRSTRIP CLSD TO ALL FLT, EXP PARTICIPATING ACFT IN FLY-PAST.",
+      "eText": "AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.",
       "position": {
         "lat": 31.966667,
         "lon": 34.75,
@@ -37,8 +105,42 @@
       "administrative": false,
       "notamType": "N",
       "replaces": null,
-      "rawText": "C2215/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3158N03445E005 A) LLRS B) 2610230330 C) 2610231400 D) 0330-0515 1220-1400 E) AIRSTRIP CLSD TO ALL FLT, EXP PARTICIPATING ACFT IN FLY-PAST.)",
-      "rowID": "2072565"
+      "rawText": "C2218/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3158N03445E005 A) LLRS B) 2610230330 C) 2610231400 D) 0330-0515 1220-1400 E) AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.)",
+      "rowID": "2072568"
+    },
+    {
+      "id": "C2216/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-23T03:45:00.000Z",
+      "toDate": "2026-10-23T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 31.433333,
+          "lon": 35.366667,
+          "radiusNm": 18,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE CLSD, EXC PARTICIPATING ACFT IN FLY-PAST SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI).",
+      "position": {
+        "lat": 31.433333,
+        "lon": 35.366667,
+        "radiusNm": 18,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2216/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/030/3126N03522E018 A) LLLL B) 2610230345 C) 2610231400 D) 0345-0615 1200-1400 E) ULTRALIGHT BUBBLE CLSD, EXC PARTICIPATING ACFT IN FLY-PAST SHALEM (BSHLM), YAM-HAMELCH (BYMLH), EIN-GEDI (BNGDI).)",
+      "rowID": "2072566"
     },
     {
       "id": "C2214/26",
@@ -2731,40 +2833,6 @@
           35.605
         ]
       }
-    },
-    {
-      "id": "C2192/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-22T10:00:00.000Z",
-      "toDate": "2026-10-23T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2192/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610221000 C) 2610231100 D) 22 1000-1530, 23 0600-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
-      "rowID": "2071717"
     },
     {
       "id": "C2186/26",
