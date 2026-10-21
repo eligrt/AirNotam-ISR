@@ -1,11 +1,111 @@
 {
-  "generatedAt": "2026-10-21T08:30:30.225Z",
+  "generatedAt": "2026-10-21T09:00:33.967Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 122,
+  "count": 123,
   "notams": [
+    {
+      "id": "C2210/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-21T08:37:00.000Z",
+      "toDate": "2026-12-31T21:59:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "009",
+        "position": {
+          "lat": 32.183333,
+          "lon": 34.916667,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KFAR-SABA WI LLHZ TRG AREA NR 3, FM GND UP TO 400FT AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 900FT AMSL 321038N0345552E 321015N0345531E 321023N0345500E 321100N0345511E 321112N0345414E 321144N0345442E 321143N0345448E 321141N0345447E 321132N0345511E 321126N0345509E 321122N0345510E 321114N0345542E 321045N0345541E. CTN ADZ. F) GND G) 900FT AMSL",
+      "position": {
+        "lat": 32.183333,
+        "lon": 34.916667,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2210/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/009/3211N03455E001 A) LLLL B) 2610210837 C) 2612312159 E) UAS ACT WILL TAKE PLACE AT KFAR-SABA WI LLHZ TRG AREA NR 3, FM GND UP TO 400FT AGL. AN AREA BTN FLW PSN CLSD FM GND UP TO 900FT AMSL 321038N0345552E 321015N0345531E 321023N0345500E 321100N0345511E 321112N0345414E 321144N0345442E 321143N0345448E 321141N0345447E 321132N0345511E 321126N0345509E 321122N0345510E 321114N0345542E 321045N0345541E. CTN ADZ. F) GND G) 900FT AMSL)",
+      "rowID": "2072479",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.177222,
+                34.931111
+              ],
+              [
+                32.170833,
+                34.925278
+              ],
+              [
+                32.173056,
+                34.916667
+              ],
+              [
+                32.183333,
+                34.919722
+              ],
+              [
+                32.186667,
+                34.903889
+              ],
+              [
+                32.195556,
+                34.911667
+              ],
+              [
+                32.195278,
+                34.913333
+              ],
+              [
+                32.194722,
+                34.913056
+              ],
+              [
+                32.192222,
+                34.919722
+              ],
+              [
+                32.190556,
+                34.919167
+              ],
+              [
+                32.189444,
+                34.919444
+              ],
+              [
+                32.187222,
+                34.928333
+              ],
+              [
+                32.179167,
+                34.928056
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.185791,
+          34.919188
+        ]
+      }
+    },
     {
       "id": "C2209/26",
       "location": "LLLL",
