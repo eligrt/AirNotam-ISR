@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-21T14:30:30.878Z",
+  "generatedAt": "2026-10-21T15:00:30.897Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 127,
+  "count": 125,
   "notams": [
     {
       "id": "C2222/26",
@@ -2078,57 +2078,6 @@
       }
     },
     {
-      "id": "C2204/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-21T06:30:00.000Z",
-      "toDate": "2026-10-21T14:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "015",
-        "position": {
-          "lat": 32.716667,
-          "lon": 35.4,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI 1.1NM RADIUS CENTERED ON PSN 324241N0352429E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL",
-      "position": {
-        "lat": 32.716667,
-        "lon": 35.4,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2204/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/015/3243N03524E001 A) LLLL B) 2610210630 C) 2610211430 D) 0630-0730 1330-1430 E) UAS ACT WILL TAKE PLACE AT KFAR-TAVOR. AN AREA WI 1.1NM RADIUS CENTERED ON PSN 324241N0352429E CLSD FM GND UP TO 1,500FT AMSL TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1500FT AMSL)",
-      "rowID": "2072115",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              32.711389,
-              35.408056
-            ],
-            "radiusNm": 1.1
-          }
-        ],
-        "anchor": [
-          32.711389,
-          35.408056
-        ]
-      }
-    },
-    {
       "id": "C2203/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
@@ -2918,40 +2867,6 @@
           35.167222
         ]
       }
-    },
-    {
-      "id": "C2183/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-21T06:30:00.000Z",
-      "toDate": "2026-10-21T14:50:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 32.7,
-          "lon": 35.35,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.",
-      "position": {
-        "lat": 32.7,
-        "lon": 35.35,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2183/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3242N03521E006 A) LLLL B) 2610210630 C) 2610211450 D) 0630-0730 1350-1450 E) ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.)",
-      "rowID": "2071354"
     },
     {
       "id": "C2181/26",
