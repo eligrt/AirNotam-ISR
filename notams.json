@@ -1,11 +1,45 @@
 {
-  "generatedAt": "2026-10-21T14:00:32.381Z",
+  "generatedAt": "2026-10-21T14:30:30.878Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
   "count": 127,
   "notams": [
+    {
+      "id": "C2222/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-23T03:30:00.000Z",
+      "toDate": "2026-10-23T06:15:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.7,
+          "lon": 34.95,
+          "radiusNm": 10,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE BET-GOVRIN NORTH (BGOVN) AND SOUTH (BGOVS) CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.",
+      "position": {
+        "lat": 31.7,
+        "lon": 34.95,
+        "radiusNm": 10,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2222/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3142N03457E010 A) LLLL B) 2610230330 C) 2610230615 E) ULTRALIGHT BUBBLE BET-GOVRIN NORTH (BGOVN) AND SOUTH (BGOVS) CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.)",
+      "rowID": "2072580"
+    },
     {
       "id": "C2221/26",
       "location": "LLLL",
@@ -4189,78 +4223,6 @@
       "replaces": null,
       "rawText": "A0827/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/2944N03501E005 A) LLER B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC AIP AMDT 02/26 WEF 26 NOV 2026 AD OBST DATA LINK ADDED, CHART UPDATED ADC, ADCV.)",
       "rowID": "2069500"
-    },
-    {
-      "id": "C2143/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-19T06:00:00.000Z",
-      "toDate": "2026-10-21T14:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "024",
-        "position": {
-          "lat": 31.05,
-          "lon": 34.7,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL",
-      "position": {
-        "lat": 31.05,
-        "lon": 34.7,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2143/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/024/3103N03442E006 A) LLLL B) 2610190600 C) 2610211400 D) 19 0600-0930 1800-1920, 20 1150-1400, 21 0630-0900 1150-1400 E) PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL)",
-      "rowID": "2069479",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.12,
-                34.763889
-              ],
-              [
-                31.086389,
-                34.655556
-              ],
-              [
-                31.081944,
-                34.615278
-              ],
-              [
-                30.991944,
-                34.6375
-              ],
-              [
-                31.009722,
-                34.735833
-              ],
-              [
-                31.066389,
-                34.788889
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.059398,
-          34.699491
-        ]
-      }
     },
     {
       "id": "A0825/26",
