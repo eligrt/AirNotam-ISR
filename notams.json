@@ -1,11 +1,62 @@
 {
-  "generatedAt": "2026-10-21T08:00:30.512Z",
+  "generatedAt": "2026-10-21T08:30:30.225Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
   "count": 122,
   "notams": [
+    {
+      "id": "C2209/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-29T06:00:00.000Z",
+      "toDate": "2026-10-29T13:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWCLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "018",
+        "position": {
+          "lat": 31.6,
+          "lon": 34.6,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT GVARAM. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 313612N0343627E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL",
+      "position": {
+        "lat": 31.6,
+        "lon": 34.6,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2209/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/018/3136N03436E001 A) LLLL B) 2610290600 C) 2610291300 E) CAPTIVE BALLOON WILL TAKE PLACE AT GVARAM. AN AREA WI 0.4NM RADIUS CENTERED ON PSN 313612N0343627E CLSD FM GND UP TO 1,800FT AMSL, TO ALL FLT INCLUDING AGRICULTURE FLT. CTN ADZ. F) GND G) 1800FT AMSL)",
+      "rowID": "2072473",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.603333,
+              34.6075
+            ],
+            "radiusNm": 0.4
+          }
+        ],
+        "anchor": [
+          31.603333,
+          34.6075
+        ]
+      }
+    },
     {
       "id": "C2208/26",
       "location": "LLLL",
@@ -2925,57 +2976,6 @@
         "anchor": [
           33.106111,
           35.581667
-        ]
-      }
-    },
-    {
-      "id": "C2136/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-20T03:30:00.000Z",
-      "toDate": "2026-10-21T08:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "022",
-        "position": {
-          "lat": 33.116667,
-          "lon": 35.566667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330646N0353414E CLSD FM GND UP TO 2,200FT AMSL. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2200FT AMSL",
-      "position": {
-        "lat": 33.116667,
-        "lon": 35.566667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2136/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/022/3307N03534E001 A) LLLL B) 2610200330 C) 2610210800 D) DAILY 0330-0800 E) CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330646N0353414E CLSD FM GND UP TO 2,200FT AMSL. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2200FT AMSL)",
-      "rowID": "2069069",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              33.112778,
-              35.570556
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          33.112778,
-          35.570556
         ]
       }
     },
