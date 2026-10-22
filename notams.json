@@ -1,11 +1,360 @@
 {
-  "generatedAt": "2026-10-22T09:30:30.165Z",
+  "generatedAt": "2026-10-22T10:00:31.610Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 127,
+  "count": 130,
   "notams": [
+    {
+      "id": "C2228/26",
+      "location": "LLMZ",
+      "locationDescription": "Metzada",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT.",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2228/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3120N03523E005 A) LLMZ B) 2610251000 C) 2610251900 D) 1000-1400 1500-1900 E) AIRSTRIP CLSD TO ALL FLT.)",
+      "rowID": "2072883"
+    },
+    {
+      "id": "A0846/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": null,
+      "eText": "ATS RTE J14 CLSD.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0846/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /040/070/3240N03516E026 A) LLLL B) 2610251000 C) 2610251900 D) 1000-1400 1500-1900 E) ATS RTE J14 CLSD.)",
+      "rowID": "2072882"
+    },
+    {
+      "id": "C2227/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "050",
+        "position": {
+          "lat": 31.816667,
+          "lon": 35.383333,
+          "radiusNm": 65,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD AFULA-EITAN. DESHE-EITAN-FAZEL-NAAMA-HAZVA. FAZEL-MIHMS-ALMOG. DUMIN-MIHMS-ANATA. SORES-DUMIM-ALMOG. MMORR-ARRAD-LLMZ. ARRAD-HATRU-ZOHAR.",
+      "position": {
+        "lat": 31.816667,
+        "lon": 35.383333,
+        "radiusNm": 65,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2227/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/050/3149N03523E065 A) LLLL B) 2610251000 C) 2610251900 D) 1000-1400 1500-1900 E) CVFR RTE CLSD AFULA-EITAN. DESHE-EITAN-FAZEL-NAAMA-HAZVA. FAZEL-MIHMS-ALMOG. DUMIN-MIHMS-ANATA. SORES-DUMIM-ALMOG. MMORR-ARRAD-LLMZ. ARRAD-HATRU-ZOHAR.)",
+      "rowID": "2072873",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.60372,
+                35.28147
+              ],
+              [
+                32.59485,
+                35.31176
+              ],
+              [
+                32.56996,
+                35.3315
+              ],
+              [
+                32.56193,
+                35.3473
+              ],
+              [
+                32.55777,
+                35.36212
+              ],
+              [
+                32.55762,
+                35.37299
+              ],
+              [
+                32.54986,
+                35.3967
+              ],
+              [
+                32.54762,
+                35.41746
+              ],
+              [
+                32.54166,
+                35.44018
+              ],
+              [
+                32.52504,
+                35.47574
+              ],
+              [
+                32.51259,
+                35.49648
+              ],
+              [
+                32.49542,
+                35.53335
+              ]
+            ],
+            "leg": "AFULA-EITAN",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.495556,
+                35.533611
+              ],
+              [
+                32.42444,
+                35.52667
+              ],
+              [
+                32.38473,
+                35.52897
+              ],
+              [
+                32.32556,
+                35.54281
+              ],
+              [
+                32.28846,
+                35.54909
+              ],
+              [
+                32.2127,
+                35.54892
+              ],
+              [
+                32.17306,
+                35.5325
+              ],
+              [
+                32.07938,
+                35.49182
+              ],
+              [
+                32.04806,
+                35.46306
+              ]
+            ],
+            "leg": "EITAN-FAZEL",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL",
+            "via": [
+              "TIRAT",
+              "ARGMN"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.04806,
+                35.46306
+              ],
+              [
+                31.90861,
+                35.4625
+              ]
+            ],
+            "leg": "FAZEL-NAAMA",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.85444,
+                35.32944
+              ],
+              [
+                31.81944,
+                35.3875
+              ],
+              [
+                31.78972,
+                35.45639
+              ]
+            ],
+            "leg": "MIHMS-ALMOG",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL",
+            "via": [
+              "YRIHO"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.85444,
+                35.32944
+              ],
+              [
+                31.82111,
+                35.27139
+              ]
+            ],
+            "leg": "MIHMS-ANATA",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.80389,
+                35.32472
+              ],
+              [
+                31.81944,
+                35.3875
+              ],
+              [
+                31.78972,
+                35.45639
+              ]
+            ],
+            "leg": "DUMIM-ALMOG",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL",
+            "via": [
+              "YRIHO"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.36833
+              ],
+              [
+                31.25444,
+                35.20972
+              ]
+            ],
+            "leg": "MMORR-ARRAD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.20972
+              ],
+              [
+                31.32917,
+                35.38833
+              ]
+            ],
+            "leg": "ARRAD-LLMZ",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.25444,
+                35.20972
+              ],
+              [
+                31.21889,
+                35.24833
+              ]
+            ],
+            "leg": "ARRAD-HATRU",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.21889,
+                35.24833
+              ],
+              [
+                31.15083,
+                35.3725
+              ]
+            ],
+            "leg": "HATRU-ZOHAR",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          32.264186,
+          35.549036
+        ],
+        "missing": [
+          "DESHE-EITAN",
+          "NAAMA-HAZVA",
+          "FAZEL-MIHMS",
+          "DUMIN-MIHMS",
+          "SORES-DUMIM"
+        ]
+      },
+      "geometryFlag": {
+        "kind": "legs missing",
+        "reason": "route legs not in the GIS: DESHE-EITAN, NAAMA-HAZVA, FAZEL-MIHMS, DUMIN-MIHMS, SORES-DUMIM"
+      }
+    },
     {
       "id": "C2226/26",
       "location": "LLLL",
