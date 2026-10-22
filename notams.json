@@ -1,11 +1,277 @@
 {
-  "generatedAt": "2026-10-22T09:00:30.617Z",
+  "generatedAt": "2026-10-22T09:30:30.165Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 125,
+  "count": 127,
   "notams": [
+    {
+      "id": "C2226/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "005",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.8,
+          "lon": 35.616667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD ZBTZD-ENGEV-ZEMAH-MIGDL.",
+      "position": {
+        "lat": 32.8,
+        "lon": 35.616667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2226/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /005/020/3248N03537E008 A) LLLL B) 2610251000 C) 2610251900 D) 1000-1400 1500-1900 E) ULTRALIGHT RTE CLSD ZBTZD-ENGEV-ZEMAH-MIGDL.)",
+      "rowID": "2072868",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.90389,
+                35.63306
+              ],
+              [
+                32.88483,
+                35.65438
+              ],
+              [
+                32.86953,
+                35.65247
+              ],
+              [
+                32.82723,
+                35.65121
+              ],
+              [
+                32.80835,
+                35.64484
+              ],
+              [
+                32.78278,
+                35.64
+              ]
+            ],
+            "leg": "ZBTZD-ENGEV",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.78278,
+                35.64
+              ],
+              [
+                32.74726,
+                35.63384
+              ],
+              [
+                32.72778,
+                35.62611
+              ],
+              [
+                32.71098,
+                35.60633
+              ],
+              [
+                32.70444,
+                35.58583
+              ]
+            ],
+            "leg": "ENGEV-ZEMAH",
+            "layer": "sport",
+            "t": "OPEN · AllWeek",
+            "via": [
+              "HAONN"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.70444,
+                35.58583
+              ],
+              [
+                32.71665,
+                35.57102
+              ],
+              [
+                32.73326,
+                35.56859
+              ],
+              [
+                32.75485,
+                35.56124
+              ],
+              [
+                32.76443,
+                35.55347
+              ],
+              [
+                32.76683,
+                35.54983
+              ],
+              [
+                32.77462,
+                35.54529
+              ],
+              [
+                32.7921,
+                35.54123
+              ],
+              [
+                32.80499,
+                35.5268
+              ],
+              [
+                32.83639,
+                35.50944
+              ]
+            ],
+            "leg": "ZEMAH-MIGDL",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          32.769827,
+          35.548084
+        ]
+      }
+    },
+    {
+      "id": "C2225/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "050",
+        "position": {
+          "lat": 31.666667,
+          "lon": 35.366667,
+          "radiusNm": 53,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT, EXC EMERG, MEDEVAC OR FIREFIGHTING FLT FM GND UP TO 5000FT AMSL 323119N0352440E 322858N0353425E 315958N0353144E 305534N0352425E 304910N0351954E 305045N0351616E 310238N0351945E 310549N0351344E 311359N0351524E 312129N0350558E 312508N0351146E 313411N0351212E 313851N0351757E 314905N0351943E 314859N0351537E 321349N0352654E. CTN ADZ.",
+      "position": {
+        "lat": 31.666667,
+        "lon": 35.366667,
+        "radiusNm": 53,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2225/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/050/3140N03522E053 A) LLLL B) 2610251000 C) 2610251900 D) 25 1000-1400 1500-1900 E) AN AREA BTN FLW PSN CLSD TO ALL FLT, INCLUDING AGRICULTURE FLT, EXC EMERG, MEDEVAC OR FIREFIGHTING FLT FM GND UP TO 5000FT AMSL 323119N0352440E 322858N0353425E 315958N0353144E 305534N0352425E 304910N0351954E 305045N0351616E 310238N0351945E 310549N0351344E 311359N0351524E 312129N0350558E 312508N0351146E 313411N0351212E 313851N0351757E 314905N0351943E 314859N0351537E 321349N0352654E. CTN ADZ.)",
+      "rowID": "2072866",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.521944,
+                35.411111
+              ],
+              [
+                32.482778,
+                35.573611
+              ],
+              [
+                31.999444,
+                35.528889
+              ],
+              [
+                30.926111,
+                35.406944
+              ],
+              [
+                30.819444,
+                35.331667
+              ],
+              [
+                30.845833,
+                35.271111
+              ],
+              [
+                31.043889,
+                35.329167
+              ],
+              [
+                31.096944,
+                35.228889
+              ],
+              [
+                31.233056,
+                35.256667
+              ],
+              [
+                31.358056,
+                35.099444
+              ],
+              [
+                31.418889,
+                35.196111
+              ],
+              [
+                31.569722,
+                35.203333
+              ],
+              [
+                31.6475,
+                35.299167
+              ],
+              [
+                31.818056,
+                35.328611
+              ],
+              [
+                31.816389,
+                35.260278
+              ],
+              [
+                32.230278,
+                35.448333
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.551771,
+          35.323333
+        ]
+      }
+    },
     {
       "id": "C2224/26",
       "location": "LLLL",
