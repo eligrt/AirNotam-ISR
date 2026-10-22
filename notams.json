@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-22T14:30:35.795Z",
+  "generatedAt": "2026-10-22T14:58:48.217Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 135,
+  "count": 134,
   "notams": [
     {
       "id": "C2256/26",
@@ -3804,57 +3804,6 @@
       "rowID": "2069441"
     },
     {
-      "id": "C2138/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T03:30:00.000Z",
-      "toDate": "2026-10-22T14:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "037",
-        "position": {
-          "lat": 30.966667,
-          "lon": 34.933333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL",
-      "position": {
-        "lat": 30.966667,
-        "lon": 34.933333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2138/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/037/3058N03456E001 A) LLLL B) 2610180330 C) 2610221430 D) DAILY 0330-1430 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL)",
-      "rowID": "2069104",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              30.971944,
-              34.933611
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          30.971944,
-          34.933611
-        ]
-      }
-    },
-    {
       "id": "C2137/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
@@ -7352,7 +7301,210 @@
       "notamType": "R",
       "replaces": "C1584/26",
       "rawText": "C1833/26 NOTAMR C1584/26 Q) LLLL/QAELC/IV/NBO/E /000/040/3304N03523E018 A) LLLL B) 2608301230 C) 2610312159 E) ULTRALIGHT BUBBLE CLSD HAHULA (BHULA), KARMIEL (BKRML).)",
-      "rowID": "2053275"
+      "rowID": "2053275",
+      "geometry": {
+        "source": "bubble",
+        "areas": [
+          {
+            "code": "BHULA",
+            "kind": "BUBBLE",
+            "name": "בועת החולה"
+          },
+          {
+            "code": "BKRML",
+            "kind": "BUBBLE",
+            "name": "בועת כרמיאל"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.054357,
+                35.637846
+              ],
+              [
+                33.082481,
+                35.63982
+              ],
+              [
+                33.098804,
+                35.648146
+              ],
+              [
+                33.126267,
+                35.652437
+              ],
+              [
+                33.15832,
+                35.651836
+              ],
+              [
+                33.182603,
+                35.661278
+              ],
+              [
+                33.202642,
+                35.662479
+              ],
+              [
+                33.226985,
+                35.657845
+              ],
+              [
+                33.219446,
+                35.636301
+              ],
+              [
+                33.198261,
+                35.632353
+              ],
+              [
+                33.176209,
+                35.617247
+              ],
+              [
+                33.176856,
+                35.579395
+              ],
+              [
+                33.176856,
+                35.579481
+              ],
+              [
+                33.181669,
+                35.567551
+              ],
+              [
+                33.071045,
+                35.576391
+              ],
+              [
+                33.054357,
+                35.637846
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.89011,
+                35.182171
+              ],
+              [
+                32.890903,
+                35.186634
+              ],
+              [
+                32.886435,
+                35.194616
+              ],
+              [
+                32.882254,
+                35.213413
+              ],
+              [
+                32.885137,
+                35.253496
+              ],
+              [
+                32.875623,
+                35.303364
+              ],
+              [
+                32.879155,
+                35.360441
+              ],
+              [
+                32.870937,
+                35.420265
+              ],
+              [
+                32.872811,
+                35.441809
+              ],
+              [
+                32.863151,
+                35.459576
+              ],
+              [
+                32.858176,
+                35.479746
+              ],
+              [
+                32.899984,
+                35.474682
+              ],
+              [
+                32.908055,
+                35.47039
+              ],
+              [
+                32.925275,
+                35.467215
+              ],
+              [
+                32.95236,
+                35.450993
+              ],
+              [
+                32.986204,
+                35.43889
+              ],
+              [
+                32.989804,
+                35.421209
+              ],
+              [
+                32.989948,
+                35.096855
+              ],
+              [
+                32.98318,
+                35.094795
+              ],
+              [
+                32.978176,
+                35.150414
+              ],
+              [
+                32.967915,
+                35.153933
+              ],
+              [
+                32.953944,
+                35.166035
+              ],
+              [
+                32.933128,
+                35.166721
+              ],
+              [
+                32.905893,
+                35.207577
+              ],
+              [
+                32.898975,
+                35.19702
+              ],
+              [
+                32.894219,
+                35.181828
+              ],
+              [
+                32.89011,
+                35.182171
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.915254,
+          35.289491
+        ]
+      }
     },
     {
       "id": "C1834/26",
