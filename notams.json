@@ -1,11 +1,373 @@
 {
-  "generatedAt": "2026-10-22T10:00:31.610Z",
+  "generatedAt": "2026-10-22T10:30:30.350Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 130,
+  "count": 132,
   "notams": [
+    {
+      "id": "C2240/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-22T10:25:00.000Z",
+      "toDate": "2026-10-23T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "080",
+        "position": {
+          "lat": 31.333333,
+          "lon": 35.383333,
+          "radiusNm": 3,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
+      "position": {
+        "lat": 31.333333,
+        "lon": 35.383333,
+        "radiusNm": 3,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2240/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610221025 C) 2610231100 D) 22 1025-1530, 23 0600-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
+      "rowID": "2072902"
+    },
+    {
+      "id": "C2238/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-26T05:00:00.000Z",
+      "toDate": "2026-10-26T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "035",
+        "position": {
+          "lat": 32.683333,
+          "lon": 35.483333,
+          "radiusNm": 13,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD AFULA-EITAN-DESHE.",
+      "position": {
+        "lat": 32.683333,
+        "lon": 35.483333,
+        "radiusNm": 13,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2238/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/035/3241N03529E013 A) LLLL B) 2610260500 C) 2610261900 D) 0500-0900 1000-1400 1500-1900 E) CVFR RTE CLSD AFULA-EITAN-DESHE.)",
+      "rowID": "2072900",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.60372,
+                35.28147
+              ],
+              [
+                32.59485,
+                35.31176
+              ],
+              [
+                32.56996,
+                35.3315
+              ],
+              [
+                32.56193,
+                35.3473
+              ],
+              [
+                32.55777,
+                35.36212
+              ],
+              [
+                32.55762,
+                35.37299
+              ],
+              [
+                32.54986,
+                35.3967
+              ],
+              [
+                32.54762,
+                35.41746
+              ],
+              [
+                32.54166,
+                35.44018
+              ],
+              [
+                32.52504,
+                35.47574
+              ],
+              [
+                32.51259,
+                35.49648
+              ],
+              [
+                32.49542,
+                35.53335
+              ]
+            ],
+            "leg": "AFULA-EITAN",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          32.549051,
+          35.404196
+        ],
+        "missing": [
+          "EITAN-DESHE"
+        ]
+      },
+      "geometryFlag": {
+        "kind": "legs missing",
+        "reason": "route legs not in the GIS: EITAN-DESHE"
+      }
+    },
+    {
+      "id": "C2235/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-26T05:00:00.000Z",
+      "toDate": "2026-10-26T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "005",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.8,
+          "lon": 35.616667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD ZBTZD-ENGEV-ZEMAH-MIGDL.",
+      "position": {
+        "lat": 32.8,
+        "lon": 35.616667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2235/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /005/020/3248N03537E008 A) LLLL B) 2610260500 C) 2610261900 D) 0500-0900 1000-1400 1500-1900 E) ULTRALIGHT RTE CLSD ZBTZD-ENGEV-ZEMAH-MIGDL.)",
+      "rowID": "2072893",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.90389,
+                35.63306
+              ],
+              [
+                32.88483,
+                35.65438
+              ],
+              [
+                32.86953,
+                35.65247
+              ],
+              [
+                32.82723,
+                35.65121
+              ],
+              [
+                32.80835,
+                35.64484
+              ],
+              [
+                32.78278,
+                35.64
+              ]
+            ],
+            "leg": "ZBTZD-ENGEV",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.78278,
+                35.64
+              ],
+              [
+                32.74726,
+                35.63384
+              ],
+              [
+                32.72778,
+                35.62611
+              ],
+              [
+                32.71098,
+                35.60633
+              ],
+              [
+                32.70444,
+                35.58583
+              ]
+            ],
+            "leg": "ENGEV-ZEMAH",
+            "layer": "sport",
+            "t": "OPEN · AllWeek",
+            "via": [
+              "HAONN"
+            ]
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.70444,
+                35.58583
+              ],
+              [
+                32.71665,
+                35.57102
+              ],
+              [
+                32.73326,
+                35.56859
+              ],
+              [
+                32.75485,
+                35.56124
+              ],
+              [
+                32.76443,
+                35.55347
+              ],
+              [
+                32.76683,
+                35.54983
+              ],
+              [
+                32.77462,
+                35.54529
+              ],
+              [
+                32.7921,
+                35.54123
+              ],
+              [
+                32.80499,
+                35.5268
+              ],
+              [
+                32.83639,
+                35.50944
+              ]
+            ],
+            "leg": "ZEMAH-MIGDL",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          32.769827,
+          35.548084
+        ]
+      }
+    },
+    {
+      "id": "C2230/26",
+      "location": "LLHF",
+      "locationDescription": "Heftzibah",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-25T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.533333,
+          "lon": 35.433333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT.",
+      "position": {
+        "lat": 32.533333,
+        "lon": 35.433333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2230/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3232N03526E005 A) LLHF B) 2610251000 C) 2610251900 D) 25 1000-1400 1500-1900 E) AIRSTRIP CLSD TO ALL FLT.)",
+      "rowID": "2072887"
+    },
+    {
+      "id": "C2229/26",
+      "location": "LLFK",
+      "locationDescription": "Fiq (El-Al)",
+      "fromDate": "2026-10-25T10:00:00.000Z",
+      "toDate": "2026-10-26T19:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.783333,
+          "lon": 35.716667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT.",
+      "position": {
+        "lat": 32.783333,
+        "lon": 35.716667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2229/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3247N03543E005 A) LLFK B) 2610251000 C) 2610261900 D) 25 1000-1400 1500-1900, 26 0500-0900 1000-1400 1500-1900 E) AIRSTRIP CLSD TO ALL FLT.)",
+      "rowID": "2072884"
+    },
     {
       "id": "C2228/26",
       "location": "LLMZ",
@@ -884,74 +1246,6 @@
       "replaces": null,
       "rawText": "C2222/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3142N03457E010 A) LLLL B) 2610230330 C) 2610230615 E) ULTRALIGHT BUBBLE BET-GOVRIN NORTH (BGOVN) AND SOUTH (BGOVS) CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.)",
       "rowID": "2072580"
-    },
-    {
-      "id": "C2221/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-22T10:00:00.000Z",
-      "toDate": "2026-10-23T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2221/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3120N03523E003 A) LLLL B) 2610221000 C) 2610231100 D) 22 1000-1530, 23 0630-1100 E) PJE AIRSPACE METZADA ACT FM 8,000FT AMSL. OPR BY PPR FM ATC ONLY. F) GND G) 8000FT AMSL)",
-      "rowID": "2072571"
-    },
-    {
-      "id": "C2219/26",
-      "location": "LLMZ",
-      "locationDescription": "Metzada",
-      "fromDate": "2026-10-23T04:15:00.000Z",
-      "toDate": "2026-10-23T13:10:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 31.333333,
-          "lon": 35.383333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.",
-      "position": {
-        "lat": 31.333333,
-        "lon": 35.383333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2219/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3120N03523E005 A) LLMZ B) 2610230415 C) 2610231310 D) 0415-0630 1145-1310 E) AIRSTRIP CLSD TO ALL FLT, EXC PARTICIPATING ACFT IN FLY-PAST.)",
-      "rowID": "2072569"
     },
     {
       "id": "C2218/26",
@@ -3707,285 +4001,6 @@
       "replaces": null,
       "rawText": "A0833/26 NOTAMN Q) LLLL/QNMAS/IV/BO /E /000/999/3117N03443E025 A) LLLL B) 2610250600 C) 2610251000 E) VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.)",
       "rowID": "2070258"
-    },
-    {
-      "id": "C2170/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-22T04:15:00.000Z",
-      "toDate": "2026-10-22T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "008",
-        "upperLimitFl": "012",
-        "position": {
-          "lat": 31.916667,
-          "lon": 34.766667,
-          "radiusNm": 8,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.",
-      "position": {
-        "lat": 31.916667,
-        "lon": 34.766667,
-        "radiusNm": 8,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2170/26 NOTAMN Q) LLLL/QARLT/IV/NBO/E /008/012/3155N03446E008 A) LLLL B) 2610220415 C) 2610221000 D) 0415-0530 0600-0650 0900-1000 E) CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.)",
-      "rowID": "2070192",
-      "geometry": {
-        "source": "route",
-        "parts": [
-          {
-            "type": "line",
-            "coords": [
-              [
-                32.00472,
-                34.72722
-              ],
-              [
-                31.97634,
-                34.7416
-              ]
-            ],
-            "leg": "TYONA-SUPER",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.97634,
-                34.7416
-              ],
-              [
-                31.94436,
-                34.77393
-              ],
-              [
-                31.94423,
-                34.77409
-              ],
-              [
-                31.94411,
-                34.77425
-              ],
-              [
-                31.94399,
-                34.77441
-              ],
-              [
-                31.94388,
-                34.77458
-              ],
-              [
-                31.94378,
-                34.77476
-              ],
-              [
-                31.94368,
-                34.77494
-              ],
-              [
-                31.94359,
-                34.77512
-              ],
-              [
-                31.9435,
-                34.77531
-              ],
-              [
-                31.94342,
-                34.7755
-              ],
-              [
-                31.94334,
-                34.77569
-              ],
-              [
-                31.94327,
-                34.77589
-              ],
-              [
-                31.94321,
-                34.77609
-              ],
-              [
-                31.94315,
-                34.7763
-              ],
-              [
-                31.9431,
-                34.7765
-              ],
-              [
-                31.94306,
-                34.77671
-              ],
-              [
-                31.94302,
-                34.77692
-              ],
-              [
-                31.94299,
-                34.77713
-              ],
-              [
-                31.94297,
-                34.77734
-              ],
-              [
-                31.94296,
-                34.77755
-              ],
-              [
-                31.94295,
-                34.77777
-              ],
-              [
-                31.94294,
-                34.77798
-              ],
-              [
-                31.94295,
-                34.77819
-              ],
-              [
-                31.94296,
-                34.77841
-              ],
-              [
-                31.94298,
-                34.77862
-              ],
-              [
-                31.943,
-                34.77883
-              ],
-              [
-                31.94303,
-                34.77904
-              ],
-              [
-                31.94307,
-                34.77925
-              ],
-              [
-                31.94312,
-                34.77946
-              ],
-              [
-                31.94317,
-                34.77966
-              ],
-              [
-                31.94323,
-                34.77987
-              ],
-              [
-                31.94329,
-                34.78007
-              ],
-              [
-                31.94336,
-                34.78026
-              ],
-              [
-                31.94344,
-                34.78046
-              ],
-              [
-                31.94352,
-                34.78065
-              ],
-              [
-                31.94361,
-                34.78083
-              ]
-            ],
-            "leg": "SUPER-NTAIM",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.94361,
-                34.78083
-              ],
-              [
-                31.92028,
-                34.77
-              ]
-            ],
-            "leg": "NTAIM-BOVED",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.92028,
-                34.77
-              ],
-              [
-                31.88972,
-                34.75583
-              ]
-            ],
-            "leg": "BOVED-NAGID",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.88972,
-                34.75583
-              ],
-              [
-                31.87194,
-                34.75694
-              ]
-            ],
-            "leg": "NAGID-YAVNE",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.87194,
-                34.75694
-              ],
-              [
-                31.82611,
-                34.70833
-              ]
-            ],
-            "leg": "YAVNE-ZASHD",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          }
-        ],
-        "anchor": [
-          31.849025,
-          34.732635
-        ]
-      }
     },
     {
       "id": "C2154/26",
