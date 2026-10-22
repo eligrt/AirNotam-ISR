@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-22T00:00:32.198Z",
+  "generatedAt": "2026-10-22T00:30:30.922Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 123,
+  "count": 122,
   "notams": [
     {
       "id": "C2222/26",
@@ -1869,57 +1869,6 @@
       "replaces": null,
       "rawText": "A0842/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /050/060/3230N03510E008 A) LLLL B) 2610211400 C) 2610222359 E) ATS RTE J14 CLSD BTN ZACCI-MEGID.)",
       "rowID": "2072230"
-    },
-    {
-      "id": "C2207/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-21T14:00:00.000Z",
-      "toDate": "2026-10-22T00:01:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "040",
-        "position": {
-          "lat": 32.55,
-          "lon": 35.283333,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 4,000FT AMSL TO ALL FLT. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 4000FT AMSL",
-      "position": {
-        "lat": 32.55,
-        "lon": 35.283333,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2207/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/040/3233N03517E002 A) LLLL B) 2610211400 C) 2610220001 E) UAS ACT WILL TAKE PLACE S OF LLMG. AN AREA WI 1.5NM RADIUS CENTERED ON PSN 323256N0351645E CLSD FM GND UP TO 4,000FT AMSL TO ALL FLT. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 4000FT AMSL)",
-      "rowID": "2072213",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              32.548889,
-              35.279167
-            ],
-            "radiusNm": 1.5
-          }
-        ],
-        "anchor": [
-          32.548889,
-          35.279167
-        ]
-      }
     },
     {
       "id": "C2206/26",
