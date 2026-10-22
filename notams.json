@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-22T07:30:30.371Z",
+  "generatedAt": "2026-10-22T08:00:31.263Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 125,
+  "count": 124,
   "notams": [
     {
       "id": "A0845/26",
@@ -2493,117 +2493,6 @@
         "anchor": [
           30.971944,
           34.933611
-        ]
-      }
-    },
-    {
-      "id": "C2197/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-22T07:20:00.000Z",
-      "toDate": "2026-10-22T07:40:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "025",
-        "upperLimitFl": "040",
-        "position": {
-          "lat": 31.7,
-          "lon": 34.983333,
-          "radiusNm": 8,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD SORES-ESTOL-BSEMS-ZHRYA-GOVRN.",
-      "position": {
-        "lat": 31.7,
-        "lon": 34.983333,
-        "radiusNm": 8,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2197/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/040/3142N03459E008 A) LLLL B) 2610220720 C) 2610220740 E) CVFR RTE CLSD SORES-ESTOL-BSEMS-ZHRYA-GOVRN.)",
-      "rowID": "2071756",
-      "geometry": {
-        "source": "route",
-        "parts": [
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.79972,
-                35.07611
-              ],
-              [
-                31.77944,
-                35.01139
-              ]
-            ],
-            "leg": "SORES-ESTOL",
-            "layer": "cvfr",
-            "t": "BR · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.77944,
-                35.01139
-              ],
-              [
-                31.75472,
-                34.98139
-              ]
-            ],
-            "leg": "ESTOL-BSEMS",
-            "layer": "cvfr",
-            "t": "BR · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.75472,
-                34.98139
-              ],
-              [
-                31.70665,
-                34.96004
-              ],
-              [
-                31.69972,
-                34.945
-              ]
-            ],
-            "leg": "BSEMS-ZHRYA",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          },
-          {
-            "type": "line",
-            "coords": [
-              [
-                31.69972,
-                34.945
-              ],
-              [
-                31.60611,
-                34.89278
-              ]
-            ],
-            "leg": "ZHRYA-GOVRN",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          }
-        ],
-        "anchor": [
-          31.652915,
-          34.91889
         ]
       }
     },
