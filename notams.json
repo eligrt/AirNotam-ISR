@@ -1,11 +1,94 @@
 {
-  "generatedAt": "2026-10-22T06:00:30.216Z",
+  "generatedAt": "2026-10-22T06:30:31.072Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 122,
+  "count": 125,
   "notams": [
+    {
+      "id": "A0845/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-10-28T06:00:00.000Z",
+      "toDate": "2026-10-28T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 08/26 CLSD EXC RWY INT, DUE WIP.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0845/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610280600 C) 2610281200 E) RWY 08/26 CLSD EXC RWY INT, DUE WIP.)",
+      "rowID": "2072822"
+    },
+    {
+      "id": "A0844/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-10-26T07:00:00.000Z",
+      "toDate": "2026-10-26T11:00:00.000Z",
+      "qLine": null,
+      "eText": "ILS RWY 12 C/S BG FREQ 110.300MHZ WITHDRAWN FOR MAINT.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0844/26 NOTAMN Q) LLLL/QISAS/I /NBO/A /000/999/3200N03454E005 A) LLBG B) 2610260700 C) 2610261100 E) ILS RWY 12 C/S BG FREQ 110.300MHZ WITHDRAWN FOR MAINT.)",
+      "rowID": "2072820"
+    },
+    {
+      "id": "A0843/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-10-26T06:00:00.000Z",
+      "toDate": "2026-10-26T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 12/30 CLSD EXC RWY INT DUE WIP.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0843/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610260600 C) 2610261100 E) RWY 12/30 CLSD EXC RWY INT DUE WIP.)",
+      "rowID": "2072818"
+    },
     {
       "id": "C2222/26",
       "location": "LLLL",
