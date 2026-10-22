@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.014 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.015 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -83,6 +83,14 @@
  *   - relative wording ("S OF LLBG TMA", "WI LLHA CTR") is not the whole area and keeps the Q circle
  *   - a named area that is not in the GIS (e.g. "LLER TRG AREA HAR BERECH CLSD", training areas are not published
  *     as GIS) keeps the Q circle and is flagged "area missing"
+ *
+ * ULTRALIGHT BUBBLES (v1.00.015, Eli 2026-10-22; polygons traced by Eli in the bubble calibration tool, gis/bubbles.json)
+ *   Only when field E has no coordinates and is none of the cases above. A sentence "ULTRALIGHT BUBBLE CLSD HAHULA (BHULA),
+ *   KARMIEL (BKRML)." closes the named bubbles: each is drawn from gis/bubbles.json (one polygon per code, "source":"bubble").
+ *   Deliberately narrow: the sentence must contain BUBBLE and CLSD/CLOSED and at least one bubble code in brackets, and must
+ *   carry no qualifier that makes the closure partial or an exception (N/S/E/W OF, ROAD, EXC, EXCEPT, TKOF, LDG, AVBL,
+ *   WI, ACT, BTN, FM). Everything else that mentions a bubble keeps the Q circle (no flag). A code that is not in the
+ *   file, or a bubble that reaches outside the Q circle (+1.5 NM), means no shape at all (Q circle), never half a closure.
  *
  * GAZA STRIP BORDER STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...", C1825)
  *   A border strip like the ones above, measured from the Gaza Strip boundary line in gis/borders.json ("gaza"),
@@ -684,6 +692,43 @@ function namedArea(notam) {
   return { geometry: { source: "named", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
 }
 
+// ── ultralight bubbles (v1.00.015): "ULTRALIGHT BUBBLE CLSD HAHULA (BHULA), KARMIEL (BKRML)." ──
+let BUBBLES = null;                                                               // code -> {name, ring [[lat,lon],...]}
+export function loadBubbles(dir) {
+  BUBBLES = new Map();
+  const fc = JSON.parse(readFileSync(`${dir}/bubbles.json`, "utf8"));
+  for (const f of fc.features || []) {
+    const c = String(f.properties?.code || "").toUpperCase(), g = f.geometry;
+    if (!c || !g || g.type !== "Polygon" || !g.coordinates?.[0] || g.coordinates[0].length < 4) continue;
+    BUBBLES.set(c, { name: String(f.properties.name || "").trim(), ring: g.coordinates[0].map(([lon, lat]) => [lat, lon]) });
+  }
+}
+const RX_BUBBLE_QUAL = /\b(?:[NSEW]|NE|NW|SE|SW)\s+(?:OF|FM)\b|\bROAD\b|\bEXC(?:EPT)?\b|\bTKOF\b|\bLDG\b|\bAVBL\b|\bWI\b|\bACT\b|\bBTN\b|\bFM\b|\bABV\b|\bBLW\b|\bUP TO\b|\bAMSL\b|\bAGL\b/;
+function bubbleArea(notam) {
+  if (!BUBBLES) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  const codes = [];
+  for (const s0 of text.split(/\.(?=\s|$|\))/)) {
+    const s = s0.trim();
+    if (!/\bBUBBLES?\b/.test(s) || !/\b(?:CLSD|CLOSED)\b/.test(s)) continue;
+    if (RX_BUBBLE_QUAL.test(s)) return null;                                     // partial / exception wording: Q circle
+    for (const m of s.matchAll(/\((B[A-Z]{4})\)/g)) if (!codes.includes(m[1])) codes.push(m[1]);
+  }
+  if (!codes.length) return null;
+  if (codes.some(c => !BUBBLES.has(c))) return null;
+  const qp = notam.qLine?.position || notam.position;
+  const hasQ = qp && qp.lat != null && qp.lon != null && qp.radiusNm != null;
+  const parts = [], areas = [];
+  for (const c of codes) {
+    const b = BUBBLES.get(c);
+    if (hasQ && b.ring.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;
+    areas.push({ code: c, kind: "BUBBLE", name: b.name });
+    parts.push({ type: "polygon", coords: b.ring.map(RP) });
+  }
+  const main = parts.slice().sort((x, y) => areaNm2(y.coords) - areaNm2(x.coords))[0];
+  return { geometry: { source: "bubble", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
+}
+
 // ── "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": a border strip from the Gaza Strip boundary line (Israeli side) ──
 const RX_OUTWARD = /\bFM\s+([A-Z][A-Z -]*?)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\s+OUTWARDS?\b/;
 function outwardStrip(notam) {
@@ -711,7 +756,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -823,6 +868,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
   const gdir = bpath.replace(/[\\/][^\\/]*$/, "");                                // route layers sit next to borders.json
   try { loadRoutes(gdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
+  try { loadBubbles(gdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
   try { loadAreas(gdir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
