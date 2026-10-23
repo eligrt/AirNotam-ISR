@@ -1,11 +1,86 @@
 {
-  "generatedAt": "2026-10-23T10:30:29.777Z",
+  "generatedAt": "2026-10-23T11:00:34.672Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 129,
+  "count": 130,
   "notams": [
+    {
+      "id": "C2257/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-24T04:00:00.000Z",
+      "toDate": "2026-10-24T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "004",
+        "position": {
+          "lat": 31.966667,
+          "lon": 34.733333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT WEEKEND RTE CLSD TYONA-SHEFC-SOREK.",
+      "position": {
+        "lat": 31.966667,
+        "lon": 34.733333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2257/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /000/004/3158N03444E004 A) LLLL B) 2610240400 C) 2610241100 E) ULTRALIGHT WEEKEND RTE CLSD TYONA-SHEFC-SOREK.)",
+      "rowID": "2073287",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.00469,
+                34.72734
+              ],
+              [
+                31.94,
+                34.70611
+              ]
+            ],
+            "leg": "TYONA-SHEFC",
+            "layer": "sport",
+            "t": "OPEN · Weekend · חד כיווני"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.94,
+                34.70611
+              ],
+              [
+                31.94194,
+                34.75194
+              ]
+            ],
+            "leg": "SHEFC-SOREK",
+            "layer": "sport",
+            "t": "OPEN · Weekend · חד כיווני"
+          }
+        ],
+        "anchor": [
+          31.972345,
+          34.716725
+        ]
+      }
+    },
     {
       "id": "C2256/26",
       "location": "LLLL",
