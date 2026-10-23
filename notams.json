@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-23T00:00:33.480Z",
+  "generatedAt": "2026-10-23T00:30:32.388Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 133,
+  "count": 132,
   "notams": [
     {
       "id": "C2256/26",
@@ -2331,21 +2331,6 @@
       "replaces": null,
       "rawText": "C2208/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/110/3117N03443E004 A) LLLL B) 2610230500 C) 2610231100 E) PJE AIRSPACE TEIMAN ACT FM 11,000FT AMSL. IN CASE OF EMERG CLEAR THE AIRSPACE WI 5MIN. CTN ADZ. F) GND G) 11000FT AMSL)",
       "rowID": "2072457"
-    },
-    {
-      "id": "A0842/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-21T14:00:00.000Z",
-      "toDate": "2026-10-22T23:59:00.000Z",
-      "qLine": null,
-      "eText": "ATS RTE J14 CLSD BTN ZACCI-MEGID.",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0842/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /050/060/3230N03510E008 A) LLLL B) 2610211400 C) 2610222359 E) ATS RTE J14 CLSD BTN ZACCI-MEGID.)",
-      "rowID": "2072230"
     },
     {
       "id": "C2206/26",
