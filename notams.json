@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-23T03:00:30.536Z",
+  "generatedAt": "2026-10-23T03:30:29.537Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 131,
+  "count": 129,
   "notams": [
     {
       "id": "C2256/26",
@@ -3112,133 +3112,6 @@
       "replaces": null,
       "rawText": "C2181/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3236N03514E005 A) LLMG B) 2611260001 C) 2612092359 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 HEL LDG AND TAX PROCEDURES UPDATED.)",
       "rowID": "2071336"
-    },
-    {
-      "id": "C2175/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T19:00:00.000Z",
-      "toDate": "2026-10-23T03:20:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "025",
-        "upperLimitFl": "030",
-        "position": {
-          "lat": 32.783333,
-          "lon": 35.483333,
-          "radiusNm": 7,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD DESHE-TAVOR.",
-      "position": {
-        "lat": 32.783333,
-        "lon": 35.483333,
-        "radiusNm": 7,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2175/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3247N03529E007 A) LLLL B) 2610181900 C) 2610230320 D) DAILY 1900-2359 0001-0320 E) CVFR RTE CLSD DESHE-TAVOR.)",
-      "rowID": "2070288",
-      "geometry": {
-        "source": "route",
-        "parts": [
-          {
-            "type": "line",
-            "coords": [
-              [
-                32.87,
-                35.5325
-              ],
-              [
-                32.83984,
-                35.51277
-              ],
-              [
-                32.69028,
-                35.42
-              ]
-            ],
-            "leg": "DESHE-TAVOR",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          }
-        ],
-        "anchor": [
-          32.780318,
-          35.475849
-        ]
-      }
-    },
-    {
-      "id": "C2174/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-18T19:00:00.000Z",
-      "toDate": "2026-10-23T03:20:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "040",
-        "position": {
-          "lat": 32.75,
-          "lon": 35.466667,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA AT YAVNEEL FM GND UP TO 4,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 324722N0352936E 324329N0353043E 324244N0352611E 324617N0352620E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ.",
-      "position": {
-        "lat": 32.75,
-        "lon": 35.466667,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2174/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/040/3245N03528E003 A) LLLL B) 2610181900 C) 2610230320 D) DAILY 1900-2359 0001-0320 E) AN AREA AT YAVNEEL FM GND UP TO 4,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 324722N0352936E 324329N0353043E 324244N0352611E 324617N0352620E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ.)",
-      "rowID": "2070286",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                32.789444,
-                35.493333
-              ],
-              [
-                32.724722,
-                35.511944
-              ],
-              [
-                32.712222,
-                35.436389
-              ],
-              [
-                32.771389,
-                35.438889
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.749444,
-          35.470139
-        ]
-      }
     },
     {
       "id": "A0833/26",
