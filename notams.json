@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-23T02:00:31.225Z",
+  "generatedAt": "2026-10-23T02:30:37.419Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 132,
+  "count": 131,
   "notams": [
     {
       "id": "C2256/26",
@@ -3787,57 +3787,6 @@
       "replaces": null,
       "rawText": "A0824/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3249N03503E005 A) LLHA B) 2611030625 C) 2611031100 D) 0625-0825 0930-1100 E) AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.)",
       "rowID": "2069441"
-    },
-    {
-      "id": "C2137/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-19T16:00:00.000Z",
-      "toDate": "2026-10-23T02:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWCLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 33.1,
-          "lon": 35.583333,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL",
-      "position": {
-        "lat": 33.1,
-        "lon": 35.583333,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2137/26 NOTAMN Q) LLLL/QWCLW/IV/M /W /000/020/3306N03535E001 A) LLLL B) 2610191600 C) 2610230200 D) DAILY 0001-0200 1600-2359 E) CAPTIVE BALLOON WILL TAKE PLACE AT HACHULA-LAKE DRG NGT, FM GND UP TO 400M AGL. LIT AND DAY MARKED. AN AREA WI 0.54NM RADIUS CENTERED ON PSN 330622N0353454E CLSD FM GND UP TO 2,000FT AMSL. IN CASE OF EMERG LOWERED WI 10MIN. CTN ADZ. F) GND G) 2000FT AMSL)",
-      "rowID": "2069073",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              33.106111,
-              35.581667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          33.106111,
-          35.581667
-        ]
-      }
     },
     {
       "id": "A0820/26",
