@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.07.062 · built by eligrt
+     AirNotam-ISR · v1.07.063 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -535,7 +535,7 @@ html,body{height:100%;height:var(--app-h,100%);background:var(--paper-hi);font-f
 
 /* ── LIST ── */
 .list{flex:1;padding:12px 14px 20px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;position:relative;overscroll-behavior:contain;}
-/* v1.07.062: warning strip above the list while the data source certificate could not be verified (notams.json tlsVerified:false) */
+/* v1.07.063: warning strip above the list while the data source certificate could not be verified (notams.json tlsVerified:false) */
 .tls-warn{flex-shrink:0;display:flex;align-items:flex-start;gap:8px;padding:8px 14px;background:#fbe9c8;border-bottom:1.5px solid var(--amber);color:#6b4a0a;font-size:12.5px;line-height:1.45;}
 .tls-warn[hidden]{display:none;}
 .tls-warn svg{flex:none;width:18px;height:18px;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
@@ -1463,10 +1463,14 @@ body.wide .spl{position:fixed}
   --lsa-hdr-min:58px;                                   /* navy header content height */
   --lsa-foot-h:33px;                                    /* footer content height */
   --lsa-foot-pad:max(8px,calc(env(safe-area-inset-bottom,0px) - 16px)); /* sits low, clear of the home bar */
+  --lsa-navy:#1c3d6e;                                   /* body/html background: colours the iPhone status bar fade */
+  --lsa-hdr-extra:min(12px,env(safe-area-inset-top,0px)); /* 12px on iPhone only, 0 on desktop and browser tabs */
 }
 *{overscroll-behavior:none;}                            /* no rubber-band, no scroll chaining */
 html,body{overscroll-behavior:none;}
-.lsa-hdr{box-sizing:border-box;min-height:calc(var(--lsa-hdr-min) + env(safe-area-inset-top,0px));padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:10px;}
+body{background:var(--lsa-navy);}                       /* app containers must carry their own paper background */
+@media (max-width:599px){html{background:var(--lsa-navy);}}
+.lsa-hdr{box-sizing:border-box;min-height:calc(var(--lsa-hdr-min) + env(safe-area-inset-top,0px) + var(--lsa-hdr-extra));padding-top:calc(10px + env(safe-area-inset-top,0px) + var(--lsa-hdr-extra));padding-bottom:10px;}
 .lsa-foot{box-sizing:border-box;flex:0 0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;direction:ltr;
   height:calc(var(--lsa-foot-h) + var(--lsa-foot-pad));padding:0 12px var(--lsa-foot-pad);margin:0;
   background:var(--paper-hi,#fbf6e8);border-top:1px solid var(--gold-lite,#d4b878);
@@ -1488,14 +1492,29 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
 .hdr-clock>.hdr-clock-lbl,.strip-clock>.strip-clock-lbl{order:2;font-size:9px!important;line-height:1;letter-spacing:.22em;margin:0!important;}
 .hdr-clock>:not(.hdr-clock-lbl),.strip-clock>:not(.strip-clock-lbl){order:1;}
 .hdr-clock-row{display:flex;flex-direction:column-reverse!important;align-items:center!important;gap:3px!important;}
+/* header family v2: icon+name LEFT, optional middle, UTC RIGHT (add class hdr-fam next to lsa-hdr) */
+.hdr-fam{direction:ltr!important;display:flex;justify-content:space-between;align-items:center;background:var(--ink);padding-left:16px;padding-right:16px;gap:6px}
+.hdr-fam .hdr-rail{display:flex;align-items:center;gap:10px;min-width:0}
+.hdr-fam .hdr-glyph{display:block;width:38px;height:38px;flex:0 0 38px;border-radius:9px;overflow:hidden;border:1px solid var(--gold);background:var(--paper)}
+.hdr-fam .hdr-glyph img{width:100%;height:100%;display:block;object-fit:cover}
+.hdr-fam .hdr-title{direction:ltr;text-align:left}
+.hdr-fam .hdr-title h1{font-size:16.5px;line-height:1.25;font-weight:700;letter-spacing:-.1px;color:var(--paper);margin:0;white-space:nowrap}
+.hdr-fam .hdr-title p{color:var(--gold-lite);font-weight:500;margin:1px 0 0;line-height:1.3;font-size:10.5px}
+.hdr-fam .hdr-clock{color:var(--paper);font-family:var(--font-mono,monospace);direction:ltr;flex:0 0 auto}
+.hdr-fam .hdr-utc{font-size:21px;font-weight:700;line-height:1}
 /* fonts pinned in every app: header text IBM Plex Sans Hebrew, clock and footer JetBrains Mono */
 .hdr-fam .hdr-title h1,.hdr-fam .hdr-title p{font-family:'IBM Plex Sans Hebrew',sans-serif}
 .hdr-fam .hdr-clock,.hdr-fam .hdr-utc,.hdr-fam .hdr-clock-lbl{font-family:'JetBrains Mono',monospace}
 .lsa-foot,.lsa-foot-ver,.lsa-foot-slot{font-family:'JetBrains Mono',monospace}
 .lsa-foot-reload{font-family:'IBM Plex Sans Hebrew',sans-serif}
+.lsa-hdr.hdr-fam .hdr-clock-lbl{font-size:9px;letter-spacing:.22em;opacity:.75}
+/* LSA-ALIGN v1 END */
 .strip .hdr-title h1,.strip .hdr-title p{font-family:'IBM Plex Sans Hebrew',sans-serif}
 .strip .hdr-title h1{letter-spacing:-.1px}
-/* LSA-ALIGN v1 END */
+/* v1.07.063: desktop keeps the light frame beside the 430px column (app-specific, outside the shared block) */
+@media (min-width:600px){body{background:var(--paper-hi);}}
+/* v1.07.063: while the cream splash is up, html/body are cream so the iPhone status bar fade is cream, not navy (navy again as the splash starts fading) */
+html:has(.spl.show:not(.out)),body:has(.spl.show:not(.out)){background:var(--paper);}
 /* LSA header family: strip */
 .strip.lsa-hdr{padding-left:16px;padding-right:16px;direction:ltr;}
 .strip .strip-clock{margin:0}
@@ -1552,7 +1571,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.062 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.07.063 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1720,7 +1739,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.062 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.07.063 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2672,7 +2691,7 @@ function famIs(e,k){
   if(k==="ringQ") return !sh;
   if(k==="strip") return !!sh && (sh.source==="border" || P.some(p=>p.role==="strip"));   // v1.05.013T: + the Gaza border strip (C1825)
   if(k==="leg") return !!sh && sh.source==="route";      // v1.05.006T
-  if(k==="bubble") return !!sh && sh.source==="bubble";   // v1.07.062: ultralight bubble polygons (gis/bubbles.json)
+  if(k==="bubble") return !!sh && sh.source==="bubble";   // v1.07.063: ultralight bubble polygons (gis/bubbles.json)
   if(k==="flag") return !!(e.raw&&e.raw.geometryFlag);    // v1.05.008T
   if(k==="mism") return !!(sh&&sh.mismatch);              // v1.06.036
   if(k==="poly" && sh && sh.source==="named") return true;           // v1.05.012T: named airspace (CTR, LLR...) is a polygon
@@ -3083,7 +3102,7 @@ function updTidy(){
 }
 function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
   return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
-// v1.07.062: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
+// v1.07.063: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
 function tlsBanner(v){ const el=document.getElementById("tlsWarn"); if(el) el.hidden = (v!==false); }
 function applyData(data,save,savedAt,later){
   if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
@@ -4145,7 +4164,7 @@ function gisHtml(ll){
 }
 // iPhone home-screen app: iOS can report a viewport shorter than the screen → size the app to the real screen
 try{ if(window.navigator.standalone===true) document.body.classList.add("ios-sa"); }catch(e){}   // v1.06.035: iPhone home-screen app
-function setAppHeight(){   // v1.07.062: full-height fix, same as AirATIS/AirCheck: in an iPhone home-screen app innerHeight is shorter than the real screen and leaves a gap under the footer
+function setAppHeight(){   // v1.07.063: full-height fix, same as AirATIS/AirCheck: in an iPhone home-screen app innerHeight is shorter than the real screen and leaves a gap under the footer
   const ios=window.navigator.standalone===true;
   const h=ios?Math.max(window.innerHeight,screen.height):window.innerHeight;
   document.documentElement.style.setProperty("--app-h",h+"px");
@@ -4344,7 +4363,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.07.062 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.07.063 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4354,7 +4373,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.07.062 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.07.063 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
