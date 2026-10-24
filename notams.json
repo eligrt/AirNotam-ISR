@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-24T19:00:30.804Z",
+  "generatedAt": "2026-10-24T19:30:30.117Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 129,
+  "count": 128,
   "notams": [
     {
       "id": "A0848/26",
@@ -1975,57 +1975,6 @@
         "anchor": [
           32.850856,
           35.725468
-        ]
-      }
-    },
-    {
-      "id": "C2223/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-24T16:00:00.000Z",
-      "toDate": "2026-10-24T19:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWSLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "008",
-        "position": {
-          "lat": 31.916667,
-          "lon": 34.916667,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA WI 1KM RADIUS CENTERED ON PSN 315455N0345500E AT GEZER POWER PLANT CLSD FM GND UP TO 800FT AMSL, DUE TO GAS EMISSION. CTN ADZ. F) GND G) 800FT AMSL",
-      "position": {
-        "lat": 31.916667,
-        "lon": 34.916667,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2223/26 NOTAMN Q) LLLL/QWSLW/IV/M /W /000/008/3155N03455E001 A) LLLL B) 2610241600 C) 2610241900 E) AN AREA WI 1KM RADIUS CENTERED ON PSN 315455N0345500E AT GEZER POWER PLANT CLSD FM GND UP TO 800FT AMSL, DUE TO GAS EMISSION. CTN ADZ. F) GND G) 800FT AMSL)",
-      "rowID": "2072851",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.915278,
-              34.916667
-            ],
-            "radiusNm": 0.54
-          }
-        ],
-        "anchor": [
-          31.915278,
-          34.916667
         ]
       }
     },
