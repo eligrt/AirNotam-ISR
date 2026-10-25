@@ -1,11 +1,138 @@
 {
-  "generatedAt": "2026-10-25T14:30:30.213Z",
+  "generatedAt": "2026-10-25T15:00:30.855Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 130,
+  "count": 131,
   "notams": [
+    {
+      "id": "C2269/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "010",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 32.716667,
+          "lon": 34.966667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "HEL RTE CLSD GALIM-DAROM-ATLIT-HASID. ATLIT-FRDIS. HOTRM-LLLV. FRDIS-LLLV. SDTYM-LLLV.",
+      "position": {
+        "lat": 32.716667,
+        "lon": 34.966667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2269/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /010/025/3243N03458E008 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) HEL RTE CLSD GALIM-DAROM-ATLIT-HASID. ATLIT-FRDIS. HOTRM-LLLV. FRDIS-LLLV. SDTYM-LLLV.)",
+      "rowID": "2074111",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.84227,
+                34.96057
+              ],
+              [
+                32.82561,
+                34.94268
+              ],
+              [
+                32.79611,
+                34.94333
+              ]
+            ],
+            "leg": "GALIM-DAROM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.79611,
+                34.94333
+              ],
+              [
+                32.69778,
+                34.91528
+              ]
+            ],
+            "leg": "DAROM-ATLIT",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.69778,
+                34.91528
+              ],
+              [
+                32.74667,
+                35.07778
+              ]
+            ],
+            "leg": "ATLIT-HASID",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.69778,
+                34.91528
+              ],
+              [
+                32.59194,
+                34.94639
+              ]
+            ],
+            "leg": "ATLIT-FRDIS",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          }
+        ],
+        "anchor": [
+          32.722225,
+          34.99653
+        ],
+        "missing": [
+          "HOTRM-LLLV",
+          "FRDIS-LLLV",
+          "SDTYM-LLLV"
+        ]
+      },
+      "geometryFlag": {
+        "kind": "legs missing",
+        "reason": "route legs not in the GIS: HOTRM-LLLV, FRDIS-LLLV, SDTYM-LLLV"
+      }
+    },
     {
       "id": "C2268/26",
       "location": "LLLL",
