@@ -1,11 +1,144 @@
 {
-  "generatedAt": "2026-10-25T13:30:31.492Z",
+  "generatedAt": "2026-10-25T14:00:33.407Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 126,
+  "count": 128,
   "notams": [
+    {
+      "id": "C2264/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "005",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 32.566667,
+          "lon": 34.416667,
+          "radiusNm": 34,
+          "source": "q_line"
+        }
+      },
+      "eText": "HEL RTE CLSD GALIM-SUVAS. GALIM-KONFO. GALIM-DAFNA. GALIM-MERVA. GALIM-INBAR.",
+      "position": {
+        "lat": 32.566667,
+        "lon": 34.416667,
+        "radiusNm": 34,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2264/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /005/015/3234N03425E034 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) HEL RTE CLSD GALIM-SUVAS. GALIM-KONFO. GALIM-DAFNA. GALIM-MERVA. GALIM-INBAR.)",
+      "rowID": "2074090",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.16944,
+                33.9925
+              ]
+            ],
+            "leg": "GALIM-SUVAS",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.42833,
+                34.11556
+              ]
+            ],
+            "leg": "GALIM-KONFO",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.54333,
+                34.23
+              ]
+            ],
+            "leg": "GALIM-DAFNA",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.78167,
+                34.54389
+              ]
+            ],
+            "leg": "GALIM-MERVA",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          }
+        ],
+        "anchor": [
+          32.505275,
+          34.486805
+        ],
+        "missing": [
+          "GALIM-INBAR"
+        ]
+      },
+      "geometryFlag": {
+        "kind": "legs missing",
+        "reason": "route legs not in the GIS: GALIM-INBAR"
+      }
+    },
+    {
+      "id": "A0849/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": null,
+      "eText": "ATS RTE CLSD P68 BTN GALIM-MERVA. Q17 BTN ATLIT-ZAHAV. J15 NAT-ATLIT. Q28 GALIM-ATLIT.",
+      "position": null,
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0849/26 NOTAMN Q) LLLL/QANLC/I /NBO/E /030/120/3235N03448E018 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) ATS RTE CLSD P68 BTN GALIM-MERVA. Q17 BTN ATLIT-ZAHAV. J15 NAT-ATLIT. Q28 GALIM-ATLIT.)",
+      "rowID": "2074089"
+    },
     {
       "id": "C2263/26",
       "location": "LLLV",
