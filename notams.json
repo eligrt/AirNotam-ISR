@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-25T00:00:31.679Z",
+  "generatedAt": "2026-10-25T00:30:30.109Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 128,
+  "count": 127,
   "notams": [
     {
       "id": "A0848/26",
@@ -3851,40 +3851,6 @@
       "replaces": null,
       "rawText": "A0798/26 NOTAMN Q) LLLL/QOATT/IV/BO /E /000/999/3123N03515E999 A) LLLL B) 2610290001 C) 2611112159 E) TRIGGER NOTAM - NIL AIRAC AIP AMDT WEF 29 OCT 2026.)",
       "rowID": "2066031"
-    },
-    {
-      "id": "A0787/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-09-24T14:28:00.000Z",
-      "toDate": "2026-10-24T23:59:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RESTRICTIONS OF LDG 4 ENGINE ACFT WI LLBG TEMPO WITHDRAWN.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "R",
-      "replaces": "A0670/26",
-      "rawText": "A0787/26 NOTAMR A0670/26 Q) LLLL/QFALT/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2609241428 C) 2610242359 E) RESTRICTIONS OF LDG 4 ENGINE ACFT WI LLBG TEMPO WITHDRAWN.)",
-      "rowID": "2062334"
     },
     {
       "id": "C2024/26",
