@@ -1,11 +1,163 @@
 {
-  "generatedAt": "2026-10-25T13:00:31.814Z",
+  "generatedAt": "2026-10-25T13:30:31.492Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 123,
+  "count": 126,
   "notams": [
+    {
+      "id": "C2263/26",
+      "location": "LLLV",
+      "locationDescription": "Lavi",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.6,
+          "lon": 34.8,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSRRIP CLSD.",
+      "position": {
+        "lat": 32.6,
+        "lon": 34.8,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2263/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3236N03448E005 A) LLLV B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) AIRSRRIP CLSD.)",
+      "rowID": "2074088"
+    },
+    {
+      "id": "C2262/26",
+      "location": "LLBO",
+      "locationDescription": "Habonim",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.65,
+          "lon": 34.933333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AIRSTRIP CLSD TO ALL FLT.",
+      "position": {
+        "lat": 32.65,
+        "lon": 34.933333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2262/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3239N03456E005 A) LLBO B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) AIRSTRIP CLSD TO ALL FLT.)",
+      "rowID": "2074083"
+    },
+    {
+      "id": "C2261/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "120",
+        "position": {
+          "lat": 32.833333,
+          "lon": 34.633333,
+          "radiusNm": 22,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA BTN FLW PSN CLSD TO ALL FLT, FM GND UP TO 12,000FT AMSL 323334N0345409E 324716N0345650E 324734N0345630E 324938N0345558E 330007N0345704E 330423N0344903E 330539N0342818E 330607N0342135E 324029N0341802E CTN ADZ.",
+      "position": {
+        "lat": 32.833333,
+        "lon": 34.633333,
+        "radiusNm": 22,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2261/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/120/3250N03438E022 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) AN AREA BTN FLW PSN CLSD TO ALL FLT, FM GND UP TO 12,000FT AMSL 323334N0345409E 324716N0345650E 324734N0345630E 324938N0345558E 330007N0345704E 330423N0344903E 330539N0342818E 330607N0342135E 324029N0341802E CTN ADZ.)",
+      "rowID": "2074082",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.559444,
+                34.9025
+              ],
+              [
+                32.787778,
+                34.947222
+              ],
+              [
+                32.792778,
+                34.941667
+              ],
+              [
+                32.827222,
+                34.932778
+              ],
+              [
+                33.001944,
+                34.951111
+              ],
+              [
+                33.073056,
+                34.8175
+              ],
+              [
+                33.094167,
+                34.471667
+              ],
+              [
+                33.101944,
+                34.359722
+              ],
+              [
+                32.674722,
+                34.300556
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.879228,
+          34.73608
+        ]
+      }
+    },
     {
       "id": "C2260/26",
       "location": "LLLL",
