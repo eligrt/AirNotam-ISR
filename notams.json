@@ -1,11 +1,253 @@
 {
-  "generatedAt": "2026-10-25T14:00:33.407Z",
+  "generatedAt": "2026-10-25T14:30:30.213Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 128,
+  "count": 130,
   "notams": [
+    {
+      "id": "C2268/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "010",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 32.716667,
+          "lon": 34.966667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD DAROM-HOTRM-BOREN-FRDIS.",
+      "position": {
+        "lat": 32.716667,
+        "lon": 34.966667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2268/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /010/025/3243N03458E008 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) ULTRALIGHT RTE CLSD DAROM-HOTRM-BOREN-FRDIS.)",
+      "rowID": "2074110",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.79611,
+                34.94333
+              ],
+              [
+                32.75381,
+                34.93693
+              ]
+            ],
+            "leg": "DAROM-HOTRM",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.75381,
+                34.93693
+              ],
+              [
+                32.71436,
+                34.97077
+              ]
+            ],
+            "leg": "HOTRM-BOREN",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.71441,
+                34.97082
+              ],
+              [
+                32.69822,
+                34.96757
+              ],
+              [
+                32.69383,
+                34.96549
+              ],
+              [
+                32.68363,
+                34.96172
+              ],
+              [
+                32.67884,
+                34.96128
+              ],
+              [
+                32.65059,
+                34.95845
+              ],
+              [
+                32.63093,
+                34.95748
+              ],
+              [
+                32.61956,
+                34.95506
+              ],
+              [
+                32.59712,
+                34.94923
+              ],
+              [
+                32.59194,
+                34.94639
+              ]
+            ],
+            "leg": "BOREN-FRDIS",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          32.653119,
+          34.958703
+        ]
+      }
+    },
+    {
+      "id": "C2267/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-10-28T07:45:00.000Z",
+      "toDate": "2026-10-28T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "010",
+        "upperLimitFl": "025",
+        "position": {
+          "lat": 32.716667,
+          "lon": 34.966667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD GALIM-DAROM-HOTRM-BOREN-FRDIS.",
+      "position": {
+        "lat": 32.716667,
+        "lon": 34.966667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2267/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /010/025/3243N03458E008 A) LLLL B) 2610280745 C) 2610281330 D) 0745-1030 1230-1330 E) CVFR RTE CLSD GALIM-DAROM-HOTRM-BOREN-FRDIS.)",
+      "rowID": "2074107",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                32.84227,
+                34.96057
+              ],
+              [
+                32.82561,
+                34.94268
+              ],
+              [
+                32.79611,
+                34.94333
+              ]
+            ],
+            "leg": "GALIM-DAROM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.79611,
+                34.94333
+              ],
+              [
+                32.75381,
+                34.93693
+              ]
+            ],
+            "leg": "DAROM-HOTRM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.75381,
+                34.93693
+              ],
+              [
+                32.71436,
+                34.97077
+              ]
+            ],
+            "leg": "HOTRM-BOREN",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.71436,
+                34.97077
+              ],
+              [
+                32.62785,
+                34.9572
+              ],
+              [
+                32.59194,
+                34.94639
+              ]
+            ],
+            "leg": "BOREN-FRDIS",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          32.652736,
+          34.961104
+        ]
+      }
+    },
     {
       "id": "C2264/26",
       "location": "LLLL",
