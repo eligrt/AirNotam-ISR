@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-25T05:30:31.568Z",
+  "generatedAt": "2026-10-25T06:00:29.936Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 126,
+  "count": 125,
   "notams": [
     {
       "id": "A0848/26",
@@ -555,66 +555,6 @@
         "anchor": [
           30.580835,
           34.87625
-        ]
-      }
-    },
-    {
-      "id": "C2246/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-26T04:00:00.000Z",
-      "toDate": "2026-10-26T06:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWLLW",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "050",
-        "position": {
-          "lat": 30.6,
-          "lon": 34.833333,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "HOT-AIR BALLOON WILL TAKE PLACE AT MAKHTESH-RAMON. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 5,000FT AMSL 303545N0345233E 303648N0344723E 303759N0344956E. CTN ADZ. F) GND G) 5000FT AMSL",
-      "position": {
-        "lat": 30.6,
-        "lon": 34.833333,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2246/26 NOTAMN Q) LLLL/QWLLW/IV/NBO/W /000/050/3036N03450E003 A) LLLL B) 2610260400 C) 2610260630 E) HOT-AIR BALLOON WILL TAKE PLACE AT MAKHTESH-RAMON. AN AREA BTN THE FLW PSN CLSD FM GND UP TO 5,000FT AMSL 303545N0345233E 303648N0344723E 303759N0344956E. CTN ADZ. F) GND G) 5000FT AMSL)",
-      "rowID": "2072923",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                30.595833,
-                34.875833
-              ],
-              [
-                30.613333,
-                34.789722
-              ],
-              [
-                30.633056,
-                34.832222
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          30.614074,
-          34.832593
         ]
       }
     },
