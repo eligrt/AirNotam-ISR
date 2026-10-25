@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-25T10:00:30.794Z",
+  "generatedAt": "2026-10-25T10:30:33.377Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 125,
+  "count": 123,
   "notams": [
     {
       "id": "A0848/26",
@@ -2698,40 +2698,6 @@
       "rowID": "2071336"
     },
     {
-      "id": "A0833/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-10-25T06:00:00.000Z",
-      "toDate": "2026-10-25T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QNMAS",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 31.283333,
-          "lon": 34.716667,
-          "radiusNm": 25,
-          "source": "q_line"
-        }
-      },
-      "eText": "VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.",
-      "position": {
-        "lat": 31.283333,
-        "lon": 34.716667,
-        "radiusNm": 25,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0833/26 NOTAMN Q) LLLL/QNMAS/IV/BO /E /000/999/3117N03443E025 A) LLLL B) 2610250600 C) 2610251000 E) VOR/DME BSA FREQ 114.300MHZ WITHDRAWN FOR MAINT.)",
-      "rowID": "2070258"
-    },
-    {
       "id": "C2154/26",
       "location": "LLRS",
       "locationDescription": "Rishon Letzion",
@@ -3259,40 +3225,6 @@
       "replaces": "A0819/26",
       "rawText": "A0820/26 NOTAMR A0819/26 Q) LLLL/QPOCH/I /NBO/A /000/999/2944N03501E005 A) LLER B) 2610111418 C) PERM E) LNAV/VNAV OCA(H) FOR RNP RWY 19 (MAP GRADIENT 2.5 PERCENTAGE) CHG TO 730(460) FOR ALL CAT. ISRAEL AIP, PART AD, CHART AD 2 LLER IAC-19RNP. REF.)",
       "rowID": "2068751"
-    },
-    {
-      "id": "C2097/26",
-      "location": "LLIB",
-      "locationDescription": "Rosh-Pina",
-      "fromDate": "2026-10-25T07:00:00.000Z",
-      "toDate": "2026-10-25T10:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALT",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.983333,
-          "lon": 35.566667,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AD CLSD TO ALL FLT, DUE WIP. OPS OF HEL AVBL BY PPR FM ATC. IN CASE OF EMERG OR MEDEVAC HEL AVBL WI 10MIN.",
-      "position": {
-        "lat": 32.983333,
-        "lon": 35.566667,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2097/26 NOTAMN Q) LLLL/QFALT/IV/NBO/A /000/999/3259N03534E005 A) LLIB B) 2610250700 C) 2610251000 E) AD CLSD TO ALL FLT, DUE WIP. OPS OF HEL AVBL BY PPR FM ATC. IN CASE OF EMERG OR MEDEVAC HEL AVBL WI 10MIN.)",
-      "rowID": "2066789"
     },
     {
       "id": "C2095/26",
