@@ -1,95 +1,11 @@
 {
-  "generatedAt": "2026-10-25T11:00:31.016Z",
+  "generatedAt": "2026-10-25T11:30:29.830Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 123,
+  "count": 121,
   "notams": [
-    {
-      "id": "A0848/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-25T09:00:00.000Z",
-      "toDate": "2026-10-25T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOBCE",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "AE",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "003",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.9,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CRANE ERECTED WI LLBG CTR, AT Q APRON. ON PSN 320114.84N0345352.36E FM GND UP TO 81M 265FT AGL. CTN ADZ.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.9,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0848/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/003/3201N03454E001 A) LLBG B) 2610250900 C) 2610251100 E) CRANE ERECTED WI LLBG CTR, AT Q APRON. ON PSN 320114.84N0345352.36E FM GND UP TO 81M 265FT AGL. CTN ADZ.)",
-      "rowID": "2073607",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "point",
-            "coord": [
-              32.020789,
-              34.897878
-            ]
-          }
-        ],
-        "anchor": [
-          32.020789,
-          34.897878
-        ]
-      }
-    },
-    {
-      "id": "A0847/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-10-25T09:00:00.000Z",
-      "toDate": "2026-10-25T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0847/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2610250900 C) 2610251100 E) RWY 21 CLSD FOR LDG, DUE CRANE ON FINAL 21. IN CASE OF EMERG LOWERED WI 30MIN.)",
-      "rowID": "2073606"
-    },
     {
       "id": "C2256/26",
       "location": "LLLL",
