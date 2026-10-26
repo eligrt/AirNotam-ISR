@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.032 · built by eligrt
+     AirNotam-ISR · v1.08.034 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1553,7 +1553,8 @@ body.lv #list{padding-top:62px;}
 @media (prefers-reduced-motion:reduce){.mb-b.pulse::after,.mb-rv.pulse::after{animation:none;opacity:.9;transform:none;}}
 .mb-b,.mb-rv{position:absolute;width:44px;height:44px;border-radius:50%;box-sizing:border-box;background:rgba(251,246,232,.96);border:1.5px solid #1c3d6e;color:#1c3d6e;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(14,35,72,.3);padding:0;cursor:pointer;font-family:var(--font-ui);}
 .mb-b:active,.mb-rv:active{filter:brightness(.92);}
-.mb-b.on{border-width:3px;background:#d6e3f5;color:#1c3d6e;}   /* v1.08.032: active = thicker navy border + light blue tint */
+.mb-b.on{border-width:3px;background:#d6e3f5;color:#1c3d6e;}
+.mb-b.cust{border-style:dashed;}   /* v1.08.034: a custom time range = same blue, dashed border */   /* v1.08.034: active = thicker navy border + light blue tint */
 .mb-t{position:absolute;bottom:-3px;white-space:nowrap;background:#1c3d6e;color:#f4ecdc;font:800 9px var(--font-mono);border-radius:8px;padding:1px 4px;letter-spacing:.02em;pointer-events:none;transform:translateX(-50%);}
 .mb-t-r{left:calc(50% + 10px);} .mb-t-l{left:calc(50% - 10px);} .mb-t-c{left:50%;}
 .mb-b.grey .mb-t{background:#7b8794;}
@@ -1653,6 +1654,8 @@ body.lv #list{padding-top:62px;}
 #tFields>.tf-in{min-height:0;overflow:hidden;}
 .tf-box{border-top:1px solid rgba(14,35,72,.12);padding:12px 18px 14px;display:flex;flex-direction:column;gap:6px;}
 .tf-box label{font-size:13px;font-weight:700;color:#0e2348;}
+.tf-box input[type=datetime-local]::-webkit-date-and-time-value{display:flex;align-items:center;justify-content:center;height:100%;min-height:0;margin:0;padding:0;line-height:normal;text-align:center;}   /* v1.08.034: the date text sits in the middle of the field on iPhone */
+.tf-box input[type=datetime-local]::-webkit-datetime-edit{display:flex;align-items:center;justify-content:center;height:100%;padding:0;}
 .tf-box input[type=datetime-local]{width:100%;min-width:0;box-sizing:border-box;height:44px;border:1px solid #e3d4ad;border-radius:8px;background:#fff;padding:0 10px;font-family:var(--font-ui);font-size:15px;color:#1a1308;direction:ltr;-webkit-appearance:none;appearance:none;display:block;}
 .tf-box input.bad{border-color:var(--stamp-red);box-shadow:0 0 0 3px rgba(185,74,58,.28);}
 .tf-box .ferr{font-size:12.5px;color:var(--stamp-red);font-weight:600;display:none;}
@@ -1772,7 +1775,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.032 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.034 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1938,7 +1941,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.032 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.034 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -4579,7 +4582,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.032 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.034 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4589,7 +4592,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.032 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.034 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4678,7 +4681,7 @@ function stressToggle(){
 // RV.maps = map NOTAMים in order along the route (no route: north to south), RV.cards = no-position NOTAMים, RV.list = both, in review order
 const RV={on:false,maps:[],cards:[],list:[],i:-1,lock:false,done:false,shown:null,t:null,lay:null,glow:null,th:300};
 let RV_CARDS=false;   // kept for the old summary notice
-const RV_PAUSE=1000;   // v1.08.032: how long the chosen answer stays visible before the next NOTAM
+const RV_PAUSE=1000;   // v1.08.034: how long the chosen answer stays visible before the next NOTAM
 let RV_HINT=true;     // the "next one opens by itself" hint is gone
 const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
 function rvHintSeen(){}
@@ -4839,7 +4842,7 @@ const RV_CHEV_L='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6
 const RV_IC_OK='<svg class="rv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#fbf6e8" stroke="#b94a3a" stroke-width="2.4" stroke-dasharray="4.2 3"/></svg>';
 const RV_IC_NO='<svg class="rv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#e4e1da" stroke="#6b6b6b" stroke-width="2.4" stroke-dasharray="1.2 3.6" stroke-linecap="round"/></svg>';
 const RV_BDG='<i class="rv-bdg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></i>';
-function rvActs(st){   // v1.08.032: the same two equal buttons always; the chosen one carries a small navy check, tapping it again clears the answer
+function rvActs(st){   // v1.08.034: the same two equal buttons always; the chosen one carries a small navy check, tapping it again clears the answer
   const ok=st==="ok", no=st==="irr";
   return `<button class="c-act c-hide${no?" rv-sel":""}" onclick="rvAct('${no?"un":"irr"}',this)">${no?RV_BDG:""}${RV_IC_NO}לא רלוונטי לי</button><button class="c-act c-ok${ok?" rv-sel":""}" onclick="rvAct('${ok?"un":"ok"}',this)">${ok?RV_BDG:""}${RV_IC_OK}קראתי</button>`;
 }
@@ -4998,7 +5001,7 @@ function mbSync(){
   const R=READY, all= hasR? R.done>=R.total : R.total>0&&R.done>=R.total;   // v1.08.030: with a route and nothing on it: green REVIEWED, 0
   q("mbRv").classList.toggle("done",all); q("mbRvT").textContent= all? "REVIEWED":"REVIEW";
   q("mbRvN").textContent=R.total; q("mbRvN").hidden=!(R.total||hasR);   // v1.08.030: the number is every NOTAM on the route
-  q("mbDraw").classList.toggle("on",hasR); q("mbTime").classList.toggle("on",timeMode==="flight"||H!==24);
+  q("mbDraw").classList.toggle("on",hasR); q("mbTime").classList.toggle("on",timeMode==="flight"||H!==24); q("mbTime").classList.toggle("cust",timeMode==="flight");
   q("mbDraw").classList.toggle("pulse", !hasR && !MB_TAPPED && !DRAWING);
   q("mbRv").classList.toggle("pulse", hasR && R.total>0 && !all && !inRv);
 }
