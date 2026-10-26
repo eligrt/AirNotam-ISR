@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.022 · built by eligrt
+     AirNotam-ISR · v1.08.025 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1627,6 +1627,58 @@ body.lv #list{padding-top:62px;}
 .mb-info .mi1.pr .mt{display:block;transform:translateX(.45px);}
 .mb-info .mi1.pr .mi-ic{vertical-align:baseline;margin:0;flex:none;position:relative;top:-1px;}
 .mb-info .mi1.pr .mi-ic svg{display:block;margin:0 auto;position:relative;top:50%;transform:translateY(-50%);}
+
+/* v1.08.023: stage 2 - route and time popups beside their buttons, new drawing buttons */
+.ppw{display:none;position:absolute;inset:0;z-index:1320;direction:rtl;}
+.ppw:has(.pp.show){display:block;}
+.pp-scrim{position:absolute;inset:0;background:rgba(14,35,72,.22);}
+.pp{position:absolute;left:68px;top:40px;width:272px;max-width:calc(100% - 78px);box-sizing:border-box;background:#fbf6e8;border-radius:18px;box-shadow:0 14px 40px rgba(14,35,72,.35),0 0 0 1px rgba(14,35,72,.12);visibility:hidden;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .16s ease,transform .16s ease,visibility 0s linear .16s;font-family:var(--font-ui);}
+.pp.show{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .16s ease;}
+.pp-arr{position:absolute;left:-7px;top:22px;width:14px;height:14px;background:#fbf6e8;transform:rotate(45deg);box-shadow:-1px 1px 0 rgba(14,35,72,.12);}
+.pp-t{position:relative;font-size:17px;font-weight:700;color:#0e2348;padding:14px 18px 8px;}
+.pp-t.s{padding-bottom:2px;}
+.pp-sub{position:relative;font-size:13px;color:#5a4a3a;padding:0 18px 8px;line-height:1.35;}
+.pp-row{position:relative;display:flex;align-items:center;gap:14px;width:100%;height:56px;box-sizing:border-box;padding:0 18px;border:0;border-top:1px solid rgba(14,35,72,.12);background:#fbf6e8;color:#1c3d6e;font-family:inherit;font-size:16.5px;font-weight:600;text-align:right;cursor:pointer;}
+.pp-row:active{background:#f1e8d0;}
+.pp-row.del{color:#b00020;}
+.pp-row.cl{color:#5a4a3a;font-weight:500;border-radius:0 0 18px 18px;}
+.pp-row svg{flex:none;}
+.pp-row .g{flex:1;}
+.pp-row .ck{opacity:0;}
+.pp-row.on .ck,#wPlan.on #wFlight .ck{opacity:1;}
+#wPlan{border-radius:0 0 18px 18px;overflow:hidden;background:#fbf6e8;}
+#wPlan.on #wFlight{border-radius:0;}
+#tFields{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .35s ease,opacity .25s ease,visibility 0s linear .35s;}
+#wPlan.on #tFields{grid-template-rows:1fr;opacity:1;visibility:visible;transition:grid-template-rows .35s ease,opacity .3s ease .08s,visibility 0s;}
+#tFields>.tf-in{min-height:0;overflow:hidden;}
+.tf-box{border-top:1px solid rgba(14,35,72,.12);padding:12px 18px 14px;display:flex;flex-direction:column;gap:6px;}
+.tf-box label{font-size:13px;font-weight:700;color:#0e2348;}
+.tf-box input[type=datetime-local]{width:100%;min-width:0;box-sizing:border-box;height:44px;border:1px solid #e3d4ad;border-radius:8px;background:#fff;padding:0 10px;font-family:var(--font-ui);font-size:15px;color:#1a1308;direction:ltr;-webkit-appearance:none;appearance:none;display:block;}
+.tf-box input.bad{border-color:var(--stamp-red);box-shadow:0 0 0 3px rgba(185,74,58,.28);}
+.tf-box .ferr{font-size:12.5px;color:var(--stamp-red);font-weight:600;display:none;}
+.tf-ok{height:46px;border:none;border-radius:10px;background:#c8a04a;color:#0e2348;font-family:inherit;font-size:16px;font-weight:700;margin-top:4px;cursor:pointer;}
+@media (prefers-reduced-motion:reduce){ .pp,.pp.show,#tFields,#wPlan.on #tFields{transition:none;} }
+/* drawing: pill on top, four round buttons in the bottom corners */
+#drawBar.draw-bar{inset:0;left:0;right:0;top:0;bottom:0;width:auto;max-width:none;transform:none;background:none;border-radius:0;padding:0;box-shadow:none;gap:0;pointer-events:none;display:none;}
+#drawBar.draw-bar.show{display:block;}
+#mapside>#drawBar.draw-bar{left:0;right:0;width:auto;transform:none;}
+#drawBar .dr-pill{position:absolute;left:58px;right:58px;top:12px;display:flex;justify-content:center;pointer-events:none;}
+#drawBar .dr-pill span{background:#fbf6e8;border:1.5px solid #1c3d6e;border-radius:14px;padding:3px 12px;font-size:13px;font-weight:700;color:#0e2348;direction:rtl;text-align:center;box-shadow:0 1px 5px rgba(14,35,72,.3);}
+#drawBar .dr-col{position:absolute;bottom:44px;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
+#drawBar .dr-col.l{left:10px;} #drawBar .dr-col.r{right:10px;}
+#drawBar .dr-w{display:flex;flex-direction:column;align-items:center;pointer-events:auto;}
+#drawBar .dr-b{width:44px;height:44px;border-radius:50%;background:rgba(251,246,232,.96);border:1.5px solid #1c3d6e;color:#1c3d6e;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(14,35,72,.3);padding:0;cursor:pointer;}
+#drawBar .dr-b.big{width:58px;height:58px;}
+#drawBar .dr-b.nv{background:#1c3d6e;border-color:#0e2348;color:#f4ecdc;}
+#drawBar .dr-b:active{filter:brightness(.92);}
+#drawBar .dr-b:disabled{opacity:.38;cursor:default;}
+#drawBar .dr-t{font:700 11px var(--font-mono);color:#1c3d6e;text-shadow:0 0 3px #fbf6e8,0 0 3px #fbf6e8,0 0 3px #fbf6e8;margin-top:2px;pointer-events:none;}
+#drawBar .dr-w.off .dr-t{opacity:.5;}
+/* v1.08.024: while drawing the cursor is a crosshair (not the dragging hand); the hand only while the map is really dragged */
+#map.drawing.leaflet-grab,#map.drawing .leaflet-interactive{cursor:crosshair !important;}
+#map.drawing.leaflet-dragging.leaflet-grab{cursor:grabbing !important;}
+/* v1.08.024: zoom level, plain grey italic text under the + / - buttons */
+.zoom-tl{width:34px;margin-top:2px !important;text-align:center;font:italic 600 12px var(--font-mono);color:#4a5058;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff,0 0 2px #fff;pointer-events:none;direction:ltr;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1666,7 +1718,7 @@ body.lv #list{padding-top:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.022 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.025 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1694,6 +1746,8 @@ body.lv #list{padding-top:62px;}
       <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a> · <a id="stressLnk" onclick="stressToggle()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">stress test</a></div>   <!-- v1.06.004; v1.06.033: stress test -->
       <div class="sp-sec new">חלון זמן ברירת מחדל</div>
       <div class="sp-row sp-static"><small>החלון שמוצג כשלא הוגדר טווח שעות מותאם אישית</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24" checked>24 שעות</label><label><input type="radio" name="spwin" value="48">48 שעות</label><label><input type="radio" name="spwin" value="all">הכל</label></div></div>
+      <div class="sp-sec">רוחב המסלול</div>
+      <div class="sp-row sp-static" id="rteCorrBox"><small>עד כמה רחוק מהמסלול לחפש NOTAMים</small><div class="fgrace sp-corr" id="corrSeg"><button type="button" data-c="2">2NM</button><button type="button" data-c="3">3NM</button><button type="button" data-c="5">5NM</button></div></div>
       <div class="sp-sec">רענון</div>
       <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">בדוק NOTAMים חדשים</b><small><span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small><span class="sp-bar"><i></i></span></button>
       <button type="button" class="sp-row" onclick="setReloadApp(this)"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה.</small></button>
@@ -1739,32 +1793,6 @@ body.lv #list{padding-top:62px;}
   <div class="qbar" id="qbar">
     <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
   </div>
-  <div class="fdlg" id="rte" onclick="if(event.target===this)closeCurtain('rte')"><div class="fcard rcard" role="dialog" aria-labelledby="rteTtl">
-    <div class="r-head r-head-inl"><div class="fttl" id="rteTtl">מסלול</div><div class="r-big r-stat" id="rteStat"></div></div>
-    <div class="r-route" id="rdyRoute"></div>
-    <div id="rteCorrBox"><div class="fglbl">עד כמה רחוק מהמסלול לחפש NOTAMים?</div>
-      <div class="fgrace sp-corr" id="corrSeg" style="margin-top:5px"><button data-c="2">2NM</button><button data-c="3">3NM</button><button data-c="5">5NM</button></div></div>
-    <label class="r-opt r-chk r-sw" id="optRouteLbl"><span>הצג במפה רק NOTAMים בקרבת המסלול<small id="optRouteSub">סמן מסלול כדי להפעיל</small></span><input type="checkbox" id="optRoute"></label>
-    <button type="button" class="fgrip" id="g_rte" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
-  </div></div>
-  <div class="fdlg" id="fdlg" onclick="if(event.target===this)skipFlight()"><div class="fcard rcard" role="dialog" aria-labelledby="fdlgTtl">
-    <div><div class="fttl" id="fdlgTtl">מתי אתה טס?</div>
-      <div class="fsub">סנן רק NOTAMים פעילים בטווח השעות הבא</div></div>
-    <div class="tmode" id="wSeg">
-      <button type="button" data-w="24">24 שעות<small></small></button>
-      <button type="button" data-w="48">48 שעות<small></small></button>
-      <button type="button" data-w="all">הכל<small></small></button>
-    </div>
-    <div class="wplan" id="wPlan">
-      <button type="button" id="wFlight" data-w="flight">טווח שעות מותאם אישית</button>
-      <div id="wFields"><div class="wf-in"><div class="wf-row">
-        <label class="fld">המראה (LT)<input type="datetime-local" id="fTkof"></label>
-        <label class="fld">נחיתה (LT)<input type="datetime-local" id="fLdg"></label>
-      </div></div></div>
-    </div>
-    <div class="ferr" id="fErr"></div>
-    <button type="button" class="fgrip" id="fGrip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
-  </div></div>
   <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
     <div class="r-head"><div class="fttl" id="rdyTtl">סקירת ה-NOTAMים</div><div class="r-big" id="rdyBig"></div></div>
     <div class="r-bar"><i id="rdyBar"></i></div>
@@ -1800,13 +1828,14 @@ body.lv #list{padding-top:62px;}
   </div></div>
   <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
-    <button type="button" class="fd-pill" id="fdPill" onclick="gisPanelToggle(true)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 17.6a1.2 1.2 0 0 0 2.2.3l2.1-3.1 4.9 4.9a1.1 1.1 0 0 0 1.5 0l1-1a1.1 1.1 0 0 0 0-1.5l-4.9-4.9 3.1-2.1a1.2 1.2 0 0 0-.3-2.2L4 4z"/></svg><span>סימון חופשי - הדלק שכבת נתיבים לבחירת נקודות דיווח</span></button>
-    <div class="db-txt" id="drawTxt">הקש על המפה כדי להוסיף נקודה</div>
-    <button type="button" class="db-snap" id="snapSw" role="switch" aria-checked="true"><span class="dbs-l">סימון נקודות מסלול:</span><b class="dbs-v" id="snapTxt">על בסיס נקודות דיווח</b><i class="dbs-sw"><i></i></i></button>
-    <div class="db-btns">
-      <button type="button" id="dbUndo" onclick="drawUndo()">בטל נקודה</button>
-      <button type="button" id="dbClear" onclick="drawClear()">מחק מסלול</button>
-      <button type="button" class="db-done" onclick="drawDone(1)">סיים</button>
+    <div class="dr-pill"><span id="drawTxt">הקש על המפה כדי להוסיף נקודה</span></div>
+    <div class="dr-col l">
+      <div class="dr-w"><button type="button" class="dr-b" id="dbClear" aria-label="מחק הכל" onclick="drawClear()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7V4h6v3"/></svg></button><span class="dr-t">CLEAR</span></div>
+      <div class="dr-w"><button type="button" class="dr-b big" id="dbCancel" aria-label="בטל" onclick="drawCancel()"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span class="dr-t">CANCEL</span></div>
+    </div>
+    <div class="dr-col r">
+      <div class="dr-w"><button type="button" class="dr-b" id="dbUndo" aria-label="בטל נקודה אחרונה" onclick="drawUndo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><span class="dr-t">UNDO</span></div>
+      <div class="dr-w"><button type="button" class="dr-b big nv" id="dbDone" aria-label="סיים" onclick="drawDone(0)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><span class="dr-t">DONE</span></div>
     </div>
   </div>
     <div class="tls-warn" id="tlsWarn" role="alert" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18v.5"/></svg><span>החיבור למקור הנתונים אינו מאובטח במלואו כרגע. ה-NOTAMים מתעדכנים אך לא ניתן לאמת אותם. יש לבדוק מול מקורות רשמיים לפני הטיסה.</span></div>
@@ -1830,6 +1859,26 @@ body.lv #list{padding-top:62px;}
       <div class="mb-leg mb-m" id="mbLeg"><span><i class="u"></i>טרם נקרא</span><span><i class="r"></i>נקרא</span><span><i class="x"></i>לא רלוונטי</span></div>
     </div>
 
+    <div class="ppw" id="ppw"><div class="pp-scrim" onclick="closePops()"></div>
+      <div class="pp" id="rte" role="dialog" aria-label="מסלול"><div class="pp-arr"></div><div class="pp-t">מסלול</div><div id="rdyRoute"></div></div>
+      <div class="pp" id="fdlg" role="dialog" aria-labelledby="fdlgTtl"><div class="pp-arr"></div><div class="pp-t s" id="fdlgTtl">מתי אתה טס?</div><div class="pp-sub">מסנן NOTAMים לפי טווח השעות הקרוב</div>
+        <div id="wSeg">
+          <button type="button" class="pp-row" data-w="24"><span class="g">24 שעות</span><svg class="ck" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f6f3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+          <button type="button" class="pp-row" data-w="48"><span class="g">48 שעות</span><svg class="ck" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f6f3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+          <button type="button" class="pp-row" data-w="all"><span class="g">הכל</span><svg class="ck" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f6f3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+        </div>
+        <div id="wPlan">
+          <button type="button" class="pp-row" id="wFlight" data-w="flight"><span class="g">טווח מותאם אישית</span><svg class="ck" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f6f3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+          <div id="tFields"><div class="tf-in"><div class="tf-box">
+            <label for="fTkof">המראה (LT)</label><input type="datetime-local" id="fTkof">
+            <label for="fLdg">נחיתה (LT)</label><input type="datetime-local" id="fLdg">
+            <div class="ferr" id="fErr"></div>
+            <button type="button" class="tf-ok" onclick="skipFlight()">אישור</button>
+          </div></div></div>
+        </div>
+      </div>
+    </div>
+
     <div class="scroll-fade" id="scrollFade" aria-hidden="true"></div>
     <button class="scroll-btn" id="scrollBtn" aria-label="גלול למטה">
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1838,7 +1887,7 @@ body.lv #list{padding-top:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.022 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.025 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2181,18 +2230,30 @@ function renderReady(){
 }
 // v1.06.008: the לאן curtain (screens 2a / 2)
 function nearRoute(){ return ENR.filter(e=>!e.admin&&e.geo&&inCorridor(e)); }
+// v1.08.023: the route popup beside DRAW: draw / GPX / delete (only with a route) / close; the corridor choice now lives in Settings
 function renderRte(){
   const hasR=ROUTE.length>=2;
-  document.getElementById("rteStat").innerHTML= hasR? `<bdi>${routeLenNm().toFixed(0)}NM</bdi> · ${ROUTE.length} נקודות` : "טרם הוגדר";
-  document.getElementById("rdyRoute").innerHTML = hasR
-    ? `<button type="button" onclick="startDraw()">✎ ערוך מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" onclick="clearRoute()">מחק מסלול</button>`
-    : `<button type="button" onclick="startDraw()">✎ סמן מסלול</button><button type="button" onclick="pickGpx()">טען GPX</button><button type="button" class="del" disabled>מחק מסלול</button>`;
-  document.getElementById("rteCorrBox").classList.toggle("dis",!hasR);
+  const rr=document.getElementById("rdyRoute");
+  if(rr) rr.innerHTML=
+    `<button type="button" class="pp-row" onclick="startDraw()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/></svg>${hasR?"ערוך מסלול":"סמן מסלול על המפה"}</button>`+
+    `<button type="button" class="pp-row" onclick="pickGpx()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>טען קובץ GPX</button>`+
+    (hasR?`<button type="button" class="pp-row del" onclick="clearRoute()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7V4h6v3"/></svg>מחק מסלול</button>`:"")+
+    `<button type="button" class="pp-row cl" onclick="closeCurtain('rte')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>סגור</button>`;
+  const cb=document.getElementById("rteCorrBox"); if(cb) cb.classList.toggle("dis",!hasR);
   document.querySelectorAll("#corrSeg button").forEach(b=>{ b.classList.toggle("on",+b.dataset.c===CORR_NM); b.disabled=!hasR; });
-  document.getElementById("optRouteLbl").classList.toggle("dis",!hasR);
-  document.getElementById("optRouteSub").style.display= hasR? "none" : "";
-  const cb=document.getElementById("optRoute"); cb.disabled=!hasR; cb.checked=hasR&&ROUTE_ONLY;
 }
+// popups sit beside their button: the arrow points at the button's centre, the popup stays inside the map
+function ppPlace(id,btn){
+  const p=document.getElementById(id), b=document.getElementById(btn), w=document.getElementById("ppw"); if(!p||!b||!w) return;
+  const wr=w.getBoundingClientRect(), br=b.getBoundingClientRect(); if(!wr.height) return;
+  const cy=br.top+br.height/2-wr.top, h=p.offsetHeight;
+  let top=cy-29; top=Math.min(top,wr.height-h-8); top=Math.max(8,top);
+  p.style.top=Math.round(top)+"px"; p.style.left=Math.round(br.right-wr.left+14)+"px";
+  const ar=p.querySelector(".pp-arr"); if(ar) ar.style.top=Math.max(14,Math.min(h-28,Math.round(cy-top-7)))+"px";
+}
+// v1.08.024: while a popup grows (custom time fields), it slides up frame by frame so it never opens down past the screen
+function ppFollow(id,btn){ const t0=performance.now(); const step=()=>{ ppPlace(id,btn); if(performance.now()-t0<520) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+function closePops(){ closeCurtain("rte"); closeFlightDlg(); }
 const CURTAINS=["rdy","rte"];
 // v1.06.009: switching tiles = the open curtain closes first, then the next one opens (never both at once)
 const TILE_DLGS=["rte","fdlg","rdy"]; let _swT=null;
@@ -2208,12 +2269,13 @@ function openCurtain(id){
   if(MAP) MAP.closePopup();   // v1.05.012T: the popup now sits above the map's panels, so close it under a curtain
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
   document.getElementById(id).classList.add("show"); const tt=document.getElementById("t_"+id); if(tt) tt.classList.add("on");
+  if(id==="rte") ppPlace("rte","mbDraw");
   cueAll();
 }
 function closeCurtain(id){
   const d=document.getElementById(id); if(!d) return;
   if(d.classList.contains("show")) rvReopen();
-  d.querySelector(".fcard").style.transform=""; d.classList.remove("show");
+  { const fc=d.querySelector(".fcard"); if(fc) fc.style.transform=""; } d.classList.remove("show");
   const t=document.getElementById("t_"+id); if(t) t.classList.remove("on");
 }
 function toggleCurtain(id){ document.getElementById(id).classList.contains("show")? closeCurtain(id) : openCurtain(id); }
@@ -2225,12 +2287,11 @@ function readyGo(v){
   else setView("map");
 }
 function closeCurtains(){ CURTAINS.forEach(closeCurtain); closeFlightDlg(); closeSettings(); }
-document.getElementById("optRoute").addEventListener("change",ev=>setRouteOnly(ev.target.checked));
 
 // ── route: tap points on the map, 3NM corridor each side ──
 const ROUTE_KEY="airnotam_route";
 let CORR_NM=3; try{CORR_NM=+localStorage.getItem("airnotam_corr")||3;}catch(e){}
-let ROUTE=[], ROUTE_ONLY=false, DRAWING=false, ROUTE_LAYER=null;
+let ROUTE=[], ROUTE_ONLY=false, DRAWING=false, ROUTE_LAYER=null, ROUTE_BAK=[];   // v1.08.023: ROUTE_BAK = the saved route while editing, for CANCEL
 try{ROUTE=JSON.parse(localStorage.getItem(ROUTE_KEY)||"[]")||[];}catch(e){ROUTE=[];}
 try{ROUTE_ONLY=localStorage.getItem("airnotam_route_only")==="1";}catch(e){}
 function saveRoute(){try{localStorage.setItem(ROUTE_KEY,JSON.stringify(ROUTE));}catch(e){}}
@@ -2288,23 +2349,13 @@ function drawRoute(){
 }
 function drawUi(){
   try{renderHints();}catch(_){}
-  const t=document.getElementById("drawTxt");
-  const snapEff=SNAP_ON&&snapLayersOn();
-  const base= ROUTE.length? `${ROUTE.length} נקודות · ${routeLenNm().toFixed(0)}NM · הקש להוספת נקודה`
-            : snapEff? "הקש ליד נקודת דיווח כדי להוסיף אותה" : "הקש על המפה כדי להוסיף נקודה (המראה, נקודות דרך, נחיתה)";
-  t.textContent=base;
-  const noPts=!ROUTE.length; document.getElementById("dbUndo").disabled=noPts; document.getElementById("dbClear").disabled=noPts;
-  if(ROUTE.some(p=>p[2])){   // names of snapped points, in order ("•" = a free point)
-    const n=document.createElement("span"); n.className="db-names";
-    n.textContent=ROUTE.map(p=>p[2]||"•").join(" ← "); t.appendChild(n);
-  }
-  document.getElementById("fdPill").classList.toggle("show",!snapLayersOn());   // v1.05.024T: shown whenever both route layers are off   // v1.05.015T: B6 free-drawing pill
-  const sw=document.getElementById("snapSw"); if(sw){ sw.setAttribute("aria-checked",snapEff?"true":"false");
-    document.getElementById("snapTxt").textContent= snapEff? "על בסיס נקודות דיווח" : "חופשי"; }
+  const n=ROUTE.length, g=id=>document.getElementById(id);
+  g("drawTxt").innerHTML= n>=2? `<bdi dir="ltr">${routeLenNm().toFixed(0)}NM</bdi> · ${n} נקודות` : n===1? "נקודה אחת · הוסף עוד נקודה" : "הקש על המפה כדי להוסיף נקודה";
+  [["dbUndo",!n],["dbClear",!n],["dbDone",n<2]].forEach(([id,off])=>{ const b=g(id); b.disabled=off; b.closest(".dr-w").classList.toggle("off",off); });
   zoomRoLift();
 }
 // ── snapping: route taps stick to the nearest known point (sportive + CVFR points, airfields) ──
-let SNAP_ON=true; try{SNAP_ON=localStorage.getItem("airnotam_snap")!=="0";}catch(e){}
+let SNAP_ON=true;   // v1.08.023: snapping is always on (no switch): a tap near a reporting point snaps to it, elsewhere the point stays where tapped
 let SNAP_PTS=null, SNAP_LAYER=null, SNAP_R=null;
 const SNAP_PX=28;
 function snapLoad(){
@@ -2323,7 +2374,7 @@ function snapLoad(){
 }
 // v1.05.012T: the points (dots, names, route snapping) follow the layers: a point shows while one of its layers is on
 function snapLayersOn(){ return gisOn("sport")||gisOn("cvfr"); }
-function snapVis(){ return SNAP_PTS? SNAP_PTS.filter(o=>o.layers.some(l=>gisOn(l))) : []; }
+function snapVis(){ return SNAP_PTS? (DRAWING? SNAP_PTS : SNAP_PTS.filter(o=>o.layers.some(l=>gisOn(l)))) : []; }   // v1.08.023: while drawing every reporting point shows (from zoom 9) and can be snapped to
 let SNAP_ZOOM_HOOK=false;
 function snapShow(){
   if(MAP&&!SNAP_ZOOM_HOOK){ SNAP_ZOOM_HOOK=true; MAP.on("zoomend moveend",()=>snapShow()); }
@@ -2377,12 +2428,11 @@ function zoomRoLift(){
     c.style.bottom= ar&&ar.height&&ar.left<m.left+zw? Math.round(m.bottom-ar.top)+"px" : ""; });
 }
 // v1.05.015T: top of the route editor: the bar, or the free-drawing pill above it when shown
-function drawTop(){ const b=document.getElementById("drawBar").getBoundingClientRect(), p=document.getElementById("fdPill");
-  const pr=p&&p.classList.contains("show")? p.getBoundingClientRect() : null; return pr&&pr.height? Math.min(b.top,pr.top) : b.top; }
-function setSnap(v){ SNAP_ON=v; try{localStorage.setItem("airnotam_snap",v?"1":"0");}catch(e){} drawUi(); snapShow(); }
+function drawTop(){ return document.getElementById("drawBar").getBoundingClientRect().bottom-20; }   // v1.08.023: the buttons sit in the bottom corners; keep new points clear of the bottom edge
 function startDraw(){
   if(RV.on) rvClose();
   closeCurtains(); setView("map");
+  ROUTE_BAK=ROUTE.map(p=>p.slice());
   DRAWING=true; MAP.closePopup(); MAP.doubleClickZoom.disable();
   document.getElementById("map").classList.add("drawing");
   document.getElementById("drawBar").classList.add("show");
@@ -2393,20 +2443,7 @@ function startDraw(){
 }
 function drawClick(ev){
   if(!DRAWING) return;
-  const snapEff=SNAP_ON&&snapLayersOn();          // both route layers off: free drawing (the bar says so)
-  const o= snapEff? snapNearest(ev.latlng) : null;
-  if(snapEff && SNAP_PTS && !o){   // snapping on: a tap away from any point adds nothing
-    // the message appears where the finger is, on the map (not only in the bar below)
-    if(drawClick._m){ MAP.removeLayer(drawClick._m); }
-    drawClick._m=L.marker(ev.latlng,{interactive:false,keyboard:false,zIndexOffset:2000,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
-      html:'<div class="snap-miss"><i></i><span>אין נקודת דיווח קרובה, הקש ליד נקודה</span></div>'})}).addTo(MAP);
-    requestAnimationFrame(()=>{ const el=drawClick._m&&drawClick._m.getElement(); const sp=el&&el.querySelector(".snap-miss span"); if(!sp) return;   // keep the bubble on screen
-      const m=MAP.getContainer().getBoundingClientRect(), r=sp.getBoundingClientRect(); let dx=0;
-      if(r.left<m.left+6) dx=m.left+6-r.left; else if(r.right>m.right-6) dx=m.right-6-r.right;
-      if(dx) sp.style.transform=`translateX(calc(-50% + ${Math.round(dx)}px))`; });
-    clearTimeout(drawClick._t); drawClick._t=setTimeout(()=>{ if(drawClick._m){ MAP.removeLayer(drawClick._m); drawClick._m=null; } },2000);
-    return;
-  }
+  const o= MAP.getZoom()>=9? snapNearest(ev.latlng) : null;   // v1.08.023: near a reporting point it snaps; elsewhere (and zoomed out) the point stays where tapped
   if(o){ ROUTE.push([+o.lat.toFixed(5),+o.lon.toFixed(5),o.name]); snapShow(); }
   else ROUTE.push([+ev.latlng.lat.toFixed(5),+ev.latlng.lng.toFixed(5)]);
   drawUi(); drawRoute(); drawKeepVisible();
@@ -2426,6 +2463,7 @@ let _amRes=null;
 function appConfirm(o){
   document.getElementById("amTtl").textContent=o.title||"";
   document.getElementById("amTxt").textContent=o.text||"";
+  const no=document.querySelector("#amodal .am-no"); if(no) no.textContent=o.no||"ביטול";
   const ok=document.getElementById("amOk"); ok.textContent=o.ok||"אישור"; ok.classList.toggle("danger",o.danger!==false);
   const alt=document.getElementById("amAlt"); if(o.altHtml) alt.innerHTML=o.altHtml; else alt.textContent=o.alt||""; document.getElementById("amodal").classList.toggle("three",!!o.alt);
   document.getElementById("amodal").classList.add("show");
@@ -2445,7 +2483,16 @@ function drawDone(showRes){
   saveRoute();
   if(ROUTE.length>=2){ ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){} }
   render(); drawRoute();
-  if(showRes && ROUTE.length>=2) openCurtain("rte");   // v1.06.008
+}
+// v1.08.023: CANCEL leaves the editor and puts the saved route back; it asks only when there are points on the map
+async function drawCancel(){
+  if(ROUTE.length && !(await appConfirm({title:"לצאת בלי לשמור?",text:"המסלול שסימנת לא יישמר.",ok:"צא",no:"המשך לסמן"}))) return;
+  ROUTE=ROUTE_BAK.map(p=>p.slice());
+  DRAWING=false; MAP.doubleClickZoom.enable();
+  document.getElementById("map").classList.remove("drawing");
+  document.getElementById("drawBar").classList.remove("show");
+  snapShow(); renderMap(); mapHost().classList.remove("drawing-on"); zoomRoLift();
+  saveRoute(); render(); drawRoute();
 }
 // GPX: route (rtept) > track (trkpt) > waypoints (wpt). Tracks are thinned to ~0.5NM spacing.
 function pickGpx(){
@@ -2470,7 +2517,6 @@ async function loadGpx(txt){
   ROUTE_ONLY=true; try{localStorage.setItem("airnotam_route_only","1");}catch(e){}
   closeCurtains(); setView("map"); render(); drawRoute();
   try{ MAP.fitBounds(L.latLngBounds(ROUTE.map(q=>L.latLng(q[0],q[1]))).pad(.15)); }catch(e){}
-  openCurtain("rte");   // v1.06.008: same as after "סיים"
 }
 async function clearRoute(){
   if(!(await appConfirm({title:"למחוק את המסלול?",text:"המסלול יימחק ויוצגו שוב NOTAMים מכל הארץ.",ok:"מחק מסלול"}))) return;
@@ -2616,6 +2662,10 @@ function initMap(){
   { const pn=MAP.createPane("popTop",MAP.getContainer()); pn.style.zIndex=1001;
     const sync=()=>L.DomUtil.setPosition(pn,MAP._getMapPanePos());
     MAP.on("move zoom viewreset zoomend moveend resize",sync); sync(); }
+  // v1.08.024: zoom level (Z08) as plain grey italic text under the + / - buttons
+  { const zt=L.control({position:"topleft"});
+    zt.onAdd=()=>{ const d=L.DomUtil.create("div","zoom-tl"); const f=()=>{ d.textContent="Z"+String(Math.round(MAP.getZoom())).padStart(2,"0"); }; f(); MAP.on("zoom zoomend",f); return d; };
+    zt.addTo(MAP); { const z=MAP.getContainer().querySelector(".leaflet-control-zoom"); if(z&&z.parentNode) z.parentNode.insertBefore(zt.getContainer(),z.nextSibling); } }   // v1.08.025: right under the minus button (before the hidden layers control)
   // v1.05.012T: current zoom level (Z11), lower left
   { const zc=L.control({position:"bottomleft"});
     zc.onAdd=()=>{ const d=L.DomUtil.create("div","zoom-ro"); const f=()=>{ d.textContent="Z"+Math.round(MAP.getZoom()); }; f(); MAP.on("zoomend",f); return d; };
@@ -3152,7 +3202,7 @@ function applyWide(boot){
   if(MAP) MAP.closePopup();
   WIDE=w; document.body.classList.toggle("wide",w);
   const host=mapHost(), other=document.getElementById(w?"stage":"mapside");
-  ["map","mapEmpty","nvPill","drawBar","gsheet","lyrDim","mbox"].forEach(id=>{ const el=document.getElementById(id); if(el) host.appendChild(el); });
+  ["map","mapEmpty","nvPill","drawBar","gsheet","lyrDim","mbox","ppw"].forEach(id=>{ const el=document.getElementById(id); if(el) host.appendChild(el); });
   other.classList.remove("drawing-on","top-on"); host.classList.toggle("drawing-on",!!DRAWING);
   if(typeof alog==="function") alog("layout "+(w?"wide":"phone")+" "+innerWidth+"px");
   if(!boot) setView(w? "list" : "map");
@@ -3433,7 +3483,7 @@ tickUTC();setInterval(tickUTC,1000);
 // v1.07.028: once a minute, re-render only if a NOTAM ended since the last render; never while a curtain, settings or a map popup is open or the tab is hidden
 setInterval(()=>{ try{
   if(document.visibilityState==="hidden"||!ENR.length) return;
-  if(document.querySelector(".fdlg.show,#setp.show,.leaflet-popup")) return;
+  if(document.querySelector(".fdlg.show,.pp.show,#setp.show,.leaflet-popup")) return;
   const now=Date.now(), t0=RENDER_AT;
   if(ENR.some(e=>e.end&&e.end.getTime()<=now&&e.end.getTime()>t0)) render();
 }catch(_){} },60000);
@@ -3612,10 +3662,10 @@ function whenUi(){
   document.querySelectorAll("#wSeg button").forEach(b=>{
     const hv= b.dataset.w==="all"? 0 : +b.dataset.w;
     b.classList.toggle("on",!fl&&hv===H);
-    b.querySelector("small").textContent= hv===WIN_H? "ברירת מחדל" : "";
   });
   document.getElementById("wPlan").classList.toggle("on",fl);
 }
+// v1.08.023: 24 / 48 / הכל are remembered for the next launch (counted from the moment the app opens); a custom range stays until the landing has passed
 function wPick(w){
   document.getElementById("fErr").style.display="none"; document.getElementById("fLdg").classList.remove("bad");
   if(w==="flight"){
@@ -3623,8 +3673,10 @@ function wPick(w){
     FLIGHT=f; try{localStorage.setItem(FLIGHT_KEY,JSON.stringify(f));}catch(e){}
     document.getElementById("fTkof").value=f.tkof; document.getElementById("fLdg").value=f.ldg;
     timeMode="flight"; alog("when: planned flight "+f.tkof+" - "+f.ldg);
-  } else { WIN_CUR= w==="all"? 0 : +w; timeMode="all"; alog("when: window "+(WIN_CUR||"all")); }
+  } else { WIN_H= w==="all"? 0 : +w; WIN_CUR=null; timeMode="all"; try{ localStorage.setItem("airnotam_win",w==="all"?"all":String(WIN_H)); }catch(e){} alog("when: window "+(WIN_H||"all")); }
   whenUi(); renderFlightBar(); render();
+  if(w==="flight") ppFollow("fdlg","mbTime");
+  else setTimeout(closeFlightDlg,200);
 }
 // a valid date / time is kept as soon as it is entered; closing never clears
 let _whenT=null;
@@ -3651,6 +3703,7 @@ function openFlightDlg(){
   document.getElementById("fErr").style.display="none"; document.getElementById("fLdg").classList.remove("bad");
   whenUi();
   document.getElementById("fdlg").classList.add("show");
+  ppPlace("fdlg","mbTime"); ppFollow("fdlg","mbTime");
   document.getElementById("t_when").classList.add("on");
   cueAll();
 }
@@ -3750,7 +3803,7 @@ function toggleFlightDlg(){
   if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
   else openFlightDlg();
 }
-function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen(); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");const c=document.querySelector("#fdlg .fcard");c.style.transform="";document.getElementById("fdlg").classList.remove("show");}
+function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen(); const tw=document.getElementById("t_when"); if(tw) tw.classList.remove("on");document.getElementById("fdlg").classList.remove("show");}
 function curtainGrip(gripId,dlgId,onClose){
   const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
   let y0=null, dy=0;
@@ -3760,8 +3813,7 @@ function curtainGrip(gripId,dlgId,onClose){
     if(dy<-40||Math.abs(dy)<4) onClose(); };   // drag up or tap → close
   g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
 }
-curtainGrip("fGrip","fdlg",()=>skipFlight());
-CURTAINS.forEach(c=>curtainGrip("g_"+c,c,()=>closeCurtain(c)));
+CURTAINS.forEach(c=>{ if(document.getElementById("g_"+c)) curtainGrip("g_"+c,c,()=>closeCurtain(c)); });
 function skipFlight(){
   closeFlightDlg();
   if(!flightValid(FLIGHT)) timeMode="all";
@@ -4312,8 +4364,6 @@ function diagLine(){   // v1.06.004: no longer shown; written into the admin log
   return `diag · screen ${screen.width}x${screen.height} · inner ${innerWidth}x${innerHeight} · vv ${vv} · docEl ${document.documentElement.clientHeight} · app ${Math.round(app.height)} · safe ${st}/${sb} · dpr ${devicePixelRatio} · ${sa?"standalone":"browser"}`;
 }
 
-document.getElementById("snapSw").addEventListener("click",()=>{   // v1.05.024T: no route layer on: the switch can't snap, it opens the layers curtain (like the pill)
-  if(!snapLayersOn()){ if(!SNAP_ON) setSnap(true); gisPanelToggle(true); return; } setSnap(!SNAP_ON); });
 
 let _lqT=null;
 document.getElementById("lq").addEventListener("input",ev=>{ ptClear(); LQ=ev.target.value; document.getElementById("lsearch").classList.toggle("has-q",!!LQ);
@@ -4477,7 +4527,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.022 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.025 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4487,7 +4537,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.022 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.025 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5102,7 +5152,7 @@ function rvPill(id,c){
 dragClose(document.getElementById("rvGrip"),document.getElementById("rvc"),"y",-1,rvClose);
 
 // v1.06.027: PC map dim follows the tile curtains and הגדרות
-(function(){ const ids=["rte","fdlg","rdy","setp"], d=document.getElementById("msDim");
+(function(){ const ids=["rdy","setp"], d=document.getElementById("msDim");
   const f=()=>d.classList.toggle("show", ids.some(i=>document.getElementById(i).classList.contains("show")));
   const mo=new MutationObserver(f); ids.forEach(i=>mo.observe(document.getElementById(i),{attributes:true,attributeFilter:["class"]}));
   d.addEventListener("click",()=>closeCurtains()); })();
@@ -5150,7 +5200,7 @@ function mbSync(){
   q("mi4").hidden=!ins; q("mi4").textContent="חיבור לא מאובטח - ייתכן שהמידע אינו מעודכן";
   const ro=!!(ROUTE_ONLY&&hasR);
   q("mbOnly").classList.toggle("on",ro); q("mbOnly").setAttribute("aria-pressed",ro?"true":"false"); q("mbOnly").classList.toggle("grey",!ro); q("mbOnlyT").textContent= ro? "ONLY":"ALL";
-  const oc=q("optRoute"); if(oc) oc.checked=ro;
+  if(timeMode==="flight"&&!flightValid(FLIGHT)){ renderFlightBar(); try{render();}catch(_){} }   // v1.08.023: a custom range ends when the planned landing has passed
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
   [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); });
   let gp=false; try{ gp=gisPanelOpen(); }catch(_){}
