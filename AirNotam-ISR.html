@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.018 · built by eligrt
+     AirNotam-ISR · v1.08.019 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1547,7 +1547,7 @@ body.lv #list{padding-top:62px;}
 .mbox>*{pointer-events:auto;}
 #stage:not(.v-map) .mbox .mb-m,#stage:not(.v-map) .mbox .mb-info{display:none !important;}
 .mbox.off{display:none;}
-/* v1.08.018: soft gold ring pulse = "tap me next" (DRAW before a route, REVIEW after) */
+/* v1.08.019: soft gold ring pulse = "tap me next" (DRAW before a route, REVIEW after) */
 .mb-b.pulse::after,.mb-rv.pulse::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid #e0a63a;opacity:0;animation:mbPulse 2.5s ease-out infinite;pointer-events:none;}
 @keyframes mbPulse{0%{transform:scale(.95);opacity:.9}70%{transform:scale(1.7);opacity:0}100%{transform:scale(1.7);opacity:0}}
 @media (prefers-reduced-motion:reduce){.mb-b.pulse::after,.mb-rv.pulse::after{animation:none;opacity:.9;transform:none;}}
@@ -1608,6 +1608,12 @@ body.lv #list{padding-top:62px;}
 .lnch .dbd .note a span{text-decoration:underline;text-underline-offset:3px;}
 .lnch .dbd .note svg.env{width:17px;height:17px;vertical-align:-3px;fill:none;stroke:var(--gold-deep);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 /* v1.08.007: info box wording - one count line, hidden count in amber, the DRAW icon inside the prompt */
+/* v1.08.019: very narrow phones: smaller legend and info text so nothing touches REVIEW or wraps to four lines */
+@media (max-width:340px){
+ .mb-info{left:54px;right:62px;} .mb-info .mib{padding:5px 8px;min-width:0;}
+ .mb-info .mi1{font-size:13px;} .mb-info .mi2{font-size:11.5px;}
+ .mb-leg{gap:6px;padding:3px 6px;font-size:9.5px;} .mb-leg i{width:10px;height:10px;}
+}
 .mb-info .mi-h{color:#a86400;}
 .mb-info .mi-ic{display:inline-block;width:24px;height:24px;border-radius:50%;border:1.5px solid #1c3d6e;background:#fbf6e8;vertical-align:-6px;margin:0 2px;text-align:center;}
 .mb-info .mi-ic svg{width:15px;height:15px;margin-top:3px;fill:none;stroke:#1c3d6e;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
@@ -1660,7 +1666,7 @@ body.lv #list{padding-top:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.018 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.019 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1832,7 +1838,7 @@ body.lv #list{padding-top:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.018 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.019 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2811,7 +2817,7 @@ function famUi(){
   const ls=box.querySelector(".fam-list"); if(ls){ ls.addEventListener("scroll",famFade,{passive:true}); }
   famPlace();
 }
-// v1.08.018: the shape filter sits evenly between the last red button and REVIEW; only its list scrolls, a soft fade at the bottom says "more below"
+// v1.08.019: the shape filter sits evenly between the last red button and REVIEW; only its list scrolls, a soft fade at the bottom says "more below"
 function famFade(){ const ls=document.querySelector(".fam-ctl .fam-list"); if(!ls) return; ls.classList.toggle("more", ls.scrollTop+ls.clientHeight < ls.scrollHeight-3); }
 function famPlace(){
   const box=document.querySelector(".fam-ctl"), ls=box&&box.querySelector(".fam-list"), a=document.getElementById("mbF_ins"), r=document.getElementById("mbRv"), m=MAP&&MAP.getContainer(); if(!ls||!a||!r||!m) return;
@@ -4468,7 +4474,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.018 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.019 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4478,7 +4484,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.018 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.019 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5111,7 +5117,21 @@ function mbFam(k){
   try{ const o=JSON.parse(localStorage.getItem(FAM_KEY)||"null")||{}; o.cvfr=FAMC.cvfr; o.apt=FAMC.apt; o.hel=FAMC.hel; o.ins=FAMC.ins; if(!o.ok) o.ok=discToday(); localStorage.setItem(FAM_KEY,JSON.stringify(o)); }catch(_){}
   render(); mbSync();
 }
+
+// v1.08.019: short screens: the two button columns close up (never below 48px apart) so nothing overlaps; normal phones keep the usual spacing
+let MB_FITK="";
+function mbFit(){
+  const st=document.getElementById("stage"); if(!st) return; const H=st.clientHeight; if(!H) return;
+  const r0=128, rp0=58, l0=168, lp0=58, revTop=H-102, chTop=H-146, gap=6;
+  let rs=r0, rp=rp0; if(rs+3*rp+44>revTop-gap){ rp=Math.max(48,Math.min(rp0,Math.floor((revTop-gap-44-rs)/3))); if(rs+3*rp+44>revTop-gap) rs=Math.max(64,revTop-gap-44-3*rp); }
+  let ls=l0, lp=lp0; if(ls+2*lp+44>chTop-gap){ lp=Math.max(48,Math.min(lp0,Math.floor((chTop-gap-44-ls)/2))); if(ls+2*lp+44>chTop-gap) ls=Math.max(92,chTop-gap-44-2*lp); }
+  const k=[rs,rp,ls,lp].join(","); if(k===MB_FITK) return; MB_FITK=k;
+  ["mbF_cvfr","mbF_apt","mbF_hel","mbF_ins"].forEach((id,i)=>{ document.getElementById(id).style.top=(rs+i*rp)+"px"; });
+  ["mbDraw","mbOnly","mbTime"].forEach((id,i)=>{ document.getElementById(id).style.top=(ls+i*lp)+"px"; });
+}
+window.addEventListener("resize",()=>{ try{mbFit();}catch(_){} });
 function mbSync(){
+  try{mbFit();}catch(_){}
   const q=id=>document.getElementById(id); if(!q("mbox")) return;
   const hasR=ROUTE.length>=2, inRv=!!(RV&&RV.on);
   q("mbox").classList.toggle("off", !!DRAWING || inRv);
