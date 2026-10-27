@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.046 · built by eligrt
+     AirNotam-ISR · v1.08.047 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1575,6 +1575,70 @@ body.lv #list{padding-top:62px;}
 .mb-leg{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;display:flex;gap:9px;align-items:center;background:rgba(251,246,232,.96);border:1px solid #1c3d6e;border-radius:12px;padding:3px 9px;font-size:10.5px;font-weight:600;color:#1c3d6e;white-space:nowrap;direction:rtl;box-shadow:0 1px 4px rgba(14,35,72,.25);pointer-events:none;}
 .mb-leg span{display:flex;align-items:center;gap:3px;} .mb-leg i{display:block;width:12px;height:12px;border-radius:50%;box-sizing:border-box;}
 .mb-leg .u{background:#e9b5ad;border:1.5px solid #b94a3a;} .mb-leg .r{background:#fbf6e8;border:1.5px dashed #b94a3a;} .mb-leg .x{background:#e4e1da;border:1.5px dotted #6b6b6b;}
+/* ── v1.08.047: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
+.mbox.pl-open:not(.rv) .mb-leg{display:none !important;}
+.lp{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;width:216px;display:none;flex-direction:column-reverse;gap:14px;z-index:5;--pc:#1f7a6d;direction:ltr;}
+.lp.open{display:flex;}
+:where(.lp) button{border:0;background:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.lp-row{position:relative;width:216px;box-sizing:border-box;display:flex;align-items:center;gap:6px;height:44px;padding:0 8px 0 4px;background:rgba(251,246,232,.96);border:3px solid var(--pc);border-radius:24px;box-shadow:0 1px 5px rgba(14,35,72,.3);color:var(--ink);flex:none;}
+.lp-rl{font:700 13px var(--font-ui);width:60px;height:34px;border-radius:17px;background:transparent;color:var(--ink);flex:none;display:flex;align-items:center;justify-content:center;}
+.lp-row.on .lp-rl{background:var(--pc);color:var(--paper);}
+.lp-rs{flex:1;min-width:0;-webkit-appearance:none;appearance:none;height:30px;background:transparent;margin:0;touch-action:none;}
+.lp-rs::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:#d8cba8;}
+.lp-rs::-moz-range-track{height:8px;border-radius:4px;background:#d8cba8;}
+.lp-rs::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-11px;border-radius:50%;background:var(--tb,var(--gold-lite));border:2.5px solid var(--pc);}
+.lp-rs::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--tb,var(--gold-lite));border:2.5px solid var(--pc);}
+.lp-row:not(.on) .lp-rs{opacity:.45;}
+.lp-row:not(.on) .lp-rs::-webkit-slider-thumb{background:#e6e0cf;border-color:#a79d86;}
+.lp-ibd{position:absolute;left:-6px;top:-12px;width:24px;height:24px;border-radius:50%;border:2px solid var(--paper-hi) !important;background:#1f7a6d !important;color:#fff !important;font:italic 700 15px Georgia,serif !important;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(14,35,72,.4);box-sizing:border-box;z-index:2;}
+.lp-ibd::after{content:"";position:absolute;inset:-10px;}
+.lp-ibd.on{background:var(--ink-dark) !important;}
+.lp-key{position:absolute;left:-3px;right:-3px;bottom:calc(100% + 12px);display:none;z-index:6;background:var(--paper-hi);border:3px solid #1f7a6d;border-radius:20px;padding:9px 12px;direction:rtl;box-shadow:0 2px 8px rgba(14,35,72,.35);font-size:12.5px;color:var(--ink-muted);line-height:1.75;text-align:right;}
+.lp-key.show{display:block;}
+.lp-key b{font-weight:700;color:var(--ink-dark);font-size:13px;}
+.lp-key s{display:inline-block;width:20px;height:0;border-top:3px solid;vertical-align:middle;margin:0 0 0 6px;text-decoration:none;}
+.lp-bar{justify-content:space-between;padding:0 16px;font:700 13px var(--font-ui);direction:rtl;text-align:right;}
+.lp-bar svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;}
+.lp-bar.open svg{transform:rotate(180deg);}
+.lp-list{display:none;width:216px;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;background:rgba(251,246,232,.97);border:3px solid #1f7a6d;border-radius:20px;padding:2px 10px;box-shadow:0 1px 5px rgba(14,35,72,.3);direction:rtl;flex:none;scrollbar-width:none;}
+.lp-list::-webkit-scrollbar{width:0;height:0;}
+.lp-list.show{display:block;}
+.lp-li{display:flex;align-items:center;gap:9px;height:44px;border-bottom:1px solid var(--paper-edge);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.lp-li:last-child{border-bottom:0;}
+.lp-li input{display:none;}
+.lp-li .gsw{margin:0;flex:none;opacity:.5;}
+.lp-li:has(input:checked) .gsw{opacity:1;}
+.lp-nm{flex:1;min-width:0;font:600 13px var(--font-ui);color:var(--ink-dark);}
+.lp-li small{display:none !important;}   /* the one status line above the rows says it */
+.lp-li.ld{opacity:.7;}
+.lp-tg{width:42px;height:24px;border-radius:12px;background:#d8cba8;position:relative;flex:none;transition:background .2s;}
+.lp-tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s;}
+.lp-li:has(input:checked) .lp-tg{background:#1f7a6d;}
+.lp-li:has(input:checked) .lp-tg::after{left:20px;}
+.lp-opw{width:216px;height:44px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:0 14px;background:rgba(251,246,232,.96);border:3px solid var(--pc);border-radius:24px;box-shadow:0 1px 5px rgba(14,35,72,.3);color:var(--ink);flex:none;}
+.lp-opw svg{width:16px;height:16px;flex:none;}
+.lp-opw.dim .lp-rs{opacity:.45;}
+.lp-csw{width:216px;box-sizing:border-box;display:flex;background:rgba(251,246,232,.96);border:3px solid var(--pc);border-radius:24px;padding:2px;box-shadow:0 1px 5px rgba(14,35,72,.3);flex:none;}
+.lp-sg{font:700 14px var(--font-ui);flex:1;min-width:0;height:34px;border-radius:20px;color:var(--ink);display:flex;align-items:center;justify-content:center;}
+.lp-sg.on{background:var(--pc) !important;color:var(--paper) !important;}
+.lp-sg.emp{color:#a79d86;font-weight:600;}
+.lp-sg.on.emp{color:var(--paper);}
+.lp-sg b{font-weight:800;margin-left:3px;}
+.lp-bp{cursor:pointer;gap:8px;padding:0 12px 0 5px;}
+.lp-bsw{width:30px;height:30px;border-radius:50%;border:1.5px solid #44505c;flex:none;box-sizing:border-box;display:block;}
+.lp-bsw.std{background:linear-gradient(112deg,#b9d7ea 0 25%,transparent 25%),#e9e6dc;}
+.lp-bsw.osm{background:linear-gradient(112deg,#a9cfe3 0 25%,transparent 25%),#f2efe9;}
+.lp-bnm{flex:1;font:700 14px var(--font-ui);direction:rtl;text-align:right;}
+.lp-bp>svg{width:16px;height:16px;fill:none;stroke:#44505c;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+.lp-bpop{position:absolute;left:-3px;right:-3px;bottom:56px;display:none;grid-template-columns:1fr 1fr;gap:8px;background:var(--paper-hi);border:2px solid var(--ink);border-radius:14px;padding:6px;z-index:6;}
+.lp-bpop.show{display:grid;}
+.lp-bo{text-align:center;font:600 12px var(--font-ui);color:var(--ink);padding:3px;border-radius:10px;cursor:pointer;direction:rtl;}
+.lp-bo.on{background:var(--gold-lite);}
+.lp-bo .lp-bsw{width:100%;height:40px;border-radius:8px;margin-bottom:2px;}
+.lp-lks{width:216px;display:flex;justify-content:center;gap:8px;align-items:center;font-size:12.5px;color:var(--ink);direction:rtl;flex:none;}
+.lp-lk{background:rgba(251,246,232,.96) !important;border-radius:14px;font-size:12.5px;color:var(--ink);text-decoration:underline dashed;text-underline-offset:3px;padding:0 12px !important;min-height:36px;display:flex;align-items:center;box-shadow:0 1px 4px rgba(14,35,72,.25);}
+.lp-st{display:none;width:216px;box-sizing:border-box;background:rgba(251,246,232,.96);border:1px solid var(--ink);border-radius:14px;padding:5px 11px;font-size:12px;color:var(--ink);text-align:center;direction:rtl;flex:none;box-shadow:0 1px 4px rgba(14,35,72,.25);}
+.lp-st.er,.lp-st.lsa-err{color:#b00020;font-weight:700;}
 .lnch .lnch-load{margin-top:8px;font-size:12px;color:var(--ink-muted);text-align:center;}
 .lnch .lnch-load.amber{color:#a86400;font-weight:700;}
 /* v1.08.002: opening card stretched, less crowded */
@@ -1855,7 +1919,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.046 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1981,8 +2045,8 @@ body.bell-on.lv .lstat{padding-right:62px;}
       <button type="button" id="mbOnly" class="mb-b mb-n mb-m" style="left:10px;top:226px" aria-label="רק מסלול" onclick="mbOnlyGo()" aria-pressed="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg><span class="mb-t mb-t-r" id="mbOnlyT">ALL</span></button>
       <button type="button" id="mbTime" class="mb-b mb-n mb-m" style="left:10px;top:284px" aria-label="זמן" onclick="mbTimeGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mb-t mb-t-r" id="mbTimeT">24 HR</span></button>
       <div id="mbPill" class="mb-pill mb-m" role="group" aria-label="סינון NOTAM לפי סוג" style="right:10px;bottom:116px"><div class="mp-clip"><button type="button" class="mp-cl" id="mpCl" aria-label="סינון NOTAM לפי סוג" aria-expanded="false" onclick="mbPillOpen()"><div class="mp-face"><span id="mpf_cvfr"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg></span><span id="mpf_apt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg></span><span id="mpf_hel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg></span><span id="mpf_ins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg></span></div></button><div class="mp-op" id="mpOp"><button type="button" class="mp-hd" aria-label="סגור" onclick="mbPillClose()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><button type="button" id="mbF_cvfr" class="mp-cell" aria-label="CVFR וספורט" onclick="mbFam('cvfr')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg><span>CVFR/LSA</span></button><button type="button" id="mbF_apt" class="mp-cell" aria-label="שדות גדולים" onclick="mbFam('apt')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span>AIRPORT</span></button><button type="button" id="mbF_hel" class="mp-cell" aria-label="מסוקים" onclick="mbFam('hel')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg><span>HELI</span></button><button type="button" id="mbF_ins" class="mp-cell" aria-label="IFR" onclick="mbFam('ins')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg><span>IFR</span></button></div></div><span class="mb-t mb-t-c" id="mbPillT">NOTAM</span></div>
-      <button type="button" id="mbChart" class="mb-b mb-c mb-m" style="left:10px;bottom:102px" aria-label="מפות ושכבות" onclick="gisPanelToggle(true)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-r" id="mbChartT">CHARTS</span></button>
-      <button type="button" id="mbLay" class="mb-b mb-l mb-m" style="left:10px;bottom:44px" aria-label="שכבות נוספות" onclick="gisPanelToggle(true)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="mb-t mb-t-r" id="mbLayT">LAYERS</span></button>
+      <button type="button" id="mbChart" class="mb-b mb-c mb-m" style="left:10px;bottom:160px" aria-label="מפות" onclick="lyrPanel('charts')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-r" id="mbChartT">CHARTS</span></button>
+      <button type="button" id="mbLay" class="mb-b mb-l mb-m" style="left:10px;bottom:102px" aria-label="שכבות" onclick="lyrPanel('layers')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="mb-t mb-t-r" id="mbLayT">LAYERS</span></button>
       <button type="button" id="mbRv" class="mb-rv mb-m" aria-label="סקירה" onclick="slotReview()"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2L6.8 11M3.5 18l1.2 1.2L6.8 17"/></svg><span class="mb-t mb-t-l" id="mbRvT">REVIEW</span><span class="mb-bd" id="mbRvN"></span></button>
       <div class="mb-leg mb-m" id="mbLeg"><span><i class="u"></i>טרם נקרא</span><span><i class="r"></i>נקרא</span><span><i class="x"></i>לא רלוונטי</span></div>
     </div>
@@ -2015,7 +2079,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.046 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -3869,7 +3933,7 @@ function gisSave(){ try{localStorage.setItem("airnotam_gis2",JSON.stringify(GIS_
 function gisStatus(id,txt,err){
   const s=document.getElementById("gst_"+id); if(s){ s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
   const c=document.getElementById("gc_"+id); if(c){ c.classList.toggle("ld",!!txt&&!err); c.classList.toggle("er",!!err); }
-  const st=document.getElementById("gsStat"); if(st && (err || !txt)) st.textContent = err? txt : (document.querySelector(".gchip.er")? st.textContent : "");
+  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.047: one status line in the Layers panel
 }
 function gisInitUi(){
   GIS_IDS.forEach(id=>{
@@ -3944,20 +4008,20 @@ async function lsaImport(file){
   }
   return tiles.length;
 }
-function lsaStatus(t,err){
+function lsaStatus(t,err,ms){
   const s=document.getElementById("lsaSt"); if(!s) return;
-  s.textContent=t||""; s.classList.toggle("lsa-err",!!err);
-  if(GIS_PANEL&&gisPanelOpen()) gisFit();
+  s.textContent=t||""; s.classList.toggle("lsa-err",!!err); s.style.display=t?"block":"none";
+  clearTimeout(lsaStatus._t); if(t&&ms) lsaStatus._t=setTimeout(()=>{ if(s.textContent===t){ s.textContent=""; s.style.display="none"; } },ms);
 }
 function lsaBoxUi(){
-  const b=document.getElementById("lsaBox"), btn=document.getElementById("lsaBtn"); if(!b||!btn) return;
-  btn.classList.toggle("on",LSA.on);
-  b.classList.toggle("show",LSA.on||LSA.busy);
+  const btn=document.getElementById("lsaBtn"); if(!btn) return;
+  const have=LSA.on||LSA.stored>0;   // v1.08.047: grey with a plus until a chart file is stored
+  btn.classList.toggle("on",LSA.on); btn.classList.toggle("emp",!have); btn.innerHTML=have?"LSA":"LSA<b>+</b>";
   const op=document.getElementById("lsaOp"), ov=document.getElementById("lsaOpv");
-  if(op){ op.value=Math.round(LSA.op*100); ov.textContent=op.value+"%"; }
-  if(LSA.on&&!LSA.busy) lsaStatus("מוכן · נשמרת רק במכשיר שלך");
-  else if(!LSA.on&&!LSA.busy) lsaStatus("");
-  if(GIS_PANEL&&gisPanelOpen()) gisFit();
+  if(op){ op.value=Math.round(LSA.op*100); if(ov) ov.textContent=op.value+"%"; lpFade(op); }
+  const row=document.getElementById("cpOp"); if(row) row.classList.toggle("dim",!LSA.on);
+  const lk=document.getElementById("cpLinks"); if(lk) lk.style.display=(LSA.stored>0&&!LSA.busy)?"flex":"none";
+  if(LSA.on&&!LSA.busy) lsaStatus("מוכן, נשמר רק במכשיר שלך",false,2500); else if(!LSA.on&&!LSA.busy) lsaStatus("");
 }
 function lsaMakeLayers(){
   if(LSA.chart) return;
@@ -4042,7 +4106,7 @@ function lsaSet(on){
   else if(LSA.chart){ if(MAP.hasLayer(LSA.chart)) MAP.removeLayer(LSA.chart); if(MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset); }
   lsaBoxUi(); lsaInsetSync(); alog("lsa chart "+(LSA.on?"on":"off"));
 }
-function lsaPick(){ lsaStatus("בחר את קובץ ה-zip של המפה"); document.getElementById("lsaBox").classList.add("show"); LSA.file.value=""; LSA.file.click(); }
+function lsaPick(){ lsaStatus("בחר את קובץ ה-zip של המפה"); LSA.file.value=""; LSA.file.click(); }
 function lsaBtnTap(){
   if(LSA.busy) return;
   if(LSA.on) return lsaSet(false);
@@ -4070,7 +4134,7 @@ function lsaInit(){
   LSA.file.addEventListener("change",lsaOnFile); document.body.appendChild(LSA.file);
   const btn=document.getElementById("lsaBtn"); if(btn) btn.addEventListener("click",lsaBtnTap);
   const op=document.getElementById("lsaOp");
-  if(op) op.addEventListener("input",()=>{ LSA.op=op.value/100; document.getElementById("lsaOpv").textContent=op.value+"%"; if(LSA.chart) LSA.chart.setOpacity(LSA.op); lsaInsetSync(); try{localStorage.setItem("airnotam_lsa_op",String(op.value));}catch(e){} });
+  if(op) op.addEventListener("input",()=>{ LSA.op=op.value/100; document.getElementById("lsaOpv").textContent=op.value+"%"; lpFade(op); if(!LSA.on&&LSA.stored>0&&!LSA.busy) lsaSet(true); if(LSA.chart) LSA.chart.setOpacity(LSA.op); lsaInsetSync(); try{localStorage.setItem("airnotam_lsa_op",String(op.value));}catch(e){} });
   const re=document.getElementById("lsaRe"); if(re) re.addEventListener("click",()=>{ if(!LSA.busy) lsaPick(); });
   const del=document.getElementById("lsaDel"); if(del) del.addEventListener("click",async()=>{
     if(LSA.busy||!confirm("למחוק את מפת LSA מהמכשיר?")) return;
@@ -4081,77 +4145,124 @@ function lsaInit(){
   window.addEventListener("pageshow",e=>{ if(e.persisted) lsaDbReset("pageshow"); });
   lsaBoxUi();
   lsaCount().then(n=>{
-    LSA.stored=n>0?n:0; alog("lsa tiles stored: "+n);
+    LSA.stored=n>0?n:0; alog("lsa tiles stored: "+n); lsaBoxUi();
     let want=false; try{ want=localStorage.getItem("airnotam_lsa")==="1"; }catch(e){}
     if(want&&LSA.stored>0) lsaSet(true); else if(want) lsaSet(false);
   });
 }
 
+/* ── v1.08.047: stage 5 - the Charts panel (blue) and the Layers panel (green).
+   Two floating panels built like the AirTrack ROUTES rows. The first row sits just above the map credit line and every row lines up
+   with its button on the left. They live inside the map overlay (mbox), so they hide by themselves while drawing, in the review and in the list view.
+   The old side curtain is gone. ── */
+let LP_OPEN=null;   // "charts" | "layers" | null
+const GIS_OP=(()=>{ try{ return JSON.parse(localStorage.getItem("airnotam_gis_op")||"{}")||{}; }catch(e){ return {}; } })();   // route line transparency, per layer
+const lpEl=id=>document.getElementById(id);
+const lpOp=id=> id in GIS_OP ? Math.max(.05,Math.min(1,+GIS_OP[id]||1)) : 1;
+// the route lines (sport = LSA, cvfr) get their own transparency; the CVFR outline keeps its slightly softer edge
+function gisRouteOpApply(id){
+  const g=GIS.lay[id]; if(!g||(id!=="sport"&&id!=="cvfr")) return; const v=lpOp(id);
+  if(id==="sport"){ g.setStyle({opacity:v}); return; }
+  let i=0; g.eachLayer(l=>{ l.setStyle({opacity:i===0?v*.9:v}); i++; });
+}
+// the slider handle fades with the value: solid at the right end, see-through at the left end
+function lpFade(el){ if(!el) return; const rgb=el.getAttribute("data-rgb")||"31,122,109"; el.style.setProperty("--tb","rgba("+rgb+","+Math.max(.12,el.value/100).toFixed(2)+")"); }
+function lpSync(){
+  ["sport","cvfr"].forEach(id=>{
+    const row=lpEl("lp_"+id), cb=lpEl("gis_"+id), o=lpEl("lp_o_"+id); if(!row||!cb) return;
+    row.classList.toggle("on",cb.checked);
+    if(o){ o.value=Math.round(lpOp(id)*100); lpFade(o); }
+  });
+}
+function lpStatus(id,txt,err){
+  const s=lpEl("lpSt"); if(!s) return;
+  s.textContent=txt||""; s.style.display=txt?"block":"none"; s.classList.toggle("er",!!err);
+}
+function lpKeyClose(){ const k=lpEl("lpKey"), b=lpEl("lpInfo"); if(k) k.classList.remove("show"); if(b) b.classList.remove("on"); }
+function lpFit(){   // the list of extra layers scrolls inside itself when the phone is short
+  const host=lpEl("mbox"), ls=lpEl("lpList"); if(!host||!ls) return;
+  const avail=host.clientHeight-44-(44*3+14*3)-72-14;
+  ls.style.maxHeight=Math.max(110,Math.min(7*44+8,avail))+"px";
+}
+function lpFold(open){ const l=lpEl("lpList"), b=lpEl("lpBar"); if(l) l.classList.toggle("show",!!open); if(b) b.classList.toggle("open",!!open); if(open) lpFit(); }
+function lyrSet(w){
+  w=w||null; if(w===LP_OPEN) return;
+  if(w){ try{closeCurtains();}catch(_){} if(MAP) MAP.closePopup(); }
+  LP_OPEN=w;
+  const L1=lpEl("lpL"), C1=lpEl("lpC"); if(L1) L1.classList.toggle("open",w==="layers"); if(C1) C1.classList.toggle("open",w==="charts");
+  const mb=lpEl("mbox"); if(mb) mb.classList.toggle("pl-open",!!w);
+  if(w!=="layers"){ lpKeyClose(); lpFold(false); }
+  if(w==="layers") lpFold(false);   // always starts folded
+  if(w!=="charts"){ const p=lpEl("cpPop"); if(p) p.classList.remove("show"); }
+  alog("panel "+(w||"closed")); try{mbSync();}catch(_){}
+}
+function lyrPanel(w){ lyrSet(LP_OPEN===w?null:w); }
+function lpSetBase(n){
+  if(!MAP_BASES||!MAP_BASES[n]||n===MAP_BASE) return;
+  MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=n; MAP_BASES[n].addTo(MAP); setTimeout(zoomRoLift,150);
+  try{localStorage.setItem("airnotam_base2",n);}catch(e){}
+  const s=lpEl("cpBsw"), t=lpEl("cpBnm"); if(s) s.className="lp-bsw "+(n==="OSM"?"osm":"std"); if(t) t.textContent=n;
+  document.querySelectorAll("#cpPop .lp-bo").forEach(o=>o.classList.toggle("on",o.getAttribute("data-b")===n));
+}
 function gisPanel(){
-  const s=document.createElement("div"); s.className="gsheet"; s.id="gsheet";
-  const bases=Object.keys(MAP_BASES).map(n=>`<label><input type="radio" name="gpBase" value="${n}"${n===MAP_BASE?" checked":""}>${n}</label>`).join("")
-    ;   // v1.07.058: the LSA chart has its own block below (it is not a base map)
-  const chip=(id,sw,t)=>`<label class="gchip" id="gc_${id}"><input type="checkbox" id="gis_${id}">${sw}<span>${t}</span><small id="gst_${id}"></small></label>`;
-  s.innerHTML='<div class="gs-in"><div class="gs-head"><b>שכבות מפה</b></div>'   // v1.05.015T: B5 "× סגור" sits on the handle; B4 NOTAMs-on-map moved to settings
-    +'<div class="gs-sec"><div class="gs-sl">מפת רקע</div><div class="gs-seg">'+bases+'</div></div>'
-    +'<div class="gs-sec"><div class="gs-sl">מפה רשמית<small>תמונה, נשמרת רק במכשיר שלך</small></div><div class="gs-grid">'   // v1.07.058
-      +'<label class="gchip" id="lsaBtn"><i class="gsw" style="background:#e9d98a66;border-color:#8a6d1f"></i><span>LSA ספורטיבית</span></label>'
-      +'<label class="gchip dis"><i class="gsw" style="background:#e9d98a66;border-color:#8a6d1f"></i><span>LSA CVFR · בקרוב</span></label>'
-    +'</div>'+LSA_BOX+'</div>'
-    +'<div class="gs-sec"><div class="gs-sl">שכבות רת"א<small>מקור: רת"א GIS</small></div><div class="gs-grid">'
-      +chip("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"ספורטיבית")
-      +chip("cvfr",'<i class="gsw ln gsw-cv" style="border-color:#1f7a3f"></i>',"CVFR")   // v1.06.006: same width as sport
-      +chip("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
-      +chip("tma",'<i class="gsw dsh" style="border-color:#4a3f33"></i>',"TMA")
-      +chip("prd",'<i class="gsw" style="background:#c0267e22;border-color:#c0267e"></i>',"P/R/D")
-      +chip("ratag",'<i class="gsw" style="background:#7cb34255;border-color:#5d8f2f"></i>',"שמורות טבע")
-      +chip("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
-      +chip("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
-    +'</div><div class="gs-stat" id="gsStat"></div></div>'
-    // v1.06.006: layers from other sources, each with its source beside it; then the line key (always shown, so the curtain never changes height)
-    +'<div class="gs-sec"><div class="gs-sl">שכבות נוספות</div><div class="gs-grid gs-xtra">'
-      +chip("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")+'<span class="gs-src">מקור: OSM</span></div></div>'
-    +'<div class="gs-sec gs-key"><div class="gs-sl">מקרא קווים</div>'
-      +'<div class="gk-row"><b>ספורטיבית</b><span><i class="gk" style="border-color:#1f7a3f"></i>כל השבוע</span><span><i class="gk" style="border-color:#8b5a2b"></i>סופ"ש</span><span><i class="gk" style="border-color:#6b21a8"></i>מיוחד</span></div>'
-      +'<div class="gk-row"><b>CVFR</b><span><i class="gk gk-cv" style="border-color:#1f7a3f"></i>אזרחי</span><span><i class="gk gk-cv" style="border-color:#1c6fc4"></i>צבאי</span></div>'
-      +'<div class="gk-row"><b></b><span><i class="gk gk-br"></i>מקווקו: באישור בקר/פקח בלבד</span></div></div>'
-    +'</div><button type="button" class="gs-hz" aria-label="סגור"><em class="cg-x"><b>×</b>סגור</em><i></i></button>';
-  mapHost().appendChild(s);   // v1.06.005
-  L.DomEvent.disableClickPropagation(s); L.DomEvent.disableScrollPropagation(s);
-  dragClose(s.querySelector(".gs-hz"),s,"x",-1,()=>gisPanelToggle(false));
-  const dm=document.createElement("div"); dm.className="lyr-dim"; dm.id="lyrDim"; dm.addEventListener("click",()=>gisPanelToggle(false));
-  mapHost().appendChild(dm);   // v1.06.005
-  s.querySelectorAll('input[name="gpBase"]').forEach(r=>r.addEventListener("change",()=>{
-    MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=r.value; MAP_BASES[MAP_BASE].addTo(MAP); setTimeout(zoomRoLift,150);
-    try{localStorage.setItem("airnotam_base2",MAP_BASE);}catch(e){}
-  }));
-  let x0=null;   // swipe left to hide
-  s.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;},{passive:true});
-  s.addEventListener("touchend",e=>{ if(x0!==null && x0-e.changedTouches[0].clientX>40) gisPanelToggle(false); x0=null; },{passive:true});
-  GIS_PANEL=s;
-  gisInitUi();
+  const host=lpEl("mbox"); if(!host) return;
+  const KEY='<div class="lp-key" id="lpKey"><b>צבעי קווי ה-LSA</b><br><s style="border-color:#1f7a3f"></s>פתוח כל השבוע<br><s style="border-color:#8b5a2b"></s>פתוח בסופי שבוע<br><s style="border-color:#6b21a8"></s>מסלול מיוחד<br><s style="border-color:#555;border-top-style:dashed"></s>מקווקו: באישור בקר/פקח בלבד</div>';
+  const route=(id,lbl,aria)=>'<div class="lp-row" id="lp_'+id+'">'
+    +(id==="sport"?'<button type="button" class="lp-ibd" id="lpInfo" aria-label="צבעי קווי ה-LSA">i</button>':'')
+    +'<button type="button" class="lp-rl" id="lp_b_'+id+'">'+lbl+'</button>'
+    +'<input type="range" class="lp-rs" id="lp_o_'+id+'" min="5" max="100" value="100" data-rgb="31,122,109" aria-label="'+aria+'">'
+    +'<input type="checkbox" id="gis_'+id+'" hidden>'+(id==="sport"?KEY:'')+'</div>';
+  const item=(id,sw,t)=>'<label class="lp-li" id="gc_'+id+'"><input type="checkbox" id="gis_'+id+'">'+sw+'<span class="lp-nm">'+t+'</span><small id="gst_'+id+'"></small><span class="lp-tg"></span></label>';
+  const lay='<div class="lp mb-m" id="lpL">'
+    +route("cvfr","CVFR","שקיפות נתיבי CVFR")
+    +route("sport","LSA","שקיפות נתיבי LSA")
+    +'<div class="lp-st" id="lpSt"></div>'
+    +'<button type="button" class="lp-row lp-bar" id="lpBar" aria-expanded="false"><span>שכבות נוספות</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'
+    +'<div class="lp-list" id="lpList">'
+      +item("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
+      +item("tma",'<i class="gsw dsh" style="border-color:#4a3f33"></i>',"TMA")
+      +item("prd",'<i class="gsw" style="background:#c0267e22;border-color:#c0267e"></i>',"P/R/D")
+      +item("ratag",'<i class="gsw" style="background:#7cb34255;border-color:#5d8f2f"></i>',"שמורות טבע")
+      +item("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
+      +item("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
+      +item("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")
+    +'</div></div>';
+  const bo=Object.keys(MAP_BASES).map(n=>'<div class="lp-bo'+(n===MAP_BASE?' on':'')+'" role="button" data-b="'+n+'"><span class="lp-bsw '+(n==="OSM"?"osm":"std")+'"></span>'+n+'</div>').join("");
+  const cha='<div class="lp mb-m" id="lpC" style="--pc:#1c3d6e">'
+    +'<div class="lp-row lp-bp" id="cpBase" role="button" tabindex="0" style="--pc:#44505c" aria-label="מפת רקע"><span class="lp-bsw '+(MAP_BASE==="OSM"?"osm":"std")+'" id="cpBsw"></span><span class="lp-bnm" id="cpBnm">'+MAP_BASE+'</span>'
+      +'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><div class="lp-bpop" id="cpPop">'+bo+'</div></div>'
+    +'<div class="lp-csw"><button type="button" class="lp-sg emp" id="lsaBtn">LSA</button><button type="button" class="lp-sg emp" id="cpCvfr">CVFR<b>+</b></button><button type="button" class="lp-sg emp" id="cpHel">HEL<b>+</b></button></div>'
+    +'<div class="lp-opw" id="cpOp"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>'
+      +'<input type="range" class="lp-rs" id="lsaOp" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המפה"><span id="lsaOpv" hidden></span></div>'
+    +'<div class="lp-lks" id="cpLinks"><button type="button" class="lp-lk" id="lsaRe">החלף LSA</button><button type="button" class="lp-lk" id="lsaDel">מחק LSA</button></div>'
+    +'<div class="lp-st" id="lsaSt"></div></div>';
+  host.insertAdjacentHTML("beforeend",lay+cha);
+  // route rows: the label button switches the layer, the slider sets its transparency (and switches it on)
+  ["sport","cvfr"].forEach(id=>{
+    const b=lpEl("lp_b_"+id), o=lpEl("lp_o_"+id), cb=lpEl("gis_"+id);
+    const fire=()=>cb.dispatchEvent(new Event("change"));
+    b.addEventListener("click",()=>{ cb.checked=!cb.checked; fire(); lpSync(); });
+    o.addEventListener("input",()=>{
+      GIS_OP[id]=o.value/100; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
+      lpFade(o); gisRouteOpApply(id); if(!cb.checked){ cb.checked=true; fire(); } lpSync();
+    });
+  });
+  const ib=lpEl("lpInfo"), kp=lpEl("lpKey");
+  ib.addEventListener("click",e=>{ e.stopPropagation(); const s=!kp.classList.contains("show"); kp.classList.toggle("show",s); ib.classList.toggle("on",s); });
+  kp.addEventListener("click",lpKeyClose);
+  lpEl("lpBar").addEventListener("click",()=>{ const o=!lpEl("lpList").classList.contains("show"); lpFold(o); lpEl("lpBar").setAttribute("aria-expanded",o?"true":"false"); });
+  // charts panel: base map pill with its small menu; CVFR and HEL chart files are not in the app yet
+  lpEl("cpBase").addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".lp-bo"); if(o){ lpSetBase(o.getAttribute("data-b")); lpEl("cpPop").classList.remove("show"); return; } lpEl("cpPop").classList.toggle("show"); });
+  lpEl("cpCvfr").addEventListener("click",()=>lsaStatus("מפת CVFR · בקרוב",false,2500));
+  lpEl("cpHel").addEventListener("click",()=>lsaStatus("מפת HEL · בקרוב",false,2500));
+  window.addEventListener("resize",()=>{ if(LP_OPEN) lpFit(); });
+  gisInitUi(); lpSync(); lpFade(lpEl("lsaOp"));
   try{renderHints();}catch(_){}
 }
-let GIS_PANEL=null;
-// v1.06.007: place the layers curtain at the layers button, never past the bottom of the map; again on every window resize
-function gisFit(){
-  if(!GIS_PANEL) return;
-  const btn=document.querySelector(".lyr-ctl"), st=GIS_PANEL.parentNode; if(!btn||!st) return;
-  const t=Math.round(btn.getBoundingClientRect().top-st.getBoundingClientRect().top); GIS_PANEL.style.top=t+"px";
-  GIS_PANEL.style.maxHeight=Math.max(160,st.clientHeight-t-10)+"px";
-  const sc=GIS_PANEL.querySelector(".gs-in"); if(sc){ if(!sc._cue) cueAdd(sc); setTimeout(sc._cue,60); setTimeout(sc._cue,400); }
-}
-window.addEventListener("resize",()=>{ if(gisPanelOpen()) gisFit(); });
-function gisPanelOpen(){ return !!(GIS_PANEL&&GIS_PANEL.classList.contains("open")); }
-function gisPanelToggle(force){
-  if(!GIS_PANEL) return;
-  const o=force===undefined? !gisPanelOpen() : force;
-  if(o){ closeCurtains();
-    const btn=document.querySelector(".lyr-ctl"), st=GIS_PANEL.parentNode;   // v1.06.005
-    gisFit();   // v1.06.007
-    if(MAP) MAP.closePopup(); }
-  GIS_PANEL.classList.toggle("open",o);
-  const dm=document.getElementById("lyrDim"); if(dm) dm.classList.toggle("show",o);
+function gisFit(){ lpFit(); }
+function gisPanelOpen(){ return !!LP_OPEN; }
+function gisPanelToggle(force){   // kept for the places that only want to close whatever is open
+  if(force===false) lyrSet(null); else if(force===true) lyrSet("layers"); else lyrPanel("layers");
 }
 // keep the tab just above the attribution line
 function gisTabPos(){
@@ -4177,7 +4288,7 @@ async function gisApply(id){
     if(GIS.busy[id]) return;
     GIS.busy[id]=true; gisStatus(id,"טוען…");
     try{
-      gisBuild(id,await gisFetch(id)); gisStatus(id,"");
+      gisBuild(id,await gisFetch(id)); try{gisRouteOpApply(id);}catch(_){} gisStatus(id,"");
     }catch(e){
       gisStatus(id,"לא נטען, נסה שוב",true);
       const cb=document.getElementById("gis_"+id); if(cb) cb.checked=false;
@@ -4480,7 +4591,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.046 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.047 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4490,7 +4601,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.046 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.047 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4657,7 +4768,7 @@ function rvUi(){
     q("rvPrevA").disabled= (RV.lock&&!RV.pend) || RV.i<=0;
   q("rvNextA").disabled= (RV.lock&&!RV.pend) || RV.done || !n;   // v1.08.038: during the short pause the arrows stay live, they skip the wait
 }
-function slotReview(){   // the REVIEW button: starts the review at the first unread NOTAM; when everything is read it opens at the first one, to look through again
+function slotReview(){ try{gisPanelToggle(false);}catch(_){}   // the REVIEW button: starts the review at the first unread NOTAM; when everything is read it opens at the first one, to look through again
   if(RV.on) return;
   if(!READY.total) return;
   startReview();
@@ -4919,12 +5030,12 @@ let MB_RET=false;
 const MB_IC_LIST='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>', MB_IC_MAP='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
 let MB_TAPPED=false;
 function mbDrawGo(){ MB_TAPPED=true; toggleCurtain("rte"); }
-function mbOnlyGo(){ if(ROUTE.length<2){ openCurtain("rte"); return; } setRouteMode(ROUTE_MODE==="only"?"fade":ROUTE_MODE==="fade"?"all":"only"); mbSync(); }   // v1.08.043: ONLY -> FADE -> ALL -> ONLY
-function mbTimeGo(){ toggleFlightDlg(); }
+function mbOnlyGo(){ try{gisPanelToggle(false);}catch(_){} if(ROUTE.length<2){ openCurtain("rte"); return; } setRouteMode(ROUTE_MODE==="only"?"fade":ROUTE_MODE==="fade"?"all":"only"); mbSync(); }   // v1.08.043: ONLY -> FADE -> ALL -> ONLY
+function mbTimeGo(){ try{gisPanelToggle(false);}catch(_){} toggleFlightDlg(); }
 function mbListGo(){ setView(currentView==="list"?"map":"list"); mbSync(); }
 let MP_T=null;
 function mbPillArm(){ clearTimeout(MP_T); MP_T=setTimeout(mbPillClose,4000); }
-function mbPillOpen(){ const p=document.getElementById("mbPill"); p.classList.add("open"); document.getElementById("mpCl").setAttribute("aria-expanded","true"); mbPillArm(); }
+function mbPillOpen(){ try{gisPanelToggle(false);}catch(_){} const p=document.getElementById("mbPill"); p.classList.add("open"); document.getElementById("mpCl").setAttribute("aria-expanded","true"); mbPillArm(); }
 function mbPillClose(){ clearTimeout(MP_T); const p=document.getElementById("mbPill"); if(!p) return; p.classList.remove("open"); document.getElementById("mpCl").setAttribute("aria-expanded","false"); }
 document.addEventListener("pointerdown",e=>{ const p=document.getElementById("mbPill"); if(p&&p.classList.contains("open")&&!p.contains(e.target)) mbPillClose(); },true);
 function mbFam(k){
@@ -4984,8 +5095,7 @@ function mbSync(){
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
   [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); q("mpf_"+k).classList.toggle("o",!FAMC[k]); });
   q("mbPill").classList.toggle("alloff",!(FAMC.cvfr||FAMC.apt||FAMC.hel||FAMC.ins));
-  let gp=false; try{ gp=gisPanelOpen(); }catch(_){}
-  q("mbChart").classList.toggle("on",gp); q("mbLay").classList.toggle("on",gp);
+  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); q("mbLay").classList.toggle("on",LP_OPEN==="layers");   // v1.08.047: one panel each
   const isList=currentView==="list";
   if(q("mbList").dataset.v!==(isList?"l":"m")){ q("mbList").dataset.v=isList?"l":"m";
     q("mbList").innerHTML=(isList?MB_IC_MAP:MB_IC_LIST)+'<span class="mb-t mb-t-c">'+(isList?"MAP":"LIST")+'</span>';
