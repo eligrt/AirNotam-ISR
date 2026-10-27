@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.047 · built by eligrt
+     AirNotam-ISR · v1.08.049 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1536,7 +1536,12 @@ html:has(.spl.show:not(.out)),body:has(.spl.show:not(.out)){background:var(--pap
 
 /* ── v1.08.001: stage 1 - the shell (button look and sizes taken from the approved Proto board; the old tiles, count strip, view toggle and Layers tab are hidden here and replaced in later stages) ── */
 #flightbar,#cstrip,.vtoggle,#gtab,.map-legend,.zoom-ro{display:none !important;}
-.leaflet-control.lyr-ctl{opacity:0;pointer-events:none;}
+.leaflet-control.lyr-ctl{border:2px solid #1c3d6e;border-radius:6px;background:#fbf6e8;}
+.lyr-btn{background:#fbf6e8 !important;width:30px !important;height:30px !important;}
+.lyr-btn svg{stroke:#1c3d6e !important;}
+.lyr-ctl.act .lyr-btn{background:#1c3d6e !important;}
+.lyr-ctl.act .lyr-btn svg{stroke:#fbf6e8 !important;}
+body.rv-on .leaflet-control.lyr-ctl,.drawing-on .leaflet-control.lyr-ctl{display:none;}
 #qbar{display:none !important;} body.lv #qbar{display:flex !important;}
 body.lv #list{padding-top:62px;}
 .tls-warn{display:none !important;}
@@ -1575,7 +1580,7 @@ body.lv #list{padding-top:62px;}
 .mb-leg{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;display:flex;gap:9px;align-items:center;background:rgba(251,246,232,.96);border:1px solid #1c3d6e;border-radius:12px;padding:3px 9px;font-size:10.5px;font-weight:600;color:#1c3d6e;white-space:nowrap;direction:rtl;box-shadow:0 1px 4px rgba(14,35,72,.25);pointer-events:none;}
 .mb-leg span{display:flex;align-items:center;gap:3px;} .mb-leg i{display:block;width:12px;height:12px;border-radius:50%;box-sizing:border-box;}
 .mb-leg .u{background:#e9b5ad;border:1.5px solid #b94a3a;} .mb-leg .r{background:#fbf6e8;border:1.5px dashed #b94a3a;} .mb-leg .x{background:#e4e1da;border:1.5px dotted #6b6b6b;}
-/* ── v1.08.047: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
+/* ── v1.08.049: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
 .mbox.pl-open:not(.rv) .mb-leg{display:none !important;}
 .lp{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;width:216px;display:none;flex-direction:column-reverse;gap:14px;z-index:5;--pc:#1f7a6d;direction:ltr;}
 .lp.open{display:flex;}
@@ -1626,19 +1631,50 @@ body.lv #list{padding-top:62px;}
 .lp-sg b{font-weight:800;margin-left:3px;}
 .lp-bp{cursor:pointer;gap:8px;padding:0 12px 0 5px;}
 .lp-bsw{width:30px;height:30px;border-radius:50%;border:1.5px solid #44505c;flex:none;box-sizing:border-box;display:block;}
-.lp-bsw.std{background:linear-gradient(112deg,#b9d7ea 0 25%,transparent 25%),#e9e6dc;}
-.lp-bsw.osm{background:linear-gradient(112deg,#a9cfe3 0 25%,transparent 25%),#f2efe9;}
-.lp-bnm{flex:1;font:700 14px var(--font-ui);direction:rtl;text-align:right;}
+.lp-bsw.std{background:linear-gradient(112deg,#a9cfe3 0 25%,transparent 25%),#f1ede2;}
+.lp-bsw.sat{background:radial-gradient(circle at 30% 30%,#55683f 0 20%,transparent 21%),radial-gradient(circle at 70% 70%,#6b5f43 0 25%,transparent 26%),#3b4a32;}
+.lp-bsw.sat2{background:radial-gradient(circle at 30% 30%,#6f7f55 0 22%,transparent 23%),radial-gradient(circle at 70% 65%,#8a7d5f 0 26%,transparent 27%),linear-gradient(112deg,#2a4660 0 17%,transparent 17%),#5a6a48;}
+.lp-bsw.estreet{background:linear-gradient(112deg,#a9cfe3 0 25%,transparent 25%),#f1ede2;}
+.lp-bsw.topo{background:repeating-radial-gradient(circle at 65% 40%,transparent 0 5px,#b9a97a 5px 6px),linear-gradient(112deg,#b9d7ea 0 25%,transparent 25%),#dfe8c8;}
+.lp-bsw.shade{background:radial-gradient(ellipse at 35% 30%,#fff 0 12%,transparent 40%),radial-gradient(ellipse at 70% 65%,#6d6d6d 0 10%,transparent 45%),linear-gradient(135deg,#d8d8d2,#a9a9a2);}
+.lp-bnm{flex:1;min-width:0;direction:rtl;text-align:right;}
+.lp-bnm i{display:block;font:700 10px var(--font-ui);color:#44505c;font-style:normal;line-height:1.1;}
+.lp-bnm b{display:block;font:700 14px var(--font-ui);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lp-bp>svg{width:16px;height:16px;fill:none;stroke:#44505c;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;}
-.lp-bpop{position:absolute;left:-3px;right:-3px;bottom:56px;display:none;grid-template-columns:1fr 1fr;gap:8px;background:var(--paper-hi);border:2px solid var(--ink);border-radius:14px;padding:6px;z-index:6;}
+.lp-bpop{position:absolute;left:50%;transform:translateX(-50%);bottom:56px;width:252px;display:none;grid-template-columns:1fr 1fr;gap:8px;background:var(--paper-hi);border:2px solid var(--ink);border-radius:14px;box-shadow:0 4px 16px rgba(14,35,72,.4);padding:6px;z-index:6;direction:rtl;}
 .lp-bpop.show{display:grid;}
-.lp-bo{text-align:center;font:600 12px var(--font-ui);color:var(--ink);padding:3px;border-radius:10px;cursor:pointer;direction:rtl;}
-.lp-bo.on{background:var(--gold-lite);}
-.lp-bo .lp-bsw{width:100%;height:40px;border-radius:8px;margin-bottom:2px;}
+.lp-bo{text-align:center;font:700 12.5px var(--font-ui);line-height:1.15;color:var(--ink);padding:3px;border-radius:12px;cursor:pointer;direction:rtl;}
+.lp-bo.on{background:var(--gold-lite);color:var(--ink-dark);}
+.lp-bo .lp-bsw{width:100%;height:54px;border-radius:10px;border-width:1px;margin-bottom:3px;}
+.lp-bo.on .lp-bsw{border:3px solid #44505c;}
 .lp-lks{width:216px;display:flex;justify-content:center;gap:8px;align-items:center;font-size:12.5px;color:var(--ink);direction:rtl;flex:none;}
 .lp-lk{background:rgba(251,246,232,.96) !important;border-radius:14px;font-size:12.5px;color:var(--ink);text-decoration:underline dashed;text-underline-offset:3px;padding:0 12px !important;min-height:36px;display:flex;align-items:center;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st{display:none;width:216px;box-sizing:border-box;background:rgba(251,246,232,.96);border:1px solid var(--ink);border-radius:14px;padding:5px 11px;font-size:12px;color:var(--ink);text-align:center;direction:rtl;flex:none;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st.er,.lp-st.lsa-err{color:#b00020;font-weight:700;}
+/* ── v1.08.049: one navy CHARTS panel (base map, charts pill, routes pill) and a toggles-only LAYERS popup under the zoom buttons ── */
+.zoom-tl{margin-top:6px !important;}
+.leaflet-control-zoom{margin-top:2px !important;}
+#lpC,#lpC .lp-row,#lpC .lp-pill,#lpC .lp-st,#lpC .lp-lks{width:236px;}
+.lp-pill{box-sizing:border-box;height:44px;display:flex;align-items:center;gap:3px;padding:0 10px 0 3px;background:rgba(251,246,232,.96);border:3px solid #1c3d6e;border-radius:24px;box-shadow:0 1px 5px rgba(14,35,72,.3);color:var(--ink);flex:none;--pc:#1c3d6e;}
+.lp-pill.dim .lp-rs{opacity:.45;}
+.lp-pill .lp-rs{margin:0 0 0 4px;}
+.lp-pill .lp-rs::-webkit-slider-thumb{width:28px;height:28px;margin-top:-10px;}
+.lp-pill .lp-rs::-moz-range-thumb{width:24px;height:24px;}
+.lp-ck{font:700 12px var(--font-ui);height:34px;min-width:42px;padding:0 5px;border-radius:17px;flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+.lp-ck.on{background:#1c3d6e;color:var(--paper);}
+.lp-ck.emp{color:#a79d86;font-weight:600;}
+.lp-ck.on.emp{color:var(--paper);}
+.lp-ck b{font-weight:800;margin-left:2px;}
+.lp-pic{width:22px;height:22px;flex:none;margin-left:2px;color:#6b5d44;}
+.lcur{position:absolute;left:54px;top:96px;width:214px;box-sizing:border-box;display:none;overflow-y:auto;overscroll-behavior:contain;background:rgba(251,246,232,.98);border:3px solid #1c3d6e;border-radius:20px;box-shadow:0 2px 8px rgba(14,35,72,.35);padding:2px 12px;direction:rtl;z-index:5;scrollbar-width:none;}
+.lcur::-webkit-scrollbar{width:0;height:0;}
+.lcur.open{display:block;}
+.lcur .lp-st{width:auto;margin:6px 0 2px;}
+.lcur .lp-li{border-bottom:1px solid var(--paper-edge);}
+.lcur .lp-li:last-of-type{border-bottom:0;}
+.lp-tg::after{left:20px;}
+.lp-li:has(input:checked) .lp-tg{background:#1c3d6e;}
+.lp-li:has(input:checked) .lp-tg::after{left:2px;}
 .lnch .lnch-load{margin-top:8px;font-size:12px;color:var(--ink-muted);text-align:center;}
 .lnch .lnch-load.amber{color:#a86400;font-weight:700;}
 /* v1.08.002: opening card stretched, less crowded */
@@ -1919,7 +1955,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.049 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2045,8 +2081,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
       <button type="button" id="mbOnly" class="mb-b mb-n mb-m" style="left:10px;top:226px" aria-label="רק מסלול" onclick="mbOnlyGo()" aria-pressed="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg><span class="mb-t mb-t-r" id="mbOnlyT">ALL</span></button>
       <button type="button" id="mbTime" class="mb-b mb-n mb-m" style="left:10px;top:284px" aria-label="זמן" onclick="mbTimeGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mb-t mb-t-r" id="mbTimeT">24 HR</span></button>
       <div id="mbPill" class="mb-pill mb-m" role="group" aria-label="סינון NOTAM לפי סוג" style="right:10px;bottom:116px"><div class="mp-clip"><button type="button" class="mp-cl" id="mpCl" aria-label="סינון NOTAM לפי סוג" aria-expanded="false" onclick="mbPillOpen()"><div class="mp-face"><span id="mpf_cvfr"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg></span><span id="mpf_apt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg></span><span id="mpf_hel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg></span><span id="mpf_ins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg></span></div></button><div class="mp-op" id="mpOp"><button type="button" class="mp-hd" aria-label="סגור" onclick="mbPillClose()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><button type="button" id="mbF_cvfr" class="mp-cell" aria-label="CVFR וספורט" onclick="mbFam('cvfr')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg><span>CVFR/LSA</span></button><button type="button" id="mbF_apt" class="mp-cell" aria-label="שדות גדולים" onclick="mbFam('apt')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span>AIRPORT</span></button><button type="button" id="mbF_hel" class="mp-cell" aria-label="מסוקים" onclick="mbFam('hel')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg><span>HELI</span></button><button type="button" id="mbF_ins" class="mp-cell" aria-label="IFR" onclick="mbFam('ins')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg><span>IFR</span></button></div></div><span class="mb-t mb-t-c" id="mbPillT">NOTAM</span></div>
-      <button type="button" id="mbChart" class="mb-b mb-c mb-m" style="left:10px;bottom:160px" aria-label="מפות" onclick="lyrPanel('charts')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-r" id="mbChartT">CHARTS</span></button>
-      <button type="button" id="mbLay" class="mb-b mb-l mb-m" style="left:10px;bottom:102px" aria-label="שכבות" onclick="lyrPanel('layers')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="mb-t mb-t-r" id="mbLayT">LAYERS</span></button>
+      <button type="button" id="mbChart" class="mb-b mb-c mb-m" style="left:10px;bottom:44px" aria-label="מפות" onclick="lyrPanel('charts')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-r" id="mbChartT">CHARTS</span></button>
       <button type="button" id="mbRv" class="mb-rv mb-m" aria-label="סקירה" onclick="slotReview()"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2L6.8 11M3.5 18l1.2 1.2L6.8 17"/></svg><span class="mb-t mb-t-l" id="mbRvT">REVIEW</span><span class="mb-bd" id="mbRvN"></span></button>
       <div class="mb-leg mb-m" id="mbLeg"><span><i class="u"></i>טרם נקרא</span><span><i class="r"></i>נקרא</span><span><i class="x"></i>לא רלוונטי</span></div>
     </div>
@@ -2079,7 +2114,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.049 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2812,6 +2847,16 @@ function listIrr(id){markIrrelevant(id);render();}
 
 // ── Map ──
 let MAP_BASES=null, MAP_BASE=null;
+// v1.08.049: the six base maps of AirTrack (OSM streets is the default)
+const ESRI_URL="https://server.arcgisonline.com/ArcGIS/rest/services/";
+const BASE_LIST=[
+ {k:"std",n:"רחובות (OSM)",u:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",z:19,a:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'},
+ {k:"sat",n:"לוויין",u:ESRI_URL+"World_Imagery/MapServer/tile/{z}/{y}/{x}",z:19,a:"Imagery © Esri and its data providers"},
+ {k:"sat2",n:"לוויין 2",u:"https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg",z:14,a:"Sentinel-2 cloudless by EOX"},
+ {k:"estreet",n:"כבישים (Esri)",u:ESRI_URL+"World_Street_Map/MapServer/tile/{z}/{y}/{x}",z:19,a:"Tiles © Esri"},
+ {k:"topo",n:"טופוגרפית",u:ESRI_URL+"World_Topo_Map/MapServer/tile/{z}/{y}/{x}",z:19,a:"Tiles © Esri"},
+ {k:"shade",n:"טופוגרפית עם הצללה",u:ESRI_URL+"World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",z:13,a:"Tiles © Esri"}
+];
 let MAP=null, MAP_LAYER=null, MAP_NOTE=null, currentView="map";
 let MAP_INDEX={}, CIRCLES={}, GROUPS={};
 const ST_STYLE={
@@ -2835,22 +2880,11 @@ function initMap(){
   if(MAP) { setTimeout(()=>MAP.invalidateSize(), 50); return; }
   MAP = L.map("map", { center:[31.5, 35.0], zoom:7, zoomControl:true });
   // Basemaps (keyless). OSM standard needs a Referer (tile policy 2026) → explicit referrerPolicy.
-  const osm=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
-    maxZoom:19, referrerPolicy:"strict-origin-when-cross-origin",
-    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
-  const topo=L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",{
-    maxZoom:17, subdomains:"abc",
-    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, SRTM | © <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'});
-  // Lean default: Esri light-gray canvas (keyless, no Referer needed, works from file:// too)
-  const EA='Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors';
-  const gray=L.layerGroup([
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxNativeZoom:16,maxZoom:18,attribution:EA}),
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",{maxNativeZoom:16,maxZoom:18})
-  ]);
-  const BASES={"פשוטה":gray,"OSM":osm};   // v1.04.025: topo removed (too crowded)
-  let pick="פשוטה";
-  try{pick=localStorage.getItem("airnotam_base2")||pick;}catch(e){}
-  if(!BASES[pick]) pick="פשוטה";
+  const BASES={};
+  BASE_LIST.forEach(b=>{ BASES[b.k]=L.tileLayer(b.u,{maxZoom:19,maxNativeZoom:b.z,attribution:b.a,referrerPolicy:"strict-origin-when-cross-origin"}); });
+  let pick="std";
+  try{pick=localStorage.getItem("airnotam_base3")||pick;}catch(e){}
+  if(!BASES[pick]) pick="std";
   BASES[pick].addTo(MAP);
   MAP_BASES=BASES; MAP_BASE=pick;
   ROUTE_LAYER=L.layerGroup().addTo(MAP);
@@ -2874,7 +2908,7 @@ function initMap(){
   // v1.08.024: zoom level (Z08) as plain grey italic text under the + / - buttons
   { const zt=L.control({position:"topleft"});
     zt.onAdd=()=>{ const d=L.DomUtil.create("div","zoom-tl"); const f=()=>{ d.textContent="Z"+String(Math.round(MAP.getZoom())).padStart(2,"0"); }; f(); MAP.on("zoom zoomend",f); return d; };
-    zt.addTo(MAP); { const z=MAP.getContainer().querySelector(".leaflet-control-zoom"); if(z&&z.parentNode) z.parentNode.insertBefore(zt.getContainer(),z.nextSibling); } }   // v1.08.025: right under the minus button (before the hidden layers control)
+    zt.addTo(MAP); { const z=MAP.getContainer().querySelector(".leaflet-control-zoom"); if(z&&z.parentNode) z.parentNode.insertBefore(zt.getContainer(),z); } }   // v1.08.025: right under the minus button (before the hidden layers control)
   // v1.05.012T: current zoom level (Z11), lower left
   { const zc=L.control({position:"bottomleft"});
     zc.onAdd=()=>{ const d=L.DomUtil.create("div","zoom-ro"); const f=()=>{ d.textContent="Z"+Math.round(MAP.getZoom()); }; f(); MAP.on("zoomend",f); return d; };
@@ -3933,7 +3967,7 @@ function gisSave(){ try{localStorage.setItem("airnotam_gis2",JSON.stringify(GIS_
 function gisStatus(id,txt,err){
   const s=document.getElementById("gst_"+id); if(s){ s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
   const c=document.getElementById("gc_"+id); if(c){ c.classList.toggle("ld",!!txt&&!err); c.classList.toggle("er",!!err); }
-  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.047: one status line in the Layers panel
+  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.049: one status line in the Layers panel
 }
 function gisInitUi(){
   GIS_IDS.forEach(id=>{
@@ -3947,15 +3981,17 @@ function gisInitUi(){
 // ── v1.07.052: LSA chart (the official sport chart as a picture layer; personal copy, kept only on this device).
 //    Tapping "LSA" in the layers panel: first time asks for the zip (sport-tiles.zip), unzips it into this browser's own storage
 //    (IndexedDB), then shows it as a layer. Proven in the test page chart-test.html v1.00.016. Nothing leaves the device. ──
-const LSA={on:false,stored:0,busy:false,op:1,chart:null,inset:null,caps:[],file:null,ready:false};
+const LSA={on:false,ops:{},k:null,last:null,pend:null,replacing:false,busy:false,op:1,chart:null,inset:null,caps:[],file:null,ready:false};
+// v1.08.049: three charts (LSA, CVFR, HEL), one shows at a time. LSA tiles keep their old keys (digits first), the other two are stored under cvfr/ and hel/
+const CH={lsa:{pfx:"",name:"LSA",stored:0,chart:null,pane:"lsa_chart",z:340},cvfr:{pfx:"cvfr/",name:"CVFR",stored:0,chart:null,pane:"ch_cvfr",z:341},hel:{pfx:"hel/",name:"HEL",stored:0,chart:null,pane:"ch_hel",z:342}};
+const CHK=["lsa","cvfr","hel"], CH_BTN={lsa:"lsaBtn",cvfr:"cpCvfr",hel:"cpHel"};
+const chOp=k=>LSA.ops[k]==null?1:LSA.ops[k];
+const chRange=k=>k==="lsa"?IDBKeyRange.bound("0","9\uffff"):IDBKeyRange.bound(CH[k].pfx,CH[k].pfx+"\uffff");
 const LSA_DB="airnotamLsaDB", LSA_STORE="tiles";
 let LSA_DBP=null, LSA_LIVE={}, LSA_LIVEN=0, LSA_TL={req:0,ok:0,miss:0,fail:0,err:0}, LSA_FAILLOG=0;
 const LSA_TXT="תצוגה מוגדלת - אין לנווט לפי מקומה הגיאוגרפי במפה";
 const LSA_TXT_SHORT="לא במיקום האמיתי";
 const LSA_INSETS=[[[32.54932, 34.83566], [32.54909, 34.74687], [32.5488, 34.65808], [32.54845, 34.56929], [32.54803, 34.4805], [32.54755, 34.39171], [32.54701, 34.30293], [32.54641, 34.21414], [32.54574, 34.12535], [32.61548, 34.12434], [32.68522, 34.12333], [32.75497, 34.12231], [32.82471, 34.1213], [32.89445, 34.12028], [32.96419, 34.11926], [33.03393, 34.11823], [33.10367, 34.11721], [33.10472, 34.22939], [33.10566, 34.34156], [33.10651, 34.45374], [33.10726, 34.56593], [33.1079, 34.67811], [33.10845, 34.7903], [33.10889, 34.90248], [33.10924, 35.01467], [33.06892, 34.99904], [33.0286, 34.98343], [32.98828, 34.96783], [32.94796, 34.95225], [32.90763, 34.93668], [32.8673, 34.92112], [32.82697, 34.90558], [32.78664, 34.89005], [32.75698, 34.88323], [32.72731, 34.87642], [32.69765, 34.86962], [32.66798, 34.86282], [32.63832, 34.85602], [32.60865, 34.84923], [32.57898, 34.84244]], [[32.53885, 34.12547], [32.53944, 34.21358], [32.53996, 34.3017], [32.54042, 34.38982], [32.54082, 34.47794], [32.54115, 34.56606], [32.54143, 34.65418], [32.54164, 34.7423], [32.54179, 34.83042], [32.47002, 34.80976], [32.39825, 34.78913], [32.32648, 34.76853], [32.25471, 34.74796], [32.18293, 34.72743], [32.11115, 34.70693], [32.03936, 34.68646], [31.96758, 34.66602], [31.96729, 34.59931], [31.96697, 34.5326], [31.96661, 34.46589], [31.96622, 34.39918], [31.96579, 34.33247], [31.96532, 34.26576], [31.96482, 34.19905], [31.96428, 34.13234], [32.0361, 34.13149], [32.10792, 34.13063], [32.17974, 34.12977], [32.25156, 34.12892], [32.32339, 34.12806], [32.39521, 34.12719], [32.46703, 34.12633]]];
-const LSA_BOX='<div class="lsa-box" id="lsaBox"><div class="lsa-st" id="lsaSt"></div>'
-  +'<div class="lsa-op"><span>שקיפות</span><input type="range" id="lsaOp" min="0" max="100"><b id="lsaOpv"></b></div>'
-  +'<div class="lsa-ln"><a id="lsaRe">החלף קובץ</a><a id="lsaDel">מחק מהמכשיר</a></div></div>';
 function lsaDb(){
   if(LSA_DBP) return LSA_DBP;
   const me=LSA_DBP=new Promise((res,rej)=>{
@@ -3971,8 +4007,8 @@ function lsaDbReset(why){ if(LSA_DBP){ LSA_DBP=null; alog("lsa db handle dropped
 function lsaWithDb(fn){ return lsaDb().then(fn).catch(e=>{ alog("lsa db op failed ("+(e&&e.name)+"), retrying"); LSA_DBP=null; return lsaDb().then(fn); }); }
 const lsaGet=k=>lsaWithDb(d=>new Promise((res,rej)=>{ const q=d.transaction(LSA_STORE).objectStore(LSA_STORE).get(k); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); }));
 const lsaPutMany=items=>lsaWithDb(d=>new Promise((res,rej)=>{ const t=d.transaction(LSA_STORE,"readwrite"), s=t.objectStore(LSA_STORE); items.forEach(it=>s.put(it[1],it[0])); t.oncomplete=()=>res(); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }));
-const lsaCount=()=>lsaWithDb(d=>new Promise((res,rej)=>{ const q=d.transaction(LSA_STORE).objectStore(LSA_STORE).count(); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); })).catch(()=>-1);
-const lsaClear=()=>lsaWithDb(d=>new Promise(res=>{ const t=d.transaction(LSA_STORE,"readwrite"); t.objectStore(LSA_STORE).clear(); t.oncomplete=()=>res(); }));
+const lsaCount=k=>lsaWithDb(d=>new Promise((res,rej)=>{ const q=d.transaction(LSA_STORE).objectStore(LSA_STORE).count(chRange(k)); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); })).catch(()=>-1);
+const lsaClear=k=>lsaWithDb(d=>new Promise((res,rej)=>{ const t=d.transaction(LSA_STORE,"readwrite"); t.objectStore(LSA_STORE).delete(chRange(k)); t.oncomplete=()=>res(); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }));
 // minimal reader for a "stored" (not compressed) zip
 const lsa16=(v,o)=>v.getUint16(o,true), lsa32=(v,o)=>v.getUint32(o,true);
 function lsaReadZip(file){
@@ -3995,14 +4031,15 @@ function lsaReadZip(file){
 }
 // copy the REAL bytes of each tile (a file slice stored as it is would only be a pointer to the picked file on iPhone, and goes stale)
 const lsaReadEntry=(file,e)=>file.slice(e.lho,e.lho+30).arrayBuffer().then(hb=>{ const h=new DataView(hb), start=e.lho+30+lsa16(h,26)+lsa16(h,28); return file.slice(start,start+e.csize).arrayBuffer(); });
-async function lsaImport(file){
+async function lsaImport(file,k){
   const entries=await lsaReadZip(file);
   const tiles=entries.filter(e=>/(^|\/)(\d+)\/(\d+)\/(\d+)\.webp$/i.test(e.name));
   if(!tiles.length) throw new Error("no tiles");
   if(tiles.some(e=>e.method!==0)) throw new Error("compressed zip");
+  if(LSA.replacing) await lsaClear(k);   // the new file is checked: now the old copy can go
   for(let i=0;i<tiles.length;i+=60){
     const part=tiles.slice(i,i+60);
-    const items=await Promise.all(part.map(e=>{ const m=e.name.match(/(\d+)\/(\d+)\/(\d+)\.webp$/i); return lsaReadEntry(file,e).then(b=>[m[1]+"/"+m[2]+"/"+m[3],b]); }));
+    const items=await Promise.all(part.map(e=>{ const m=e.name.match(/(\d+)\/(\d+)\/(\d+)\.webp$/i); return lsaReadEntry(file,e).then(b=>[CH[k].pfx+m[1]+"/"+m[2]+"/"+m[3],b]); }));
     await lsaPutMany(items);
     lsaStatus("טוען "+Math.min(100,Math.round((i+60)/tiles.length*100))+"%...");
   }
@@ -4014,23 +4051,29 @@ function lsaStatus(t,err,ms){
   clearTimeout(lsaStatus._t); if(t&&ms) lsaStatus._t=setTimeout(()=>{ if(s.textContent===t){ s.textContent=""; s.style.display="none"; } },ms);
 }
 function lsaBoxUi(){
-  const btn=document.getElementById("lsaBtn"); if(!btn) return;
-  const have=LSA.on||LSA.stored>0;   // v1.08.047: grey with a plus until a chart file is stored
-  btn.classList.toggle("on",LSA.on); btn.classList.toggle("emp",!have); btn.innerHTML=have?"LSA":"LSA<b>+</b>";
+  const k=LSA.k;
+  CHK.forEach(c=>{
+    const btn=document.getElementById(CH_BTN[c]); if(!btn) return;
+    const have=CH[c].stored>0||k===c;   // grey with a plus until a chart file is stored
+    btn.classList.toggle("on",k===c); btn.classList.toggle("emp",!have); btn.innerHTML=have?CH[c].name:CH[c].name+"<b>+</b>";
+  });
   const op=document.getElementById("lsaOp"), ov=document.getElementById("lsaOpv");
-  if(op){ op.value=Math.round(LSA.op*100); if(ov) ov.textContent=op.value+"%"; lpFade(op); }
-  const row=document.getElementById("cpOp"); if(row) row.classList.toggle("dim",!LSA.on);
-  const lk=document.getElementById("cpLinks"); if(lk) lk.style.display=(LSA.stored>0&&!LSA.busy)?"flex":"none";
-  if(LSA.on&&!LSA.busy) lsaStatus("מוכן, נשמר רק במכשיר שלך",false,2500); else if(!LSA.on&&!LSA.busy) lsaStatus("");
+  if(op){ op.value=Math.round(chOp(k||LSA.last||"lsa")*100); if(ov) ov.textContent=op.value+"%"; lpFade(op); }
+  const row=document.getElementById("cpOp"); if(row) row.classList.toggle("dim",!k);
+  const lk=document.getElementById("cpLinks"); if(lk) lk.style.display=(k&&CH[k].stored>0&&!LSA.busy)?"flex":"none";
+  const re=document.getElementById("lsaRe"), de=document.getElementById("lsaDel");
+  if(k){ if(re) re.textContent="החלף "+CH[k].name; if(de) de.textContent="מחק "+CH[k].name; }
+  if(k&&!LSA.busy) lsaStatus("מוכן, נשמר רק במכשיר שלך",false,2500); else if(!k&&!LSA.busy) lsaStatus("");
 }
-function lsaMakeLayers(){
-  if(LSA.chart) return;
+let CH_CLASS=null;
+function lsaMakeLayers(k){
+  const C=CH[k]; if(C.chart) return;
   const mk=(n,z)=>{ const pn=MAP.createPane(n); pn.style.zIndex=z; pn.style.pointerEvents="none"; };
-  mk("lsa_chart",340); mk("lsa_inset",345); mk("lsa_cap",390);
-  const Chart=L.TileLayer.extend({
+  mk(C.pane,C.z);
+  if(!CH_CLASS) CH_CLASS=L.TileLayer.extend({
     createTile(coords,done){
       const img=document.createElement("img"); img.alt=""; img.setAttribute("role","presentation");
-      const key=coords.z+"/"+coords.x+"/"+coords.y; LSA_TL.req++;
+      const key=this.options.pfx+coords.z+"/"+coords.x+"/"+coords.y; LSA_TL.req++;
       let fin=false; const end=e=>{ if(fin) return; fin=true; done(e,img); };
       lsaGet(key).then(blob=>{
         if(!blob){ LSA_TL.miss++; end(null); return; }       // a miss is normal: blank (white) parts of the chart have no tile
@@ -4038,13 +4081,15 @@ function lsaMakeLayers(){
         const url=URL.createObjectURL(blob); LSA_LIVE[url]=1; LSA_LIVEN++;
         const rel=()=>{ if(LSA_LIVE[url]){ URL.revokeObjectURL(url); delete LSA_LIVE[url]; LSA_LIVEN--; } };
         img.onload=()=>{ LSA_TL.ok++; rel(); end(null); };
-        img.onerror=()=>{ LSA_TL.err++; if(LSA_FAILLOG++<15) alog("lsa tile decode ERROR "+key); rel(); end(null); };
+        img.onerror=()=>{ LSA_TL.err++; if(LSA_FAILLOG++<15) alog("chart tile decode ERROR "+key); rel(); end(null); };
         img.src=url;
-      }).catch(e=>{ LSA_TL.fail++; if(LSA_FAILLOG++<15) alog("lsa tile read FAILED "+key+" "+(e&&e.name)); end(null); });
+      }).catch(e=>{ LSA_TL.fail++; if(LSA_FAILLOG++<15) alog("chart tile read FAILED "+key+" "+(e&&e.name)); end(null); });
       return img;
     }
   });
-  LSA.chart=new Chart("",{pane:"lsa_chart",minZoom:7,maxNativeZoom:12,maxZoom:19,opacity:LSA.op,updateWhenZooming:false,keepBuffer:1,tileSize:256});
+  C.chart=new CH_CLASS("",{pane:C.pane,pfx:C.pfx,minZoom:7,maxNativeZoom:12,maxZoom:19,opacity:LSA.op,updateWhenZooming:false,keepBuffer:1,tileSize:256});
+  if(k!=="lsa") return;
+  LSA.chart=C.chart; mk("lsa_inset",345); mk("lsa_cap",390);
   // warning overlay on the two enlarged insets (they sit over the sea, not at their real place): fine red grid + caption
   document.body.insertAdjacentHTML("beforeend",'<svg width="0" height="0" style="position:absolute"><defs><pattern id="lsaGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#b00020" stroke-opacity=".45" stroke-width="1"/></pattern></defs></svg>');
   LSA.inset=L.layerGroup();
@@ -4092,71 +4137,86 @@ function lsaCaptions(){
 // the grid shows only where the chart shows (chart on, view inside the chart's zoom range, not fully transparent) and fades with it
 function lsaInsetSync(){
   if(!LSA.chart) return;
-  const z=MAP.getZoom(), show=LSA.on&&LSA.stored>0&&z>=LSA.chart.options.minZoom&&LSA.op>0.02;
+  const z=MAP.getZoom(), show=LSA.k==="lsa"&&CH.lsa.stored>0&&z>=LSA.chart.options.minZoom&&LSA.op>0.02;
   if(show&&!MAP.hasLayer(LSA.inset)) LSA.inset.addTo(MAP);
   if(!show&&MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset);
   if(!show) return;
   MAP.getPane("lsa_inset").style.opacity=Math.min(1,0.25+LSA.op);
   lsaCaptions();
 }
-let LSA_RAF=0; const lsaInsetSoon=()=>{ if(!LSA.on||LSA_RAF) return; LSA_RAF=requestAnimationFrame(()=>{ LSA_RAF=0; lsaInsetSync(); }); };
-function lsaSet(on){
-  LSA.on=!!on; try{localStorage.setItem("airnotam_lsa",LSA.on?"1":"0");}catch(e){}
-  if(LSA.on){ lsaMakeLayers(); if(!MAP.hasLayer(LSA.chart)) LSA.chart.addTo(MAP); }
-  else if(LSA.chart){ if(MAP.hasLayer(LSA.chart)) MAP.removeLayer(LSA.chart); if(MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset); }
-  lsaBoxUi(); lsaInsetSync(); alog("lsa chart "+(LSA.on?"on":"off"));
+let LSA_RAF=0; const lsaInsetSoon=()=>{ if(LSA.k!=="lsa"||LSA_RAF) return; LSA_RAF=requestAnimationFrame(()=>{ LSA_RAF=0; lsaInsetSync(); }); };
+function lsaSet(k,on){   // turns one chart on or off; turning one on turns the others off
+  const prev=LSA.k;
+  if(prev&&(prev!==k||!on)){ const P=CH[prev]; if(P.chart&&MAP.hasLayer(P.chart)) MAP.removeLayer(P.chart); }
+  if(on){ LSA.k=k; LSA.last=k; LSA.op=chOp(k); lsaMakeLayers(k); const C=CH[k]; if(!MAP.hasLayer(C.chart)) C.chart.addTo(MAP); C.chart.setOpacity(LSA.op); }
+  else if(prev===k) LSA.k=null;
+  LSA.on=!!LSA.k;
+  try{localStorage.setItem("airnotam_chart",LSA.k||"");}catch(e){}
+  lsaBoxUi(); lsaInsetSync(); alog("chart "+(LSA.k||"off"));
 }
-function lsaPick(){ lsaStatus("בחר את קובץ ה-zip של המפה"); LSA.file.value=""; LSA.file.click(); }
-function lsaBtnTap(){
+function lsaPick(k,rep){ LSA.pend=k; LSA.replacing=!!rep; lsaStatus("בחר את קובץ ה-zip של מפת "+CH[k].name); LSA.file.value=""; LSA.file.click(); }
+function lsaBtnTap(k){
   if(LSA.busy) return;
-  if(LSA.on) return lsaSet(false);
-  if(LSA.stored>0) return lsaSet(true);
-  lsaPick();
+  if(LSA.k===k) return lsaSet(k,false);
+  if(CH[k].stored>0) return lsaSet(k,true);
+  lsaPick(k,false);
 }
 async function lsaOnFile(){
-  const f=LSA.file.files&&LSA.file.files[0]; if(!f) return;
-  alog("lsa zip picked: "+f.name+" "+Math.round(f.size/1048576)+" MB");
+  const f=LSA.file.files&&LSA.file.files[0]; if(!f){ LSA.replacing=false; return; }
+  const k=LSA.pend||"lsa";
+  alog("chart zip picked ("+k+"): "+f.name+" "+Math.round(f.size/1048576)+" MB");
   LSA.busy=true; lsaBoxUi(); lsaStatus("קורא את הקובץ...");
   try{
-    const n=await lsaImport(f); LSA.stored=await lsaCount(); alog("lsa zip imported: "+n+" tiles");
-    LSA.busy=false; lsaSet(true);
-    if(LSA.chart) LSA.chart.redraw();
+    const n=await lsaImport(f,k); CH[k].stored=Math.max(0,await lsaCount(k)); alog("chart zip imported ("+k+"): "+n+" tiles");
+    LSA.busy=false; lsaSet(k,true);
+    if(CH[k].chart) CH[k].chart.redraw();
     try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}
   }catch(e){
-    LSA.busy=false; alog("lsa zip import FAILED "+(e&&e.message)); lsaBoxUi();
-    lsaStatus("לא נטען, נסה שוב",true);
+    LSA.busy=false; alog("chart zip import FAILED ("+k+") "+(e&&e.message)); lsaBoxUi();
+    lsaStatus(e&&e.message==="compressed zip"?"הקובץ דחוס, שמור אותו בלי דחיסה":"לא נטען, נסה שוב",true);
   }
-  LSA.file.value="";
+  LSA.replacing=false; LSA.file.value="";
 }
 function lsaInit(){
-  try{ LSA.op=Math.max(0,Math.min(1,(parseInt(localStorage.getItem("airnotam_lsa_op"),10)||100)/100)); }catch(e){}
+  try{ let o=null; try{ o=JSON.parse(localStorage.getItem("airnotam_chart_ops")); }catch(e){}
+    if(!o||typeof o!=="object"){ const v=Math.max(0,Math.min(1,(parseInt(localStorage.getItem("airnotam_lsa_op"),10)||100)/100)); o={lsa:v,cvfr:v,hel:v}; }
+    LSA.ops=o; LSA.op=chOp("lsa"); }catch(e){}
   LSA.file=document.createElement("input"); LSA.file.type="file"; LSA.file.accept=".zip,application/zip,application/x-zip-compressed"; LSA.file.style.display="none";
   LSA.file.addEventListener("change",lsaOnFile); document.body.appendChild(LSA.file);
-  const btn=document.getElementById("lsaBtn"); if(btn) btn.addEventListener("click",lsaBtnTap);
+  CHK.forEach(c=>{ const b=document.getElementById(CH_BTN[c]); if(b) b.addEventListener("click",()=>lsaBtnTap(c)); });
   const op=document.getElementById("lsaOp");
-  if(op) op.addEventListener("input",()=>{ LSA.op=op.value/100; document.getElementById("lsaOpv").textContent=op.value+"%"; lpFade(op); if(!LSA.on&&LSA.stored>0&&!LSA.busy) lsaSet(true); if(LSA.chart) LSA.chart.setOpacity(LSA.op); lsaInsetSync(); try{localStorage.setItem("airnotam_lsa_op",String(op.value));}catch(e){} });
-  const re=document.getElementById("lsaRe"); if(re) re.addEventListener("click",()=>{ if(!LSA.busy) lsaPick(); });
+  if(op) op.addEventListener("input",()=>{
+    let k=LSA.k, turn=null;
+    if(!k&&!LSA.busy) turn=(LSA.last&&CH[LSA.last].stored>0)?LSA.last:CHK.find(c=>CH[c].stored>0);
+    const r=k||turn||LSA.last||"lsa"; LSA.ops[r]=op.value/100;
+    try{localStorage.setItem("airnotam_chart_ops",JSON.stringify(LSA.ops));}catch(e){}
+    document.getElementById("lsaOpv").textContent=op.value+"%"; lpFade(op);
+    if(turn) lsaSet(turn,true); else if(k){ LSA.op=LSA.ops[k]; if(CH[k].chart) CH[k].chart.setOpacity(LSA.op); }
+    lsaInsetSync();
+  });
+  const re=document.getElementById("lsaRe"); if(re) re.addEventListener("click",()=>{ if(!LSA.busy&&LSA.k) lsaPick(LSA.k,true); });
   const del=document.getElementById("lsaDel"); if(del) del.addEventListener("click",async()=>{
-    if(LSA.busy||!confirm("למחוק את מפת LSA מהמכשיר?")) return;
-    await lsaClear(); LSA.stored=0; lsaSet(false); alog("lsa chart deleted from device");
+    const k=LSA.k; if(LSA.busy||!k||!confirm("למחוק את מפת "+CH[k].name+" מהמכשיר?")) return;
+    await lsaClear(k); CH[k].stored=0; lsaSet(k,false); alog("chart "+k+" deleted from device");
   });
   MAP.on("zoomend moveend resize",lsaInsetSync); MAP.on("move",lsaInsetSoon);
   document.addEventListener("visibilitychange",()=>{ if(document.visibilityState!=="hidden") lsaDbReset("visible"); });
   window.addEventListener("pageshow",e=>{ if(e.persisted) lsaDbReset("pageshow"); });
   lsaBoxUi();
-  lsaCount().then(n=>{
-    LSA.stored=n>0?n:0; alog("lsa tiles stored: "+n); lsaBoxUi();
-    let want=false; try{ want=localStorage.getItem("airnotam_lsa")==="1"; }catch(e){}
-    if(want&&LSA.stored>0) lsaSet(true); else if(want) lsaSet(false);
-  });
+  (async()=>{
+    for(const c of CHK){ CH[c].stored=Math.max(0,await lsaCount(c)); }
+    alog("chart tiles stored: lsa "+CH.lsa.stored+", cvfr "+CH.cvfr.stored+", hel "+CH.hel.stored); lsaBoxUi();
+    let want=null; try{ want=localStorage.getItem("airnotam_chart"); if(want===null&&localStorage.getItem("airnotam_lsa")==="1") want="lsa"; }catch(e){}
+    if(want&&CH[want]&&CH[want].stored>0) lsaSet(want,true);
+  })();
 }
 
-/* ── v1.08.047: stage 5 - the Charts panel (blue) and the Layers panel (green).
+/* ── v1.08.049: stage 5 - the Charts panel (blue) and the Layers panel (green).
    Two floating panels built like the AirTrack ROUTES rows. The first row sits just above the map credit line and every row lines up
    with its button on the left. They live inside the map overlay (mbox), so they hide by themselves while drawing, in the review and in the list view.
    The old side curtain is gone. ── */
 let LP_OPEN=null;   // "charts" | "layers" | null
-const GIS_OP=(()=>{ try{ return JSON.parse(localStorage.getItem("airnotam_gis_op")||"{}")||{}; }catch(e){ return {}; } })();   // route line transparency, per layer
+const GIS_OP=(()=>{ try{ return JSON.parse(localStorage.getItem("airnotam_gis_op")||"{}")||{}; }catch(e){ return {}; } })();   // route line transparency, per route
 const lpEl=id=>document.getElementById(id);
 const lpOp=id=> id in GIS_OP ? Math.max(.05,Math.min(1,+GIS_OP[id]||1)) : 1;
 // the route lines (sport = LSA, cvfr) get their own transparency; the CVFR outline keeps its slightly softer edge
@@ -4166,59 +4226,54 @@ function gisRouteOpApply(id){
   let i=0; g.eachLayer(l=>{ l.setStyle({opacity:i===0?v*.9:v}); i++; });
 }
 // the slider handle fades with the value: solid at the right end, see-through at the left end
-function lpFade(el){ if(!el) return; const rgb=el.getAttribute("data-rgb")||"31,122,109"; el.style.setProperty("--tb","rgba("+rgb+","+Math.max(.12,el.value/100).toFixed(2)+")"); }
+function lpFade(el){ if(!el) return; const rgb=el.getAttribute("data-rgb")||"28,61,110"; el.style.setProperty("--tb","rgba("+rgb+","+Math.max(.12,el.value/100).toFixed(2)+")"); }
+// routes: one at a time (LSA, CVFR or none); the slider belongs to the one that is on, and each route keeps its own transparency
+const RT_IDS=["sport","cvfr"]; let RT_LAST="sport";
+function rtSel(){ return RT_IDS.find(id=>{ const c=lpEl("gis_"+id); return c&&c.checked; })||null; }
 function lpSync(){
-  ["sport","cvfr"].forEach(id=>{
-    const row=lpEl("lp_"+id), cb=lpEl("gis_"+id), o=lpEl("lp_o_"+id); if(!row||!cb) return;
-    row.classList.toggle("on",cb.checked);
-    if(o){ o.value=Math.round(lpOp(id)*100); lpFade(o); }
-  });
+  const s=rtSel(); if(s) RT_LAST=s; const ref=s||RT_LAST;
+  RT_IDS.forEach(id=>{ const b=lpEl("lp_b_"+id); if(b) b.classList.toggle("on",id===s); });
+  const o=lpEl("lp_o_rt"); if(o){ o.value=Math.round(lpOp(ref)*100); lpFade(o); }
+  const p=lpEl("lp_rt"); if(p) p.classList.toggle("dim",!s);
+}
+function rtPick(id){
+  const cb=lpEl("gis_"+id), oth=lpEl("gis_"+RT_IDS.find(x=>x!==id)); if(!cb||!oth) return;
+  const on=!cb.checked;
+  if(on&&oth.checked){ oth.checked=false; oth.dispatchEvent(new Event("change")); }
+  cb.checked=on; cb.dispatchEvent(new Event("change")); if(on) RT_LAST=id; lpSync();
 }
 function lpStatus(id,txt,err){
-  const s=lpEl("lpSt"); if(!s) return;
-  s.textContent=txt||""; s.style.display=txt?"block":"none"; s.classList.toggle("er",!!err);
+  ["lpSt","lpSt2"].forEach(n=>{ const s=lpEl(n); if(!s) return; s.textContent=txt||""; s.style.display=txt?"block":"none"; s.classList.toggle("er",!!err); });
 }
-function lpKeyClose(){ const k=lpEl("lpKey"), b=lpEl("lpInfo"); if(k) k.classList.remove("show"); if(b) b.classList.remove("on"); }
-function lpFit(){   // the list of extra layers scrolls inside itself when the phone is short
-  const host=lpEl("mbox"), ls=lpEl("lpList"); if(!host||!ls) return;
-  const avail=host.clientHeight-44-(44*3+14*3)-72-14;
-  ls.style.maxHeight=Math.max(110,Math.min(7*44+8,avail))+"px";
+function lpPlace(){   // the layers popup opens right next to its button, at the top
+  const b=document.querySelector(".lyr-ctl"), h=lpEl("mbox"), c=lpEl("lpL"); if(!b||!h||!c) return;
+  const br=b.getBoundingClientRect(), hr=h.getBoundingClientRect(), top=Math.round(br.top-hr.top);
+  c.style.top=top+"px"; c.style.maxHeight=Math.max(150,Math.round(hr.height-top-60))+"px";
 }
-function lpFold(open){ const l=lpEl("lpList"), b=lpEl("lpBar"); if(l) l.classList.toggle("show",!!open); if(b) b.classList.toggle("open",!!open); if(open) lpFit(); }
+function lpFit(){ if(LP_OPEN==="layers") lpPlace(); }
 function lyrSet(w){
   w=w||null; if(w===LP_OPEN) return;
   if(w){ try{closeCurtains();}catch(_){} if(MAP) MAP.closePopup(); }
   LP_OPEN=w;
   const L1=lpEl("lpL"), C1=lpEl("lpC"); if(L1) L1.classList.toggle("open",w==="layers"); if(C1) C1.classList.toggle("open",w==="charts");
   const mb=lpEl("mbox"); if(mb) mb.classList.toggle("pl-open",!!w);
-  if(w!=="layers"){ lpKeyClose(); lpFold(false); }
-  if(w==="layers") lpFold(false);   // always starts folded
+  if(w==="layers") lpPlace();
   if(w!=="charts"){ const p=lpEl("cpPop"); if(p) p.classList.remove("show"); }
   alog("panel "+(w||"closed")); try{mbSync();}catch(_){}
 }
 function lyrPanel(w){ lyrSet(LP_OPEN===w?null:w); }
-function lpSetBase(n){
-  if(!MAP_BASES||!MAP_BASES[n]||n===MAP_BASE) return;
-  MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=n; MAP_BASES[n].addTo(MAP); setTimeout(zoomRoLift,150);
-  try{localStorage.setItem("airnotam_base2",n);}catch(e){}
-  const s=lpEl("cpBsw"), t=lpEl("cpBnm"); if(s) s.className="lp-bsw "+(n==="OSM"?"osm":"std"); if(t) t.textContent=n;
-  document.querySelectorAll("#cpPop .lp-bo").forEach(o=>o.classList.toggle("on",o.getAttribute("data-b")===n));
+function lpSetBase(k){
+  if(!MAP_BASES||!MAP_BASES[k]||k===MAP_BASE) return;
+  MAP.removeLayer(MAP_BASES[MAP_BASE]); MAP_BASE=k; MAP_BASES[k].addTo(MAP); MAP_BASES[k].bringToBack(); setTimeout(zoomRoLift,150);
+  try{localStorage.setItem("airnotam_base3",k);}catch(e){}
+  const b=BASE_LIST.find(x=>x.k===k), s=lpEl("cpBsw"), tx=lpEl("cpBnm"); if(s) s.className="lp-bsw "+k; if(tx&&b) tx.textContent=b.n;
+  document.querySelectorAll("#cpPop .lp-bo").forEach(o=>o.classList.toggle("on",o.getAttribute("data-b")===k));
 }
 function gisPanel(){
   const host=lpEl("mbox"); if(!host) return;
-  const KEY='<div class="lp-key" id="lpKey"><b>צבעי קווי ה-LSA</b><br><s style="border-color:#1f7a3f"></s>פתוח כל השבוע<br><s style="border-color:#8b5a2b"></s>פתוח בסופי שבוע<br><s style="border-color:#6b21a8"></s>מסלול מיוחד<br><s style="border-color:#555;border-top-style:dashed"></s>מקווקו: באישור בקר/פקח בלבד</div>';
-  const route=(id,lbl,aria)=>'<div class="lp-row" id="lp_'+id+'">'
-    +(id==="sport"?'<button type="button" class="lp-ibd" id="lpInfo" aria-label="צבעי קווי ה-LSA">i</button>':'')
-    +'<button type="button" class="lp-rl" id="lp_b_'+id+'">'+lbl+'</button>'
-    +'<input type="range" class="lp-rs" id="lp_o_'+id+'" min="5" max="100" value="100" data-rgb="31,122,109" aria-label="'+aria+'">'
-    +'<input type="checkbox" id="gis_'+id+'" hidden>'+(id==="sport"?KEY:'')+'</div>';
-  const item=(id,sw,t)=>'<label class="lp-li" id="gc_'+id+'"><input type="checkbox" id="gis_'+id+'">'+sw+'<span class="lp-nm">'+t+'</span><small id="gst_'+id+'"></small><span class="lp-tg"></span></label>';
-  const lay='<div class="lp mb-m" id="lpL">'
-    +route("cvfr","CVFR","שקיפות נתיבי CVFR")
-    +route("sport","LSA","שקיפות נתיבי LSA")
-    +'<div class="lp-st" id="lpSt"></div>'
-    +'<button type="button" class="lp-row lp-bar" id="lpBar" aria-expanded="false"><span>שכבות נוספות</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'
-    +'<div class="lp-list" id="lpList">'
+  if(gisOn("sport")&&gisOn("cvfr")){ GIS_ON.cvfr=false; gisSave(); }   // routes are one at a time now
+  const item=(id,sw,tx)=>'<label class="lp-li" id="gc_'+id+'"><input type="checkbox" id="gis_'+id+'">'+sw+'<span class="lp-nm">'+tx+'</span><small id="gst_'+id+'"></small><span class="lp-tg"></span></label>';
+  const lay='<div class="lcur mb-m" id="lpL"><div class="lp-st" id="lpSt2"></div>'
       +item("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
       +item("tma",'<i class="gsw dsh" style="border-color:#4a3f33"></i>',"TMA")
       +item("prd",'<i class="gsw" style="background:#c0267e22;border-color:#c0267e"></i>',"P/R/D")
@@ -4226,35 +4281,30 @@ function gisPanel(){
       +item("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
       +item("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
       +item("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")
-    +'</div></div>';
-  const bo=Object.keys(MAP_BASES).map(n=>'<div class="lp-bo'+(n===MAP_BASE?' on':'')+'" role="button" data-b="'+n+'"><span class="lp-bsw '+(n==="OSM"?"osm":"std")+'"></span>'+n+'</div>').join("");
+    +'</div>';
+  const bo=BASE_LIST.map(b=>'<div class="lp-bo'+(b.k===MAP_BASE?' on':'')+'" role="button" data-b="'+b.k+'"><span class="lp-bsw '+b.k+'"></span>'+b.n+'</div>').join("");
+  const bcur=BASE_LIST.find(x=>x.k===MAP_BASE)||BASE_LIST[0];
+  const icMap='<svg class="lp-pic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
+  const icRt='<svg class="lp-pic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg>';
   const cha='<div class="lp mb-m" id="lpC" style="--pc:#1c3d6e">'
-    +'<div class="lp-row lp-bp" id="cpBase" role="button" tabindex="0" style="--pc:#44505c" aria-label="מפת רקע"><span class="lp-bsw '+(MAP_BASE==="OSM"?"osm":"std")+'" id="cpBsw"></span><span class="lp-bnm" id="cpBnm">'+MAP_BASE+'</span>'
+    +'<div class="lp-row lp-bp" id="cpBase" role="button" tabindex="0" style="--pc:#44505c" aria-label="מפת רקע"><span class="lp-bsw '+bcur.k+'" id="cpBsw"></span><span class="lp-bnm"><i>מפת רקע</i><b id="cpBnm">'+bcur.n+'</b></span>'
       +'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><div class="lp-bpop" id="cpPop">'+bo+'</div></div>'
-    +'<div class="lp-csw"><button type="button" class="lp-sg emp" id="lsaBtn">LSA</button><button type="button" class="lp-sg emp" id="cpCvfr">CVFR<b>+</b></button><button type="button" class="lp-sg emp" id="cpHel">HEL<b>+</b></button></div>'
-    +'<div class="lp-opw" id="cpOp"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>'
-      +'<input type="range" class="lp-rs" id="lsaOp" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המפה"><span id="lsaOpv" hidden></span></div>'
+    +'<div class="lp-pill" id="cpOp"><button type="button" class="lp-ck emp" id="lsaBtn">LSA</button><button type="button" class="lp-ck emp" id="cpCvfr">CVFR</button>'
+      +'<input type="range" class="lp-rs" id="lsaOp" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המפה"><span id="lsaOpv" hidden></span>'+icMap+'</div>'
+    +'<div class="lp-pill" id="lp_rt"><button type="button" class="lp-ck" id="lp_b_sport">LSA</button><button type="button" class="lp-ck" id="lp_b_cvfr">CVFR</button>'
+      +'<input type="range" class="lp-rs" id="lp_o_rt" min="5" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המסלולים">'
+      +'<input type="checkbox" id="gis_sport" hidden><input type="checkbox" id="gis_cvfr" hidden>'+icRt+'</div>'
     +'<div class="lp-lks" id="cpLinks"><button type="button" class="lp-lk" id="lsaRe">החלף LSA</button><button type="button" class="lp-lk" id="lsaDel">מחק LSA</button></div>'
-    +'<div class="lp-st" id="lsaSt"></div></div>';
+    +'<div class="lp-st" id="lsaSt"></div><div class="lp-st" id="lpSt"></div></div>';
   host.insertAdjacentHTML("beforeend",lay+cha);
-  // route rows: the label button switches the layer, the slider sets its transparency (and switches it on)
-  ["sport","cvfr"].forEach(id=>{
-    const b=lpEl("lp_b_"+id), o=lpEl("lp_o_"+id), cb=lpEl("gis_"+id);
-    const fire=()=>cb.dispatchEvent(new Event("change"));
-    b.addEventListener("click",()=>{ cb.checked=!cb.checked; fire(); lpSync(); });
-    o.addEventListener("input",()=>{
-      GIS_OP[id]=o.value/100; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
-      lpFade(o); gisRouteOpApply(id); if(!cb.checked){ cb.checked=true; fire(); } lpSync();
-    });
+  RT_IDS.forEach(id=>lpEl("lp_b_"+id).addEventListener("click",()=>rtPick(id)));
+  const ro=lpEl("lp_o_rt");
+  ro.addEventListener("input",()=>{
+    const id=rtSel()||RT_LAST; GIS_OP[id]=ro.value/100; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
+    lpFade(ro); gisRouteOpApply(id); if(!rtSel()) rtPick(id); else lpSync();
   });
-  const ib=lpEl("lpInfo"), kp=lpEl("lpKey");
-  ib.addEventListener("click",e=>{ e.stopPropagation(); const s=!kp.classList.contains("show"); kp.classList.toggle("show",s); ib.classList.toggle("on",s); });
-  kp.addEventListener("click",lpKeyClose);
-  lpEl("lpBar").addEventListener("click",()=>{ const o=!lpEl("lpList").classList.contains("show"); lpFold(o); lpEl("lpBar").setAttribute("aria-expanded",o?"true":"false"); });
-  // charts panel: base map pill with its small menu; CVFR and HEL chart files are not in the app yet
-  lpEl("cpBase").addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".lp-bo"); if(o){ lpSetBase(o.getAttribute("data-b")); lpEl("cpPop").classList.remove("show"); return; } lpEl("cpPop").classList.toggle("show"); });
-  lpEl("cpCvfr").addEventListener("click",()=>lsaStatus("מפת CVFR · בקרוב",false,2500));
-  lpEl("cpHel").addEventListener("click",()=>lsaStatus("מפת HEL · בקרוב",false,2500));
+  // charts panel: base map pill with its menu of swatches (the menu stays open, so the pilot sees the real effect on the map)
+  lpEl("cpBase").addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".lp-bo"); if(o){ lpSetBase(o.getAttribute("data-b")); return; } lpEl("cpPop").classList.toggle("show"); });
   window.addEventListener("resize",()=>{ if(LP_OPEN) lpFit(); });
   gisInitUi(); lpSync(); lpFade(lpEl("lsaOp"));
   try{renderHints();}catch(_){}
@@ -4591,7 +4641,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.047 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.049 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4601,7 +4651,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.047 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.049 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4656,7 +4706,7 @@ function memSnap(tag){
     const tiles=document.querySelectorAll("#map img.leaflet-tile").length;
     const secs=Math.max(1,(Date.now()-TL_T)/1000), perMin=Math.round(TL_N*60/secs);
     const gis=GIS_IDS.filter(id=>GIS.lay[id]&&MAP.hasLayer(GIS.lay[id])).join(",")||"none";
-    const base=MAP_BASE==="פשוטה"?"gray":MAP_BASE;
+    const base=MAP_BASE;
     alog(`mem ${tag} · canvas ${cv.length} ${Math.round(px*4/1048576)}MB · tile img ${tiles} · tl ${TL_N} in ${Math.round(secs)}s (${perMin}/min, ${TL_ALL} total) · base ${base} · gis ${gis} · lsa ${LSA.on?"on "+LSA.stored+" tiles ok "+LSA_TL.ok+" miss "+LSA_TL.miss+" fail "+(LSA_TL.fail+LSA_TL.err)+" links "+LSA_LIVEN+" op "+Math.round(LSA.op*100):"off"} · shapes ${Object.keys(CIRCLES).length} · Z${Math.round(MAP.getZoom())}`);
     TL_N=0; TL_T=Date.now();
   }catch(e){ alog("mem error "+e.message); }
@@ -5095,7 +5145,7 @@ function mbSync(){
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
   [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); q("mpf_"+k).classList.toggle("o",!FAMC[k]); });
   q("mbPill").classList.toggle("alloff",!(FAMC.cvfr||FAMC.apt||FAMC.hel||FAMC.ins));
-  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); q("mbLay").classList.toggle("on",LP_OPEN==="layers");   // v1.08.047: one panel each
+  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); { const lc=document.querySelector(".lyr-ctl"); if(lc) lc.classList.toggle("act",LP_OPEN==="layers"); document.body.classList.toggle("rv-on",inRv); }   // v1.08.049: one panel each
   const isList=currentView==="list";
   if(q("mbList").dataset.v!==(isList?"l":"m")){ q("mbList").dataset.v=isList?"l":"m";
     q("mbList").innerHTML=(isList?MB_IC_MAP:MB_IC_LIST)+'<span class="mb-t mb-t-c">'+(isList?"MAP":"LIST")+'</span>';
