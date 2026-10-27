@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.055 · built by eligrt
+     AirNotam-ISR · v1.08.062 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -652,6 +652,9 @@ html,body{height:100%;height:var(--app-h,100%);background:var(--paper-hi);font-f
 .pu-g .g-t{font-size:12px;color:var(--ink-muted);margin-top:1px;}
 .pu-g .g-a{font-size:12.5px;margin-top:2px;}
 .pu-g .g-a b{font-family:var(--font-mono);font-weight:600;}
+.pu-bub{display:flex;align-items:center;gap:7px;padding:2px 0 !important;border-top:none !important;font-size:13.5px;color:var(--ink-dark);}
+.pu-bub i{width:10px;height:10px;border-radius:2px;flex:none;}
+.pu-bub span{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-muted);}
 .pu-g .g-n{font-size:12px;color:var(--ink-muted);margin-top:1px;}
 
 /* v1.04.002: map layers panel, tile status word, iPhone full-screen */
@@ -1580,7 +1583,7 @@ body.lv #list{padding-top:62px;}
 .mb-leg{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;display:flex;gap:9px;align-items:center;background:rgba(251,246,232,.96);border:1px solid #1c3d6e;border-radius:12px;padding:3px 9px;font-size:10.5px;font-weight:600;color:#1c3d6e;white-space:nowrap;direction:rtl;box-shadow:0 1px 4px rgba(14,35,72,.25);pointer-events:none;}
 .mb-leg span{display:flex;align-items:center;gap:3px;} .mb-leg i{display:block;width:12px;height:12px;border-radius:50%;box-sizing:border-box;}
 .mb-leg .u{background:#e9b5ad;border:1.5px solid #b94a3a;} .mb-leg .r{background:#fbf6e8;border:1.5px dashed #b94a3a;} .mb-leg .x{background:#e4e1da;border:1.5px dotted #6b6b6b;}
-/* ── v1.08.055: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
+/* ── v1.08.062: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
 .mbox.pl-open:not(.rv) .mb-leg{display:none !important;}
 .lp{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;width:216px;display:none;flex-direction:column-reverse;gap:14px;z-index:5;--pc:#1f7a6d;direction:ltr;}
 .lp.open{display:flex;}
@@ -1653,7 +1656,7 @@ body.lv #list{padding-top:62px;}
 .lp-lk{background:rgba(251,246,232,.96) !important;border-radius:14px;font-size:12.5px;color:var(--ink);text-decoration:underline dashed;text-underline-offset:3px;padding:0 12px !important;min-height:36px;display:flex;align-items:center;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st{display:none;width:216px;box-sizing:border-box;background:rgba(251,246,232,.96);border:1px solid var(--ink);border-radius:14px;padding:5px 11px;font-size:12px;color:var(--ink);text-align:center;direction:rtl;flex:none;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st.er,.lp-st.lsa-err{color:#b00020;font-weight:700;}
-/* ── v1.08.055: one navy CHARTS panel (base map, charts pill, routes pill) and a toggles-only LAYERS popup under the zoom buttons ── */
+/* ── v1.08.062: one navy CHARTS panel (base map, charts pill, routes pill) and a toggles-only LAYERS popup under the zoom buttons ── */
 .zoom-tl{margin-top:6px !important;}
 .leaflet-control-zoom{margin-top:2px !important;}
 #lpC,#lpC .lp-row,#lpC .lp-pill,#lpC .lp-st,#lpC .lp-lks{width:236px;}
@@ -1919,6 +1922,23 @@ body .rvc.news{border-top-color:#b94a3a;}
 .rvc.news .cg-x{color:#b94a3a;}
 .card.st-can .c-id{text-decoration:line-through;color:#8a7a5a;}
 body.bell-on.lv .lstat{padding-right:62px;}
+/* v1.08.062: bubbles layer name labels */
+.bub-lbm{position:relative;width:0;height:0;}
+.bub-lbm span{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;direction:rtl;font-family:var(--font-ui);font-size:11px;font-weight:700;color:#4b2a85;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff;}
+
+/* v1.08.062: slim settings - icon rows, no section titles, the curtain is only as tall as its rows */
+.setp{top:auto;bottom:var(--footh,44px);max-height:calc(100% - var(--footh,44px) - var(--settop,92px));}
+.sp-body{flex:0 1 auto;padding-bottom:58px;gap:8px;}
+.sp-irow{flex-direction:row;align-items:center;gap:11px;min-height:52px;text-decoration:none;}
+.sp-ic{flex:none;width:34px;height:34px;border-radius:10px;background:var(--ink);display:grid;place-items:center;}
+.sp-ic svg{width:20px;height:20px;fill:none;stroke:var(--paper-hi);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;}
+.sp-ic.r{background:var(--stamp-red);}
+.sp-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.sp-irow .sp-corr{flex:none;width:auto;margin:0;gap:4px;direction:ltr;}
+.sp-irow .sp-corr button{flex:none;height:34px;padding:0 10px;font-size:12px;}
+.sp-sep{border-top:1.5px dashed var(--paper-edge);margin:4px 0;}
+.sp-irow.sp-red{min-height:52px;}
+#spUpd,#spUpd+.sp-row{padding-bottom:14px}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1958,7 +1978,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.055 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.062 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1984,23 +2004,12 @@ body.bell-on.lv .lstat{padding-right:62px;}
     <button type="button" class="sp-grip" id="spGrip" aria-label="סגור"><i></i><em class="cg-x"><b>×</b>סגור</em></button>
     <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
       <div id="diagLine" style="order:99;font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);direction:ltr;text-align:left;margin-top:14px;"><a id="admLog" onclick="alogCopy()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">admin log</a> · <a id="stressLnk" onclick="stressToggle()" style="color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer;">stress test</a></div>   <!-- v1.06.004; v1.06.033: stress test -->
-      <div class="sp-sec new">חלון זמן ברירת מחדל</div>
-      <div class="sp-row sp-static"><small>החלון שמוצג כשלא הוגדר טווח שעות מותאם אישית</small><div class="gs-seg" style="width:100%"><label><input type="radio" name="spwin" value="24" checked>24 שעות</label><label><input type="radio" name="spwin" value="48">48 שעות</label><label><input type="radio" name="spwin" value="all">הכל</label></div></div>
-      <div class="sp-sec">רוחב המסלול</div>
-      <div class="sp-row sp-static" id="rteCorrBox"><small>עד כמה רחוק מהמסלול לחפש NOTAMים</small><div class="fgrace sp-corr" id="corrSeg"><button type="button" data-c="2">2NM</button><button type="button" data-c="3">3NM</button><button type="button" data-c="5">5NM</button></div></div>
-      <div class="sp-sec">רענון</div>
-      <button type="button" class="sp-row" id="spUpd" onclick="setRefreshData()"><b id="spUpdT">בדוק NOTAMים חדשים</b><small><span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small><span class="sp-bar"><i></i></span></button>
-      <button type="button" class="sp-row" onclick="setReloadApp(this)"><b>טען מחדש את האפליקציה</b><small>טעינה מחדש בלי זיכרון מטמון, למשל אחרי עדכון גרסה.</small></button>
-      <div class="sp-sec">NOTAMים על המפה</div>
-      <div class="sp-row sp-static"><div class="sp-warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>טייס, שים לב: משיקולי בטיחות טיסה, הגדרה זו תקפה רק בתכנון הטיסה הנוכחי.</span></div>
-        <div class="gs-seg sp-nv"><label><input type="radio" name="gpNv" value="normal" checked>רגיל</label><label><input type="radio" name="gpNv" value="fade">מעומעם</label><label><input type="radio" name="gpNv" value="hide">מוסתר</label></div></div>
-      <div class="sp-sec">הגדרות מתקדמות: מפה ומסלול</div>
-      <label class="sp-row sp-swrow r-sw"><span><b>מסנן צורות במפה</b><small>מציג במפה בחירה לפי סוג הצורה (פוליגון, טבעת, מקטע נתיב ועוד). לשימוש מתקדם.</small></span><input type="checkbox" id="famSet"></label>
-      <div class="sp-sec">משוב</div>
-      <div class="sp-row sp-static"><b>הבחנת בתקלה או שיש לך רעיון?</b><small><a href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב">אשמח שתעדכן</a></small></div>
-      <div class="sp-sec sp-danger">איפוס</div>
-      <button type="button" class="sp-row sp-red" onclick="setRestartReview()"><b>התחל סקירה מחדש</b><small>כל ה-NOTAMים יחזרו ל"טרם נקרא". זמני הטיסה והמסלול נשמרים.</small></button>
-      <button type="button" class="sp-row sp-red" onclick="setFullReset()"><b>איפוס מלא של האפליקציה</b></button>
+      <button type="button" class="sp-row sp-irow" id="spUpd" onclick="setRefreshData()"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></span><span class="sp-tx"><b id="spUpdT">בדוק NOTAMים חדשים</b><small><span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small></span><span class="sp-bar"><i></i></span></button>
+      <div class="sp-row sp-irow sp-static" id="rteCorrBox"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/></svg></span><span class="sp-tx"><b>רוחב המסלול</b></span><div class="fgrace sp-corr" id="corrSeg"><button type="button" data-c="2">2NM</button><button type="button" data-c="3">3NM</button><button type="button" data-c="5">5NM</button></div></div>
+      <label class="sp-row sp-irow sp-swrow r-sw"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><rect x="11" y="11" width="9" height="9" rx="1.5"/></svg></span><span class="sp-tx"><b>מסנן צורות במפה</b><small>בחירה לפי סוג הצורה. למתקדמים</small></span><input type="checkbox" id="famSet"></label>
+      <a class="sp-row sp-irow" href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg></span><span class="sp-tx"><b>יש תקלה או רעיון? כתוב לי</b></span></a>
+      <div class="sp-sep"></div>
+      <button type="button" class="sp-row sp-irow sp-red" onclick="setFullReset()"><span class="sp-ic r"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg></span><span class="sp-tx"><b>איפוס מלא של האפליקציה</b></span></button>
     </div>
   </div>
 
@@ -2117,7 +2126,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.055 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.062 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2850,7 +2859,7 @@ function listIrr(id){markIrrelevant(id);render();}
 
 // ── Map ──
 let MAP_BASES=null, MAP_BASE=null;
-// v1.08.055: the six base maps of AirTrack (OSM streets is the default)
+// v1.08.062: the six base maps of AirTrack (OSM streets is the default)
 const ESRI_URL="https://server.arcgisonline.com/ArcGIS/rest/services/";
 const BASE_LIST=[
  {k:"std",n:"רחובות (OSM)",u:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",z:19,a:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'},
@@ -3116,11 +3125,11 @@ function famUi(){
 // v1.08.022: the shape filter sits evenly between the last red button and REVIEW; only its list scrolls, a soft fade at the bottom says "more below"
 function famFade(){ const ls=document.querySelector(".fam-ctl .fam-list"); if(!ls) return; ls.classList.toggle("more", ls.scrollTop+ls.clientHeight < ls.scrollHeight-3); }
 function famPlace(){
-  const box=document.querySelector(".fam-ctl"), ls=box&&box.querySelector(".fam-list"), a=document.getElementById("mbF_ins"), r=document.getElementById("mbRv"), m=MAP&&MAP.getContainer(); if(!ls||!a||!r||!m) return;
+  const box=document.querySelector(".fam-ctl"), ls=box&&box.querySelector(".fam-list"), a=document.getElementById("mbList"), r=document.getElementById("mbPill")||document.getElementById("mbRv"), m=MAP&&MAP.getContainer(); if(!ls||!a||!r||!m) return;
   const keep=ls.scrollTop; ls.style.maxHeight="none"; const natural=box.offsetHeight-ls.offsetHeight+ls.scrollHeight;
   const top=a.getBoundingClientRect().bottom, bot=r.getBoundingClientRect().top, free=bot-top;
   if(free<90){ box.style.display="none"; return; } box.style.display="";
-  const stepH=box.offsetHeight-ls.offsetHeight, maxBox=Math.min(natural, 190, free-24), listH=Math.max(50,maxBox-stepH);
+  const stepH=box.offsetHeight-ls.offsetHeight, maxBox=Math.min(natural, free-24), listH=Math.max(50,maxBox-stepH);
   ls.style.maxHeight=listH+"px";
   const h=box.offsetHeight, gap=(free-h)/2;
   box.style.marginRight="10px"; box.style.marginBottom="0px"; const b0=box.getBoundingClientRect().bottom;
@@ -3292,7 +3301,7 @@ function openAt(ll,firstId){
   const top=[document.getElementById("nvPill")].filter(el=>el&&mapHost().contains(el)).reduce((t,el)=>{ const r=el&&el.getBoundingClientRect();   // v1.06.005
     return r&&r.height? Math.max(t,Math.round(r.bottom-mr.top)+12) : t; },40);
   const w=node.querySelector(".pu-wrap"); if(w) w.style.maxHeight=Math.max(180,Math.min(340,mr.height-top-90))+"px";
-  L.popup({pane:"popTop",maxWidth:310,minWidth:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
+  const small=!ids.length&&GIS._bubOnly; L.popup({pane:"popTop",maxWidth:small?240:310,minWidth:small?0:260,autoPanPaddingTopLeft:[20,top],autoPanPaddingBottomRight:[20,70]}).setLatLng(ll).setContent(node).openOn(MAP);
   // v1.05.003T: a NOTAM with several areas: all its parts get a thicker outline while its popup is open
   const hl=ids.map(id=>CIRCLES[id]).filter(c=>c&&c._shape&&c._shape.parts.length>1);
   hl.forEach(c=>c._shapes.forEach(l=>{ l._w0=l.options.weight; l.setStyle({weight:(l.options.weight||2.5)+2.5}); }));
@@ -3739,7 +3748,7 @@ function lnchGo(){
   alog("launch card done: "+JSON.stringify(fam));
   famLoad(); try{ render(); }catch(_){}
   // v1.08.022: the map opens close in on Israel (north and centre large); the zoom follows the height of the map, in fractions of a step
-  try{ if(MAP){ MAP.invalidateSize(); const H=MAP.getSize().y||836, z=Math.max(7.3,Math.min(9,8.4+Math.log2(H/836)));
+  try{ if(MAP){ MAP.invalidateSize(); const H=MAP.getSize().y||836, z=Math.max(7.3,Math.min(10,9.4+Math.log2(H/836)));
     MAP.options.zoomSnap=0.1; MAP.setView([31.9,35.0],z,{animate:false}); MAP.options.zoomSnap=1; } }catch(_){}
   if(ROUTE.length>=2){ MB_RET=true; mbSync();   // v1.08.001: a saved route: one quiet line in the info box (gone on the first touch), no extra card
     document.getElementById("stage").addEventListener("pointerdown",()=>{ MB_RET=false; mbSync(); },{once:true,capture:true}); }
@@ -3951,11 +3960,11 @@ function maybeAskFlight(){ /* v1.04.018: no auto-open, the "מתי" tile asks fo
 
 /* ── v1.04.001: IAA GIS layers (lazy: each layer file is fetched only when switched on, then cached) ── */
 const GIS_VER="2023a";
-const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy","borders"];   // v1.06.001: + state borders (OpenStreetMap)
-const GIS_DEF={ctr:0,tma:0,prd:0,sport:1,cvfr:1,ifr:0,ratag:0,rwy:0,borders:1};
+const GIS_IDS=["ctr","tma","prd","sport","cvfr","ifr","ratag","rwy","borders","bubbles"];   // v1.06.001: + state borders (OpenStreetMap)
+const GIS_DEF={ctr:0,tma:0,prd:0,sport:1,cvfr:1,ifr:0,ratag:0,rwy:0,borders:1,bubbles:0};
 // muted palette: never NOTAM red / blue / grey
 const GIS_COL={CTR:"#2a2218",ATZ:"#2a2218",CTA:"#4a3f33",TMA:"#4a3f33",P:"#c0267e",R:"#d9468f",D:"#e27bb1",
-  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f7a3f",cvfr:"#1f7a3f",cvfrMil:"#1c6fc4",ifr:"#4d5a1f",rwy:"#1a1308"};
+  ratag:"#5d8f2f",ratagF:"#7cb342",sport:"#1f7a3f",cvfr:"#1f7a3f",cvfrMil:"#1c6fc4",ifr:"#4d5a1f",rwy:"#1a1308",bubbles:"#7a4fb5"};
 // v1.05.011T: like the chart legends: BR ("באישור בקר/פקח בלבד") = dashed; CVFR military-only route = blue
 const gisBR=p=>/^BR\b/.test((p&&p.t)||""), gisMil=p=>/\bMIL\b/.test((p&&p.t)||"");
 // sportive routes like the official chart: green = all week, brown = weekend only, purple = special (south)
@@ -3970,7 +3979,7 @@ function gisSave(){ try{localStorage.setItem("airnotam_gis2",JSON.stringify(GIS_
 function gisStatus(id,txt,err){
   const s=document.getElementById("gst_"+id); if(s){ s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
   const c=document.getElementById("gc_"+id); if(c){ c.classList.toggle("ld",!!txt&&!err); c.classList.toggle("er",!!err); }
-  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.055: one status line in the Layers panel
+  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.062: one status line in the Layers panel
 }
 function gisInitUi(){
   GIS_IDS.forEach(id=>{
@@ -3985,7 +3994,7 @@ function gisInitUi(){
 //    Tapping "LSA" in the layers panel: first time asks for the zip (sport-tiles.zip), unzips it into this browser's own storage
 //    (IndexedDB), then shows it as a layer. Proven in the test page chart-test.html v1.00.016. Nothing leaves the device. ──
 const LSA={on:false,ops:{},k:null,last:null,pend:null,replacing:false,busy:false,op:1,chart:null,inset:null,caps:[],file:null,ready:false};
-// v1.08.055: three charts (LSA, CVFR, HEL), one shows at a time. LSA tiles keep their old keys (digits first), the other two are stored under cvfr/ and hel/
+// v1.08.062: three charts (LSA, CVFR, HEL), one shows at a time. LSA tiles keep their old keys (digits first), the other two are stored under cvfr/ and hel/
 const CH={lsa:{pfx:"",name:"LSA",stored:0,chart:null,pane:"lsa_chart",z:340},cvfr:{pfx:"cvfr/",name:"CVFR",stored:0,chart:null,pane:"ch_cvfr",z:338},hel:{pfx:"hel/",name:"HEL",stored:0,chart:null,pane:"ch_hel",z:337}};
 const CHK=["lsa","cvfr","hel"], CH_BTN={lsa:"lsaBtn",cvfr:"cpCvfr",hel:"cpHel"};
 const chOp=k=>LSA.ops[k]==null?1:LSA.ops[k];
@@ -4216,7 +4225,7 @@ function lsaInit(){
   })();
 }
 
-/* ── v1.08.055: stage 5 - the Charts panel (blue) and the Layers panel (green).
+/* ── v1.08.062: stage 5 - the Charts panel (blue) and the Layers panel (green).
    Two floating panels built like the AirTrack ROUTES rows. The first row sits just above the map credit line and every row lines up
    with its button on the left. They live inside the map overlay (mbox), so they hide by themselves while drawing, in the review and in the list view.
    The old side curtain is gone. ── */
@@ -4282,6 +4291,7 @@ function gisPanel(){
       +item("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
       +item("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
       +item("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")
+      +item("bubbles",'<i class="gsw" style="background:#7a4fb522;border-color:#7a4fb5;border-style:dashed"></i>','בועות אז"מ')
     +'</div><div class="lp-st lpf mb-m" id="lpSt2"></div>';   // the status line floats under the popup, so the popup never changes size
   const bo=BASE_LIST.map(b=>'<div class="lp-bo'+(b.k===MAP_BASE?' on':'')+'" role="button" data-b="'+b.k+'"><span class="lp-bsw '+b.k+'"></span>'+b.n+'</div>').join("");
   const bcur=BASE_LIST.find(x=>x.k===MAP_BASE)||BASE_LIST[0];
@@ -4323,7 +4333,7 @@ function gisTabPos(){
   t.style.bottom=((mapOn()&&a?a.offsetHeight:0)+(mapOn()?6:14))+"px";   // v1.06.005
 }
 function gisInitMap(){
-  [["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gcv",356],["gln",357],["gpt",358],["brd",359]].forEach(([n,z])=>{
+  [["bub",350],["ratag",351],["tma",352],["prd",353],["ctr",354],["rwy",355],["gcv",356],["gln",357],["gpt",358],["brd",359]].forEach(([n,z])=>{
     const pn=MAP.createPane("g_"+n); pn.style.zIndex=z; pn.style.pointerEvents="none";
     GIS.R[n]=L.canvas({pane:"g_"+n});
   });
@@ -4419,12 +4429,27 @@ function gisFetch(id){
   return GIS_DATA[id];
 }
 function gisBbox(coords){ let a=[180,90,-180,-90]; coords.forEach(([x,y])=>{if(x<a[0])a[0]=x;if(y<a[1])a[1]=y;if(x>a[2])a[2]=x;if(y>a[3])a[3]=y;}); return a; }
+function bubCentroid(r){ let a=0,cx=0,cy=0; for(let i=0,j=r.length-1;i<r.length;j=i++){ const f=r[j][0]*r[i][1]-r[i][0]*r[j][1]; a+=f; cx+=(r[j][0]+r[i][0])*f; cy+=(r[j][1]+r[i][1])*f; }
+  if(Math.abs(a)<1e-12) return [r[0][1],r[0][0]]; a*=3; return [cy/a,cx/a]; }
+function gisBubLbl(){ if(!GIS.lbl||!MAP) return; const on=MAP.getZoom()>=10&&gisOn("bubbles")&&GIS.lay.bubbles&&MAP.hasLayer(GIS.lay.bubbles);
+  if(on){ if(!MAP.hasLayer(GIS.lbl)) GIS.lbl.addTo(MAP); } else if(MAP.hasLayer(GIS.lbl)) MAP.removeLayer(GIS.lbl); }
 function gisBuild(id,d){
   const idx=GIS.idx[id]=[];
   if(id==="borders"){   // v1.06.001: "this is where Israel ends": a dark solid line with a light halo, readable on every base map
     const o={pane:"g_brd",renderer:GIS.R.brd,interactive:false};
     GIS.lay[id]=L.layerGroup([L.geoJSON(d,{...o,style:{color:"#ffffff",weight:6.5,opacity:.85,lineCap:"round",lineJoin:"round"}}),
                               L.geoJSON(d,{...o,style:{color:"#1a1308",weight:2.6,opacity:1,lineCap:"round",lineJoin:"round"}})]);
+    return;
+  }
+  if(id==="bubbles"){   // v1.08.062: bubbles traced from the sport chart (gis/bubbles.json), unofficial
+    const COL=GIS_COL.bubbles, feats=(d&&d.features)||[];
+    GIS.lay[id]=L.geoJSON({type:"FeatureCollection",features:feats},{pane:"g_bub",renderer:GIS.R.bub,interactive:false,style:{color:COL,weight:1.8,dashArray:"7 5",fillColor:COL,fillOpacity:.1}});
+    GIS.lbl=L.layerGroup();
+    feats.forEach(f=>{ const g=f.geometry, pr=f.properties||{}; if(!g||!/Polygon/.test(g.type)) return;
+      const polys=g.type==="Polygon"?[g.coordinates]:g.coordinates, nm=pr.name||pr.code||"";
+      idx.push({k:"poly",bb:gisBbox(polys.flat(2)),polys,p:{n:nm,c:pr.code},c:COL});
+      L.marker(bubCentroid(polys[0][0]),{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
+        html:'<div class="bub-lbm"><span>'+esc(nm)+'</span></div>'})}).addTo(GIS.lbl); });
     return;
   }
   if(["ctr","tma","prd","ratag"].includes(id)){
@@ -4469,7 +4494,7 @@ function gisFill(){
   Object.keys(GIS.sty).forEach(id=>GIS.lay[id]&&GIS.lay[id].setStyle(GIS.sty[id]));
 }
 function gisPts(){
-  if(!MAP) return; const z=MAP.getZoom()>=GIS_PT_ZOOM;
+  if(!MAP) return; gisBubLbl(); const z=MAP.getZoom()>=GIS_PT_ZOOM;
   Object.keys(GIS.pts).forEach(id=>{ const show=z&&gisOn(id)&&GIS.lay[id]&&MAP.hasLayer(GIS.lay[id]);
     show? GIS.pts[id].addTo(MAP) : MAP.removeLayer(GIS.pts[id]); });
 }
@@ -4477,11 +4502,12 @@ function gisInRing(x,y,r){ let ins=false; for(let i=0,j=r.length-1;i<r.length;j=
   if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi)) ins=!ins; } return ins; }
 function gisSegPx(p,a,b){ const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy; let t=l?((p.x-a.x)*dx+(p.y-a.y)*dy)/l:0; t=Math.max(0,Math.min(1,t));
   return Math.hypot(p.x-(a.x+t*dx),p.y-(a.y+t*dy)); }
-const GIS_ORDER=["ctr","tma","prd","ratag","rwy","sport","cvfr","ifr"];
+const GIS_ORDER=["ctr","tma","prd","bubbles","ratag","rwy","sport","cvfr","ifr"];
 function gisAlt(p){ if((p.lo===""||p.lo==null)&&(p.hi===""||p.hi==null)) return "";
   const f=v=>{const n=Number(v);return Number.isFinite(n)&&String(v).trim()!==""?n.toLocaleString("en-US"):String(v);};
   return `${f(p.lo)} - ${f(p.hi)}`; }
 function gisItem(p,c,alt){
+  if(c===GIS_COL.bubbles) return `<div class="pu-g pu-bub"><i style="background:${c}"></i><b>${esc(p.n||p.c)}</b>${p.c&&p.c!==p.n?`<span dir="ltr">${esc(p.c)}</span>`:""}</div>`;
   let s=`<div class="pu-g"><div class="g-h"><i style="background:${c}"></i>${esc(p.n||p.c)}</div>`;
   if(p.c&&p.c!==p.n) s+=`<div class="g-c">${esc(p.c)}</div>`;
   if(p.t) s+=`<div class="g-t">${esc(p.t)}</div>`;
@@ -4493,9 +4519,10 @@ function gisHtml(ll){
   if(!MAP) return "";
   const x=ll.lng,y=ll.lat,z=MAP.getZoom(),P=MAP.latLngToContainerPoint(ll);
   const tol=12, tolDeg=tol*360/(256*Math.pow(2,z)), ptsOn=z>=GIS_PT_ZOOM;
-  let out="";
+  let out="", other=false;
   GIS_ORDER.forEach(id=>{
     if(!GIS.lay[id]||!MAP.hasLayer(GIS.lay[id])) return;
+    const n0=out.length;
     (GIS.idx[id]||[]).forEach(o=>{
       if(o.k==="poly"){
         const b=o.bb; if(x<b[0]||x>b[2]||y<b[1]||y>b[3]) return;
@@ -4511,7 +4538,10 @@ function gisHtml(ll){
         const q=MAP.latLngToContainerPoint([o.y,o.x]); if(Math.hypot(q.x-P.x,q.y-P.y)<=tol) out+=gisItem(o.p,o.c,"");
       }
     });
+    if(id!=="bubbles"&&out.length>n0) other=true;
   });
+  GIS._bubOnly=!!out&&!other;
+  if(GIS._bubOnly) return out;   // v1.08.062: bubbles alone get a small card with no header
   return out? `<div class="pu-gdiv">מרחב אוויר בנקודה זו</div>`+out : "";
 }
 // iPhone home-screen app: iOS can report a viewport shorter than the screen → size the app to the real screen
@@ -4644,7 +4674,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.055 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.062 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4654,7 +4684,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.055 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.062 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5148,7 +5178,7 @@ function mbSync(){
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
   [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); q("mpf_"+k).classList.toggle("o",!FAMC[k]); });
   q("mbPill").classList.toggle("alloff",!(FAMC.cvfr||FAMC.apt||FAMC.hel||FAMC.ins));
-  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); { const lc=document.querySelector(".lyr-ctl"); if(lc) lc.classList.toggle("act",LP_OPEN==="layers"); document.body.classList.toggle("rv-on",inRv); }   // v1.08.055: one panel each
+  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); { const lc=document.querySelector(".lyr-ctl"); if(lc) lc.classList.toggle("act",LP_OPEN==="layers"); document.body.classList.toggle("rv-on",inRv); }   // v1.08.062: one panel each
   const isList=currentView==="list";
   if(q("mbList").dataset.v!==(isList?"l":"m")){ q("mbList").dataset.v=isList?"l":"m";
     q("mbList").innerHTML=(isList?MB_IC_MAP:MB_IC_LIST)+'<span class="mb-t mb-t-c">'+(isList?"MAP":"LIST")+'</span>';
