@@ -1,0 +1,410 @@
+# scrape.yml · v1.00.005 · AirNotam-ISR · built by eligrt
+name: Scrape NOTAMs
+
+# No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
+# A Cloudflare Worker starts this workflow (workflow_dispatch) every 30 minutes with mode=light,
+# and once a day at 00:30 UTC with mode=full. The manual "Run workflow" button works the same way.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "light = read the list page, fetch only NOTAMs not stored yet. full = re-read every NOTAM."
+        type: choice
+        options:
+          - full
+          - light
+        default: full
+
+permissions:
+  contents: write
+  issues: write        # new-flag issues from the "Flag NOTAMs worth a look" step
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Run scraper
+        env:
+          MODE: ${{ inputs.mode || 'full' }}
+        run: |
+          node --input-type=module <<'SCRAPER_EOF'
+          /**
+           * AirNotam scraper (mobile endpoints) — fetches Israeli NOTAMs from the official
+           * IAA Mobile AeroInfo pages, which serve plain server-rendered HTML with no bot-wall
+           * on the data (unlike the desktop ext.iaa.gov.il site).
+           *
+           * Flow:
+           *   1. GET maiNotam.aspx           -> list page, extract (rowID, notamId) pairs
+           *   2. GET maiDetails.aspx?rowID=  -> full Q/A/B/C/E text per NOTAM
+           *   3. parse -> write ../notams.json
+           *
+           * Two modes (env MODE):
+           *   full  - step 2 for every NOTAM on the list (the daily sweep, and the default).
+           *   light - step 2 only for numbers not stored yet. Stored numbers still on the list are
+           *           kept exactly as saved (no re-fetch); numbers gone from the list are dropped.
+           *           If notams.json is missing or unreadable, light falls back to full.
+           *
+           * News for the app's bell (v1.00.005):
+           *   - firstSeen: the moment a NOTAM number was first seen on the list (accurate to about 30 minutes).
+           *     NOTAMs already stored before this change get no stamp and stay quiet.
+           *   - cancelled: NOTAMs that left the list while their end time was still in the future (RTA cancelled
+           *     them early). Each keeps its full record plus cancelledAt, for 72 hours. Natural expiry is not listed.
+           *
+           * No headless browser needed — plain HTTP. Runs the same locally and in CI.
+           *   node scrape.mjs
+           *
+           * TLS (TEMPORARY, v1.00.004): on 2026-10-17 the IAA site started serving a certificate that
+           * Node rejects (browsers show a warning), so every run failed with "fetch failed". If, and
+           * only if, the certificate is rejected, requests to brin.iaa.gov.il (that host only) continue
+           * WITHOUT certificate checks, the run prints a warning, and notams.json gets
+           * tlsVerified:false plus tlsError:<reason code>. When the certificate is valid again nothing
+           * is relaxed and tlsVerified is true. Remove getInsecure() once IAA has fixed the certificate.
+           */
+
+          import { writeFileSync, readFileSync } from "fs";
+          import { join } from "path";
+          import https from "https";
+          
+          const OUT = join(process.cwd(), "notams.json");
+          const BASE = "https://brin.iaa.gov.il/MobileAeroinfo/";
+          const LIST_URL = BASE + "maiNotam.aspx";
+          const DETAIL_URL = id => `${BASE}maiDetails.aspx?rowID=${id}&scrpos=0&mode=notam`;
+          
+          const UA = "Mozilla/5.0 (Linux; Android 13; SM-S911B) AppleWebKit/537.36 " +
+                     "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";
+          const HEADERS = { "User-Agent": UA, "Accept-Language": "en-US,en;q=0.9,he;q=0.8" };
+          const DETAIL_DELAY_MS = 150;
+          const MAX_RETRIES = 3;
+          const REQUESTED_MODE = process.env.MODE === "light" ? "light" : "full";
+
+          const sleep = ms => new Promise(r => setTimeout(r, ms));
+          
+          // Node's "fetch failed" hides the real reason in e.cause (for example CERT_HAS_EXPIRED).
+          const why = e => e && e.cause ? `${e.message} (${e.cause.code || e.cause.message})` : String(e && e.message || e);
+
+          // Certificate problems that may trigger the temporary fallback below. Nothing else does.
+          const INSECURE_OK_HOST = "brin.iaa.gov.il";
+          const CERT_ERRORS = new Set([
+            "CERT_HAS_EXPIRED", "CERT_NOT_YET_VALID", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+            "UNABLE_TO_GET_ISSUER_CERT", "UNABLE_TO_GET_ISSUER_CERT_LOCALLY", "SELF_SIGNED_CERT_IN_CHAIN",
+            "DEPTH_ZERO_SELF_SIGNED_CERT", "CERT_UNTRUSTED", "ERR_TLS_CERT_ALTNAME_INVALID"
+          ]);
+          let tlsError = null;   // set once per run if the IAA certificate was rejected; the reason code
+
+          // Plain https GET with certificate checks OFF. Refuses every host except INSECURE_OK_HOST,
+          // including after a redirect. Only reached after a strict request failed on a certificate error.
+          function getInsecure(url, redirects = 0) {
+            const u = new URL(url);
+            if (u.protocol !== "https:" || u.hostname !== INSECURE_OK_HOST) {
+              return Promise.reject(new Error("unchecked request refused for " + u.hostname));
+            }
+            return new Promise((resolve, reject) => {
+              const req = https.get(u, { headers: { ...HEADERS, "Accept-Encoding": "identity" }, rejectUnauthorized: false, timeout: 20000 }, res => {
+                if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && redirects < 3) {
+                  res.resume();
+                  return resolve(getInsecure(new URL(res.headers.location, u).href, redirects + 1));
+                }
+                if (res.statusCode < 200 || res.statusCode >= 300) { res.resume(); return reject(new Error("HTTP " + res.statusCode)); }
+                const chunks = [];
+                res.on("data", c => chunks.push(c));
+                res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+                res.on("error", reject);
+              });
+              req.on("timeout", () => req.destroy(new Error("timeout")));
+              req.on("error", reject);
+            });
+          }
+
+          async function fetchText(url, attempt = 1) {
+            try {
+              let txt;
+              if (tlsError) {
+                txt = await getInsecure(url);
+              } else {
+                try {
+                  const res = await fetch(url, { headers: HEADERS });
+                  if (!res.ok) throw new Error("HTTP " + res.status);
+                  txt = await res.text();
+                } catch (e) {
+                  const code = e && e.cause && e.cause.code;
+                  if (!CERT_ERRORS.has(code) || new URL(url).hostname !== INSECURE_OK_HOST) throw e;
+                  tlsError = code;
+                  console.error(`::warning::IAA certificate rejected (${code}). Continuing WITHOUT certificate checks for ${INSECURE_OK_HOST} only; notams.json will say tlsVerified:false.`);
+                  txt = await getInsecure(url);
+                }
+              }
+              if (/radware|perfdrive|captcha|are you a bot/i.test(txt) && !/NOTAM/.test(txt)) {
+                throw new Error("blocked by bot-wall");
+              }
+              return txt;
+            } catch (e) {
+              if (attempt < MAX_RETRIES) {
+                console.error(`  retry ${attempt}/${MAX_RETRIES - 1}: ${why(e)}`);
+                await sleep(500 * attempt);
+                return fetchText(url, attempt + 1);
+              }
+              throw e;
+            }
+          }
+          
+          function parseList(html) {
+            // The server sends XHTML where apostrophes in onclick are encoded as &#39;
+            // (browsers show them as ' but the raw bytes are the entity). Accept both.
+            const ids = [...html.matchAll(/rowClicked\((?:'|&#39;|&apos;)(\d+)(?:'|&#39;|&apos;)\)/g)].map(m => m[1]);
+            const notamNumbers = [...html.matchAll(/class="DivRecordID">\s*([A-Z]\d{4}\/\d{2})/g)].map(m => m[1]);
+            const rows = [];
+            const n = Math.min(ids.length, notamNumbers.length);
+            for (let i = 0; i < n; i++) rows.push({ rowID: ids[i], id: notamNumbers[i] });
+            return rows;
+          }
+          
+          function parseQ(qText) {
+            const m = qText.match(/([A-Z]{4})\/([A-Z]{5})\/([A-Z]+)\/([A-Z]+)\s*\/([A-Z]+)\s*\/(\d{3})\/(\d{3})\/(\d{4}[NS]\d{5}[EW])(\d{3})?/);
+            if (!m) return null;
+            const [, fir, qcode, traffic, purpose, scope, lo, up, pos, rad] = m;
+            return { fir, qcode, traffic, purpose, scope, lowerLimitFl: lo, upperLimitFl: up,
+                     position: parseCoord(pos, rad ? parseInt(rad, 10) : null) };
+          }
+          function parseCoord(token, radiusNm) {
+            const m = token.match(/(\d{2})(\d{2})([NS])(\d{3})(\d{2})([EW])/);
+            if (!m) return null;
+            let lat = +m[1] + +m[2] / 60; if (m[3] === "S") lat = -lat;
+            let lon = +m[4] + +m[5] / 60; if (m[6] === "W") lon = -lon;
+            return { lat: +lat.toFixed(6), lon: +lon.toFixed(6), radiusNm, source: "q_line" };
+          }
+          function parseTimes(text) {
+            const b = text.match(/\bB\)\s*(\d{10})/), c = text.match(/\bC\)\s*(\d{10}|PERM)/i);
+            const toISO = s => { if (!s || /perm/i.test(s)) return null;
+              return new Date(Date.UTC(2000 + +s.slice(0,2), +s.slice(2,4)-1, +s.slice(4,6), +s.slice(6,8), +s.slice(8,10))).toISOString(); };
+            return { fromDate: b ? toISO(b[1]) : null, toDate: c ? (/perm/i.test(c[1]) ? null : toISO(c[1])) : null };
+          }
+          
+          function decodeEntities(s) {
+            return s
+              .replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+              .replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+              .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+              .replace(/&nbsp;/g, " ");
+          }
+          
+          function parseDetail(html, fallbackId) {
+            const text = decodeEntities(html
+              .replace(/<style[\s\S]*?<\/style>/gi, "")
+              .replace(/<script[\s\S]*?<\/script>/gi, "")
+              .replace(/<[^>]+>/g, " "))
+              .replace(/\s+/g, " ")
+              .trim();
+          
+            const idm = text.match(/\(?([A-Z]\d{4}\/\d{2})\s+NOTAM([NRC])(?:\s+([A-Z]\d{4}\/\d{2}))?/);
+            const id = idm ? idm[1] : fallbackId;
+            const notamType = idm ? idm[2] : null;
+            const replaces = idm && idm[3] ? idm[3] : null;
+          
+            const qm = text.match(/Q\)\s*(.+?)\s*A\)/);
+            const qLine = qm ? parseQ(qm[1]) : null;
+          
+            const am = text.match(/A\)\s*([A-Z]{4})/);
+            const location = am ? am[1] : null;
+          
+            const locDesc = (text.match(/Location Description:\s*(.+?)\s*Created:/) || [])[1] || null;
+          
+            const em = text.match(/E\)\s*(.*?)\s*$/);
+            const eText = em ? em[1].replace(/\)\s*$/, "").trim() : "";
+          
+            const times = parseTimes(text);
+            const administrative = /CHECKLIST|TRIGGER NOTAM/i.test(eText);
+          
+            const rawMatch = text.match(/\(([A-Z]\d{4}\/\d{2}\s+NOTAM[\s\S]*)$/);
+            const rawText = rawMatch ? rawMatch[1].trim() : "";
+          
+            return { id, location, locationDescription: locDesc, ...times, qLine, eText,
+                     position: qLine?.position || null, administrative, notamType, replaces, rawText };
+          }
+          
+          async function main() {
+            const generatedAt = new Date().toISOString();
+            console.error("Fetching list page…");
+            const listHtml = await fetchText(LIST_URL);
+            const rows = parseList(listHtml);
+            console.error(`Found ${rows.length} NOTAMs in list.`);
+            if (!rows.length) {
+              // Diagnostics: show what we actually received
+              console.error(`--- DIAGNOSTICS ---`);
+              console.error(`list page length: ${listHtml.length} chars`);
+              console.error(`rowClicked count (entity-aware): ${(listHtml.match(/rowClicked\((?:'|&#39;|&apos;)\d+/g) || []).length}`);
+              console.error(`DivRecordID count: ${(listHtml.match(/class="DivRecordID">/g) || []).length}`);
+              console.error(`--- END DIAGNOSTICS ---`);
+              throw new Error("No rows parsed from list page — see diagnostics above.");
+            }
+          
+            // The stored notams.json is the memory. Light mode keeps what is stored (records with an earlier
+            // fetch error are not kept, so they get fetched again). Both modes use it for the "first seen"
+            // stamp and for the list of NOTAMs cancelled early.
+            let mode = REQUESTED_MODE;
+            let old = null;
+            try {
+              old = JSON.parse(readFileSync(OUT, "utf-8"));
+              if (!Array.isArray(old.notams)) throw new Error("no notams list in the stored file");
+            } catch (e) {
+              old = null;
+              if (mode === "light") {
+                console.error(`Light mode needs the stored notams.json (${e.message}); running a full sweep instead.`);
+                mode = "full";
+              }
+            }
+            const oldById = new Map();
+            if (old) for (const rec of old.notams) if (rec && rec.id) oldById.set(rec.id, rec);
+            const stored = new Map();
+            if (mode === "light") for (const [id, rec] of oldById) if (!rec.detailError) stored.set(id, rec);
+
+            // firstSeen: kept from the stored record; a number never stored before gets this moment.
+            // Without a stored file there is no baseline, so nothing is stamped (nothing would look new).
+            const stamp = (n, id) => {
+              const o = oldById.get(id);
+              if (o && o.firstSeen) n.firstSeen = o.firstSeen;
+              else if (old && !o) n.firstSeen = generatedAt;
+              return n;
+            };
+            console.error(`Mode: ${mode}`);
+
+            const notams = [];
+            let kept = 0, fetched = 0;
+            for (let i = 0; i < rows.length; i++) {
+              const { rowID, id } = rows[i];
+              if (mode === "light" && stored.has(id)) {
+                notams.push(stored.get(id));   // untouched, exactly as saved
+                kept++;
+                continue;
+              }
+              try {
+                const html = await fetchText(DETAIL_URL(rowID));
+                const n = parseDetail(html, id);
+                n.rowID = rowID;
+                notams.push(stamp(n, id));
+              } catch (e) {
+                console.error(`  ! ${id} (row ${rowID}) failed: ${why(e)}`);
+                notams.push(stamp({ id, rowID, eText: "", detailError: e.message }, id));
+              }
+              fetched++;
+              if (fetched % 20 === 0) console.error(`  …${fetched} fetched`);
+              await sleep(DETAIL_DELAY_MS);
+            }
+            const onList = new Set(rows.map(r => r.id));
+            if (mode === "light") {
+              const dropped = [...stored.keys()].filter(k => !onList.has(k)).length;
+              console.error(`Light run: ${kept} kept, ${fetched} fetched (new), ${dropped} dropped.`);
+            }
+
+            // Cancelled early = left the list while the end time is still ahead (or the NOTAM is permanent).
+            // Kept for 72 hours. A list far shorter than the stored one is treated as a bad read: nothing is
+            // added to the cancelled list that run.
+            const nowMs = Date.parse(generatedAt), H72 = 72 * 3600 * 1000;
+            const cancelled = [];
+            if (old) {
+              for (const c of Array.isArray(old.cancelled) ? old.cancelled : []) {
+                if (c && c.id && !onList.has(c.id) && nowMs - Date.parse(c.cancelledAt) < H72) cancelled.push(c);
+              }
+              if (rows.length * 2 >= oldById.size) {
+                for (const [id, rec] of oldById) {
+                  if (onList.has(id) || rec.detailError || rec.administrative) continue;
+                  if (cancelled.some(c => c.id === id)) continue;
+                  const endsMs = rec.toDate ? Date.parse(rec.toDate) : Infinity;
+                  if (endsMs > nowMs) cancelled.push({ ...rec, cancelledAt: generatedAt });
+                }
+              } else {
+                console.error(`List has ${rows.length} NOTAMs, stored had ${oldById.size}: not adding to the cancelled list this run.`);
+              }
+            }
+            console.error(`Cancelled early (last 72 h): ${cancelled.length}.`);
+
+            const payload = {
+              generatedAt,
+              source: LIST_URL,
+              disclaimer: "Informational only. Not a substitute for an official pre-flight briefing.",
+              tlsVerified: !tlsError,
+              tlsError: tlsError,
+              count: notams.length,
+              notams,
+              cancelled
+            };
+            writeFileSync(OUT, JSON.stringify(payload, null, 2), "utf-8");
+            console.error(`✓ Wrote ${notams.length} NOTAMs → ${OUT}`);
+          }
+          
+          main().catch(err => { console.error("✗ Scrape failed:", why(err)); process.exit(1); });
+          SCRAPER_EOF
+
+      # Real shapes (polygons, circles, border strips, closed route legs) from the NOTAM text.
+      # If this step fails, notams.json keeps the scraped data without shapes (the app draws Q circles)
+      # and the next step opens an issue about the failure.
+      - name: Add shapes
+        run: |
+          if ! node .github/scripts/notam-geometry.mjs notams.json --flags flags.json 2> geometry.err; then
+            cat geometry.err
+            node -e 'const fs=require("fs"); const e=fs.readFileSync("geometry.err","utf8").slice(0,3000);
+              fs.writeFileSync("flags.json", JSON.stringify([{key:"crash|"+e.split("\n")[0], id:"-", kind:"crash",
+                reason:"the shapes step (notam-geometry.mjs) failed; notams.json was saved without shapes", eText:e}]));'
+          fi
+
+      # A new flag (not reported before) becomes one GitHub issue, which GitHub emails / pushes to the owner.
+      # Reported keys are kept in .github/notam-flags-seen.json, so a NOTAM re-issued with the same text is quiet.
+      - name: Flag NOTAMs worth a look
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'FLAGS_EOF'
+          import { readFileSync, writeFileSync, existsSync } from "fs";
+          const SEEN = ".github/notam-flags-seen.json", MAX_ISSUES = 8;
+          const flags = existsSync("flags.json") ? JSON.parse(readFileSync("flags.json", "utf8")) : [];
+          const seen = existsSync(SEEN) ? JSON.parse(readFileSync(SEEN, "utf8")) : {};
+          const fresh = flags.filter(f => !seen[f.key]);
+          console.log(`${flags.length} flagged, ${fresh.length} new`);
+          const repo = process.env.GITHUB_REPOSITORY, owner = process.env.GITHUB_REPOSITORY_OWNER;
+          const TITLE = { rejected: "shape rejected, Q circle drawn", "legs missing": "closed route legs not found in the GIS",
+            "semi-circle": "semi-circle with no side, full circle drawn", unfamiliar: "unfamiliar structure, Q circle drawn",
+            crash: "shapes step failed, no shapes in this run" };
+          async function issue(title, body) {
+            const r = await fetch(`${process.env.GITHUB_API_URL || "https://api.github.com"}/repos/${repo}/issues`, { method: "POST",
+              headers: { Authorization: `Bearer ${process.env.GH_TOKEN}`, Accept: "application/vnd.github+json" },
+              body: JSON.stringify({ title, body }) });
+            if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).slice(0, 200)}`);
+          }
+          const q = f => f.qLine ? [f.qLine.qcode, f.qLine.position && `${f.qLine.position.lat},${f.qLine.position.lon} r=${f.qLine.position.radiusNm}NM`].filter(Boolean).join(" · ") : "-";
+          const one = f => `**${f.id}** · ${f.reason}\n\nQ: ${q(f)} · ${f.fromDate || "-"} to ${f.toDate || "PERM"}\n\n\`\`\`\n${f.eText}\n\`\`\``;
+          const now = new Date().toISOString().slice(0, 10), done = [];
+          try {
+            if (fresh.length > MAX_ISSUES) {
+              await issue(`[NOTAM flag] ${fresh.length} new NOTAMs worth a look`, `@${owner}\n\n` + fresh.map(one).join("\n\n---\n\n"));
+              done.push(...fresh);
+            } else for (const f of fresh) {
+              await issue(`[NOTAM flag] ${f.id}: ${TITLE[f.kind] || f.kind}`, `@${owner}\n\n${one(f)}\n\nThe app shows this NOTAM safely (Q circle / the legs it could find). Send it to Claude to teach the parser, then close this issue.`);
+              done.push(f);
+            }
+          } catch (e) { console.log(`::warning::could not open an issue (${e.message}); will retry next run`); }
+          for (const f of done) seen[f.key] = { id: f.id, kind: f.kind, first: now };   // a crash is reported once per distinct error
+          writeFileSync(SEEN, JSON.stringify(seen, null, 2) + "\n");
+          FLAGS_EOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "airnotam-bot"
+          git config user.email "airnotam-bot@users.noreply.github.com"
+          git add notams.json .github/notam-flags-seen.json
+          if git diff --staged --quiet; then
+            echo "No change in notams.json"
+          else
+            git commit -m "data: refresh notams.json [skip ci]"
+            git push
+          fi
