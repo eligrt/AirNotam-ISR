@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.051 · built by eligrt
+     AirNotam-ISR · v1.08.053 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1580,7 +1580,7 @@ body.lv #list{padding-top:62px;}
 .mb-leg{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;display:flex;gap:9px;align-items:center;background:rgba(251,246,232,.96);border:1px solid #1c3d6e;border-radius:12px;padding:3px 9px;font-size:10.5px;font-weight:600;color:#1c3d6e;white-space:nowrap;direction:rtl;box-shadow:0 1px 4px rgba(14,35,72,.25);pointer-events:none;}
 .mb-leg span{display:flex;align-items:center;gap:3px;} .mb-leg i{display:block;width:12px;height:12px;border-radius:50%;box-sizing:border-box;}
 .mb-leg .u{background:#e9b5ad;border:1.5px solid #b94a3a;} .mb-leg .r{background:#fbf6e8;border:1.5px dashed #b94a3a;} .mb-leg .x{background:#e4e1da;border:1.5px dotted #6b6b6b;}
-/* ── v1.08.051: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
+/* ── v1.08.053: stage 5 - Charts (blue) and Layers (green) panels, rows built like the AirTrack ROUTES rows. The first row sits just above the map credit line; the legend strip stays where it is and hides while a panel is open ── */
 .mbox.pl-open:not(.rv) .mb-leg{display:none !important;}
 .lp{position:absolute;left:50%;transform:translateX(-50%);bottom:44px;width:216px;display:none;flex-direction:column-reverse;gap:14px;z-index:5;--pc:#1f7a6d;direction:ltr;}
 .lp.open{display:flex;}
@@ -1653,7 +1653,7 @@ body.lv #list{padding-top:62px;}
 .lp-lk{background:rgba(251,246,232,.96) !important;border-radius:14px;font-size:12.5px;color:var(--ink);text-decoration:underline dashed;text-underline-offset:3px;padding:0 12px !important;min-height:36px;display:flex;align-items:center;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st{display:none;width:216px;box-sizing:border-box;background:rgba(251,246,232,.96);border:1px solid var(--ink);border-radius:14px;padding:5px 11px;font-size:12px;color:var(--ink);text-align:center;direction:rtl;flex:none;box-shadow:0 1px 4px rgba(14,35,72,.25);}
 .lp-st.er,.lp-st.lsa-err{color:#b00020;font-weight:700;}
-/* ── v1.08.051: one navy CHARTS panel (base map, charts pill, routes pill) and a toggles-only LAYERS popup under the zoom buttons ── */
+/* ── v1.08.053: one navy CHARTS panel (base map, charts pill, routes pill) and a toggles-only LAYERS popup under the zoom buttons ── */
 .zoom-tl{margin-top:6px !important;}
 .leaflet-control-zoom{margin-top:2px !important;}
 #lpC,#lpC .lp-row,#lpC .lp-pill,#lpC .lp-st,#lpC .lp-lks{width:236px;}
@@ -1666,6 +1666,7 @@ body.lv #list{padding-top:62px;}
 .lp-ck.on{background:#1c3d6e;color:var(--paper);}
 .lp-ck.emp{color:#a79d86;font-weight:600;}
 .lp-ck.on.emp{color:var(--paper);}
+.lp-ck.hid{opacity:.55;text-decoration:line-through;}
 .lp-ck b{font-weight:800;margin-left:2px;}
 .lp-pic{width:22px;height:22px;flex:none;margin-left:2px;color:#6b5d44;}
 .lcur{position:absolute;left:54px;top:96px;width:214px;box-sizing:border-box;display:none;overflow-y:auto;overscroll-behavior:contain;background:rgba(251,246,232,.98);border:3px solid #1c3d6e;border-radius:20px;box-shadow:0 2px 8px rgba(14,35,72,.35);padding:2px 12px;direction:rtl;z-index:5;scrollbar-width:none;}
@@ -1957,7 +1958,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.051 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.053 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2116,7 +2117,7 @@ body.bell-on.lv .lstat{padding-right:62px;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.051 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.053 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2849,7 +2850,7 @@ function listIrr(id){markIrrelevant(id);render();}
 
 // ── Map ──
 let MAP_BASES=null, MAP_BASE=null;
-// v1.08.051: the six base maps of AirTrack (OSM streets is the default)
+// v1.08.053: the six base maps of AirTrack (OSM streets is the default)
 const ESRI_URL="https://server.arcgisonline.com/ArcGIS/rest/services/";
 const BASE_LIST=[
  {k:"std",n:"רחובות (OSM)",u:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",z:19,a:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'},
@@ -3969,7 +3970,7 @@ function gisSave(){ try{localStorage.setItem("airnotam_gis2",JSON.stringify(GIS_
 function gisStatus(id,txt,err){
   const s=document.getElementById("gst_"+id); if(s){ s.textContent=txt||""; s.classList.toggle("gst-err",!!err); }
   const c=document.getElementById("gc_"+id); if(c){ c.classList.toggle("ld",!!txt&&!err); c.classList.toggle("er",!!err); }
-  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.051: one status line in the Layers panel
+  try{ lpStatus(id,txt,err); lpSync(); }catch(_){}   // v1.08.053: one status line in the Layers panel
 }
 function gisInitUi(){
   GIS_IDS.forEach(id=>{
@@ -3984,8 +3985,8 @@ function gisInitUi(){
 //    Tapping "LSA" in the layers panel: first time asks for the zip (sport-tiles.zip), unzips it into this browser's own storage
 //    (IndexedDB), then shows it as a layer. Proven in the test page chart-test.html v1.00.016. Nothing leaves the device. ──
 const LSA={on:false,ops:{},k:null,last:null,pend:null,replacing:false,busy:false,op:1,chart:null,inset:null,caps:[],file:null,ready:false};
-// v1.08.051: three charts (LSA, CVFR, HEL), one shows at a time. LSA tiles keep their old keys (digits first), the other two are stored under cvfr/ and hel/
-const CH={lsa:{pfx:"",name:"LSA",stored:0,chart:null,pane:"lsa_chart",z:340},cvfr:{pfx:"cvfr/",name:"CVFR",stored:0,chart:null,pane:"ch_cvfr",z:341},hel:{pfx:"hel/",name:"HEL",stored:0,chart:null,pane:"ch_hel",z:342}};
+// v1.08.053: three charts (LSA, CVFR, HEL), one shows at a time. LSA tiles keep their old keys (digits first), the other two are stored under cvfr/ and hel/
+const CH={lsa:{pfx:"",name:"LSA",stored:0,chart:null,pane:"lsa_chart",z:340},cvfr:{pfx:"cvfr/",name:"CVFR",stored:0,chart:null,pane:"ch_cvfr",z:338},hel:{pfx:"hel/",name:"HEL",stored:0,chart:null,pane:"ch_hel",z:337}};
 const CHK=["lsa","cvfr","hel"], CH_BTN={lsa:"lsaBtn",cvfr:"cpCvfr",hel:"cpHel"};
 const chOp=k=>LSA.ops[k]==null?1:LSA.ops[k];
 const chRange=k=>k==="lsa"?IDBKeyRange.bound("0","9\uffff"):IDBKeyRange.bound(CH[k].pfx,CH[k].pfx+"\uffff");
@@ -4052,12 +4053,13 @@ function lsaStatus(t,err,ms){
   s.textContent=t||""; s.classList.toggle("lsa-err",!!err); s.style.display=t?"block":"none";
   clearTimeout(lsaStatus._t); if(t&&ms) lsaStatus._t=setTimeout(()=>{ if(s.textContent===t){ s.textContent=""; s.style.display="none"; } },ms);
 }
+const chShown=k=>CH[k].stored>0&&LSA.k===k&&chOp(k)>0.01;   // one chart at a time: only the picked one shows
 function lsaBoxUi(){
   const k=LSA.k;
   CHK.forEach(c=>{
     const btn=document.getElementById(CH_BTN[c]); if(!btn) return;
-    const have=CH[c].stored>0||k===c;   // grey with a plus until a chart file is stored
-    btn.classList.toggle("on",k===c); btn.classList.toggle("emp",!have); btn.innerHTML=have?CH[c].name:CH[c].name+"<b>+</b>";
+    const have=CH[c].stored>0;   // grey with a plus until a chart file is stored; crossed out when slid to zero
+    btn.classList.toggle("on",k===c); btn.classList.toggle("emp",!have); btn.classList.toggle("hid",have&&k===c&&chOp(c)<=0.01); btn.innerHTML=have?CH[c].name:CH[c].name+"<b>+</b>";
   });
   const op=document.getElementById("lsaOp"), ov=document.getElementById("lsaOpv");
   if(op){ op.value=Math.round(chOp(k||LSA.last||"lsa")*100); if(ov) ov.textContent=op.value+"%"; lpFade(op); }
@@ -4065,7 +4067,13 @@ function lsaBoxUi(){
   const lk=document.getElementById("cpLinks"); if(lk) lk.style.display=(k&&CH[k].stored>0&&!LSA.busy)?"flex":"none";
   const re=document.getElementById("lsaRe"), de=document.getElementById("lsaDel");
   if(k){ if(re) re.textContent="החלף "+CH[k].name; if(de) de.textContent="מחק "+CH[k].name; }
-  if(k&&!LSA.busy) lsaStatus("מוכן, נשמר רק במכשיר שלך",false,2500); else if(!k&&!LSA.busy) lsaStatus("");
+}
+// shows or hides one chart layer to match its stored file and its transparency (0 = hidden)
+function chApply(k){
+  const C=CH[k];
+  if(chShown(k)){ lsaMakeLayers(k); if(!MAP.hasLayer(C.chart)) C.chart.addTo(MAP); C.chart.setOpacity(chOp(k)); }
+  else if(C.chart&&MAP.hasLayer(C.chart)) MAP.removeLayer(C.chart);
+  if(k==="lsa") lsaInsetSync();
 }
 let CH_CLASS=null;
 function lsaMakeLayers(k){
@@ -4139,30 +4147,28 @@ function lsaCaptions(){
 // the grid shows only where the chart shows (chart on, view inside the chart's zoom range, not fully transparent) and fades with it
 function lsaInsetSync(){
   if(!LSA.chart) return;
-  const z=MAP.getZoom(), show=LSA.k==="lsa"&&CH.lsa.stored>0&&z>=LSA.chart.options.minZoom&&LSA.op>0.02;
+  const z=MAP.getZoom(), show=chShown("lsa")&&z>=LSA.chart.options.minZoom&&chOp("lsa")>0.02;
   if(show&&!MAP.hasLayer(LSA.inset)) LSA.inset.addTo(MAP);
   if(!show&&MAP.hasLayer(LSA.inset)) MAP.removeLayer(LSA.inset);
   if(!show) return;
-  MAP.getPane("lsa_inset").style.opacity=Math.min(1,0.25+LSA.op);
+  MAP.getPane("lsa_inset").style.opacity=Math.min(1,0.25+chOp("lsa"));
   lsaCaptions();
 }
-let LSA_RAF=0; const lsaInsetSoon=()=>{ if(LSA.k!=="lsa"||LSA_RAF) return; LSA_RAF=requestAnimationFrame(()=>{ LSA_RAF=0; lsaInsetSync(); }); };
-function lsaSet(k,on){   // turns one chart on or off; turning one on turns the others off
-  const prev=LSA.k;
-  if(prev&&(prev!==k||!on)){ const P=CH[prev]; if(P.chart&&MAP.hasLayer(P.chart)) MAP.removeLayer(P.chart); }
-  if(on){ LSA.k=k; LSA.last=k; LSA.op=chOp(k); lsaMakeLayers(k); const C=CH[k]; if(!MAP.hasLayer(C.chart)) C.chart.addTo(MAP); C.chart.setOpacity(LSA.op); }
-  else if(prev===k) LSA.k=null;
-  LSA.on=!!LSA.k;
+let LSA_RAF=0; const lsaInsetSoon=()=>{ if(!chShown("lsa")||LSA_RAF) return; LSA_RAF=requestAnimationFrame(()=>{ LSA_RAF=0; lsaInsetSync(); }); };
+function lsaSet(k){   // picks the chart to show (one at a time); the slider controls its transparency
+  LSA.k=k||null; if(k) LSA.last=k; LSA.on=!!LSA.k;
+  if(k&&chOp(k)<=0.01){ LSA.ops[k]=1; try{localStorage.setItem("airnotam_chart_ops",JSON.stringify(LSA.ops));}catch(e){} }   // picking a chart that was slid to zero shows it again
+  CHK.forEach(chApply);
   try{localStorage.setItem("airnotam_chart",LSA.k||"");}catch(e){}
-  lsaBoxUi(); lsaInsetSync(); alog("chart "+(LSA.k||"off"));
+  lsaBoxUi(); alog("chart selected: "+(LSA.k||"none"));
 }
 function lsaPick(k,rep){ LSA.pend=k; LSA.replacing=!!rep; lsaStatus("בחר את קובץ ה-zip של מפת "+CH[k].name); LSA.file.value=""; LSA.file.click(); }
 function lsaBtnTap(k){
   if(LSA.busy) return;
-  if(LSA.k===k) return lsaSet(k,false);
-  if(CH[k].stored>0) return lsaSet(k,true);
+  if(CH[k].stored>0){ lsaStatus(""); return lsaSet(k); }
   lsaPick(k,false);
 }
+function lsaAfterDelete(k){ if(LSA.k===k){ const o=CHK.find(c=>CH[c].stored>0)||null; if(o) return lsaSet(o); LSA.k=null; } lsaBoxUi(); lsaInsetSync(); }
 async function lsaOnFile(){
   const f=LSA.file.files&&LSA.file.files[0]; if(!f){ LSA.replacing=false; return; }
   const k=LSA.pend||"lsa";
@@ -4170,8 +4176,8 @@ async function lsaOnFile(){
   LSA.busy=true; lsaBoxUi(); lsaStatus("קורא את הקובץ...");
   try{
     const n=await lsaImport(f,k); CH[k].stored=Math.max(0,await lsaCount(k)); alog("chart zip imported ("+k+"): "+n+" tiles");
-    LSA.busy=false; lsaSet(k,true);
-    if(CH[k].chart) CH[k].chart.redraw();
+    LSA.busy=false; if(chOp(k)<=0.01){ LSA.ops[k]=1; try{localStorage.setItem("airnotam_chart_ops",JSON.stringify(LSA.ops));}catch(e){} }
+    lsaSet(k); if(CH[k].chart) CH[k].chart.redraw(); lsaStatus("מוכן, נשמר רק במכשיר שלך",false,2500);
     try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}
   }catch(e){
     LSA.busy=false; alog("chart zip import FAILED ("+k+") "+(e&&e.message)); lsaBoxUi();
@@ -4188,18 +4194,16 @@ function lsaInit(){
   CHK.forEach(c=>{ const b=document.getElementById(CH_BTN[c]); if(b) b.addEventListener("click",()=>lsaBtnTap(c)); });
   const op=document.getElementById("lsaOp");
   if(op) op.addEventListener("input",()=>{
-    let k=LSA.k, turn=null;
-    if(!k&&!LSA.busy) turn=(LSA.last&&CH[LSA.last].stored>0)?LSA.last:CHK.find(c=>CH[c].stored>0);
-    const r=k||turn||LSA.last||"lsa"; LSA.ops[r]=op.value/100;
+    const k=LSA.k||LSA.last||CHK.find(c=>CH[c].stored>0); if(!k||CH[k].stored<=0) return;
+    LSA.ops[k]=op.value/100; if(!LSA.k) LSA.k=k;
     try{localStorage.setItem("airnotam_chart_ops",JSON.stringify(LSA.ops));}catch(e){}
     document.getElementById("lsaOpv").textContent=op.value+"%"; lpFade(op);
-    if(turn) lsaSet(turn,true); else if(k){ LSA.op=LSA.ops[k]; if(CH[k].chart) CH[k].chart.setOpacity(LSA.op); }
-    lsaInsetSync();
+    chApply(k); lsaBoxUi();
   });
   const re=document.getElementById("lsaRe"); if(re) re.addEventListener("click",()=>{ if(!LSA.busy&&LSA.k) lsaPick(LSA.k,true); });
   const del=document.getElementById("lsaDel"); if(del) del.addEventListener("click",async()=>{
     const k=LSA.k; if(LSA.busy||!k||!confirm("למחוק את מפת "+CH[k].name+" מהמכשיר?")) return;
-    await lsaClear(k); CH[k].stored=0; lsaSet(k,false); alog("chart "+k+" deleted from device");
+    await lsaClear(k); CH[k].stored=0; chApply(k); lsaAfterDelete(k); alog("chart "+k+" deleted from device");
   });
   MAP.on("zoomend moveend resize",lsaInsetSync); MAP.on("move",lsaInsetSoon);
   document.addEventListener("visibilitychange",()=>{ if(document.visibilityState!=="hidden") lsaDbReset("visible"); });
@@ -4209,18 +4213,18 @@ function lsaInit(){
     for(const c of CHK){ CH[c].stored=Math.max(0,await lsaCount(c)); }
     alog("chart tiles stored: lsa "+CH.lsa.stored+", cvfr "+CH.cvfr.stored+", hel "+CH.hel.stored); lsaBoxUi();
     let want=null; try{ want=localStorage.getItem("airnotam_chart"); if(want===null&&localStorage.getItem("airnotam_lsa")==="1") want="lsa"; }catch(e){}
-    if(want&&CH[want]&&CH[want].stored>0) lsaSet(want,true);
+    const sel=(want&&CH[want]&&CH[want].stored>0)?want:CHK.find(c=>CH[c].stored>0); if(sel) lsaSet(sel); else lsaBoxUi();
   })();
 }
 
-/* ── v1.08.051: stage 5 - the Charts panel (blue) and the Layers panel (green).
+/* ── v1.08.053: stage 5 - the Charts panel (blue) and the Layers panel (green).
    Two floating panels built like the AirTrack ROUTES rows. The first row sits just above the map credit line and every row lines up
    with its button on the left. They live inside the map overlay (mbox), so they hide by themselves while drawing, in the review and in the list view.
    The old side curtain is gone. ── */
 let LP_OPEN=null;   // "charts" | "layers" | null
 const GIS_OP=(()=>{ try{ return JSON.parse(localStorage.getItem("airnotam_gis_op")||"{}")||{}; }catch(e){ return {}; } })();   // route line transparency, per route
 const lpEl=id=>document.getElementById(id);
-const lpOp=id=> id in GIS_OP ? Math.max(.05,Math.min(1,+GIS_OP[id]||1)) : 1;
+const lpOp=id=> id in GIS_OP ? Math.max(0,Math.min(1,+GIS_OP[id]||0)) : (gisOn(id)?1:0);
 // the route lines (sport = LSA, cvfr) get their own transparency; the CVFR outline keeps its slightly softer edge
 function gisRouteOpApply(id){
   const g=GIS.lay[id]; if(!g||(id!=="sport"&&id!=="cvfr")) return; const v=lpOp(id);
@@ -4230,20 +4234,13 @@ function gisRouteOpApply(id){
 // the slider handle fades with the value: solid at the right end, see-through at the left end
 function lpFade(el){ if(!el) return; const rgb=el.getAttribute("data-rgb")||"28,61,110"; el.style.setProperty("--tb","rgba("+rgb+","+Math.max(.12,el.value/100).toFixed(2)+")"); }
 // routes: one at a time (LSA, CVFR or none); the slider belongs to the one that is on, and each route keeps its own transparency
-const RT_IDS=["sport","cvfr"]; let RT_LAST="sport";
-function rtSel(){ return RT_IDS.find(id=>{ const c=lpEl("gis_"+id); return c&&c.checked; })||null; }
+const RT_IDS=["sport","cvfr"]; let RT_SEL="sport";
+const rtShown=id=>{ const c=lpEl("gis_"+id); return !!(c&&c.checked); };
 function lpSync(){
-  const s=rtSel(); if(s) RT_LAST=s; const ref=s||RT_LAST;
-  RT_IDS.forEach(id=>{ const b=lpEl("lp_b_"+id); if(b) b.classList.toggle("on",id===s); });
-  const o=lpEl("lp_o_rt"); if(o){ o.value=Math.round(lpOp(ref)*100); lpFade(o); }
-  const p=lpEl("lp_rt"); if(p) p.classList.toggle("dim",!s);
+  RT_IDS.forEach(id=>{ const b=lpEl("lp_b_"+id); if(b){ b.classList.toggle("on",id===RT_SEL); b.classList.toggle("hid",!rtShown(id)); } });
+  const o=lpEl("lp_o_rt"); if(o){ o.value=Math.round((rtShown(RT_SEL)?lpOp(RT_SEL):0)*100); lpFade(o); }
 }
-function rtPick(id){
-  const cb=lpEl("gis_"+id), oth=lpEl("gis_"+RT_IDS.find(x=>x!==id)); if(!cb||!oth) return;
-  const on=!cb.checked;
-  if(on&&oth.checked){ oth.checked=false; oth.dispatchEvent(new Event("change")); }
-  cb.checked=on; cb.dispatchEvent(new Event("change")); if(on) RT_LAST=id; lpSync();
-}
+function rtPick(id){ RT_SEL=id; lpSync(); }   // the chip only picks which route the slider controls
 function lpStatus(id,txt,err){
   ["lpSt","lpSt2"].forEach(n=>{ const s=lpEl(n); if(!s) return; s.textContent=txt||""; s.style.display=txt?"block":"none"; s.classList.toggle("er",!!err); });
   lpPlace();
@@ -4276,7 +4273,7 @@ function lpSetBase(k){
 }
 function gisPanel(){
   const host=lpEl("mbox"); if(!host) return;
-  if(gisOn("sport")&&gisOn("cvfr")){ GIS_ON.cvfr=false; gisSave(); }   // routes are one at a time now
+  RT_IDS.forEach(id=>{ if(!gisOn(id)) GIS_OP[id]=0; }); RT_SEL=RT_IDS.find(id=>gisOn(id))||"sport";   // a route that is off counts as slid to zero
   const item=(id,sw,tx)=>'<label class="lp-li" id="gc_'+id+'"><input type="checkbox" id="gis_'+id+'">'+sw+'<span class="lp-nm">'+tx+'</span><small id="gst_'+id+'"></small><span class="lp-tg"></span></label>';
   const lay='<div class="lcur mb-m" id="lpL">'
       +item("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
@@ -4297,7 +4294,7 @@ function gisPanel(){
     +'<div class="lp-pill" id="cpOp"><button type="button" class="lp-ck emp" id="lsaBtn">LSA</button><button type="button" class="lp-ck emp" id="cpCvfr">CVFR</button>'
       +'<input type="range" class="lp-rs" id="lsaOp" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המפה"><span id="lsaOpv" hidden></span>'+icMap+'</div>'
     +'<div class="lp-pill" id="lp_rt"><button type="button" class="lp-ck" id="lp_b_sport">LSA</button><button type="button" class="lp-ck" id="lp_b_cvfr">CVFR</button>'
-      +'<input type="range" class="lp-rs" id="lp_o_rt" min="5" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המסלולים">'
+      +'<input type="range" class="lp-rs" id="lp_o_rt" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המסלולים">'
       +'<input type="checkbox" id="gis_sport" hidden><input type="checkbox" id="gis_cvfr" hidden>'+icRt+'</div>'
     +'<div class="lp-lks" id="cpLinks"><button type="button" class="lp-lk" id="lsaRe">החלף LSA</button><button type="button" class="lp-lk" id="lsaDel">מחק LSA</button></div>'
     +'<div class="lp-st" id="lsaSt"></div><div class="lp-st" id="lpSt"></div></div>';
@@ -4305,8 +4302,10 @@ function gisPanel(){
   RT_IDS.forEach(id=>lpEl("lp_b_"+id).addEventListener("click",()=>rtPick(id)));
   const ro=lpEl("lp_o_rt");
   ro.addEventListener("input",()=>{
-    const id=rtSel()||RT_LAST; GIS_OP[id]=ro.value/100; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
-    lpFade(ro); gisRouteOpApply(id); if(!rtSel()) rtPick(id); else lpSync();
+    const id=RT_SEL, v=ro.value/100; GIS_OP[id]=v; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
+    lpFade(ro); const cb=lpEl("gis_"+id), want=v>0.01;
+    if(want!==cb.checked){ cb.checked=want; cb.dispatchEvent(new Event("change")); } else gisRouteOpApply(id);
+    lpSync();
   });
   // charts panel: base map pill with its menu of swatches (the menu stays open, so the pilot sees the real effect on the map)
   lpEl("cpBase").addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".lp-bo"); if(o){ lpSetBase(o.getAttribute("data-b")); return; } cpPopSet(!lpEl("cpPop").classList.contains("show")); });
@@ -4646,7 +4645,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.051 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.053 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4656,7 +4655,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.051 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.053 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5150,7 +5149,7 @@ function mbSync(){
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
   [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); q("mpf_"+k).classList.toggle("o",!FAMC[k]); });
   q("mbPill").classList.toggle("alloff",!(FAMC.cvfr||FAMC.apt||FAMC.hel||FAMC.ins));
-  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); { const lc=document.querySelector(".lyr-ctl"); if(lc) lc.classList.toggle("act",LP_OPEN==="layers"); document.body.classList.toggle("rv-on",inRv); }   // v1.08.051: one panel each
+  q("mbChart").classList.toggle("on",LP_OPEN==="charts"); { const lc=document.querySelector(".lyr-ctl"); if(lc) lc.classList.toggle("act",LP_OPEN==="layers"); document.body.classList.toggle("rv-on",inRv); }   // v1.08.053: one panel each
   const isList=currentView==="list";
   if(q("mbList").dataset.v!==(isList?"l":"m")){ q("mbList").dataset.v=isList?"l":"m";
     q("mbList").innerHTML=(isList?MB_IC_MAP:MB_IC_LIST)+'<span class="mb-t mb-t-c">'+(isList?"MAP":"LIST")+'</span>';
