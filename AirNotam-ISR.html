@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.037 · built by eligrt
+     AirNotam-ISR · v1.08.039 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1467,12 +1467,12 @@ body.wide .spl{position:fixed}
 @keyframes rvSr{from{transform:translateX(44px);opacity:0}to{transform:none;opacity:1}}
 #rvMid.sl{animation:rvSl .3s ease-out;} #rvMid.sr{animation:rvSr .3s ease-out;}
 @media (prefers-reduced-motion:reduce){#rvMid.sl,#rvMid.sr{animation:none;}}
-.rv-cur{position:absolute;top:0;bottom:0;min-width:10px;background:#e0a63a;border-radius:3px;display:none;transition:right .35s ease;}   /* v1.08.037: the slice of the NOTAM you are on */
+.rv-cur{position:absolute;top:0;bottom:0;min-width:10px;background:#e0a63a;border-radius:3px;display:none;transition:right .35s ease;}   /* v1.08.038: the slice of the NOTAM you are on */
 .rv-cur.show{display:block;}
 .rv-pl{position:absolute;top:50%;width:22px;height:22px;margin:-11px -11px 0 0;pointer-events:none;transition:right .35s ease;display:none;}
 .rv-pl.show{display:block;}
 .rv-pl svg{width:22px;height:22px;overflow:visible;transform:rotate(-90deg);}
-.rv-pl path{fill:#fff;stroke:#1c3d6e;stroke-width:2.4;stroke-linejoin:round;paint-order:stroke;}   /* v1.08.037: the airplane that shows where you are in the review */
+.rv-pl path{fill:#fff;stroke:#1c3d6e;stroke-width:2.4;stroke-linejoin:round;paint-order:stroke;}   /* v1.08.038: the airplane that shows where you are in the review */
 /* LSA-ALIGN v1 START - shared chassis: scroll, header inset, footer. Do not edit per app; update the machine instead. */
 :root{
   --lsa-hdr-min:58px;                                   /* navy header content height */
@@ -1566,7 +1566,7 @@ body.lv #list{padding-top:62px;}
 .mb-b,.mb-rv{position:absolute;width:44px;height:44px;border-radius:50%;box-sizing:border-box;background:rgba(251,246,232,.96);border:1.5px solid #1c3d6e;color:#1c3d6e;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(14,35,72,.3);padding:0;cursor:pointer;font-family:var(--font-ui);}
 .mb-b:active,.mb-rv:active{filter:brightness(.92);}
 .mb-b.on{border-width:3px;background:#d6e3f5;color:#1c3d6e;}
-.mb-b.cust{border-style:dashed;}   /* v1.08.037: a custom time range = same blue, dashed border */   /* v1.08.037: active = thicker navy border + light blue tint */
+.mb-b.cust{border-style:dashed;}   /* v1.08.038: a custom time range = same blue, dashed border */   /* v1.08.038: active = thicker navy border + light blue tint */
 .mb-t{position:absolute;bottom:-3px;white-space:nowrap;background:#1c3d6e;color:#f4ecdc;font:800 9px var(--font-mono);border-radius:8px;padding:1px 4px;letter-spacing:.02em;pointer-events:none;transform:translateX(-50%);}
 .mb-t-r{left:calc(50% + 10px);} .mb-t-l{left:calc(50% - 10px);} .mb-t-c{left:50%;}
 .mb-b.grey .mb-t{background:#7b8794;}
@@ -1666,7 +1666,7 @@ body.lv #list{padding-top:62px;}
 #tFields>.tf-in{min-height:0;overflow:hidden;}
 .tf-box{border-top:1px solid rgba(14,35,72,.12);padding:12px 18px 14px;display:flex;flex-direction:column;gap:6px;}
 .tf-box label{font-size:13px;font-weight:700;color:#0e2348;}
-.tf-box input[type=datetime-local]::-webkit-date-and-time-value{display:flex;align-items:center;justify-content:center;height:100%;min-height:0;margin:0;padding:0;line-height:normal;text-align:center;}   /* v1.08.037: the date text sits in the middle of the field on iPhone */
+.tf-box input[type=datetime-local]::-webkit-date-and-time-value{display:flex;align-items:center;justify-content:center;height:100%;min-height:0;margin:0;padding:0;line-height:normal;text-align:center;}   /* v1.08.038: the date text sits in the middle of the field on iPhone */
 .tf-box input[type=datetime-local]::-webkit-datetime-edit{display:flex;align-items:center;justify-content:center;height:100%;padding:0;}
 .tf-box input[type=datetime-local]{width:100%;min-width:0;box-sizing:border-box;height:44px;border:1px solid #e3d4ad;border-radius:8px;background:#fff;padding:0 10px;font-family:var(--font-ui);font-size:15px;color:#1a1308;direction:ltr;-webkit-appearance:none;appearance:none;display:block;}
 .tf-box input.bad{border-color:var(--stamp-red);box-shadow:0 0 0 3px rgba(185,74,58,.28);}
@@ -1748,6 +1748,67 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
 .mb-rv .mb-t{background:#e0a63a;color:#0e2348;}
 .mb-rv.done{background:#dcefe2;border-color:#1f6f3f;color:#1f6f3f;} .mb-rv.done .mb-t{background:#1f6f3f;color:#fff;}
 .mb-rv.done .mb-bd{background:#1f6f3f;color:#fff;}
+
+/* v1.08.038: the four family buttons are one pill above REVIEW (same size and right edge); tapping it stretches it upward into the four families */
+.mb-pill{position:absolute;width:58px;height:58px;border-radius:29px;box-sizing:border-box;border:3px solid #b94a3a;background:#f0c9c2;box-shadow:0 1px 5px rgba(14,35,72,.3);--mpc:44px;
+  transition:height .32s cubic-bezier(.3,.8,.3,1),width .32s cubic-bezier(.3,.8,.3,1),border-radius .32s ease,background .25s;font-family:var(--font-ui);}
+.mb-pill.open{width:116px;height:calc(28px + 4*var(--mpc) + 6px);border-radius:22px;background:#f7e1dc;}
+.mb-pill.alloff{border-color:#9a9a9a;background:#e6e3de;}
+.mb-pill .mb-t{background:#b94a3a;color:#f4ecdc;z-index:2;transition:background .25s;} .mb-pill.alloff .mb-t{background:#9a9a9a;}
+.mp-clip{position:absolute;inset:0;border-radius:inherit;overflow:hidden;}
+.mp-cl{position:absolute;inset:0;width:100%;height:100%;border:none;background:none;padding:0;cursor:pointer;transition:opacity .18s;}
+.mb-pill.open .mp-cl{opacity:0;pointer-events:none;}
+.mp-face{position:absolute;left:0;right:0;top:7px;display:grid;grid-template-columns:1fr 1fr;gap:4px 2px;padding:0 10px;justify-items:center;color:#b94a3a;}
+.mp-face span{display:flex;} .mp-face svg{width:16px;height:16px;} .mp-face span.o{color:#bfb3a6;}
+.mp-op{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .2s;direction:rtl;display:flex;flex-direction:column;}
+.mb-pill.open .mp-op{opacity:1;pointer-events:auto;transition-delay:.12s;}
+.mp-hd{height:28px;flex:none;border:none;background:none;color:#b94a3a;border-bottom:1.5px solid rgba(185,74,58,.4);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;}
+.mp-hd svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+.mp-cell{height:var(--mpc);flex:none;border:none;background:none;display:flex;align-items:center;gap:8px;padding:0 12px;color:#7a2a1f;font-family:var(--font-ui);font-size:12px;font-weight:700;cursor:pointer;direction:rtl;text-align:right;transition:background .2s,color .2s;}
+.mp-cell+.mp-cell{border-top:1px solid rgba(185,74,58,.3);}
+.mp-cell svg{width:20px;height:20px;flex:none;color:#b94a3a;} .mp-cell span{flex:1;direction:ltr;text-align:left;}
+.mp-cell:not(.on){background:rgba(251,246,232,.85);color:#b3a79b;} .mp-cell:not(.on) svg{color:#b3a79b;}
+.mp-cell:active{filter:brightness(.94);}
+/* v1.08.038: list view: the MAP button lives in the fixed search row, never over the NOTAMs */
+.qmap{display:none;position:relative;flex:none;width:44px;height:44px;align-self:center;border-radius:50%;box-sizing:border-box;border:1.5px solid #1c3d6e;background:rgba(251,246,232,.96);color:#1c3d6e;align-items:center;justify-content:center;padding:0;box-shadow:0 1px 5px rgba(14,35,72,.3);cursor:pointer;font-family:var(--font-ui);}
+.qmap svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:translateY(-3px);}
+.qmap:active{filter:brightness(.92);}
+body.lv:not(.wide) .qmap{display:flex;}
+body.lv:not(.wide) #mbList{display:none !important;}
+body.lv:not(.wide) #list{padding-top:12px;}
+body.lv:not(.wide) .qbar{padding-bottom:4px;}
+/* v1.08.039: list header = a quiet status line, search + MAP, then the unread switch on the left; one list by start time; map and list fade into each other */
+.lstat,.lctl{display:none;flex:none;direction:rtl;}
+body.lv .lstat{display:block;}
+body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bottom:1px solid var(--paper-edge);}
+.lstat{padding:9px 14px 7px;background:#ece2c8;border-bottom:1px solid var(--paper-edge);}
+.lstat .l1{display:flex;align-items:center;gap:10px;font:600 14px var(--font-ui);color:var(--ink-dark);}
+.lstat .l1 b{font:800 15px var(--font-mono);}
+.lstat .fx{display:flex;align-items:center;gap:10px;margin-inline-start:auto;direction:ltr;color:var(--ink);font:800 11px var(--font-mono);}
+.lstat .fx span,.lstat .fx i{display:flex;align-items:center;gap:3px;font-style:normal;}
+.lstat .fx i{color:var(--stamp-red);gap:6px;}
+.lstat .fx svg{width:14px;height:14px;flex:none;}
+.lstat .fx span svg{fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;}
+.lstat .l2{font:12px var(--font-ui);color:var(--ink-muted);margin-top:2px;}
+.lsw{display:flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;font:700 13px var(--font-ui);color:var(--ink-dark);cursor:pointer;}
+.lsw em{font:700 11px var(--font-mono);font-style:normal;background:var(--paper-edge);border-radius:10px;padding:0 8px;}
+.lsw .tg{position:relative;width:44px;height:26px;border-radius:13px;background:#cfc6b2;flex:none;transition:background .2s;}
+.lsw .tg:after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:right .2s;}
+.lsw.on .tg{background:var(--ink);}
+.lsw.on .tg:after{right:21px;}
+.stage.xf>#list,.stage.xf>#map{position:absolute;left:0;right:0;top:0;bottom:0;}
+.stage.xf>#list{z-index:3;background:var(--paper);}
+.stage.xf>#map{z-index:1;}
+
+/* v1.08.038: marking in the list: the review's two equal buttons plus a round map icon */
+.c-acts.lk{display:flex;gap:8px;align-items:center;}
+.lk .lk-b{flex:1 1 0;min-width:0;height:46px;border-radius:10px;border:1.5px solid #1c3d6e;background:transparent;color:#1c3d6e;font-family:var(--font-ui);font-size:13.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;position:relative;padding:0 4px;cursor:pointer;}
+.lk .lk-b:active{filter:brightness(.94);}
+.lk .rv-ic{width:20px;height:20px;flex:none;}
+.lk .lk-map{flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid #1c3d6e;background:#fbf6e8;color:#1c3d6e;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;}
+.lk .lk-map svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.lk .lk-map:disabled{opacity:.3;cursor:default;}
+.lk .rv-bdg{top:-8px;left:-8px;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1787,7 +1848,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.037 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.039 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1859,9 +1920,12 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
     <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <span class="cs-old" id="csMapOld"></span><b id="csMap">-</b></div></div>
     <div class="h"><div class="t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <span class="cs-old" id="csNoOld"></span><b id="csNo">-</b></div></div>
   </div>
+  <div class="lstat" id="lstat" aria-live="polite"></div>
   <div class="qbar" id="qbar">
+    <button type="button" class="qmap" id="qMap" aria-label="מפה" onclick="mbListGo()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-c">MAP</span></button>
     <div class="lsearch" id="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><input type="search" id="lq" placeholder="חיפוש (למשל ILS, LLHZ)&rlm;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button type="button" class="lq-x" id="lqX" aria-label="נקה חיפוש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button><div class="qch" id="qch"></div></div>
   </div>
+  <div class="lctl" id="lctl"><button type="button" class="lsw" id="lsw" role="switch" aria-checked="false" onclick="setUnreadOnly(!UNREAD_ONLY)"><em id="lswN">0</em><span>רק מה שלא נקרא</span><i class="tg"></i></button></div>
   <div class="fdlg" id="rdy" onclick="if(event.target===this)closeCurtain('rdy')"><div class="fcard rcard" role="dialog" aria-labelledby="rdyTtl">
     <div class="r-head"><div class="fttl" id="rdyTtl">סקירת ה-NOTAMים</div><div class="r-big" id="rdyBig"></div></div>
     <div class="r-bar"><i id="rdyBar"></i></div>
@@ -1915,10 +1979,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
       <button type="button" id="mbDraw" class="mb-b mb-n mb-m" style="left:10px;top:168px" aria-label="מסלול" onclick="mbDrawGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M13 12l.8-3 6.7-7 2.5 2.5-7 6.7z"/><circle cx="3.5" cy="21" r="1.8"/><path d="M4.6 19.4L7 13.5L10 19.5L13 12"/></svg><span class="mb-t mb-t-r" id="mbDrawT">DRAW</span></button>
       <button type="button" id="mbOnly" class="mb-b mb-n mb-m" style="left:10px;top:226px" aria-label="רק מסלול" onclick="mbOnlyGo()" aria-pressed="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg><span class="mb-t mb-t-r" id="mbOnlyT">ALL</span></button>
       <button type="button" id="mbTime" class="mb-b mb-n mb-m" style="left:10px;top:284px" aria-label="זמן" onclick="mbTimeGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mb-t mb-t-r" id="mbTimeT">24 HR</span></button>
-      <button type="button" id="mbF_cvfr" class="mb-b mb-f mb-m" style="right:10px;top:128px" aria-label="CVFR וספורט" onclick="mbFam('cvfr')" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="transform:translateY(-3px)"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg><span class="mb-t mb-t-l" id="mbF_cvfrT">CVFR/LSA</span></button>
-      <button type="button" id="mbF_apt" class="mb-b mb-f mb-m" style="right:10px;top:186px" aria-label="שדות גדולים" onclick="mbFam('apt')" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span class="mb-t mb-t-l" id="mbF_aptT">AIRPORT</span></button>
-      <button type="button" id="mbF_hel" class="mb-b mb-f mb-m" style="right:10px;top:244px" aria-label="מסוקים" onclick="mbFam('hel')" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg><span class="mb-t mb-t-l" id="mbF_helT">HELI</span></button>
-      <button type="button" id="mbF_ins" class="mb-b mb-f mb-m" style="right:10px;top:302px" aria-label="IFR" onclick="mbFam('ins')" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg><span class="mb-t mb-t-l" id="mbF_insT">IFR</span></button>
+      <div id="mbPill" class="mb-pill mb-m" role="group" aria-label="סינון NOTAM לפי סוג" style="right:10px;bottom:116px"><div class="mp-clip"><button type="button" class="mp-cl" id="mpCl" aria-label="סינון NOTAM לפי סוג" aria-expanded="false" onclick="mbPillOpen()"><div class="mp-face"><span id="mpf_cvfr"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg></span><span id="mpf_apt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg></span><span id="mpf_hel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg></span><span id="mpf_ins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg></span></div></button><div class="mp-op" id="mpOp"><button type="button" class="mp-hd" aria-label="סגור" onclick="mbPillClose()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><button type="button" id="mbF_cvfr" class="mp-cell" aria-label="CVFR וספורט" onclick="mbFam('cvfr')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-35 12 12)"><rect x="10.5" y="3.5" width="3" height="17.5" rx="1.5"/><rect x="2" y="9" width="20" height="3.6" rx="1.4"/><rect x="7.5" y="18" width="9" height="2.6" rx="1.2"/><rect x="8.5" y="1.6" width="7" height="1.4" rx=".7"/></g></svg><span>CVFR/LSA</span></button><button type="button" id="mbF_apt" class="mp-cell" aria-label="שדות גדולים" onclick="mbFam('apt')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.4 17.4L4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span>AIRPORT</span></button><button type="button" id="mbF_hel" class="mp-cell" aria-label="מסוקים" onclick="mbFam('hel')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M12 5v3"/><path d="M7 13a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1H7z"/><path d="M7 13H3M8 19h9"/></svg><span>HELI</span></button><button type="button" id="mbF_ins" class="mp-cell" aria-label="IFR" onclick="mbFam('ins')" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="17" r="1.5"/><path d="M8 13a5.5 5.5 0 0 1 8 0M5 9.5a10 10 0 0 1 14 0"/></svg><span>IFR</span></button></div></div><span class="mb-t mb-t-c" id="mbPillT">NOTAM</span></div>
       <button type="button" id="mbChart" class="mb-b mb-c mb-m" style="left:10px;bottom:102px" aria-label="מפות ושכבות" onclick="gisPanelToggle(true)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg><span class="mb-t mb-t-r" id="mbChartT">CHARTS</span></button>
       <button type="button" id="mbLay" class="mb-b mb-l mb-m" style="left:10px;bottom:44px" aria-label="שכבות נוספות" onclick="gisPanelToggle(true)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="mb-t mb-t-r" id="mbLayT">LAYERS</span></button>
       <button type="button" id="mbRv" class="mb-rv mb-m" aria-label="סקירה" onclick="slotReview()"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2L6.8 11M3.5 18l1.2 1.2L6.8 17"/></svg><span class="mb-t mb-t-l" id="mbRvT">REVIEW</span><span class="mb-bd" id="mbRvN"></span></button>
@@ -1953,7 +2014,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.037 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.039 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2168,9 +2229,6 @@ function render(opts){
   LAST_ITEMS=items;
   const S={new:[],chg:[],ok:[],irr:[]};
   items.forEach(e=>S[statusOf(e)].push(e));
-  // newly arrived NOTAMs join the top group until handled
-  S.new=S.new.filter(e=>{ if(UPD[e.id]&&UPD[e.id].t==="new"){ S.chg.push(e); return false; } return true; });
-  Object.values(S).forEach(g=>g.sort((a,b)=>(a.start||0)-(b.start||0)));
   const GHOSTS=Object.keys(UPD).filter(id=>UPD[id].t==="can");
 
   const onMap=items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)).length;
@@ -2184,26 +2242,40 @@ function render(opts){
   updateProgress();
   READY.irr=S.irr.length;
 
-  const G=[["chg","עודכנו מאז שבדקת"],["new","טרם נקראו"],["ok","קראתי"],["irr","סימנתי כלא רלוונטיים לי"]];
   // list search: plain text, case-insensitive, anywhere in ID / airfield / full text (list only, the map is not affected)
   if(ROUTE.length>=2) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>!e.geo||inCorridor(e)||PIN.has(e.id)); });   // v1.06.009: list = the review set
   const QT=qTerms(), q=QT.join(",")+(LOC!=="all"?"|"+LOC:"");   // q: any narrowing of the list (search or location)
   if(q) Object.keys(S).forEach(k=>{ S[k]=S[k].filter(e=>qMatch(e,QT)&&locPass(e)); });
-  const html=G.map(([k,title])=>{
-    if((!S[k].length&&!(k==="chg"&&GHOSTS.length&&!q))||(k==="irr"&&!SHOW_IRR))return"";
-    const open=q? true : expandedGroups.has(k);
-    return`<div class="group g-${k}${open?' open':''}" data-grp="${k}">`
-      +`<button class="g-head" type="button" onclick="toggleGroup('${k}')" aria-expanded="${open?'true':'false'}">`
-        +`<span class="dot"></span><span class="g-title">${title}</span><span class="g-cnt">${S[k].length+(k==="chg"&&!q?GHOSTS.length:0)}</span>`
-        +`<span class="g-chev">▾</span></button>`
-      +`<div class="g-body">`+S[k].map(e=>card(e,k)).join("")+(k==="chg"&&!q?GHOSTS.map(ghostCard).join(""):"")+`</div></div>`;
-  }).join("");
-  document.getElementById("list").innerHTML=html||(q?'':'<div class="empty">אין NOTAMים בחלון הזמן הנוכחי</div>');
+  // v1.08.039: one list, no group headers, by start time; a replacement of something you read is simply a new unread NOTAM
+  const base=[];
+  ["new","chg","ok","irr"].forEach(k=>{ if(k==="irr"&&!SHOW_IRR) return; S[k].forEach(e=>base.push({e,k:(k==="chg"?"new":k),t:e.start?e.start.getTime():0})); });
+  if(!q) GHOSTS.forEach(id=>{ const u=UPD[id]; if(!u||!u.old) return; const o=enrich(u.old); base.push({g:id,t:o.start?o.start.getTime():0}); });
+  base.sort((a,b)=>a.t-b.t||String(a.g||a.e.id).localeCompare(String(b.g||b.e.id)));
+  const isP=x=>!!x.g||x.k==="new", pend=base.filter(isP).length, shown=UNREAD_ONLY? base.filter(isP) : base;
+  const html=shown.map(x=>x.g? ghostCard(x.g) : card(x.e,x.k,false,false,true)).join("");
+  document.getElementById("list").innerHTML=html||(UNREAD_ONLY?'<div class="empty">אין NOTAMים שלא נקראו</div>':q?'':'<div class="empty">אין NOTAMים בחלון הזמן הנוכחי</div>');
+  try{lstUi(shown.length, UNREAD_ONLY? base.length : full.length, pend);}catch(_){}
 
   if(!opts.skipMap && mapOn()) renderMap();   // v1.06.005
   try{filtUi();}catch(_){}
   try{mbSync();}catch(_){}
   requestAnimationFrame(()=>{ try{updateScrollCue();}catch(_){}} );
+}
+let UNREAD_ONLY=false; try{ UNREAD_ONLY=localStorage.getItem("airnotam_unread_only")==="1"; }catch(_){}   // v1.08.039: remembered, off on a fresh install
+function setUnreadOnly(v){ UNREAD_ONLY=!!v; try{localStorage.setItem("airnotam_unread_only",v?"1":"0");}catch(_){} const l=document.getElementById("list"); if(l) l.scrollTop=0; render(); }
+const LST_TIME='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const LST_ONLY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg>';
+function lstUi(x,y,pend){   // the status line of the list: what you are looking at, and which map choices narrow it (flat, nothing to tap)
+  const el=document.getElementById("lstat"); if(!el) return;
+  const hasR=ROUTE.length>=2, H=winH(), ch=[];
+  if(timeMode==="flight") ch.push('<span>'+LST_TIME+'CUSTOM</span>'); else if(H!==0) ch.push('<span>'+LST_TIME+H+' HR</span>');
+  if(ROUTE_ONLY&&hasR) ch.push('<span>'+LST_ONLY+'ONLY</span>');
+  const on=["cvfr","apt","hel","ins"].filter(k=>FAMC[k]);
+  if(on.length<4) ch.push('<i>'+on.map(k=>{ const f=document.getElementById("mpf_"+k); return f? f.innerHTML : ""; }).join("")+'</i>');
+  el.innerHTML='<div class="l1"><span>מוצגים <b>'+x+'</b> מתוך '+y+'</span>'+(ch.length?'<span class="fx">'+ch.join("")+'</span>':"")+'</div>'
+    +((ch.length||UNREAD_ONLY)?'<div class="l2">'+(ch.length?"לפי הבחירות שלך במפה":"")+(ch.length&&UNREAD_ONLY?", ":"")+(UNREAD_ONLY?"רק שלא נקראו":"")+'</div>':"");
+  const w=document.getElementById("lsw"); if(w){ w.classList.toggle("on",UNREAD_ONLY); w.setAttribute("aria-checked",UNREAD_ONLY?"true":"false"); }
+  const n=document.getElementById("lswN"); if(n) n.textContent=pend;
 }
 function csUi(mapChain,noChain){
   const set=(id,old,chain)=>{
@@ -2603,7 +2675,7 @@ function toggleGroup(k){
 // v1.04.024: folded-map icon replaces the ⌖ target on "show on map" buttons
 const LIST_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>';   // v1.05.028T
 const MAP_ICO='<svg class="ico-map" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
-function card(e,st,rv,keep){
+function card(e,st,rv,keep,lst){
   const alt=`<span class="b alt">${esc(altTxt(e))}</span>`;
   const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
@@ -2624,7 +2696,8 @@ function card(e,st,rv,keep){
     acts = lnk("listUnreview","בטל סימון")+mapBtn+lnk("listReview","סמן כנקרא");
   }
   if(rv) acts=rvActs(st);   // v1.06.012: review card = only the two review buttons
-  else if(!keep) acts= e.geo? mapBtn : "";   // v1.08.030: marking only happens in the review
+  else if(lst) acts=listActs(e,st);   // v1.08.038: marking in the list again: the review's two buttons and a round map icon
+  else if(!keep) acts= e.geo? mapBtn : "";
   return`<div class="card st-${st}${rv?" rvbox":""}" data-nid="${id}">
     <div class="c-top">
       <div class="c-head"><span class="c-id">${id}</span>${updTag(e.id)}
@@ -2636,7 +2709,7 @@ function card(e,st,rv,keep){
       ? `<div class="diff"><div class="dl">לפני העדכון:</div><div class="old">${esc(UPD[e.id].old.eText||UPD[e.id].old.rawText||"")}</div><div class="dl">עכשיו:</div><div class="c-text">${esc(e.text)}</div></div>`
       : `<div class="c-text">${qHl(e.text)}</div>`}
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
-    ${acts?`<div class="c-acts ${rv?"c2":keep?"c3":"c1"}">${acts}</div>`:""}
+    ${acts?`<div class="c-acts ${rv?"c2":keep?"c3":lst?"lk":"c1"}">${acts}</div>`:""}
     ${rv&&!RV_HINT?`<div class="c-hint">${RV_INFO}לאחר הסימון, ה-NOTAM הבא ייפתח אוטומטית</div>`:""}
   </div>`;
 }
@@ -2651,6 +2724,15 @@ function ghostCard(id,done){
   </div>`;
 }
 function updAck(id){ delete UPD[id]; saveUpd(); render({skipMap:true}); rvRender(); }
+function listActs(e,st){
+  const id=esc(e.id), ok=st==="ok", no=st==="irr";
+  const mp= e.geo? `<button type="button" class="lk-map" aria-label="הצג ה-NOTAM במפה" onclick="focusOnMap('${id}')">${MAP_ICO.replace('class="ico-map" ','')}</button>` : `<button type="button" class="lk-map" aria-label="ללא מיקום" disabled>${MAP_ICO.replace('class="ico-map" ','')}</button>`;
+  return `<button type="button" class="lk-b${no?" rv-sel":""}" onclick="listSet('${no?"un":"irr"}','${id}')">${no?RV_BDG:""}${RV_IC_NO}לא רלוונטי</button><button type="button" class="lk-b${ok?" rv-sel":""}" onclick="listSet('${ok?"un":"ok"}','${id}')">${ok?RV_BDG:""}${RV_IC_OK}קראתי</button>${mp}`;
+}
+function listSet(k,id){   // v1.08.038: one tap marks (no confirmation: this is the quick way through the list); the chosen one tapped again clears
+  if(k==="un") unmarkReviewed(id); else if(k==="ok") markReviewed(id); else markIrrelevant(id);
+  render();
+}
 async function listReview(id){
   const e=ENR_BY_ID[id];
   if(e&&e.geo){   // v1.04.022: mappable NOTAM marked read from a card: always confirm, offer the map
@@ -3095,7 +3177,7 @@ function idsAt(ll){
 }
 function openAt(ll,firstId){
   if(DRAWING) return;
-  if(RV.on){ rvTap(ll); return; }   // v1.08.030: no floating popup during the review
+  if(RV.on){ if(!rvTap(ll) && !idsAt(ll).length) rvClose(); return; }   // v1.08.030: no floating popup during the review; v1.08.038: a tap on empty map closes it, like every other curtain
   let ids=idsAt(ll);
   if(firstId && !ids.includes(firstId) && CIRCLES[firstId]) ids.push(firstId);
   const gh=gisHtml(ll);
@@ -3234,6 +3316,7 @@ function focusOnList(id){
 }
 // v1.06.005: scroll the list to a card and flash it (tries: how many times to wait for the card to be drawn)
 function listJump(id,tries){
+  { const e0=ENR_BY_ID[id]; if(UNREAD_ONLY && e0 && !isPending(e0) && !(tries<6)) setUnreadOnly(false); }   // v1.08.039: jumping to a NOTAM you already read switches "only unread" off so the card is there
   const attempt=(tries)=>{
     const listEl=document.getElementById("list");
     const card=listEl && listEl.querySelector('[data-nid="'+CSS.escape(id)+'"]');
@@ -3275,7 +3358,17 @@ function applyWide(boot){
   if(!boot) setView(w? "list" : "map");
 }
 
+let XF_A=null, XF_T=null;
+function xfEnd(){   // end of the map/list fade: settle on the final picture
+  clearTimeout(XF_T); if(XF_A){ XF_A.forEach(a=>{ try{a.cancel();}catch(_){} }); XF_A=null; }
+  const st=document.getElementById("stage"); if(st) st.classList.remove("xf");
+  document.getElementById("list").style.display = currentView==="list"? "block":"none";
+  document.getElementById("map").style.display  = currentView==="map"||WIDE? "block":"none";
+  try{ if(MAP) MAP.invalidateSize(); }catch(_){}
+}
 function setView(v){
+  const was=currentView, calm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(XF_A) xfEnd();
   if(WIDE) v="list";   // v1.06.005: wide screen: the panel is always the list, the map is always beside it
   if(RV.on && !WIDE && v!=="map") rvClose();   // v1.06.012: the review lives on the map
   if(v!==currentView) closeCurtains();
@@ -3293,6 +3386,14 @@ function setView(v){
   try{filtUi();}catch(_){}
   try{ gisPanelToggle(false); gisTabPos(); }catch(_){}
   try{updateScrollCue();}catch(_){}
+  if(!WIDE && !calm && was!==v && (was==="list"||was==="map") && (v==="list"||v==="map") && document.getElementById("list").animate){   // v1.08.039: list rises 24 px while fading in over the fading map (and back), 0.25 s
+    const l=document.getElementById("list"), m=document.getElementById("map"), D=250;
+    l.style.display="block"; m.style.display="block";
+    document.getElementById("stage").classList.add("xf");
+    if(isList) XF_A=[ l.animate([{opacity:0,transform:"translateY(24px)"},{opacity:1,transform:"none"}],{duration:D,easing:"ease-out"}), m.animate([{opacity:1},{opacity:0}],{duration:D,fill:"forwards"}) ];
+    else XF_A=[ l.animate([{opacity:1,transform:"none"},{opacity:0,transform:"translateY(24px)"}],{duration:D,easing:"ease-in",fill:"forwards"}), m.animate([{opacity:0},{opacity:1}],{duration:D}) ];
+    XF_T=setTimeout(xfEnd,D+30);
+  }
 }
 
 // ── data: device snapshot, frozen until the pilot refreshes ──
@@ -4594,7 +4695,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.037 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.039 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4604,7 +4705,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.037 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.039 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4693,7 +4794,7 @@ function stressToggle(){
 // RV.maps = map NOTAMים in order along the route (no route: north to south), RV.cards = no-position NOTAMים, RV.list = both, in review order
 const RV={on:false,maps:[],cards:[],list:[],i:-1,lock:false,done:false,shown:null,t:null,lay:null,glow:null,th:300};
 let RV_CARDS=false;   // kept for the old summary notice
-const RV_PAUSE=500;   // v1.08.037: how long the chosen answer stays visible before the next NOTAM
+const RV_PAUSE=500;   // v1.08.038: how long the chosen answer stays visible before the next NOTAM
 let RV_HINT=true;     // the "next one opens by itself" hint is gone
 const RV_INFO='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';
 function rvHintSeen(){}
@@ -4753,14 +4854,14 @@ function rvUi(){
   q("rvQm").classList.toggle("cur",!RV.done&&RV.i>=0&&RV.i<RV.maps.length); q("rvQn").classList.toggle("cur",!RV.done&&RV.i>=RV.maps.length);
   q("rvQn").style.display= R.noGeo? "" : "none"; q("rvQm").style.display= R.geoTot? "" : "none";
   q("rvQ").style.gridTemplateColumns= (R.geoTot&&R.noGeo)? `minmax(110px,${R.geoTot}fr) minmax(110px,${R.noGeo}fr)` : "1fr";
-  { const nm=RV.maps.length, nn=RV.cards.length, i=RV.i, onM=!RV.done&&i>=0&&i<nm, onN=!RV.done&&i>=nm&&nn>0&&i<nm+nn;   // v1.08.037: the airplane rides the bar you are in, at your item number out of that bar's total
+  { const nm=RV.maps.length, nn=RV.cards.length, i=RV.i, onM=!RV.done&&i>=0&&i<nm, onN=!RV.done&&i>=nm&&nn>0&&i<nm+nn;   // v1.08.038: the airplane rides the bar you are in, at your item number out of that bar's total
     const pm=q("rvPm"), pn=q("rvPn"); pm.classList.toggle("show",onM); pn.classList.toggle("show",onN);
     const cm=q("rvCm"), cn=q("rvCn"); cm.classList.toggle("show",onM); cn.classList.toggle("show",onN);
     if(onM){ pm.style.right=(100*(i+.5)/nm)+"%"; cm.style.right=(100*i/nm)+"%"; cm.style.width=(100/nm)+"%"; }
     if(onN){ pn.style.right=(100*(i-nm+.5)/nn)+"%"; cn.style.right=(100*(i-nm)/nn)+"%"; cn.style.width=(100/nn)+"%"; } }
   q("rvCnt").textContent= RV.done? `${n} מתוך ${n}` : `${Math.max(RV.i,0)+1} מתוך ${n}`;
     q("rvPrevA").disabled= (RV.lock&&!RV.pend) || RV.i<=0;
-  q("rvNextA").disabled= (RV.lock&&!RV.pend) || RV.done || !n;   // v1.08.037: during the short pause the arrows stay live, they skip the wait
+  q("rvNextA").disabled= (RV.lock&&!RV.pend) || RV.done || !n;   // v1.08.038: during the short pause the arrows stay live, they skip the wait
 }
 function slotReview(){   // the REVIEW button: starts the review at the first unread NOTAM; when everything is read it opens at the first one, to look through again
   if(RV.on) return;
@@ -4818,7 +4919,7 @@ function rvTap(ll){   // a tap on a NOTAM of the review: the review goes to it
 }
 function rvNav(d){   // previous / next without marking
   if(!RV.on||!RV.list.length) return;
-  if(RV.pend){ const f=RV.pend; RV.pend=null; clearTimeout(RV.t); f(); return; }   // v1.08.037: an arrow during the short pause after an answer skips the wait
+  if(RV.pend){ const f=RV.pend; RV.pend=null; clearTimeout(RV.t); f(); return; }   // v1.08.038: an arrow during the short pause after an answer skips the wait
   if(RV.lock) return;
   const n=RV.list.length;
   if(RV.done){ if(d<0) rvGo(n-1,-1); return; }
@@ -4846,7 +4947,7 @@ function glideTo(cen,z,fin,alive){
     if(z===MAP.getZoom()) MAP.panTo(cen,{animate:true,duration:.45,easeLinearity:.25});
     else MAP.flyTo(cen,z,{duration:.45,easeLinearity:.25});
     setTimeout(fin,1200); };
-  if(MAP.project(MAP.getCenter(),base).distanceTo(MAP.project(cen,base)) <= MAP.getSize().x){   // v1.08.037: close by (within about one screen): one smooth glide, no step back
+  if(MAP.project(MAP.getCenter(),base).distanceTo(MAP.project(cen,base)) <= MAP.getSize().x){   // v1.08.038: close by (within about one screen): one smooth glide, no step back
     if(alive&&!alive()) return; last(); return; }
   let went=false; const go=()=>{ if(went) return; went=true; if(alive&&!alive()) return; last(); };
   const mid=MAP.unproject(MAP.project(MAP.getCenter(),outZ).add(MAP.project(cen,outZ)).divideBy(2),outZ);
@@ -4863,7 +4964,7 @@ const RV_CHEV_L='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6
 const RV_IC_OK='<svg class="rv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#fbf6e8" stroke="#b94a3a" stroke-width="2.4" stroke-dasharray="4.2 3"/></svg>';
 const RV_IC_NO='<svg class="rv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#e4e1da" stroke="#6b6b6b" stroke-width="2.4" stroke-dasharray="1.2 3.6" stroke-linecap="round"/></svg>';
 const RV_BDG='<i class="rv-bdg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></i>';
-function rvActs(st){   // v1.08.037: the same two equal buttons always; the chosen one carries a small navy check, tapping it again clears the answer
+function rvActs(st){   // v1.08.038: the same two equal buttons always; the chosen one carries a small navy check, tapping it again clears the answer
   const ok=st==="ok", no=st==="irr";
   return `<button class="c-act c-hide${no?" rv-sel":""}" onclick="rvAct('${no?"un":"irr"}',this)">${no?RV_BDG:""}${RV_IC_NO}לא רלוונטי לי</button><button class="c-act c-ok${ok?" rv-sel":""}" onclick="rvAct('${ok?"un":"ok"}',this)">${ok?RV_BDG:""}${RV_IC_OK}קראתי</button>`;
 }
@@ -4877,7 +4978,7 @@ function rvRender(id,dir){   // the card of one NOTAM goes into the panel; with 
   rvCardFade(); return true;
 }
 function rvFadeIn(){ const m=document.getElementById("rvMid"); requestAnimationFrame(()=>requestAnimationFrame(()=>{ m.style.opacity="1"; })); }
-function rvGo(i,dirIn){   // v1.08.037: the card changes at once (a short slide), the map glides in the background, nothing waits
+function rvGo(i,dirIn){   // v1.08.038: the card changes at once (a short slide), the map glides in the background, nothing waits
   if(!RV.on||i<0||i>=RV.list.length) return;
   clearTimeout(RV.t); RV.pend=null;
   const dir=dirIn||(i>=RV.i?1:-1);
@@ -4977,7 +5078,13 @@ function mbDrawGo(){ MB_TAPPED=true; toggleCurtain("rte"); }
 function mbOnlyGo(){ if(ROUTE.length<2){ openCurtain("rte"); return; } setRouteOnly(!ROUTE_ONLY); mbSync(); }
 function mbTimeGo(){ toggleFlightDlg(); }
 function mbListGo(){ setView(currentView==="list"?"map":"list"); mbSync(); }
+let MP_T=null;
+function mbPillArm(){ clearTimeout(MP_T); MP_T=setTimeout(mbPillClose,4000); }
+function mbPillOpen(){ const p=document.getElementById("mbPill"); p.classList.add("open"); document.getElementById("mpCl").setAttribute("aria-expanded","true"); mbPillArm(); }
+function mbPillClose(){ clearTimeout(MP_T); const p=document.getElementById("mbPill"); if(!p) return; p.classList.remove("open"); document.getElementById("mpCl").setAttribute("aria-expanded","false"); }
+document.addEventListener("pointerdown",e=>{ const p=document.getElementById("mbPill"); if(p&&p.classList.contains("open")&&!p.contains(e.target)) mbPillClose(); },true);
 function mbFam(k){
+  if(document.getElementById("mbPill").classList.contains("open")) mbPillArm();
   FAMC[k]=FAMC[k]?0:1;
   try{ const o=JSON.parse(localStorage.getItem(FAM_KEY)||"null")||{}; o.cvfr=FAMC.cvfr; o.apt=FAMC.apt; o.hel=FAMC.hel; o.ins=FAMC.ins; if(!o.ok) o.ok=discToday(); localStorage.setItem(FAM_KEY,JSON.stringify(o)); }catch(_){}
   render(); mbSync();
@@ -4990,8 +5097,9 @@ function mbFit(){
   const r0=128, rp0=58, l0=168, lp0=58, revTop=H-102, chTop=H-146, gap=6;
   let rs=r0, rp=rp0; if(rs+3*rp+44>revTop-gap){ rp=Math.max(48,Math.min(rp0,Math.floor((revTop-gap-44-rs)/3))); if(rs+3*rp+44>revTop-gap) rs=Math.max(64,revTop-gap-44-3*rp); }
   let ls=l0, lp=lp0; if(ls+2*lp+44>chTop-gap){ lp=Math.max(48,Math.min(lp0,Math.floor((chTop-gap-44-ls)/2))); if(ls+2*lp+44>chTop-gap) ls=Math.max(92,chTop-gap-44-2*lp); }
-  const k=[rs,rp,ls,lp].join(","); if(k===MB_FITK) return; MB_FITK=k;
-  ["mbF_cvfr","mbF_apt","mbF_hel","mbF_ins"].forEach((id,i)=>{ document.getElementById(id).style.top=(rs+i*rp)+"px"; });
+  const mpc=Math.max(34,Math.min(44,Math.floor((H-118-66-28-6)/4)));   // v1.08.038: short screens: the stretched pill keeps below the LIST button
+  const k=[rs,rp,ls,lp,mpc].join(","); if(k===MB_FITK) return; MB_FITK=k;
+  { const pl=document.getElementById("mbPill"); if(pl) pl.style.setProperty("--mpc",mpc+"px"); }
   ["mbDraw","mbOnly","mbTime"].forEach((id,i)=>{ document.getElementById(id).style.top=(ls+i*lp)+"px"; });
 }
 window.addEventListener("resize",()=>{ try{mbFit();}catch(_){} });
@@ -5014,7 +5122,8 @@ function mbSync(){
   q("mbOnly").classList.toggle("on",ro); q("mbOnly").setAttribute("aria-pressed",ro?"true":"false"); q("mbOnly").classList.toggle("grey",!ro); q("mbOnlyT").textContent= ro? "ONLY":"ALL";
   if(timeMode==="flight"&&!flightValid(FLIGHT)){ renderFlightBar(); try{render();}catch(_){} }   // v1.08.023: a custom range ends when the planned landing has passed
   const H=winH(); q("mbTimeT").textContent= timeMode==="flight"? "CUSTOM" : H===0? "ALL" : H+" HR";
-  [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); });
+  [["cvfr","mbF_cvfr"],["apt","mbF_apt"],["hel","mbF_hel"],["ins","mbF_ins"]].forEach(([k,id])=>{ q(id).classList.toggle("on",!!FAMC[k]); q(id).setAttribute("aria-pressed",FAMC[k]?"true":"false"); q("mpf_"+k).classList.toggle("o",!FAMC[k]); });
+  q("mbPill").classList.toggle("alloff",!(FAMC.cvfr||FAMC.apt||FAMC.hel||FAMC.ins));
   let gp=false; try{ gp=gisPanelOpen(); }catch(_){}
   q("mbChart").classList.toggle("on",gp); q("mbLay").classList.toggle("on",gp);
   const isList=currentView==="list";
