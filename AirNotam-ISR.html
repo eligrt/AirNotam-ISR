@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.039 · built by eligrt
+     AirNotam-ISR · v1.08.040 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1776,7 +1776,7 @@ body:not(.wide) .mbox.rv .mb-leg{bottom:calc(var(--rvh,300px) + 12px);}
 body.lv:not(.wide) .qmap{display:flex;}
 body.lv:not(.wide) #mbList{display:none !important;}
 body.lv:not(.wide) #list{padding-top:12px;}
-body.lv:not(.wide) .qbar{padding-bottom:4px;}
+body.lv:not(.wide) .qbar{padding-bottom:4px;padding-right:10px;}
 /* v1.08.039: list header = a quiet status line, search + MAP, then the unread switch on the left; one list by start time; map and list fade into each other */
 .lstat,.lctl{display:none;flex:none;direction:rtl;}
 body.lv .lstat{display:block;}
@@ -1796,6 +1796,14 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
 .lsw .tg:after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:right .2s;}
 .lsw.on .tg{background:var(--ink);}
 .lsw.on .tg:after{right:21px;}
+
+/* v1.08.040: card edges speak the map's language: solid red = unread, red dashes = read, grey dots = not relevant; no fading of the card */
+.card.st-irr{opacity:1;filter:none;}
+.card.st-ok,.card.st-irr{position:relative;border-inline-start-color:transparent;}
+.card.st-ok::after,.card.st-irr::after{content:"";position:absolute;inset-inline-start:-4px;top:-1px;bottom:-1px;width:4px;pointer-events:none;}
+.card.st-ok::after{background:repeating-linear-gradient(to bottom,#b94a3a 0 14px,transparent 14px 21px);}
+.card.st-irr::after{background:repeating-linear-gradient(to bottom,#6b6b6b 0 4px,transparent 4px 9px);}
+.lstat .l2{min-height:17px;}
 .stage.xf>#list,.stage.xf>#map{position:absolute;left:0;right:0;top:0;bottom:0;}
 .stage.xf>#list{z-index:3;background:var(--paper);}
 .stage.xf>#map{z-index:1;}
@@ -1848,7 +1856,7 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.039 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.040 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1975,7 +1983,7 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
     <button type="button" class="nv-pill" id="nvPill" onclick="setNvis('normal')"></button>
     <div class="mbox" id="mbox">
       <div class="mb-info" id="mbInfo"><div class="mib"><div class="mi1" id="mi1"></div><div class="mi2" id="mi2"></div><div class="mi3" id="mi3" hidden></div><div class="mi3" id="mi4" hidden></div></div></div>
-      <button type="button" id="mbList" class="mb-b mb-n" style="right:10px;top:10px" aria-label="רשימה" onclick="mbListGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="mb-t mb-t-l" id="mbListT">LIST</span></button>
+      <button type="button" id="mbList" class="mb-b mb-n" style="right:10px;top:62px" aria-label="רשימה" onclick="mbListGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="mb-t mb-t-l" id="mbListT">LIST</span></button>
       <button type="button" id="mbDraw" class="mb-b mb-n mb-m" style="left:10px;top:168px" aria-label="מסלול" onclick="mbDrawGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M13 12l.8-3 6.7-7 2.5 2.5-7 6.7z"/><circle cx="3.5" cy="21" r="1.8"/><path d="M4.6 19.4L7 13.5L10 19.5L13 12"/></svg><span class="mb-t mb-t-r" id="mbDrawT">DRAW</span></button>
       <button type="button" id="mbOnly" class="mb-b mb-n mb-m" style="left:10px;top:226px" aria-label="רק מסלול" onclick="mbOnlyGo()" aria-pressed="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg><span class="mb-t mb-t-r" id="mbOnlyT">ALL</span></button>
       <button type="button" id="mbTime" class="mb-b mb-n mb-m" style="left:10px;top:284px" aria-label="זמן" onclick="mbTimeGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mb-t mb-t-r" id="mbTimeT">24 HR</span></button>
@@ -2014,7 +2022,7 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.039 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.040 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2273,7 +2281,7 @@ function lstUi(x,y,pend){   // the status line of the list: what you are looking
   const on=["cvfr","apt","hel","ins"].filter(k=>FAMC[k]);
   if(on.length<4) ch.push('<i>'+on.map(k=>{ const f=document.getElementById("mpf_"+k); return f? f.innerHTML : ""; }).join("")+'</i>');
   el.innerHTML='<div class="l1"><span>מוצגים <b>'+x+'</b> מתוך '+y+'</span>'+(ch.length?'<span class="fx">'+ch.join("")+'</span>':"")+'</div>'
-    +((ch.length||UNREAD_ONLY)?'<div class="l2">'+(ch.length?"לפי הבחירות שלך במפה":"")+(ch.length&&UNREAD_ONLY?", ":"")+(UNREAD_ONLY?"רק שלא נקראו":"")+'</div>':"");
+    +'<div class="l2">'+(ch.length?"לפי הבחירות שלך במפה":"")+(ch.length&&UNREAD_ONLY?", ":"")+(UNREAD_ONLY?"רק שלא נקראו":"")+'</div>';
   const w=document.getElementById("lsw"); if(w){ w.classList.toggle("on",UNREAD_ONLY); w.setAttribute("aria-checked",UNREAD_ONLY?"true":"false"); }
   const n=document.getElementById("lswN"); if(n) n.textContent=pend;
 }
@@ -4695,7 +4703,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.039 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.040 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4705,7 +4713,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.039 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.040 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
