@@ -1,4 +1,4 @@
-# scrape.yml · v1.00.004 · AirNotam-ISR · built by eligrt
+# scrape.yml · v1.00.005 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
 # No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
@@ -55,6 +55,12 @@ jobs:
            *   light - step 2 only for numbers not stored yet. Stored numbers still on the list are
            *           kept exactly as saved (no re-fetch); numbers gone from the list are dropped.
            *           If notams.json is missing or unreadable, light falls back to full.
+           *
+           * News for the app's bell (v1.00.005):
+           *   - firstSeen: the moment a NOTAM number was first seen on the list (accurate to about 30 minutes).
+           *     NOTAMs already stored before this change get no stamp and stay quiet.
+           *   - cancelled: NOTAMs that left the list while their end time was still in the future (RTA cancelled
+           *     them early). Each keeps its full record plus cancelledAt, for 72 hours. Natural expiry is not listed.
            *
            * No headless browser needed — plain HTTP. Runs the same locally and in CI.
            *   node scrape.mjs
@@ -243,20 +249,34 @@ jobs:
               throw new Error("No rows parsed from list page — see diagnostics above.");
             }
           
-            // Light mode: the stored notams.json is the memory. Records with an earlier fetch error
-            // are not kept, so they get fetched again.
+            // The stored notams.json is the memory. Light mode keeps what is stored (records with an earlier
+            // fetch error are not kept, so they get fetched again). Both modes use it for the "first seen"
+            // stamp and for the list of NOTAMs cancelled early.
             let mode = REQUESTED_MODE;
-            const stored = new Map();
-            if (mode === "light") {
-              try {
-                const old = JSON.parse(readFileSync(OUT, "utf-8"));
-                if (!Array.isArray(old.notams)) throw new Error("no notams list in the stored file");
-                for (const rec of old.notams) if (rec && rec.id && !rec.detailError) stored.set(rec.id, rec);
-              } catch (e) {
+            let old = null;
+            try {
+              old = JSON.parse(readFileSync(OUT, "utf-8"));
+              if (!Array.isArray(old.notams)) throw new Error("no notams list in the stored file");
+            } catch (e) {
+              old = null;
+              if (mode === "light") {
                 console.error(`Light mode needs the stored notams.json (${e.message}); running a full sweep instead.`);
                 mode = "full";
               }
             }
+            const oldById = new Map();
+            if (old) for (const rec of old.notams) if (rec && rec.id) oldById.set(rec.id, rec);
+            const stored = new Map();
+            if (mode === "light") for (const [id, rec] of oldById) if (!rec.detailError) stored.set(id, rec);
+
+            // firstSeen: kept from the stored record; a number never stored before gets this moment.
+            // Without a stored file there is no baseline, so nothing is stamped (nothing would look new).
+            const stamp = (n, id) => {
+              const o = oldById.get(id);
+              if (o && o.firstSeen) n.firstSeen = o.firstSeen;
+              else if (old && !o) n.firstSeen = generatedAt;
+              return n;
+            };
             console.error(`Mode: ${mode}`);
 
             const notams = [];
@@ -272,20 +292,42 @@ jobs:
                 const html = await fetchText(DETAIL_URL(rowID));
                 const n = parseDetail(html, id);
                 n.rowID = rowID;
-                notams.push(n);
+                notams.push(stamp(n, id));
               } catch (e) {
                 console.error(`  ! ${id} (row ${rowID}) failed: ${why(e)}`);
-                notams.push({ id, rowID, eText: "", detailError: e.message });
+                notams.push(stamp({ id, rowID, eText: "", detailError: e.message }, id));
               }
               fetched++;
               if (fetched % 20 === 0) console.error(`  …${fetched} fetched`);
               await sleep(DETAIL_DELAY_MS);
             }
+            const onList = new Set(rows.map(r => r.id));
             if (mode === "light") {
-              const onList = new Set(rows.map(r => r.id));
               const dropped = [...stored.keys()].filter(k => !onList.has(k)).length;
               console.error(`Light run: ${kept} kept, ${fetched} fetched (new), ${dropped} dropped.`);
             }
+
+            // Cancelled early = left the list while the end time is still ahead (or the NOTAM is permanent).
+            // Kept for 72 hours. A list far shorter than the stored one is treated as a bad read: nothing is
+            // added to the cancelled list that run.
+            const nowMs = Date.parse(generatedAt), H72 = 72 * 3600 * 1000;
+            const cancelled = [];
+            if (old) {
+              for (const c of Array.isArray(old.cancelled) ? old.cancelled : []) {
+                if (c && c.id && !onList.has(c.id) && nowMs - Date.parse(c.cancelledAt) < H72) cancelled.push(c);
+              }
+              if (rows.length * 2 >= oldById.size) {
+                for (const [id, rec] of oldById) {
+                  if (onList.has(id) || rec.detailError || rec.administrative) continue;
+                  if (cancelled.some(c => c.id === id)) continue;
+                  const endsMs = rec.toDate ? Date.parse(rec.toDate) : Infinity;
+                  if (endsMs > nowMs) cancelled.push({ ...rec, cancelledAt: generatedAt });
+                }
+              } else {
+                console.error(`List has ${rows.length} NOTAMs, stored had ${oldById.size}: not adding to the cancelled list this run.`);
+              }
+            }
+            console.error(`Cancelled early (last 72 h): ${cancelled.length}.`);
 
             const payload = {
               generatedAt,
@@ -294,7 +336,8 @@ jobs:
               tlsVerified: !tlsError,
               tlsError: tlsError,
               count: notams.length,
-              notams
+              notams,
+              cancelled
             };
             writeFileSync(OUT, JSON.stringify(payload, null, 2), "utf-8");
             console.error(`✓ Wrote ${notams.length} NOTAMs → ${OUT}`);
