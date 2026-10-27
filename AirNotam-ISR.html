@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.044 · built by eligrt
+     AirNotam-ISR · v1.08.045 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -157,22 +157,8 @@ html,body{height:100%;height:var(--app-h,100%);background:var(--paper-hi);font-f
 .lg-new{background:rgba(185,74,58,.35);border:2px solid #b94a3a;}
 .lg-ok{background:rgba(59,111,184,.3);border:2px dashed #26497e;}
 .lg-irr{background:rgba(154,154,154,.3);border:2px dotted #6b6b6b;}
-/* v1.07.042: S4 returning pilot - amber legend swatch, the "N עודכנו" map button, rings and chips on the map */
-.lg-upd{background:transparent;border:3px solid #f59e0b;width:8px;height:8px;}
-.leaflet-control.upd-ctl{border:none;background:none;margin:10px 10px 0 0;visibility:hidden;opacity:0;transition:opacity .3s ease,visibility 0s linear .3s;}
-.leaflet-control.upd-ctl.show{visibility:visible;opacity:1;transition:opacity .3s ease,visibility 0s;}
-.upd-btn{height:40px;border:none;border-radius:20px;background:#f59e0b;color:#1a1308;display:flex;align-items:center;gap:6px;padding:0 12px 0 14px;
-  font:800 14px var(--font-ui);cursor:pointer;direction:rtl;box-shadow:0 0 0 3px #fff,0 3px 12px rgba(14,35,72,.35);}
-.upd-btn svg{width:21px;height:21px;fill:none;stroke:#1a1308;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;transform-origin:50% 15%;}
-.upd-btn svg.ring{animation:updBell 1s ease-in-out 1;}
-@keyframes updBell{0%,100%{transform:rotate(0)}12%{transform:rotate(16deg)}28%{transform:rotate(-14deg)}44%{transform:rotate(10deg)}60%{transform:rotate(-7deg)}76%{transform:rotate(3deg)}}
-.leaflet-updGlow-pane{animation:updPulse 2.2s ease-in-out infinite;}
-@keyframes updPulse{0%,100%{opacity:1}50%{opacity:.35}}
-.u-chip{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-3px;white-space:nowrap;background:#f59e0b;color:#1a1308;font:800 11.5px var(--font-ui);
-  border-radius:10px;padding:2px 8px;box-shadow:0 0 0 2px #fff;pointer-events:none;direction:rtl;}
-.u-chip.dn{transform:translate(-50%,0);margin-top:3px;}
-.u-chip.can{background:#fff;color:#0e2348;box-shadow:0 0 0 1.5px #0e2348;}
-@media (prefers-reduced-motion:reduce){.upd-btn svg.ring{animation:none;} .leaflet-updGlow-pane{animation:none;}}
+/* v1.08.045: stage 4 - the bell keeps the ringing of the old update button (rules for the bell itself are at the end) */
+@keyframes bellRing{0%,100%{transform:rotate(0)}12%{transform:rotate(16deg)}28%{transform:rotate(-14deg)}44%{transform:rotate(10deg)}60%{transform:rotate(-7deg)}76%{transform:rotate(3deg)}}
 .irr-tgl{background:rgba(251,246,232,.95);border-radius:6px;padding:5px 8px;font-size:11.5px;color:var(--ink);direction:rtl;font-family:var(--font-ui);display:flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15);}
 .irr-tgl input{margin:0;accent-color:var(--ink);}
 /* popup */
@@ -1815,6 +1801,21 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
 .lk .lk-map svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .lk .lk-map:disabled{opacity:.3;cursor:default;}
 .lk .rv-bdg{top:-8px;left:-8px;}
+/* v1.08.045: stage 4 - the bell (top right, above LIST / MAP) and the news review (same panel as the route review, red top edge) */
+.mb-b[hidden]{display:none;}
+.mb-bell{border:2px solid #b94a3a;color:#b94a3a;background:#fbf6e8;}
+.mb-bell .mb-t{background:#b94a3a;color:#f4ecdc;}
+.bl-ic{display:flex;align-items:center;justify-content:center;transform-origin:50% 12%;}
+.bl-ic.ring{animation:bellRing 1s ease-in-out 1;}
+@media (prefers-reduced-motion:reduce){.bl-ic.ring{animation:none;}}
+.rvc-ttl{display:none;flex:none;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:700;color:#7a2a1f;margin:-4px 0 6px;}
+.rvc-ttl svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+.rvc.news .rvc-ttl{display:flex;}
+body .rvc.news{border-top-color:#b94a3a;}
+.rvc.news .rvc-grip>span{background:#b94a3a;}
+.rvc.news .cg-x{color:#b94a3a;}
+.card.st-can .c-id{text-decoration:line-through;color:#8a7a5a;}
+body.bell-on.lv .lstat{padding-right:62px;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1854,7 +1855,7 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.044 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.045 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -1949,19 +1950,12 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
   </div></div>
   <div class="rvc" id="rvc" role="region" aria-label="סקירת ה-NOTAMים">
     <button type="button" class="rvc-grip" id="rvGrip" aria-label="סיום סקירה"><span></span><em class="cg-x"><b>×</b>סיום סקירה</em></button>
+    <div class="rvc-ttl" id="rvTtl2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span>NOTAM חדשים ב-72 שעות האחרונות</span></div>
     <div class="rvq" id="rvQ"><div id="rvQm"><div class="bar"><i id="rvBm"></i><b class="rv-cur" id="rvCm"></b><span class="rv-pl" id="rvPm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15l-8-4.5V5a1.5 1.5 0 0 0-3 0v5.5L2 15v2l8-2.2V19l-2 1.5V22l4-1 4 1v-1.5L14 19v-4.2l7 2.2z"/></svg></span></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <b id="rvNm">0/0</b></small></div>
       <div id="rvQn"><div class="bar"><i id="rvBn"></i><b class="rv-cur" id="rvCn"></b><span class="rv-pl" id="rvPn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15l-8-4.5V5a1.5 1.5 0 0 0-3 0v5.5L2 15v2l8-2.2V19l-2 1.5V22l4-1 4 1v-1.5L14 19v-4.2l7 2.2z"/></svg></span></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <b id="rvNn">0/0</b></small></div></div>
     <div class="rvp-row"><button type="button" class="rvp-a" id="rvPrevA" aria-label="הקודם" onclick="rvNav(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button><div class="rvp-c"><b id="rvCnt"></b></div><button type="button" class="rvp-a" id="rvNextA" aria-label="הבא" onclick="rvNav(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
     <div class="rvc-mid rvbox" id="rvMid"></div>
   </div>
-  <!-- v1.07.051: the update review curtain sits in .below like the NOTAM review: it starts right under the three tiles and covers the count strip and the search bar -->
-  <div class="rv-top" id="rvTop" onclick="if(event.target===this)updRvClose()"><div class="rv-t" role="dialog" aria-labelledby="rvTtl">
-    <div class="rv-head"><div class="rv-ttl"><span id="rvTtl">סקירת עדכונים</span><small id="rvCnt"></small></div><div class="rv-dots" id="rvDots"></div></div>
-    <div class="rv-body" id="rvBody"></div>
-    <div class="rv-nav"><button type="button" id="rvuPrev" onclick="updRvStep(-1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>הקודם</button>
-      <button type="button" id="rvuNext" onclick="updRvStep(1)">הבא<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-    <button type="button" class="rv-grip" aria-label="סגור"><span></span><em class="cg-x"><b>×</b>סגור</em></button>
-  </div></div>
   <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
     <div class="dr-pill"><span id="drawTxt">הקש על המפה כדי להוסיף נקודה</span></div>
@@ -1981,6 +1975,7 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
     <button type="button" class="nv-pill" id="nvPill" onclick="setNvis('normal')"></button>
     <div class="mbox" id="mbox">
       <div class="mb-info" id="mbInfo"><div class="mib"><div class="mi1" id="mi1"></div><div class="mi2" id="mi2"></div><div class="mi3" id="mi3" hidden></div><div class="mi3" id="mi4" hidden></div></div></div>
+      <button type="button" id="mbBell" class="mb-b mb-bell" style="right:10px;top:10px" aria-label="NOTAM חדשים ב-72 שעות האחרונות" onclick="newsOpen()" hidden><span class="bl-ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="mb-t mb-t-c">NEW</span><span class="mb-bd" id="mbBellN"></span></button>
       <button type="button" id="mbList" class="mb-b mb-n" style="right:10px;top:62px" aria-label="רשימה" onclick="mbListGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="mb-t mb-t-l" id="mbListT">LIST</span></button>
       <button type="button" id="mbDraw" class="mb-b mb-n mb-m" style="left:10px;top:168px" aria-label="מסלול" onclick="mbDrawGo()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M13 12l.8-3 6.7-7 2.5 2.5-7 6.7z"/><circle cx="3.5" cy="21" r="1.8"/><path d="M4.6 19.4L7 13.5L10 19.5L13 12"/></svg><span class="mb-t mb-t-r" id="mbDrawT">DRAW</span></button>
       <button type="button" id="mbOnly" class="mb-b mb-n mb-m" style="left:10px;top:226px" aria-label="רק מסלול" onclick="mbOnlyGo()" aria-pressed="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:translateY(-3px)"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15.5l3-4.2 2.2 2.2 3-4"/></svg><span class="mb-t mb-t-r" id="mbOnlyT">ALL</span></button>
@@ -2020,12 +2015,12 @@ body.lv .lctl{display:flex;justify-content:flex-end;padding:0 12px 8px;border-bo
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.044 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.045 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
 <script>
-// ── test mode: ?demo=update → nothing is saved on the device, and a fake feed change is staged a few seconds after start ──
+// ── test mode: ?demo=update → nothing is saved on the device, and a few fake news items for the bell are staged a few seconds after start ──
 const DEMO=/[?&]demo=update\b/.test(location.search);
 if(DEMO){
   const mem={}; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); mem[k]=localStorage.getItem(k); } }catch(e){}
@@ -2119,9 +2114,9 @@ function statusOf(e){
 }
 function offMap(id){const e=ENR_BY_ID[id]; return !!e && !SHOW_IRR && !(typeof RV!=="undefined"&&RV.on) && statusOf(e)==="irr";}   // v1.06.012: grey always shows during the review
 function isPending(e){const s=statusOf(e); return s==="new"||s==="chg";}
-function markReviewed(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now()}; saveReview(); try{updUi();}catch(_){}}
-function markIrrelevant(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now(),x:1}; saveReview(); try{updUi();}catch(_){}}
-function unmarkReviewed(id){delete REVIEW[id]; saveReview(); try{updUi();}catch(_){}}
+function markReviewed(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now()}; saveReview();}
+function markIrrelevant(id){const e=ENR_BY_ID[id]; if(!e)return; REVIEW[id]={h:e.hash,t:Date.now(),x:1}; saveReview();}
+function unmarkReviewed(id){delete REVIEW[id]; saveReview();}
 function setShowIrr(v){SHOW_IRR=v; try{localStorage.setItem("airnotam_show_irr",v?"1":"0");}catch(e){} const c=document.getElementById("optIrr"); if(c) c.checked=v; render();}
 const ST_LBL={new:"טרם נקרא",chg:"עודכן, בדוק שוב",ok:"קראתי",irr:"לא רלוונטי לי"};   // v1.05.015T: B7 wording
 
@@ -2169,7 +2164,7 @@ function winPass(e){
 }
 function passFilters(e){
   if(e.admin) return false;                      // admin/checklist NOTAMs stay out
-  if(PIN.has(e.id)) return true;                 // v1.07.037: shown by a tap in the search list
+  if(PIN.has(e.id)||NEWS_PIN.has(e.id)) return true;   // v1.07.037: shown by a tap in the search list; v1.08.045: and the news NOTAMים while the news review runs
   if(famHidden(e)) return false;
   return timePass(e);
 }
@@ -2180,6 +2175,7 @@ let LQ="";
 // v1.07.037: search looks through the whole active feed. A match that the normal choices hide gets a row in the search list with the reason;
 // a tap pins it (this search only: PIN is cleared with the search), so the family rows, time window and route are left as the pilot set them
 const PIN=new Set();
+const NEWS_PIN=new Set();   // v1.08.045: the news review shows its NOTAMים whatever the time window / route choices are; emptied when it closes
 function timePass(e){ if(timeMode!=="flight") return winPass(e); const w=flightWindow(FLIGHT); if(!w) return true; return !(e.start&&e.start>w.to)&&!(e.end&&e.end<w.from); }
 function qWhy(e){
   if(famHidden(e)) return "fam";
@@ -2235,7 +2231,6 @@ function render(opts){
   LAST_ITEMS=items;
   const S={new:[],chg:[],ok:[],irr:[]};
   items.forEach(e=>S[statusOf(e)].push(e));
-  const GHOSTS=Object.keys(UPD).filter(id=>UPD[id].t==="can");
 
   const onMap=items.filter(e=>e.geo&&!offMap(e.id)&&mapRoutePass(e)).length;
   const noGeo=items.filter(e=>!e.geo&&!offMap(e.id)).length;
@@ -2255,10 +2250,9 @@ function render(opts){
   // v1.08.039: one list, no group headers, by start time; a replacement of something you read is simply a new unread NOTAM
   const base=[];
   ["new","chg","ok","irr"].forEach(k=>{ if(k==="irr"&&!SHOW_IRR) return; S[k].forEach(e=>base.push({e,k:(k==="chg"?"new":k),t:e.start?e.start.getTime():0})); });
-  if(!q) GHOSTS.forEach(id=>{ const u=UPD[id]; if(!u||!u.old) return; const o=enrich(u.old); base.push({g:id,t:o.start?o.start.getTime():0}); });
-  base.sort((a,b)=>a.t-b.t||String(a.g||a.e.id).localeCompare(String(b.g||b.e.id)));
-  const isP=x=>!!x.g||x.k==="new", pend=base.filter(isP).length, shown=UNREAD_ONLY? base.filter(isP) : base;
-  const html=shown.map(x=>x.g? ghostCard(x.g) : card(x.e,x.k,false,false,true)).join("");
+  base.sort((a,b)=>a.t-b.t||String(a.e.id).localeCompare(String(b.e.id)));
+  const isP=x=>x.k==="new", pend=base.filter(isP).length, shown=UNREAD_ONLY? base.filter(isP) : base;
+  const html=shown.map(x=>card(x.e,x.k,false,false,true)).join("");
   document.getElementById("list").innerHTML=html||(UNREAD_ONLY?'<div class="empty">אין NOTAMים שלא נקראו</div>':q?'':'<div class="empty">אין NOTAMים בחלון הזמן הנוכחי</div>');
   try{lstUi(shown.length, UNREAD_ONLY? base.length : full.length, pend);}catch(_){}
 
@@ -2293,7 +2287,7 @@ function csUi(mapChain,noChain){
 }
 let READY={total:0,done:0,geoPend:0,noGeoPend:0,chg:0,irr:0,noGeo:0};
 // v1.06.008: the review set = NOTAMs in the time window; with a route, the ones with a position must be near it
-function mapRoutePass(e){ return DRAWING || PIN.has(e.id) || !(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)); }
+function mapRoutePass(e){ return DRAWING || PIN.has(e.id) || NEWS_PIN.has(e.id) || !(ROUTE_ONLY && ROUTE.length>=2 && !inCorridor(e)); }
 function reviewSet(){ return LAST_ITEMS.filter(e=>!e.geo || ROUTE.length<2 || inCorridor(e)); }
 function updateProgress(){
   const items=reviewSet(), total=items.length, done=items.filter(e=>{const s=statusOf(e);return s==="ok"||s==="irr";}).length;
@@ -2411,7 +2405,6 @@ function seqOpen(id,fn){
   clearTimeout(_swT); _swT=setTimeout(fn,380); return true;
 }
 function openCurtain(id){
-  if(RV_ON){ updRvClose(true); setTimeout(()=>openCurtain(id),380); return; }   // v1.06.023: the update review closes first, then the tile curtain opens
   if(seqOpen(id,()=>openCurtain(id))) return;
   if(MAP) MAP.closePopup();   // v1.05.012T: the popup now sits above the map's panels, so close it under a curtain
   CURTAINS.forEach(c=>{ if(c!==id) closeCurtain(c); }); closeFlightDlg(); try{gisPanelToggle(false);}catch(_){} renderReady();
@@ -2720,30 +2713,17 @@ function card(e,st,rv,keep,lst){
   else if(!keep) acts= e.geo? mapBtn : "";
   return`<div class="card st-${st}${rv?" rvbox":""}" data-nid="${id}">
     <div class="c-top">
-      <div class="c-head"><span class="c-id">${id}</span>${updTag(e.id)}
+      <div class="c-head"><span class="c-id">${id}</span>${rv&&RV.news&&RV.nitems[e.id]&&RV.nitems[e.id].t==="new"?'<span class="u-tag u-new">חדש</span>':""}
         ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
       <span class="c-st">${ST_LBL[st]}</span>
     </div>
     <div class="c-badges">${cat}${alt}${rad}${geoB}${rt}${repl}</div>
-    ${(UPD[e.id]&&UPD[e.id].t==="mod"&&UPD[e.id].old)
-      ? `<div class="diff"><div class="dl">לפני העדכון:</div><div class="old">${esc(UPD[e.id].old.eText||UPD[e.id].old.rawText||"")}</div><div class="dl">עכשיו:</div><div class="c-text">${esc(e.text)}</div></div>`
-      : `<div class="c-text">${qHl(e.text)}</div>`}
+    <div class="c-text">${qHl(e.text)}</div>
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     ${acts?`<div class="c-acts ${rv?"c2":keep?"c3":lst?"lk":"c1"}">${acts}</div>`:""}
     ${rv&&!RV_HINT?`<div class="c-hint">${RV_INFO}לאחר הסימון, ה-NOTAM הבא ייפתח אוטומטית</div>`:""}
   </div>`;
 }
-function ghostCard(id,done){
-  const u=UPD[id]; if(!u||!u.old) return "";
-  const e=enrich(u.old), i=esc(id);
-  return `<div class="card st-can" data-nid="${i}">
-    <div class="c-top"><div class="c-head"><span class="c-id">${i}</span>${updTag(id)}${e.loc?`<span class="c-loc">${esc(e.loc)}</span>`:""}</div><span class="c-st">בוטל</span></div>
-    <div class="c-text">${esc(e.text)}</div>
-    <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
-    <div class="c-acts">${done? '<span class="c-done">✓ קראתי</span>' : `<button class="c-act c-ok" onclick="updAck('${i}')">✓ קראתי</button>`}</div>
-  </div>`;
-}
-function updAck(id){ delete UPD[id]; saveUpd(); render({skipMap:true}); rvRender(); }
 function listActs(e,st){
   const id=esc(e.id), ok=st==="ok", no=st==="irr";
   const mp= e.geo? `<button type="button" class="lk-map" aria-label="הצג ה-NOTAM במפה" onclick="focusOnMap('${id}')">${MAP_ICO.replace('class="ico-map" ','')}</button>` : `<button type="button" class="lk-map" aria-label="ללא מיקום" disabled>${MAP_ICO.replace('class="ico-map" ','')}</button>`;
@@ -2758,10 +2738,10 @@ async function listReview(id){
   if(e&&e.geo){   // v1.04.022: mappable NOTAM marked read from a card: always confirm, offer the map
     const r=await appConfirm({title:"לסמן כנקרא?",text:"ל-NOTAM הזה יש מיקום על המפה. מומלץ לבדוק אותו ביחס למסלול לפני הסימון.",
       alt:"map",altHtml:MAP_ICO+'<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span>',ok:"סמן כנקרא",danger:false});
-    if(r==="alt"){ if(RV_ON) updRvClose(true); focusOnMap(id); return; }
+    if(r==="alt"){ focusOnMap(id); return; }
     if(r!==true) return;
   }
-  markReviewed(id); render(); if(RV_ON) rvRender();
+  markReviewed(id); render();
 }
 function listUnreview(id){unmarkReviewed(id);render();}
 function listIrr(id){markIrrelevant(id);render();}
@@ -2814,18 +2794,13 @@ function initMap(){
   MAP.on("click",drawClick);
   const leg=L.control({position:"bottomright"});   // v1.05.015T: B2 legend lower right, above the attribution line
   leg.onAdd=()=>{const d=L.DomUtil.create("div","map-legend");
-    d.innerHTML='<span><i class="lg lg-new"></i>טרם נקרא</span><span><i class="lg lg-ok"></i>קראתי</span><span><i class="lg lg-irr"></i>לא רלוונטי לי</span><span><i class="lg lg-upd"></i>עודכן</span>';return d;};
+    d.innerHTML='<span><i class="lg lg-new"></i>טרם נקרא</span><span><i class="lg lg-ok"></i>קראתי</span><span><i class="lg lg-irr"></i>לא רלוונטי לי</span>';return d;};
   leg.addTo(MAP);
   const lc=L.control({position:"topleft"});
   lc.onAdd=()=>{ const d=L.DomUtil.create("div","leaflet-control lyr-ctl");
     d.innerHTML='<button type="button" class="lyr-btn" aria-label="שכבות מפה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg></button>';
     L.DomEvent.disableClickPropagation(d); d.firstChild.addEventListener("click",()=>gisPanelToggle()); return d; };
   lc.addTo(MAP);
-  { const uc=L.control({position:"topright"});   // v1.07.042: the "N עודכנו" button, mirrors zoom / layers on the other side
-    uc.onAdd=()=>{ const d=L.DomUtil.create("div","leaflet-control upd-ctl"); d.id="updCtl";
-      d.innerHTML='<button type="button" class="upd-btn" id="updBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span><b id="updN">0</b> עודכנו</span></button>';
-      L.DomEvent.disableClickPropagation(d); d.firstChild.addEventListener("click",()=>updOpen()); return d; };
-    uc.addTo(MAP); setTimeout(updUi,0); }
   MAP_LAYER = L.layerGroup().addTo(MAP);
   // v1.05.012T: the NOTAM popup lives in its own pane next to the map pane (kept in step with it), above the map's
   // buttons and panels (zoom, layers, filter), so no control can cover a button inside the popup
@@ -3121,7 +3096,6 @@ function renderMap(){
   if(NVIS==="fade"){ CIRCLES={}; MAP_LAYER.eachLayer(l0=>{ (l0.eachLayer? (f=>l0.eachLayer(f)) : (f=>f(l0)))(l=>{ if(l.options) l.options.interactive=false; const el=l.getElement&&l.getElement(); if(el) el.style.pointerEvents="none"; }); }); }
   if(RV.on) rvSync();   // v1.06.012
   rvVis();
-  updUi();   // v1.07.042: amber rings + chips follow the redraw
 }
 // v1.05.015T: B7 a small "קראתי" label on the dot of a read NOTAM, only from zoom 11 (like the point names)
 let READ_LAYER=null;
@@ -3187,7 +3161,7 @@ function puItem(e){
              : st==="irr" ? lnk("puUnreview","בטל סימון")+lst+lnk("puReview","סמן כנקרא")
              : `<button class="c-act c-ok" onclick="puReview('${id}',event)">✓ קראתי</button>`+lst+`<button class="c-act c-hide" onclick="puIrr('${id}',event)">לא רלוונטי לי</button>`;
   return `<div class="pu-item pu-s-${st}" data-nid="${id}">
-    <div class="pu-top"><b class="pu-id">${id}${updTag(e.id)}</b><span class="pu-st">${ST_LBL[st]}</span></div>
+    <div class="pu-top"><b class="pu-id">${id}</b><span class="pu-st">${ST_LBL[st]}</span></div>
     <div class="pu-meta">${esc(catLabel(e.cat))} · ${esc(altTxt(e))}${e.radiusNm!=null?` · r=${e.radiusNm}NM`:""}</div>
     ${routeTag(e)?`<span class="pu-rt">${routeTag(e)}</span>`:""}
     ${e.shape&&e.shape.diversionNames?`<div class="pu-div">נתיב חלופי: ${esc(e.shape.diversionNames.join(" - "))}</div>`:""}
@@ -3426,52 +3400,43 @@ function setView(v){
 // ── data: device snapshot, frozen until the pilot refreshes ──
 const SNAP_KEY='airnotam_snapshot';
 const SNAP_MAX_AGE=12*3600*1000;          // older snapshot → take the fresh feed automatically
-let SNAP=null, PENDING=null;
+let SNAP=null;
 function readSnap(){try{return JSON.parse(localStorage.getItem(SNAP_KEY)||"null");}catch(e){return null;}}
-// UPD: {id:{t:"new"|"mod"|"can", old:<raw notam before the change>}} kept on the device until each item is handled
-const UPD_KEY="airnotam_upd";
-let UPD={}; try{UPD=JSON.parse(localStorage.getItem(UPD_KEY)||"{}")||{};}catch(e){UPD={};}
-function saveUpd(){ try{localStorage.setItem(UPD_KEY,JSON.stringify(UPD));}catch(e){} }
-function nHash(n){ return hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||"")); }
-function famOk(n){ try{ return !!famPass(enrich(n)); }catch(_){ return true; } }
-function trackUpdates(oldN,newN,tgt){
-  const U=tgt||UPD;   // v1.07.042: a dry run (tgt) lets the map button count before the feed is taken in
-  const prev={}; oldN.forEach(n=>{prev[n.id]=n;});
-  const now={}; newN.forEach(n=>{now[n.id]=n;});
-  const replaced=new Set();
-  newN.forEach(n=>{
-    if(!(n.id in prev)){
-      if(n.replaces && prev[n.replaces]){ replaced.add(n.replaces);
-        U[n.id]= REVIEW[n.replaces]? {t:"mod",old:prev[n.replaces]} : {t:"new"}; delete U[n.replaces]; }
-      else U[n.id]={t:"new"};
-    }else if(nHash(prev[n.id])!==nHash(n) && (REVIEW[n.id] || famOk(n))){ if(!(U[n.id]&&U[n.id].t==="new")) U[n.id]={t:"mod",old:prev[n.id]}; }   // v1.07.043: every change rings the bell (a NOTAM never reviewed too, when it is one of the pilot's families)
-  });
-  oldN.forEach(n=>{
-    if(now[n.id]||replaced.has(n.id)) return;
-    if(REVIEW[n.id]&&REVIEW[n.id].x) delete U[n.id];   // v1.07.043: the one silent case: a NOTAM marked "not relevant" that is cancelled
-    else if(REVIEW[n.id] || famOk(n)) U[n.id]={t:"can",old:n};   // read or never reviewed (one of the pilot's families): the bell rings, ghost during the review
-    else delete U[n.id];
-  });
-  if(!tgt) saveUpd();
+// ── v1.08.045: stage 4 - the bell. News = what RTA published in the last 72 hours, for the whole country (the route does not limit it):
+//    - a NOTAM that is new: the scraper stamps "firstSeen" the first time it sees a number (a NOTAM stored before the stamp existed has none and stays quiet)
+//    - a NOTAM RTA cancelled before its end time: the feed's "cancelled" list (natural expiry is not news; a changed NOTAM is a cancel plus a new one)
+//    The pilot's family choices still apply, a cancelled NOTAM marked "not relevant" stays silent. NEWS_ACK remembers the cancelled ones already seen. ──
+const NEWS_H=72*3600*1000, NEWS_ACK_KEY="airnotam_news_ack";
+let NEWS_ACK={}; try{NEWS_ACK=JSON.parse(localStorage.getItem(NEWS_ACK_KEY)||"{}")||{};}catch(e){NEWS_ACK={};}
+function saveAck(){
+  const cut=Date.now()-30*864e5; for(const k in NEWS_ACK){ if(!(NEWS_ACK[k]>cut)) delete NEWS_ACK[k]; }
+  try{localStorage.setItem(NEWS_ACK_KEY,JSON.stringify(NEWS_ACK));}catch(e){}
 }
-// entries disappear once handled: new/updated → reviewed or marked not relevant
-function updTidy(){
-  let ch=false;
-  for(const id in UPD){ const u=UPD[id];
-    if(u.t==="can"){ if(ENR_BY_ID[id]){ delete UPD[id]; ch=true; } continue; }
-    const e=ENR_BY_ID[id]; if(!e){ delete UPD[id]; ch=true; continue; }
-    const s=statusOf(e); if(s==="ok"||s==="irr"){ delete UPD[id]; ch=true; } }
-  if(ch) saveUpd();
+let CANC=[], NEWS_ALL=[];   // CANC = the feed's cancelled list; NEWS_ALL = every candidate {id,t:"new"|"can",e,at}, rebuilt with each feed
+function newsRebuild(){
+  const out=[];
+  ENR.forEach(e=>{ const fs=e.raw&&e.raw.firstSeen; if(!fs||e.admin) return; const at=Date.parse(fs); if(at>0) out.push({id:e.id,t:"new",e,at}); });
+  CANC.forEach(n=>{ if(!n||!n.id||n.administrative||ENR_BY_ID[n.id]) return; const at=Date.parse(n.cancelledAt); if(at>0) out.push({id:n.id,t:"can",e:enrich(n),at}); });
+  NEWS_ALL=out;
 }
-function updTag(id){ const u=UPD[id]; if(!u||u.t!=="new") return "";
-  return u.t==="new"?'<span class="u-tag u-new">חדש</span>' : u.t==="mod"?'<span class="u-tag u-mod">עודכן</span>' : '<span class="u-tag u-can">בוטל</span>'; }
+function newsSet(){   // the items inside the 72 hours now, handled ones included (the review shows them too, like the route review)
+  const now=Date.now(), cut=now-NEWS_H;
+  return NEWS_ALL.filter(x=>{
+    if(x.at<=cut) return false;
+    try{ if(famHidden(x.e)) return false; }catch(_){}
+    if(x.t==="new") return !(x.e.end&&x.e.end.getTime()<=now);
+    const r=REVIEW[x.id]; return !(r&&r.x);
+  });
+}
+function newsDone(x){ return x.t==="can"? !!NEWS_ACK[x.id] : !isPending(x.e); }
+function newsOpenCount(){ return newsSet().filter(x=>!newsDone(x)).length; }
 // v1.07.063: shown only when the feed says tlsVerified:false (the scraper could not verify the IAA certificate); a feed without the field, or an old saved copy, shows nothing
 function tlsBanner(v){ const el=document.getElementById("tlsWarn"); if(el) el.hidden = (v!==false); }
 function applyData(data,save,savedAt,later){
-  if(SNAP && SNAP.notams && data.generatedAt!==SNAP.generatedAt) trackUpdates(SNAP.notams, data.notams||[]);
-  ALL=data.notams||[];
+  ALL=data.notams||[]; CANC=Array.isArray(data.cancelled)?data.cancelled:[];
   ENR=ALL.map(enrich); ENR_BY_ID={}; ENR.forEach(e=>{ENR_BY_ID[e.id]=e;});
-  SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,savedAt:savedAt||Date.now(),tlsVerified:data.tlsVerified};
+  newsRebuild();   // v1.08.045: the bell
+  SNAP={generatedAt:data.generatedAt||null,count:data.count??ALL.length,notams:ALL,cancelled:CANC,savedAt:savedAt||Date.now(),tlsVerified:data.tlsVerified};
   if(save){try{localStorage.setItem(SNAP_KEY,JSON.stringify(SNAP));}catch(e){}}
   const gen=SNAP.generatedAt?new Date(SNAP.generatedAt):null;
   document.getElementById("meta").className="metabar hdr-meta";
@@ -3479,142 +3444,9 @@ function applyData(data,save,savedAt,later){
   tlsBanner(SNAP.tlsVerified);
   const rt=document.getElementById("refreshTime"); if(rt) rt.textContent=fmtLocalHM(new Date(SNAP.savedAt));
   const dt=document.getElementById("dataTime"); if(dt) dt.textContent= gen? fmtLocalHM(gen) : "--:--";   // v1.07.022: when the checked data itself was built (the scraper)
-  PENDING=null; PEND_N=null; showUpdate(null);
-  updTidy();
   setTimeout(()=>welcomeUi(),0);
   if(later) setTimeout(render,later); else render();
 }
-function diffFeeds(oldN,newN){
-  const o={}; oldN.forEach(n=>{o[n.id]=hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""));});
-  let add=0,chg=0; const seen=new Set();
-  newN.forEach(n=>{seen.add(n.id); const h=hashStr((n.rawText||n.eText||"")+"|"+(n.fromDate||"")+"|"+(n.toDate||""));
-    if(!(n.id in o)) add++; else if(o[n.id]!==h) chg++;});
-  const del=oldN.filter(n=>!seen.has(n.id)).length;
-  return {add,chg,del};
-}
-// v1.07.042 (S4): the amber "עדכון זמין" banner is replaced by a map button "N עודכנו" (top right, only while N > 0).
-// Before the new feed is taken in (PENDING) N is counted by a dry run of trackUpdates; after that, N = what is still open in the update review.
-let PEND_N=null, UPD_LASTN=-1, UPD_WIG=0;
-function updPreviewCount(oldN,newN){
-  const tmp=Object.assign({},UPD); trackUpdates(oldN,newN,tmp);
-  const nm={}; newN.forEach(n=>{nm[n.id]=n;}); let c=0;
-  for(const id in tmp){ const u=tmp[id]; if(u.t==="can") c++; else if(nm[id]){ try{ if(isPending(enrich(nm[id]))) c++; }catch(_){ c++; } } }
-  return c;
-}
-function updCount(){
-  if(PENDING && PEND_N!==null) return PEND_N;
-  return rvQueue().length;
-}
-function updWig(){
-  const b=document.getElementById("updBtn"); if(!b||RV_ON) return;
-  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches) return;   // no wiggle at all; the button and the count still show
-  if(UPD_WIG<=0) return; UPD_WIG--;
-  const sv=b.querySelector("svg"); sv.classList.remove("ring"); void sv.getBoundingClientRect(); sv.classList.add("ring");
-}
-function updBtnUi(){
-  const c=document.getElementById("updCtl"), n=updCount(); if(!c) return;
-  document.getElementById("updN").textContent=n;
-  c.classList.toggle("show",n>0);
-  if(n!==UPD_LASTN){ UPD_LASTN=n; UPD_WIG=n>0?5:0; if(n>0) setTimeout(updWig,600); }   // a new count = a fresh set of 5 wiggles
-}
-setInterval(()=>{ if(UPD_WIG>0 && updCount()>0) updWig(); },6000);
-// rings + chips on the map: changed / new NOTAMים still open in the update review; a cancelled one only while the review is on it (ghost)
-let UPD_GL=null, UPD_CH=null, UPD_GR=null, UPD_PAN=null;
-// bounds from the shape's own coordinates (a vector layer's getBounds() is stale for a moment after a zoom, which put the tags in the wrong place)
-function updBounds(c){
-  const B=L.latLngBounds([]), flat=a=>a.forEach(x=>Array.isArray(x)? flat(x) : B.extend(x));
-  (c._shapes||[c]).forEach(l=>{
-    if(l instanceof L.Circle){ const p=l.getLatLng(), r=l.getRadius(), dl=r/111320, dg=r/(111320*Math.cos(p.lat*Math.PI/180)); B.extend([p.lat-dl,p.lng-dg]); B.extend([p.lat+dl,p.lng+dg]); }
-    else flat(l.getLatLngs()); });
-  return B;
-}
-// v1.07.050: the update review follows every card (changed, new, cancelled): the shape is centred in the free strip below the curtain
-// (PC: the whole map), same step-back-then-in move as the NOTAM review. Zoom = the zoom where the shape fits, one level wider for context,
-// never closer than UPD_ZMAX nor wider than UPD_ZMIN (so a coast or border can be read; the old ghost minimum was Z9).
-const UPD_ZMIN=8, UPD_ZMAX=11;
-let UPD_GB=null;   // bounds of the ghost (cancelled NOTAM) drawn by updMapDraw
-function updFollow(it){
-  const t=document.querySelector("#rvTop .rv-t"), m=document.getElementById("map"), st=document.getElementById("stage"); if(!RV_ON||!t||!m||!MAP||!it) return;
-  const c=it.t==="can"? null : CIRCLES[it.id];
-  const b= it.t==="can"? UPD_GB : (c? updBounds(c) : null); if(!b||!b.isValid()) return;
-  const mr=m.getBoundingClientRect(), br=document.getElementById("below").getBoundingClientRect();
-  const top=WIDE?0:Math.max(mr.top,br.top+t.offsetHeight)-mr.top, bot=mr.height-46;   // the legend sits along the bottom
-  if(bot-top<60) return;
-  const aw=mr.width-60, ah=bot-top-40;
-  let zf=UPD_ZMIN; for(let z=UPD_ZMAX+1;z>=UPD_ZMIN;z--){ const sw=MAP.project(b.getSouthWest(),z), ne=MAP.project(b.getNorthEast(),z);
-    if(Math.abs(ne.x-sw.x)<=aw&&Math.abs(sw.y-ne.y)<=ah){ zf=z; break; } }
-  const z=Math.max(UPD_ZMIN,Math.min(UPD_ZMAX,zf-1)), ty=(top+bot)/2;
-  const G=MAP.project(b.getCenter(),z), cen=MAP.unproject(G.add([0,mr.height/2-ty]),z);
-  const now=MAP.latLngToContainerPoint(b.getCenter());
-  if(z===MAP.getZoom()&&Math.abs(now.x-mr.width/2)<4&&Math.abs(now.y-ty)<4) return;
-  glideTo(cen,z,()=>{},()=>RV_ON);
-}
-function updMapDraw(){
-  if(!MAP) return;
-  if(!MAP.getPane("updGlow")){
-    const p=MAP.createPane("updGlow"); p.style.zIndex=396; p.style.pointerEvents="none";   // just under the NOTAM shapes, like the review's green glow
-    UPD_GR=L.canvas({pane:"updGlow"}); UPD_GL=L.layerGroup().addTo(MAP); UPD_CH=L.layerGroup().addTo(MAP);
-    MAP.on("zoomend",()=>{ try{ updMapDraw(); }catch(_){} }); }   // tags are re-placed on every zoom (the renderer above is made once)
-  UPD_GL.clearLayers(); UPD_CH.clearLayers(); UPD_GB=null;
-  const ring=(parts)=>{ const o={pane:"updGlow",renderer:UPD_GR,color:"#f59e0b",weight:14,opacity:.85,fill:false,interactive:false,lineJoin:"round"};
-    parts.forEach(l=>{ (l instanceof L.Circle? L.circle(l.getLatLng(),Object.assign({radius:l.getRadius()},o)) : L.polygon(l.getLatLngs(),o)).addTo(UPD_GL); }); };
-  // chips: above the shape; when one would cover another, the more southern one goes below its shape (same idea as the point names)
-  const CH=[];
-  const chip=(b,txt,cls)=>CH.push({b,txt,cls});
-  const place=()=>{
-    CH.sort((p,q)=>q.b.getNorth()-p.b.getNorth()); const used=[], W=64, H=24;
-    CH.forEach(c=>{
-      const cx=(c.b.getWest()+c.b.getEast())/2, up=MAP.latLngToContainerPoint([c.b.getNorth(),cx]), dn=MAP.latLngToContainerPoint([c.b.getSouth(),cx]);
-      const ru=[up.x-W/2,up.y-H-3,up.x+W/2,up.y-3], rd=[dn.x-W/2,dn.y+3,dn.x+W/2,dn.y+3+H];
-      const hit=r=>used.some(o=>o[0]<r[2]&&o[2]>r[0]&&o[1]<r[3]&&o[3]>r[1]);
-      const below=hit(ru)&&!hit(rd); used.push(below?rd:ru);
-      L.marker([below?c.b.getSouth():c.b.getNorth(),cx],{interactive:false,keyboard:false,icon:L.divIcon({className:"",iconSize:[0,0],iconAnchor:[0,0],
-        html:`<div class="u-chip ${c.cls||""}${below?" dn":""}">${c.txt}</div>`})}).addTo(UPD_CH);
-    });
-  };
-  if(NVIS==="normal"){
-    Object.keys(UPD).forEach(id=>{ const u=UPD[id], c=CIRCLES[id], e=ENR_BY_ID[id];
-      if(u.t==="can"||!c||!e||!isPending(e)) return;
-      ring(c._shapes||[c]); chip(updBounds(c),u.t==="mod"?"עודכן":"חדש"); });
-  }
-  const it=RV_ON&&RV_LIST[RV_I];
-  if(it&&it.t==="can"&&it.u&&it.u.old){   // ghost: thin navy outline + slash, no fill, amber ring, white outlined chip
-    const g=enrich(it.u.old);
-    if(g.geo){
-      const so={color:"#0e2348",weight:1.5,fill:false,interactive:false,dashArray:null}, ls=[];
-      if(g.shape) g.shape.parts.forEach(p=>{
-        if(p.type==="line") ls.push(L.polyline(p.coords,so));
-        else if(p.type==="polygon") ls.push(L.polygon(p.holes? [p.coords].concat(p.holes) : p.coords,so));
-        else if(p.type==="circle"&&p.half) ls.push(L.polygon(halfDisc(p.center,p.radiusNm,p.half),so));
-        else ls.push(L.circle(p.type==="circle"?p.center:p.coord,Object.assign({radius:(p.type==="circle"?p.radiusNm:PT_NM)*1852},so))); });
-      else ls.push(L.circle([g.lat,g.lon],Object.assign({radius:(g.radiusNm||0.5)*1852},so)));
-      const grp=L.featureGroup(ls); grp.addTo(UPD_GL);
-      const b=grp.getBounds(), cy=(b.getNorth()+b.getSouth())/2, cx=(b.getWest()+b.getEast())/2, dy=(b.getNorth()-b.getSouth())/2*.7071, dx=(b.getEast()-b.getWest())/2*.7071;
-      L.polyline([[cy-dy,cx-dx],[cy+dy,cx+dx]],so).addTo(UPD_GL);
-      ring(ls.filter(l=>l instanceof L.Circle||l instanceof L.Polygon)); chip(b,"בוטל","can");
-      UPD_GB=b;
-    }
-  }
-  place();
-}
-function updUi(){ if(!RV_ON) UPD_PAN=null; try{ updBtnUi(); updMapDraw(); }catch(e){} }
-function showUpdate(d){   // d = the diff of the waiting feed (or null once it is taken in)
-  PEND_N= d&&PENDING&&SNAP? updPreviewCount(SNAP.notams||[],PENDING.notams||[]) : null;
-  if(d&&PEND_N===0){ applyData(PENDING,true); return; }   // nothing for the pilot to review: take the feed in quietly
-  updBtnUi(); try{topStack();}catch(_){}
-}
-// the button: opens the update review. Whatever else is open (NOTAM review, tile curtains, settings, layers, search list) closes first, then it opens.
-function updOpen(){
-  if(RV_ON) return;
-  const q=document.getElementById("lq"); if(q) q.blur(); document.getElementById("qch").classList.remove("show");
-  const busy= RV.on || TILE_DLGS.some(c=>document.getElementById(c).classList.contains("show")) || document.getElementById("setp").classList.contains("show") || gisPanelOpen();
-  if(RV.on) rvClose();
-  TILE_DLGS.forEach(c=>{ if(document.getElementById(c).classList.contains("show")){ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); } });
-  if(document.getElementById("setp").classList.contains("show")) closeSettings();
-  if(gisPanelOpen()) gisPanelToggle(false);
-  clearTimeout(_swT); _swT=setTimeout(applyPending,busy?380:0);
-}
-function applyPending(){ if(PENDING) applyData(PENDING,true,undefined,800); rvOpen(280); }
 async function load(manual){ try{ await load0(manual); } finally{ WEL_FETCHED=true; welcomeUi(); } }   // v1.06.028: the welcome card waits for the real feed check
 async function load0(manual){
   const meta=document.getElementById("meta");
@@ -3623,11 +3455,7 @@ async function load0(manual){
     const res=await fetch(FEED,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);
     const data=await res.json();
     const stale=!SNAP || (Date.now()-(SNAP.savedAt||0))>SNAP_MAX_AGE;
-    if(manual||stale){ applyData(data,true); }
-    else if(data.generatedAt!==SNAP.generatedAt){
-      PENDING=data; const d=diffFeeds(SNAP.notams||[],data.notams||[]);
-      if(d.add||d.chg||d.del) showUpdate(d); else applyData(data,true);
-    }
+    if(manual||stale||data.generatedAt!==SNAP.generatedAt){ applyData(data,true); }   // v1.08.045: a new feed is taken in at once, the bell shows what is new
   }catch(e){
     if(!SNAP){meta.className="metabar err";meta.textContent="LOAD ERROR: "+e.message;}
     WEL_ERR=true;   // v1.06.027
@@ -3888,7 +3716,6 @@ function whenLive(src){
   clearTimeout(_whenT); _whenT=setTimeout(()=>{ renderFlightBar(); render(); whenUi(); },250);
 }
 function openFlightDlg(){
-  if(RV_ON){ updRvClose(true); setTimeout(openFlightDlg,380); return; }   // v1.06.023
   if(seqOpen("fdlg",openFlightDlg)) return;   // v1.06.009
   if(MAP) MAP.closePopup();   // like the other curtains: a NOTAM popup does not stay open under it (the review reopens it on close)
   try{CURTAINS.forEach(closeCurtain);}catch(_){}
@@ -4630,85 +4457,16 @@ function ptGo(p){
   inp.addEventListener("keydown",ev=>{ if(ev.key!=="Enter") return; ev.preventDefault(); if(QPT){ inp.blur(); return; } LQ=inp.value; render(); qChooser();
     if(QCH.length===1) qGo(QCH[0]); else if(!QCH.length) inp.blur(); }); }
 
-// review of what changed: updated first, then new, then cancelled
-let RV_I=0, RV_ON=false, RV_LIST=[];   // v1.05.028T: the set is fixed while the curtain is open; handled items stay, as navy strips
-function rvDone(it){ if(it.t==="can") return !UPD[it.id]; const e=ENR_BY_ID[it.id]; return !e || !isPending(e); }
-function rvQueue(){
-  const o={mod:0,new:1,can:2};
-  return Object.keys(UPD).filter(id=> UPD[id].t==="can" || (ENR_BY_ID[id] && isPending(ENR_BY_ID[id])))
-    .sort((a,b)=>o[UPD[a].t]-o[UPD[b].t]);
+// test mode (?demo=update): after a few seconds the bell gets fake news - 3 NOTAMים published an hour ago (2 on the map, 1 without a position) and 1 cancelled early
+function demoNews(){
+  if(!SNAP||!ENR.length) return setTimeout(demoNews,1000);
+  const now=Date.now(), live=ENR.filter(e=>!e.admin&&!(e.end&&e.end.getTime()<=now)), g=live.filter(e=>e.geo), n=live.filter(e=>!e.geo);
+  if(g.length<3) return;
+  g.slice(0,2).concat(n.slice(0,1)).forEach(e=>{ e.raw.firstSeen=new Date(now-3600e3).toISOString(); });
+  const c=JSON.parse(JSON.stringify(g[2].raw)); c.id="T0001/26"; c.eText="TEST NOTAM (DEMO ONLY), CANCELLED EARLY BY RTA. "+(c.eText||""); c.cancelledAt=new Date(now-1800e3).toISOString();
+  CANC=[c]; newsRebuild(); try{ mbSync(); }catch(_){}
 }
-function rvOpen(delay){ updTidy(); const Q0=rvQueue(); if(!Q0.length) return; RV_LIST=Q0.map(id=>({id,t:UPD[id].t,u:UPD[id],seen:false})); RV_I=0; RV_ON=true; rvRender(); // content is built first, then the curtain only moves
-  const t=document.getElementById("rvTop"); if(!delay) return t.classList.add("show");
-  void t.offsetHeight; setTimeout(()=>requestAnimationFrame(()=>{ if(RV_ON) t.classList.add("show"); }),delay); }
-function updRvClose(quiet){   // v1.06.020: renamed (clashed with the NOTAM review since v1.06.012)
-  const was=RV_ON, n=RV_LIST.filter(x=>!rvDone(x)).length; RV_ON=false; RV_LIST=[]; document.getElementById("rvTop").classList.remove("show"); updUi();   // v1.07.042: ghost off, button count
-  if(!was) return;
-  // v1.06.024: the "נשארו N עדכונים לסקירה" pill shows on EVERY close while updates remain (also when a curtain or the map closed it)
-  if(n) rvToast(n===1? "נשאר עדכון אחד לסקירה" : `נשארו ${n} עדכונים לסקירה`,{t:"לרשימה",fn:()=>readyGo("list")});
-  else if(!quiet) rvToast("כל העדכונים נסקרו");   // v1.05.028T
-}
-let RV_TT=null;
-function rvToast(t,act){
-  let el=document.getElementById("rvToast");
-  if(!el){ el=document.createElement("div"); el.id="rvToast"; el.className="rv-toast"; document.getElementById("stage").appendChild(el); }
-  el.textContent=t; clearTimeout(RV_TT);
-  el.classList.toggle("act",!!act); el.onclick=null;   // v1.05.020T: optional action link at the end of the message
-  el.innerHTML=esc(t)+(act? `<span class="t-go">${esc(act.t)}</span>` : ""); el.classList.toggle("pill",!!act);   // v1.05.023T   // v1.05.022T: the bracketed word is the link
-  if(act){   // v1.05.021T
-    el.onclick=()=>{ clearTimeout(RV_TT); el.classList.remove("show"); act.fn(); }; }
-  { const st=document.getElementById("stage").getBoundingClientRect(), lg=document.querySelector(".map-legend"), lr=lg&&lg.getBoundingClientRect();   // v1.05.019T
-    el.style.setProperty("--toastb",(currentView==="map"&&lr&&lr.height? Math.round(st.bottom-lr.top+8) : 16)+"px"); }
-  setTimeout(()=>el.classList.add("show"),300);
-  RV_TT=setTimeout(()=>el.classList.remove("show"),act?6000:3600);
-}
-function updRvStep(d){ const n=RV_LIST.length; if(!n) return updRvClose(); const j=RV_I+d; if(j<0||j>=n) return; RV_I=j; RV_LIST[RV_I].seen=rvDone(RV_LIST[RV_I]); rvRender(); }   // v1.07.044: no wrap-around: "הקודם" does nothing on the first card, "הבא" on the last (same rule as the NOTAM review)
-function rvRender(){
-  if(!RV_ON) return;
-  const L=RV_LIST, n=L.length; if(!n) return updRvClose();
-  let it=L[RV_I];
-  if(it.seen===false && rvDone(it)){   // v1.05.028T: just handled: move on to the next one still open (wraps round); none left = close
-    let j=-1; for(let k=1;k<=n;k++){ const c=(RV_I+k)%n; if(!rvDone(L[c])){ j=c; break; } }
-    if(j<0) return updRvClose();
-    RV_I=j; it=L[j]; }
-  it.seen=rvDone(it);
-  const e=ENR_BY_ID[it.id];
-  document.getElementById("rvCnt").textContent=`${RV_I+1} מתוך ${n}`;
-  document.getElementById("rvuPrev").disabled=RV_I<=0; document.getElementById("rvuNext").disabled=RV_I>=n-1;   // v1.07.044: no wrap-around, the end buttons are dimmed
-  document.getElementById("rvDots").innerHTML=L.map((x,i)=>`<i class="${i===RV_I?"cur":rvDone(x)?"done":""}"></i>`).join("");
-  const b=document.getElementById("rvBody"), had=UPD[it.id]; UPD[it.id]=it.u;   // the card as it arrived (diff, "חדש" tag), also once handled
-  try{ b.innerHTML= it.t==="can"? ghostCard(it.id,!had) : card(e,statusOf(e),false,true); }
-  finally{ if(had) UPD[it.id]=had; else delete UPD[it.id]; }
-  requestAnimationFrame(()=>b.querySelectorAll(".c-text,.old,.diff").forEach(rvFade));
-  updUi();   // v1.07.042: the ghost of the cancelled NOTAM on screen, the button count
-  if(UPD_PAN!==it.id){ UPD_PAN=it.id; updFollow(it); }   // v1.07.050: the map follows the card
-}
-function rvFade(x){ x.classList.toggle("more", x.scrollTop+x.clientHeight < x.scrollHeight-4); }
-document.getElementById("rvBody").addEventListener("scroll",ev=>{ const x=ev.target; if(x.matches&&x.matches(".c-text,.old,.diff")) rvFade(x); },{passive:true,capture:true});
-dragClose(document.querySelector("#rvTop .rv-grip"),document.querySelector("#rvTop .rv-t"),"y",-1,()=>updRvClose());   // v1.05.028T: tap or swipe up
-// after acting on a card inside the review, move on (the handled item leaves the queue); "show on map" closes the review
-document.getElementById("rvBody").addEventListener("click",ev=>{
-  const a=ev.target.closest(".c-act"); if(!a) return;
-  if(a.classList.contains("c-go")){ updRvClose(true); return; }
-  setTimeout(rvRender,60);
-});
-
-// test mode: mark 3 NOTAMs as checked, then pretend the feed changed (1 updated, 1 cancelled, 1 new)
-function demoUpdate(){
-  if(!SNAP||!SNAP.notams||!ENR.length) return setTimeout(demoUpdate,1000);
-  const L=ENR.filter(e=>!e.admin).slice(0,3); if(L.length<2) return;
-  L.forEach(e=>markReviewed(e.id)); render();
-  const n=JSON.parse(JSON.stringify(SNAP.notams));
-  const a=n.find(x=>x.id===L[0].id); a.eText=(a.eText||"")+" (TEST: TEXT AMENDED)"; if(a.rawText) a.rawText+=" (TEST)";
-  n.splice(n.findIndex(x=>x.id===L[1].id),1);
-  const t=new Date();
-  n.push({id:"T0001/26",eText:"TEST NOTAM (DEMO ONLY): GLIDER ACT IN MEGIDDO AREA.",location:"LLLL",
-    fromDate:t.toISOString(),toDate:new Date(t.getTime()+864e5).toISOString(),
-    qLine:{qcode:"QWGLW",lowerLimitFl:"000",upperLimitFl:"050",position:{lat:32.597,lon:35.235,radiusNm:3}},position:{lat:32.597,lon:35.235,radiusNm:3}});
-  PENDING={generatedAt:new Date().toISOString(),count:n.length,notams:n};
-  showUpdate(diffFeeds(SNAP.notams,n));
-}
-if(DEMO) setTimeout(demoUpdate,4000);
+if(DEMO) setTimeout(demoNews,4000);
 
 // ── v1.06.004: admin log. The last ~200 app events kept on the device, for chasing bugs we can't reproduce
 //    (e.g. the map jumping back to all of Israel while drawing a route). Settings → "admin log" copies it. ──
@@ -4722,7 +4480,7 @@ function alog(t){
 }
 async function alogCopy(){
   alog("admin log copied");
-  const txt=`AirNotam-ISR v1.08.044 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
+  const txt=`AirNotam-ISR v1.08.045 admin log, ${new Date().toISOString()}\n`+ALOG.join("\n");
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){}
   if(!ok){ try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";
@@ -4732,7 +4490,7 @@ async function alogCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.044 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.045 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4749,12 +4507,12 @@ async function alogCopy(){
     const w=function(...a){ try{ const t=fmt?fmt(a):n; if(t) alog(t); }catch(e){} return f.apply(this,a); };
     Object.assign(w,f); window[n]=w; };
   wrap("setView",a=>"view "+a[0]);
-  ["startDraw","drawUndo","drawClear","drawDone","clearRoute","applyPending","openSettings","toggleFlightDlg","pickGpx"].forEach(n=>wrap(n));
+  ["startDraw","drawUndo","drawClear","drawDone","clearRoute","openSettings","toggleFlightDlg","pickGpx"].forEach(n=>wrap(n));
   const isOn=id=>{ const e=document.getElementById(id); return !!e&&e.classList.contains("show"); };
   wrap("closeSettings",()=>isOn("setp")?"closeSettings":"");
   wrap("openCurtain",a=>"curtain open "+a[0]); wrap("closeCurtain",a=>isOn(a[0])?"curtain close "+a[0]:"");
   wrap("gisPanelToggle",a=>{ const o=!!(window.gisPanelOpen&&gisPanelOpen()); const w=a[0]===undefined?!o:!!a[0]; return w===o?"":"layers "+(w?"open":"close"); });
-  wrap("rvOpen",()=>"update review open"); wrap("updRvClose",a=>RV_ON?"update review close"+(a[0]?" (quiet)":""):"");
+  wrap("newsOpen",()=>"bell opened");
   wrap("focusOnMap",a=>"to map "+a[0]); wrap("focusOnList",a=>"to list "+a[0]);
   wrap("drawClick",()=> DRAWING? "draw point "+(ROUTE.length+1) : "");
   // map: zoom / position after every change; with a route, also the corridor width in pixels at this zoom
@@ -4819,7 +4577,7 @@ function stressToggle(){
 // ── v1.06.012: the review, map part (screens 4b, 5, 5b, M2, PC 10) ──
 // v1.08.030: stage 3 - the review is ONE bottom panel. NOTAMs on the map come first (in order along the route), then the ones with no position.
 // RV.maps = map NOTAMים in order along the route (no route: north to south), RV.cards = no-position NOTAMים, RV.list = both, in review order
-const RV={on:false,maps:[],cards:[],list:[],i:-1,lock:false,done:false,shown:null,t:null,lay:null,glow:null,th:300};
+const RV={on:false,maps:[],cards:[],list:[],i:-1,lock:false,done:false,shown:null,t:null,lay:null,glow:null,th:300,news:false,nitems:{},gh:{},ghL:null};   // v1.08.045: news = the bell's review; nitems = its items by number; gh = the thin outlines of cancelled NOTAMים
 let RV_CARDS=false;   // kept for the old summary notice
 const RV_PAUSE=500;   // v1.08.038: how long the chosen answer stays visible before the next NOTAM
 let RV_HINT=true;     // the "next one opens by itself" hint is gone
@@ -4846,8 +4604,15 @@ function rvCardsBuild(){
   return reviewSet().filter(e=>!e.geo)
     .sort((a,b)=>CHIP_ORDER.indexOf(a.cat)-CHIP_ORDER.indexOf(b.cat)||(a.start||0)-(b.start||0)||(a.id<b.id?-1:1)).map(e=>e.id);
 }
-function rvLists(){ RV.maps=rvBuild(); RV.cards=rvCardsBuild(); RV.list=RV.maps.concat(RV.cards); }
-function rvPend(id){ const e=ENR_BY_ID[id]; return !!e&&isPending(e); }
+function rvLists(){ if(RV.news) newsLists(); else { RV.maps=rvBuild(); RV.cards=rvCardsBuild(); } RV.list=RV.maps.concat(RV.cards); }
+// v1.08.045: the news review walks the bell's items: NOTAMים with a position first (the ones near the route first, then along the route / north to south), then the ones with no position
+function newsLists(){
+  const S=newsSet(), hasR=ROUTE.length>=2; RV.nitems={}; S.forEach(x=>{ RV.nitems[x.id]=x; });
+  RV.maps=S.filter(x=>x.e.geo).map(x=>({id:x.id,r:hasR&&inCorridor(x.e)?0:1,p:routePos(x.e.lat,x.e.lon),lat:x.e.lat}))
+    .sort((a,b)=>a.r-b.r||a.p-b.p||b.lat-a.lat).map(x=>x.id);
+  RV.cards=S.filter(x=>!x.e.geo).sort((a,b)=>CHIP_ORDER.indexOf(a.e.cat)-CHIP_ORDER.indexOf(b.e.cat)||(a.e.start||0)-(b.e.start||0)||(a.id<b.id?-1:1)).map(x=>x.id);
+}
+function rvPend(id){ if(RV.news){ const x=RV.nitems[id]; return !!x&&!newsDone(x); } const e=ENR_BY_ID[id]; return !!e&&isPending(e); }
 function rvNextPending(from){ const n=RV.list.length; for(let k=1;k<=n;k++){ const j=((from+k)%n+n)%n; if(rvPend(RV.list[j])) return j; } return -1; }
 function rvBotPx(){   // height of the panel that covers the bottom of the map (a wide screen keeps the map beside it, nothing covered)
   const r=document.getElementById("rvc"); return r&&RV.on&&!WIDE? r.offsetHeight : 0;
@@ -4867,13 +4632,15 @@ function rvVis(){
 }
 function rvFit(){   // the NOTAM card has a fixed height, so the buttons never move; shorter on a short screen so the map stays visible
   const st=document.getElementById("stage"), H=st&&st.clientHeight||600;
-  RV.th=Math.max(190,Math.min(300,Math.round(H*.5-120)));
+  const tt=RV.news?22:0;   // v1.08.045: the news panel has a title line, the card gives that much
+  RV.th=Math.max(190-tt,Math.min(300,Math.round(H*.5-120))-tt);
   document.getElementById("rvc").style.setProperty("--rvch",RV.th+"px");
 }
 function rvUi(){
   if(!RV.on) return;
   rvVis();
-  const R=READY, n=RV.list.length, tot=R.total||n, q=id=>document.getElementById(id);
+  let R=READY; const n=RV.list.length, q=id=>document.getElementById(id);
+  if(RV.news) R={total:n,geoTot:RV.maps.length,geoDone:RV.maps.filter(id=>!rvPend(id)).length,noGeo:RV.cards.length,noGeoDone:RV.cards.filter(id=>!rvPend(id)).length};   // v1.08.045: the news review counts its own items
   const pc=(a,b)=>b?Math.round(100*a/b):100;   // two bars: the NOTAMים on the map, and the ones with no position
   q("rvNm").textContent=`${R.geoDone}/${R.geoTot}`; q("rvNn").textContent=`${R.noGeoDone}/${R.noGeo}`;
   q("rvBm").style.width=pc(R.geoDone,R.geoTot)+"%"; q("rvBn").style.width=pc(R.noGeoDone,R.noGeo)+"%";
@@ -4895,37 +4662,44 @@ function slotReview(){   // the REVIEW button: starts the review at the first un
   if(!READY.total) return;
   startReview();
 }
-function startReview(){
-  const _open=RV_ON||TILE_DLGS.some(c=>document.getElementById(c).classList.contains("show"));
-  if(RV_ON) updRvClose(true);   // the update review closes first, then the NOTAM review starts
+function startReview(mode){   // v1.08.045: startReview("news") = the bell's review; no argument = the route review
+  const news=mode==="news";
+  const _open=TILE_DLGS.some(c=>document.getElementById(c).classList.contains("show"));
   TILE_DLGS.forEach(c=>{ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); });
   setTimeout(()=>{
     if(DRAWING) drawDone();
     if(LQ||QPT){ ptClear(); LQ=""; const q=document.getElementById("lq"); if(q) q.value=""; document.getElementById("lsearch").classList.remove("has-q"); }
     FAM="all"; FAM_I=-1;
     if(NVIS!=="normal"){ NVIS="normal"; document.querySelectorAll('input[name="gpNv"]').forEach(r=>r.checked=r.value==="normal"); }
+    RV.news=news; RV.nitems={}; RV.gh={}; NEWS_PIN.clear();
+    if(news) newsSet().forEach(x=>{ if(x.t==="new") NEWS_PIN.add(x.id); });
+    { const rc=document.getElementById("rvc"); rc.classList.toggle("news",news); const gt=document.querySelector("#rvGrip .cg-x"); if(gt&&gt.lastChild) gt.lastChild.nodeValue= news? "סגור" : "סיום סקירה"; }
     const was=RV.on; RV.on=true; RV.done=false; RV.lock=false;
     if(!was){ setView("map"); if(!MAP) return; }
+    if(news) render();   // the news NOTAMים get their shapes whatever the time window / route choices are
     rvLists(); RV.i=-1;
     rvFit();
     document.getElementById("rvc").classList.add("show"); renderBarState();
     document.getElementById("stage").classList.add("rv-on");
-    topStack(); alog("review start "+RV.maps.length+" map, "+RV.cards.length+" no position"); memSnap("review start");
+    topStack(); alog("review start"+(news?" (news)":"")+" "+RV.maps.length+" map, "+RV.cards.length+" no position"); memSnap("review start");
     const j=rvNextPending(-1);
     if(j>=0) return rvGo(j);
     if(RV.list.length) return rvGo(0);
     rvUi(); rvDoneShow();
   }, _open? 380 : 0);
 }
+function newsOpen(){ if(RV.on) return; startReview("news"); }
 function rvClose(){
   if(!RV.on) return;
-  clearTimeout(RV.t); RV.pend=null; RV.on=false; RV.lock=false; RV.shown=null; RV.done=false; RV.list=[]; RV.maps=[]; RV.cards=[]; RV.i=-1;
-  rvRingClear(); if(MAP) MAP.closePopup();
+  const wasNews=RV.news;
+  clearTimeout(RV.t); RV.pend=null; RV.on=false; RV.lock=false; RV.shown=null; RV.done=false; RV.list=[]; RV.maps=[]; RV.cards=[]; RV.i=-1; RV.news=false; RV.nitems={};
+  rvRingClear(); rvGhostClear(); if(MAP) MAP.closePopup();
   const r=document.getElementById("rvc"); r.classList.remove("show","pend"); renderBarState();
-  setTimeout(()=>{ if(!RV.on) document.getElementById("rvMid").innerHTML=""; },480);
+  setTimeout(()=>{ if(!RV.on){ document.getElementById("rvMid").innerHTML=""; r.classList.remove("news"); } },480);
   document.getElementById("stage").classList.remove("rv-on");
   topStack(); alog("review close"); rvVis();
-  if(!SHOW_IRR && MAP) renderMap();
+  if(wasNews){ NEWS_PIN.clear(); render(); }   // v1.08.045: the news NOTAMים go back to the pilot's own choices
+  else if(!SHOW_IRR && MAP) renderMap();
   try{mbSync();}catch(_){}
 }
 function rvReopen(){}   // no floating popup any more, nothing to bring back
@@ -4996,9 +4770,9 @@ function rvActs(st){   // v1.08.038: the same two equal buttons always; the chos
   return `<button class="c-act c-hide${no?" rv-sel":""}" onclick="rvAct('${no?"un":"irr"}',this)">${no?RV_BDG:""}${RV_IC_NO}לא רלוונטי לי</button><button class="c-act c-ok${ok?" rv-sel":""}" onclick="rvAct('${ok?"un":"ok"}',this)">${ok?RV_BDG:""}${RV_IC_OK}קראתי</button>`;
 }
 function rvRender(id,dir){   // the card of one NOTAM goes into the panel; with a direction it slides in (forward from the left, back from the right)
-  const e=ENR_BY_ID[id], m=document.getElementById("rvMid"); if(!e) return false;
-  const st=statusOf(e);
-  m.style.opacity="1"; m.innerHTML=card(e,st,true); m.scrollTop=0;
+  const nx=RV.news&&RV.nitems[id], e=nx? nx.e : ENR_BY_ID[id], m=document.getElementById("rvMid"); if(!e) return false;
+  const can=!!nx&&nx.t==="can", st=can? "can" : statusOf(e);
+  m.style.opacity="1"; m.innerHTML= can? newsCanCard(nx) : card(e,st,true); m.scrollTop=0;
   m.classList.remove("sl","sr"); if(dir){ void m.offsetWidth; m.classList.add(dir>0?"sl":"sr"); }
   document.getElementById("rvc").classList.toggle("pend",st==="new"||st==="chg");
   document.getElementById("stage").style.setProperty("--rvh",document.getElementById("rvc").offsetHeight+"px");
@@ -5012,9 +4786,9 @@ function rvGo(i,dirIn){   // v1.08.038: the card changes at once (a short slide)
   RV.i=i; RV.done=false; RV.lock=false; rvUi();
   const id=RV.list[i], isMap=i<RV.maps.length;
   alog(`review go ${id} (${i+1}/${RV.list.length})${isMap?" Z"+MAP.getZoom():" no position"}`);
-  rvRingClear(); RV.shown=null;
+  rvRingClear(); rvGhostClear(); RV.shown=null;
   if(!rvRender(id,dir)){ rvUi(); return; }
-  const c=isMap? CIRCLES[id] : null;
+  const c=isMap? rvShape(id,true) : null;
   const cur=()=>RV.on&&!RV.done&&RV.list[RV.i]===id;   // still the NOTAM in front of the user (fast taps move on)
   const fin0=()=>{ if(!cur()) return; RV.shown=id; if(c) rvRingDraw(id,true); rvUi(); };
   if(!c){ fin0();
@@ -5032,6 +4806,7 @@ function rvRestyle(id){
 }
 function rvAct(k,btn){
   if(!RV.on||RV.lock||RV.done||RV.i<0) return;
+  { const nx=RV.news&&RV.nitems[RV.list[RV.i]]; if(nx&&nx.t==="can") return rvAckAct(k,btn); }   // v1.08.045
   const id=RV.list[RV.i], e=ENR_BY_ID[id]; if(!e) return;
   alog(`review mark ${k} ${id}`);
   if(k==="un"){   // the chosen answer tapped again: the mark is taken back, we stay on this NOTAM
@@ -5054,6 +4829,48 @@ function rvAct(k,btn){
   };
   RV.pend=nx; RV.t=setTimeout(()=>{ if(RV.pend===nx){ RV.pend=null; nx(); } },RV_PAUSE);
 }
+function rvAckAct(k,btn){   // v1.08.045: "הבנתי" on a cancelled NOTAM; tapped again it is taken back (like the two answers of a NOTAM)
+  const id=RV.list[RV.i]; alog(`news ack ${k} ${id}`);
+  if(k==="un"){ delete NEWS_ACK[id]; saveAck(); rvRender(id); rvFadeIn(); rvUi(); try{mbSync();}catch(_){} return; }
+  const revisit=!rvPend(id);
+  RV.lock=true; NEWS_ACK[id]=Date.now(); saveAck();
+  const box=btn.closest(".card");
+  box.querySelectorAll(".c-act").forEach(b=>{ b.classList.remove("rv-sel"); const o=b.querySelector(".rv-bdg"); if(o) o.remove(); b.disabled=true; });
+  btn.classList.add("rv-sel"); btn.insertAdjacentHTML("afterbegin",RV_BDG); btn.disabled=false; btn.style.pointerEvents="none";
+  rvUi(); try{mbSync();}catch(_){}
+  clearTimeout(RV.t);
+  const nx=()=>{ if(!RV.on) return; const n= revisit&&RV.i<RV.list.length-1? RV.i+1 : rvNextPending(RV.i); if(n<0) rvDoneShow(); else rvGo(n,1); };
+  RV.pend=nx; RV.t=setTimeout(()=>{ if(RV.pend===nx){ RV.pend=null; nx(); } },RV_PAUSE);
+}
+// the card of a cancelled NOTAM in the news review: grey, number and text struck through, "בוטל", one button
+function newsCanCard(x){
+  const e=x.e, id=esc(e.id), done=!!NEWS_ACK[x.id];
+  const alt=`<span class="b alt">${esc(altTxt(e))}</span>`, rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"", cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
+  const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
+  return `<div class="card st-can rvbox" data-nid="${id}">
+    <div class="c-top"><div class="c-head"><span class="c-id">${id}</span>${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div><span class="c-st">בוטל</span></div>
+    <div class="c-badges">${cat}${alt}${rad}${geoB}</div>
+    <div class="c-text">${esc(e.text)}</div>
+    <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
+    <div class="c-acts c2"><button class="c-act c-ok${done?" rv-sel":""}" onclick="rvAct('${done?"un":"ok"}',this)">${done?RV_BDG:""}הבנתי</button></div>
+  </div>`;
+}
+// the old outline of a cancelled NOTAM: thin, navy, no fill, only while it is the one on screen
+function rvGhostClear(){ if(RV.ghL) RV.ghL.clearLayers(); RV.gh={}; }
+function newsGhost(id){
+  const x=RV.nitems[id]; if(!x||!MAP) return null; const g=x.e; if(!g.geo) return null;
+  const so={color:"#0e2348",weight:1.5,fill:false,interactive:false,dashArray:null}, ls=[];
+  if(g.shape) g.shape.parts.forEach(p=>{
+    if(p.type==="line") ls.push(L.polyline(p.coords,so));
+    else if(p.type==="polygon") ls.push(L.polygon(p.holes? [p.coords].concat(p.holes) : p.coords,so));
+    else if(p.type==="circle"&&p.half) ls.push(L.polygon(halfDisc(p.center,p.radiusNm,p.half),so));
+    else ls.push(L.circle(p.type==="circle"?p.center:p.coord,Object.assign({radius:(p.type==="circle"?p.radiusNm:PT_NM)*1852},so))); });
+  else ls.push(L.circle([g.lat,g.lon],Object.assign({radius:(g.radiusNm||0.5)*1852},so)));
+  const grp=L.featureGroup(ls); grp._shapes=ls;
+  if(!RV.ghL) RV.ghL=L.layerGroup().addTo(MAP);
+  RV.ghL.addLayer(grp); RV.gh[id]=grp; return grp;
+}
+function rvShape(id,make){ const x=RV.news&&RV.nitems[id]; if(x&&x.t==="can") return RV.gh[id]||(make? newsGhost(id) : null); return CIRCLES[id]; }
 function rvDoneShow(){   // everything is marked: a short message, the button on the map turns green
   RV.lock=true; alog("review all done");
   rvHideItem(()=>{
@@ -5062,8 +4879,8 @@ function rvDoneShow(){   // everything is marked: a short message, the button on
     const m=document.getElementById("rvMid"), r=document.getElementById("rvc");
     r.classList.remove("pend");
     m.style.opacity="0";
-    m.innerHTML='<div class="rvdone"><div class="rvd-ck"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><b>סיימת את הסקירה</b>'
-      +'<span>אפשר לפתוח שוב ולעבור על הכל בכל רגע. אם משהו ישתנה, יופיע פעמון.</span>'
+    m.innerHTML='<div class="rvdone"><div class="rvd-ck"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><b>'+(RV.news?'סיימת לעבור על החדשות':'סיימת את הסקירה')+'</b>'
+      +'<span>'+(RV.news?'הפעמון יופיע שוב כשיתפרסם NOTAM חדש.':'אפשר לפתוח שוב ולעבור על הכל בכל רגע. אם משהו ישתנה, יופיע פעמון.')+'</span>'
       +'<button type="button" class="rvd-go" onclick="rvClose()">חזרה למפה</button></div>';
     rvFadeIn(); rvUi(); try{mbSync();}catch(_){}
     if(MAP&&ROUTE.length>=2){ try{   // the whole route comes into view above the panel
@@ -5084,7 +4901,7 @@ function rvRingDraw(id,blink){   // the green glow under the NOTAM's outline
     const g=MAP.createPane("rvGlow"); g.style.zIndex=395; g.style.pointerEvents="none";   // glow, just under the NOTAM shapes
     RV.lay=L.layerGroup().addTo(MAP); RV.glow=L.layerGroup().addTo(MAP); RV.glowR=L.canvas({pane:"rvGlow"});
     MAP.on("zoomend",()=>{ if(RV.on&&RV.shown&&!RV.lock) rvRingDraw(RV.shown,false); }); }
-  rvRingClear(); const c=CIRCLES[id]; if(!c) return;
+  rvRingClear(); const c=rvShape(id,false); if(!c) return;
   const o={pane:"rvGlow",renderer:RV.glowR,color:"#34c26a",weight:16,opacity:.6,fill:false,interactive:false,lineJoin:"round"};
   (c._shapes||[c]).forEach(l=>{ (l instanceof L.Circle? L.circle(l.getLatLng(),Object.assign({radius:l.getRadius()},o)) : L.polygon(l.getLatLngs(),o)).addTo(RV.glow); });
   if(blink){ const g=MAP.getPane("rvGlow"); g.classList.remove("rv-blink"); void g.offsetWidth; g.classList.add("rv-blink"); }
@@ -5119,6 +4936,13 @@ function mbFam(k){
 
 // v1.08.022: short screens: the two button columns close up (never below 48px apart) so nothing overlaps; normal phones keep the usual spacing
 let MB_FITK="";
+let BELL_N=-1, BELL_WIG=0;
+function bellWig(){
+  const b=document.getElementById("mbBell"); if(!b||b.hidden||BELL_WIG<=0||(RV&&RV.on)) return;
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches) return;   // no ringing at all; the bell and the count still show
+  BELL_WIG--; const ic=b.querySelector(".bl-ic"); ic.classList.remove("ring"); void ic.getBoundingClientRect(); ic.classList.add("ring");
+}
+setInterval(()=>{ if(BELL_WIG>0) bellWig(); },6000);
 function mbFit(){
   const st=document.getElementById("stage"); if(!st) return; const H=st.clientHeight; if(!H) return;
   const r0=128, rp0=58, l0=168, lp0=58, revTop=H-102, chTop=H-146, gap=6;
@@ -5133,6 +4957,12 @@ window.addEventListener("resize",()=>{ try{mbFit();}catch(_){} });
 function mbSync(){
   try{mbFit();}catch(_){}
   const q=id=>document.getElementById(id); if(!q("mbox")) return;
+  { const nb=newsOpenCount(), bb=q("mbBell");   // v1.08.045: the bell shows only while something new is not handled yet
+    if(bb){ bb.hidden=nb===0; q("mbBellN").textContent=nb;
+      { const qm=q("qMap"); document.body.classList.toggle("bell-on",nb>0);   // on the list page the bell sits right above the MAP button (the stat line gives it room)
+        if(currentView==="list"&&qm&&qm.getBoundingClientRect().width>0){ const mr=qm.getBoundingClientRect(); bb.style.position="fixed"; bb.style.top=Math.round(mr.top-50)+"px"; bb.style.right=Math.round(document.documentElement.clientWidth-mr.right)+"px"; }
+        else { bb.style.position=""; bb.style.top="10px"; bb.style.right="10px"; } }
+      if(nb!==BELL_N){ BELL_N=nb; BELL_WIG=nb>0?5:0; if(nb>0) setTimeout(bellWig,600); } } }   // a new count = a fresh set of 5 rings
   const hasR=ROUTE.length>=2, inRv=!!(RV&&RV.on);
   q("mbox").classList.toggle("off", !!DRAWING); q("mbox").classList.toggle("rv", inRv);
   let l1,l2;
