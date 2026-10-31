@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T09:41:50.314Z",
+  "generatedAt": "2026-10-31T09:53:16.265Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
@@ -6524,10 +6524,50 @@
       "replaces": "C1244/26",
       "rawText": "C1838/26 NOTAMR C1244/26 Q) LLLL/QAELC/IV/NBO/E /040/060/2946N03455E005 A) LLLL B) 2608301247 C) 2610312159 E) LLER TRG AREA HAR BERECH CLSD TO ALL FLT.)",
       "rowID": "2053280",
-      "geometryReject": "named area not in the GIS layers: LLER TRG AREA HAR BERECH",
-      "geometryFlag": {
-        "kind": "area missing",
-        "reason": "named area not in the GIS layers: LLER TRG AREA HAR BERECH"
+      "geometry": {
+        "source": "named",
+        "areas": [
+          {
+            "code": "LLER HAR BERECH",
+            "kind": "TRG",
+            "name": "Har Berech"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                29.833599,
+                34.958057
+              ],
+              [
+                29.724476,
+                34.904074
+              ],
+              [
+                29.710259,
+                34.868026
+              ],
+              [
+                29.764844,
+                34.863681
+              ],
+              [
+                29.799729,
+                34.845608
+              ],
+              [
+                29.833599,
+                34.958057
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          29.777751,
+          34.899584
+        ]
       }
     },
     {
@@ -6563,10 +6603,134 @@
       "replaces": "C1591/26",
       "rawText": "C1835/26 NOTAMR C1591/26 Q) LLLL/QAELC/IV/NBO/E /020/060/3308N03536E006 A) LLLL B) 2608301245 C) 2610312159 E) LLIB TRG AREA NR A AND B CLSD.)",
       "rowID": "2053277",
-      "geometryReject": "named area not in the GIS layers: LLIB TRG AREA NR A AND B",
-      "geometryFlag": {
-        "kind": "area missing",
-        "reason": "named area not in the GIS layers: LLIB TRG AREA NR A AND B"
+      "geometry": {
+        "source": "named",
+        "areas": [
+          {
+            "code": "LLIB A",
+            "kind": "TRG",
+            "name": "Rosh Pina A"
+          },
+          {
+            "code": "LLIB B",
+            "kind": "TRG",
+            "name": "Rosh Pina B (2000-3500)"
+          },
+          {
+            "code": "LLIB B",
+            "kind": "TRG",
+            "name": "Rosh Pina B upper (4000-6000)"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.169986,
+                35.570303
+              ],
+              [
+                33.220967,
+                35.571196
+              ],
+              [
+                33.224188,
+                35.632108
+              ],
+              [
+                33.218041,
+                35.641622
+              ],
+              [
+                33.209992,
+                35.64908
+              ],
+              [
+                33.194502,
+                35.655135
+              ],
+              [
+                33.174308,
+                35.642997
+              ],
+              [
+                33.162287,
+                35.640893
+              ],
+              [
+                33.15807,
+                35.644959
+              ],
+              [
+                33.146447,
+                35.638544
+              ],
+              [
+                33.169986,
+                35.570303
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.169605,
+                35.569848
+              ],
+              [
+                33.145337,
+                35.629004
+              ],
+              [
+                33.071464,
+                35.621845
+              ],
+              [
+                33.059423,
+                35.624964
+              ],
+              [
+                33.072583,
+                35.575119
+              ],
+              [
+                33.169605,
+                35.569848
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.169986,
+                35.570303
+              ],
+              [
+                33.072769,
+                35.576708
+              ],
+              [
+                33.057474,
+                35.635161
+              ],
+              [
+                33.139738,
+                35.645095
+              ],
+              [
+                33.169986,
+                35.570303
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          33.121991,
+          35.599514
+        ]
       }
     },
     {
