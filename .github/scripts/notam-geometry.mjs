@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.019 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.020 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -97,8 +97,12 @@
  *   - all or nothing: a name or a bubble code that is not in the files, or a shape that reaches outside the NOTAM's Q circle
  *     (+1.5 NM), means no shape at all (Q circle) and the flag "area missing", never half a closure
  *   - the vertical limits and "EXC BY ATC" in the rest of the sentence do not change the footprint: the whole outline is drawn
- *     and the NOTAM text in the popup says the rest. Sentences with another verb ("LTD TO MAX 1,600FT") and wording like
- *     "WITHDRAWN" are not read (Q circle, no flag), exactly as before.
+ *     and the NOTAM text in the popup says the rest.
+ *   - v1.00.020 (Eli, 2026-10-31): the verb may also be "LTD TO MAX 1,600FT AMSL" / "LIMITED TO" (C1980, C2089, C2188, Megiddo B-West
+ *     and its bubble BMGWB). Red on the map means "something applies here, read the NOTAM", not only "closed", so the traced
+ *     outline is better than a loose Q circle. The height limit stays in the NOTAM text of the popup.
+ *   - NOT drawn (Eli, 2026-10-31): "RESTRICTIONS ... COMPLETELY WITHDRAWN" (C1884, C2149, Herzliya 12). A lifted restriction
+ *     warns of nothing; the NOTAM stays in the list without a map shape.
  *   - drawn as "source":"named", "areas":[{"code":"LLIB B","kind":"TRG","name":"Rosh Pina B (2000-3500)"}, ...]
  *
  * ULTRALIGHT BUBBLES (v1.00.015, Eli 2026-10-22; polygons traced by Eli in the bubble calibration tool, gis/bubbles.json)
@@ -721,11 +725,13 @@ export function loadAreas(dir) {
 }
 // the area must be the subject of the sentence: "CTR CLSD", "LLHZ CTR CLSD", "LLR01 ACTIVATED", "LLER TRG AREA HAR BERECH CLSD"
 const RX_AREA_VERB = String.raw`\s+(?:IS\s+)?(?:CLSD|CLOSED|ACTIVATED|ACTIVE|ACT|AVBL\s+FOR\b[^.]*\bONLY)\b`;
+// v1.00.020 (Eli, 2026-10-31): training areas are also drawn when the NOTAM limits them ("LTD TO MAX 1,600FT AMSL"): the pilot has to see where something applies
+const RX_AREA_VERB_TRG = String.raw`\s+(?:IS\s+)?(?:CLSD|CLOSED|ACTIVATED|ACTIVE|ACT|LTD|LIMITED|AVBL\s+FOR\b[^.]*\bONLY)\b`;
 const RX_NAMED = [
   { kind: "CTR", rx: new RegExp(String.raw`^(?:THE\s+)?(?:(LL[A-Z0-9]{2})\s+)?(?:CTR|ATZ)` + RX_AREA_VERB) },
   { kind: "TMA", rx: new RegExp(String.raw`^(?:THE\s+)?(?:(LL[A-Z0-9]{2})\s+)?TMA` + RX_AREA_VERB) },
   { kind: "PRD", rx: new RegExp(String.raw`^(?:THE\s+)?(LL[PRD]\s?\d+)` + RX_AREA_VERB) },
-  { kind: "TRG", rx: new RegExp(String.raw`^(?:THE\s+)?((?:LL[A-Z0-9]{2}\s+)?TRG\s+AREA\b[^.]*?)` + RX_AREA_VERB) },
+  { kind: "TRG", rx: new RegExp(String.raw`^(?:THE\s+)?((?:LL[A-Z0-9]{2}\s+)?TRG\s+AREA\b[^.]*?)` + RX_AREA_VERB_TRG) },   // v1.00.020: + "LTD TO MAX 1,600FT"
 ];
 // ── training areas (v1.00.019): gis/manual/training-areas.json, traced and checked by Eli on the CVFR chart ──
 let TRAIN = null;                                                                 // "LLHA A" -> [{name, ring [[lat,lon],...]}]  (several shapes under one name are all kept)
