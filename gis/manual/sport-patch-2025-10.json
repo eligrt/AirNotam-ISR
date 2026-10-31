@@ -1,0 +1,86 @@
+{
+  "_file": "gis/sport-patch-2025-10.json · v1.00.004 · AirNotam-ISR · built by eligrt",
+  "_readme": [
+    "WHY THIS FILE EXISTS (three sources, one answer per point):",
+    "1. BASE = IAA GIS 2023a (gis/sport.json). The only machine-readable source: points, route lines, status. It is never edited.",
+    "   The IAA has not published a newer GIS; the newest official source is the printed sport chart (Oct 2025).",
+    "2. POINTS = the table on page 2 of the Oct 2025 sport chart (code, Hebrew name, type, coordinates).",
+    "   Used ONLY where the GIS lacks a point or disagrees with the chart. The other 203 GIS points already match the table within 40 m and stay as they are.",
+    "3. ROUTES = the drawing on the Oct 2025 chart (which points are joined, solid or dotted, colour, printed distance).",
+    "   The table has no routes, so legs come from the drawing. Sport legs are straight lines between their points.",
+    "   The printed distance is a CHECK on the typed coordinates: the parser computes the leg length from the coordinates and",
+    "   refuses the leg (Q circle + flag) if it differs from the printed distance by more than 0.3 NM (a typo in a coordinate).",
+    "NAMING: the chart's code is the official one. Older or other codes (GIS 2023a, CVFR chart, codes the NOTAMs use) are kept",
+    "   as aliases, so a NOTAM written with any of them still finds the point.",
+    "STATUS words as in the GIS: OPEN = solid line; BR = dotted line = with controller approval only (chart legend: 'באישור בקר/פקח בלבד').",
+    "   AllWeek = green, Weekend = brown, מיוחד = purple (as on the chart).",
+    "PRIORITY: where this file and the GIS both hold a point, this file wins. Drop this file when the IAA publishes a new GIS.",
+    "WITHDRAWN (not deleted): points / legs that are in the GIS but no longer on the 2025 chart. They are hidden wherever a pilot",
+    "   plans or looks (map layers, route drawing, waypoint names), so no one plans along a route that no longer exists,",
+    "   but the NOTAM parser still knows them: a NOTAM that names one is still DRAWN (hiding a closure is worse than showing it)",
+    "   AND FLAGGED 'לבדיקה' (+ GitHub issue), because either this patch is wrong (the point still exists: bring it back,",
+    "   one line) or the IAA used an old name.",
+    "Checked by Eli against the chart, 2026-09-29."
+  ],
+  "source": { "chart": "IAA sport (ultralight) chart, north + south, updated October 2025", "base": "IAA GIS 2023a" },
+
+  "points": {
+    "add": [
+      { "code": "MRSBA", "name": "מרסבא",       "type": "חובה",  "N": "31°42'18\"", "E": "35°19'51\"" },
+      { "code": "AFFAE", "name": "אפעה",        "type": "דרישה", "N": "31°08'35\"", "E": "35°12'47\"" },
+      { "code": "AZRIL", "name": "עזריאל",      "type": "דרישה", "N": "32°15'09\"", "E": "34°58'48\"" },
+      { "code": "KCUCH", "name": "כור",         "type": "דרישה", "N": "32°15'09\"", "E": "35°05'06\"" },
+      { "code": "BRAON", "name": "בראון",       "type": "דרישה", "N": "32°14'20\"", "E": "35°10'15\"" },
+      { "code": "KEDUM", "name": "צומת קדומים", "type": "דרישה", "N": "32°12'59\"", "E": "35°10'33\"" },
+      { "code": "IZHRW", "name": "יצהר מערב",   "type": "דרישה", "N": "32°11'39\"", "E": "35°11'17\"" },
+      { "code": "IZHRE", "name": "יצהר מזרח",   "type": "דרישה", "N": "32°10'00\"", "E": "35°15'51\"" },
+      { "code": "MCORA", "name": "מכורה",       "type": "דרישה", "N": "32°08'49\"", "E": "35°25'22\"" }
+    ],
+    "move": [
+      { "code": "ZELIM", "name": "צאלים", "N": "31°12'11\"", "E": "34°30'43\"",
+        "was": "GIS 2023a 31°12'44\" 34°31'51\" (2 km away)", "legs": "the end of ZELIM-NBSOR moves with it" }
+    ],
+    "rename": [
+      { "from": "GEFEN", "to": "GEFFN", "name": "גפן", "note": "same position; GEFEN stays as an alias" }
+    ],
+    "type": [
+      { "code": "ZMGID", "type": "חובה", "was": "דרישה" },
+      { "code": "HASID", "type": "חובה", "was": "דרישה" }
+    ],
+    "withdraw": [
+      { "code": "KRYON", "name": "קריון", "note": "not in the 2025 table nor on the chart drawing" },
+      { "code": "MACHR", "name": "מכר",   "note": "not in the 2025 table nor on the chart drawing" }
+    ]
+  },
+
+  "aliases": {
+    "MARSB": "MRSBA",
+    "HATRU": "TZHTR",
+    "GEFEN": "GEFFN"
+  },
+  "_aliases_note": [
+    "MARSB: the spelling used in NOTAM C2049; the chart writes MRSBA (confirmed by Eli).",
+    "HATRU: the CVFR chart code for צומת חתרורים; the sport chart code is TZHTR, same coordinates to the second (confirmed by Eli).",
+    "GEFEN: the GIS 2023a code; the 2025 chart writes GEFFN."
+  ],
+
+  "legs": {
+    "add": [
+      { "leg": "HOMMA-MRSBA", "status": "OPEN · Weekend", "nm": 5.7,  "chart": "solid brown" },
+      { "leg": "DIMON-AFFAE", "status": "OPEN · Weekend", "nm": 11.7, "chart": "solid brown" },
+      { "leg": "AFFAE-TZHTR", "status": "OPEN · Weekend", "nm": 5.0,  "chart": "solid brown" },
+      { "leg": "AZRIL-KCUCH", "status": "BR · Weekend",   "nm": 5.3,  "chart": "dotted brown" },
+      { "leg": "KCUCH-BRAON", "status": "BR · Weekend",   "nm": 4.4,  "chart": "dotted brown" },
+      { "leg": "BRAON-KEDUM", "status": "BR · Weekend",   "nm": 1.4,  "chart": "dotted brown" },
+      { "leg": "KEDUM-IZHRW", "status": "BR · Weekend",   "nm": 1.5,  "chart": "dotted brown" },
+      { "leg": "IZHRW-IZHRE", "status": "BR · Weekend",   "nm": 4.2,  "chart": "dotted brown" },
+      { "leg": "IZHRE-MCORA", "status": "BR · Weekend",   "nm": 8.2,  "chart": "dotted brown" },
+      { "leg": "MCORA-ZADAM", "status": "BR · Weekend",   "nm": 4.6,  "chart": "dotted brown" }
+    ],
+    "withdraw": [
+      { "leg": "AAKKO-KRYON", "note": "gone from the 2025 chart (checked by Eli, Haifa crop)" },
+      { "leg": "KRYON-LLHA",  "note": "gone from the 2025 chart (checked by Eli, Haifa crop)" },
+      { "leg": "MACHR-TAALL", "note": "gone from the 2025 chart (checked by Eli, Haifa crop)" }
+    ]
+  }
+}
