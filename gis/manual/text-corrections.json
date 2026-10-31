@@ -1,0 +1,12 @@
+{
+  "_readme": "Hand corrections of one NOTAM's text, made by us after checking by eye. A correction applies ONLY when the NOTAM number matches AND the 'wrong' text is found exactly in Item E. The stored NOTAM is never changed; only the text the map shape is read from. If Rata re-issues the NOTAM with other text, nothing is applied and the normal flag comes up. Each entry: id, wrong, right, date, why.",
+  "corrections": [
+    {
+      "id": "C2202/26",
+      "wrong": "315832E0344954E",
+      "right": "315832N0344954E",
+      "date": "2026-10-31",
+      "why": "UAS air show at Rishon LeZion: the latitude was typed with E instead of N. The corrected point is Rishon LeZion, as the NOTAM text says. The Q circle in the header is about 4 NM west of it, so both are drawn and linked (issue #14)."
+    }
+  ]
+}
