@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.068 · built by eligrt
+     AirNotam-ISR · v1.08.069 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1673,7 +1673,7 @@ body.lv #list{padding-top:62px;}
 /* v1.08.068: a pointer at the layers button, like the other popups; a clear gap to the DRAW / ALL buttons; a divider under the two route rows */
 .lp-arr{position:absolute;left:59px;top:0;width:14px;height:14px;box-sizing:border-box;background:rgba(251,246,232,.98);border-left:3px solid #1c3d6e;border-bottom:3px solid #1c3d6e;transform:rotate(45deg);display:none;z-index:6;pointer-events:none;}
 .lp-arr.open{display:block;}
-.lp-div{border-top:2px solid #1c3d6e;margin:0 -6px;}
+.lp-div{border-top:2px dashed #b9ab86;margin:6px 2px;}   /* v1.08.069: soft beige dashed divider */
 #gc_sport.lp-li.rt,#lp_sl_sport{border-bottom:0 !important;}
 .lcur .lp-li{border-bottom:1px solid var(--paper-edge);}
 /* v1.08.067: route rows: the opacity bar sits under the row while it is on */
@@ -2002,7 +2002,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.068 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.069 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2143,7 +2143,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.068 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.069 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2857,7 +2857,7 @@ function listIrr(id){markIrrelevant(id);render();}
 
 // ── Map ──
 let MAP_BASES=null, MAP_BASE=null;
-// v1.08.065: the six base maps of AirTrack (OSM streets is the default)
+// v1.08.065: the six base maps of AirTrack (v1.08.069: the shaded relief is the default)
 const ESRI_URL="https://server.arcgisonline.com/ArcGIS/rest/services/";
 const BASE_LIST=[
  {k:"std",n:"רחובות (OSM)",u:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",z:19,a:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'},
@@ -2892,9 +2892,9 @@ function initMap(){
   // Basemaps (keyless). OSM standard needs a Referer (tile policy 2026) → explicit referrerPolicy.
   const BASES={};
   BASE_LIST.forEach(b=>{ BASES[b.k]=L.tileLayer(b.u,{maxZoom:19,maxNativeZoom:b.z,attribution:b.a,referrerPolicy:"strict-origin-when-cross-origin"}); });
-  let pick="std";
+  let pick="shade";   // v1.08.069: first launch = shaded relief (טופוגרפית עם הצללה); a map the pilot chose is remembered
   try{pick=localStorage.getItem("airnotam_base3")||pick;}catch(e){}
-  if(!BASES[pick]) pick="std";
+  if(!BASES[pick]) pick="shade";
   BASES[pick].addTo(MAP);
   MAP_BASES=BASES; MAP_BASE=pick;
   ROUTE_LAYER=L.layerGroup().addTo(MAP);
@@ -4284,9 +4284,9 @@ function lpStatus(id,txt,err){
 }
 function lpPlace(){   // the layers popup opens right next to its button, at the top
   const b=document.querySelector(".lyr-ctl"), h=lpEl("mbox"), c=lpEl("lpL"); if(!b||!h||!c) return;
-  const br=b.getBoundingClientRect(), hr=h.getBoundingClientRect(), top=Math.round(br.top-hr.top);
+  const br=b.getBoundingClientRect(), hr=h.getBoundingClientRect(), top=Math.round(br.top-hr.top+br.height/2-30);   // v1.08.069: the pointer sits 30 px below the panel top, level with the button centre
   c.style.top=top+"px"; c.style.maxHeight=Math.max(150,Math.round(hr.height-top-100))+"px";
-  const ar=lpEl("lpArr"); if(ar) ar.style.top=Math.round(top+b.offsetHeight/2-7)+"px";
+  const ar=lpEl("lpArr"); if(ar) ar.style.top=Math.round(top+30-7)+"px";
   const f=lpEl("lpSt2"); if(f){ f.style.top=(top+c.offsetHeight+8)+"px"; f.style.display=(LP_OPEN==="layers"&&f.textContent)?"block":"none"; }
 }
 function lpFit(){ if(LP_OPEN==="layers") lpPlace(); }
@@ -4701,7 +4701,7 @@ function alog(t){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.068 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.069 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
