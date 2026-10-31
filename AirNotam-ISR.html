@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.073 · built by eligrt
+     AirNotam-ISR · v1.08.074 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1673,6 +1673,11 @@ body.lv #list{padding-top:62px;}
 /* v1.08.068: a pointer at the layers button, like the other popups; a clear gap to the DRAW / ALL buttons; a divider under the two route rows */
 .lp-arr{left:56px;top:0;display:none;z-index:6;}
 .lp-arr.open{display:block;}
+/* v1.08.074: layers and charts panels fade in, and fade out before the next popup opens */
+@keyframes lpIn{from{opacity:0}to{opacity:1}}
+.lcur.open,.lp.open,.lp-arr.open{animation:lpIn .18s ease;}
+.lcur.fo,.lp.fo,.lp-arr.fo{opacity:0;transition:opacity .16s ease;}
+@media (prefers-reduced-motion:reduce){.lcur.open,.lp.open,.lp-arr.open{animation:none;} .lcur.fo,.lp.fo,.lp-arr.fo{transition:none;}}
 .lp-div{border-top:2px dashed #b9ab86;margin:6px 2px;}   /* v1.08.069: soft beige dashed divider */
 #gc_sport.lp-li.rt,#lp_sl_sport{border-bottom:0 !important;}
 .lcur .lp-li{border-bottom:1px solid var(--paper-edge);}
@@ -1738,9 +1743,10 @@ body.lv #list{padding-top:62px;}
 .mb-info .mi1.pr .mi-ic svg{display:block;margin:0 auto;position:relative;top:50%;transform:translateY(-50%);}
 
 /* v1.08.023: stage 2 - route and time popups beside their buttons, new drawing buttons */
-.ppw{display:none;position:absolute;inset:0;z-index:1320;direction:rtl;}
-.ppw:has(.pp.show){display:block;}
-.pp-scrim{position:absolute;inset:0;background:rgba(14,35,72,.22);}
+.ppw{display:block;pointer-events:none;position:absolute;inset:0;z-index:1320;direction:rtl;}   /* v1.08.074: always there (never catches taps while no popup is open), so a closing popup can fade out */
+.ppw:has(.pp.show){pointer-events:auto;}
+.pp-scrim{position:absolute;inset:0;background:rgba(14,35,72,.22);opacity:0;transition:opacity .16s ease;}
+.ppw:has(.pp.show) .pp-scrim{opacity:1;}
 .pp{position:absolute;left:68px;top:40px;width:272px;max-width:calc(100% - 78px);box-sizing:border-box;background:#fbf6e8;border:3px solid #1c3d6e;border-radius:20px;box-shadow:0 2px 8px rgba(14,35,72,.35);visibility:hidden;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .16s ease,transform .16s ease,visibility 0s linear .16s;font-family:var(--font-ui);}
 .pp.show{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .16s ease;}
 /* v1.08.071: the pointer of every popup: a navy triangle with a cream triangle on top, running 3 px into the border, so the frame line flows into it with no notch */
@@ -2006,7 +2012,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.073 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.074 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2147,7 +2153,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.073 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.074 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2522,11 +2528,19 @@ function scrimTap(ev){
 const CURTAINS=["rdy","rte"];
 // v1.06.009: switching tiles = the open curtain closes first, then the next one opens (never both at once)
 const TILE_DLGS=["rte","fdlg","rdy"]; let _swT=null;
+// v1.08.074: ONE rule for every popup swap (route, time, readiness, charts, layers, the NOTAM pill, the review): the open one fades out, the new one opens about a third of a second later.
+// A popup that was closed a moment ago (by the dim sheet, or by the tap itself) counts too, so the gap is always the same.
+const POP_SWAP=380; let POP_LASTCLOSE=0;
+function popNote(){ POP_LASTCLOSE=Date.now(); }
 function seqOpen(id,fn){
-  if(RV.on){ rvClose(); clearTimeout(_swT); _swT=setTimeout(fn,380); return true; }   // v1.07.036: the review curtain closes itself first, like any other curtain
-  const o=TILE_DLGS.find(c=>c!==id&&document.getElementById(c).classList.contains("show")); if(!o) return false;
-  if(o==="fdlg") closeFlightDlg(); else closeCurtain(o);
-  clearTimeout(_swT); _swT=setTimeout(fn,380); return true;
+  clearTimeout(_swT); let closed=false;
+  if(RV.on){ rvClose(); closed=true; }   // v1.07.036: the review curtain closes itself first, like any other curtain
+  TILE_DLGS.forEach(c=>{ if(c!==id&&document.getElementById(c).classList.contains("show")){ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); closed=true; } });
+  if(LP_OPEN&&LP_OPEN!==id){ lyrSet(null); closed=true; }
+  const pl=document.getElementById("mbPill"); if(pl&&id!=="pill"&&pl.classList.contains("open")){ mbPillClose(); closed=true; }
+  const wait= closed? POP_SWAP : POP_SWAP-(Date.now()-POP_LASTCLOSE);
+  if(wait<=25) return false;
+  _swT=setTimeout(fn,wait); return true;
 }
 function openCurtain(id){
   if(seqOpen(id,()=>openCurtain(id))) return;
@@ -2538,7 +2552,7 @@ function openCurtain(id){
 }
 function closeCurtain(id){
   const d=document.getElementById(id); if(!d) return;
-  if(d.classList.contains("show")) rvReopen();
+  if(d.classList.contains("show")){ rvReopen(); popNote(); }
   { const fc=d.querySelector(".fcard"); if(fc) fc.style.transform=""; } d.classList.remove("show");
   const t=document.getElementById("t_"+id); if(t) t.classList.remove("on");
 }
@@ -3981,7 +3995,7 @@ function toggleFlightDlg(){
   if(document.getElementById("fdlg").classList.contains("show")){ closeFlightDlg(); renderFlightBar(); }
   else openFlightDlg();
 }
-function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")) rvReopen();document.getElementById("fdlg").classList.remove("show");}
+function closeFlightDlg(){ if(document.getElementById("fdlg").classList.contains("show")){ rvReopen(); popNote(); }document.getElementById("fdlg").classList.remove("show");}
 function curtainGrip(gripId,dlgId,onClose){
   const g=document.getElementById(gripId), card=document.querySelector("#"+dlgId+" .fcard");
   let y0=null, dy=0;
@@ -4304,11 +4318,13 @@ function lpPlace(){   // the layers popup opens right next to its button, at the
   const f=lpEl("lpSt2"); if(f){ f.style.top=(top+c.offsetHeight+8)+"px"; f.style.display=(LP_OPEN==="layers"&&f.textContent)?"block":"none"; }
 }
 function lpFit(){ if(LP_OPEN==="layers") lpPlace(); }
+function lpFadeSet(el,on){ if(!el) return; clearTimeout(el._ft); if(on){ el.classList.remove("fo"); el.classList.add("open"); } else if(el.classList.contains("open")){ el.classList.add("fo"); el._ft=setTimeout(()=>el.classList.remove("open","fo"),170); } }
 function lyrSet(w){
   w=w||null; if(w===LP_OPEN) return;
-  if(w){ try{closeCurtains();}catch(_){} if(MAP) MAP.closePopup(); }
+  if(w){ if(seqOpen(w,()=>lyrSet(w))) return; try{closeCurtains();}catch(_){} if(MAP) MAP.closePopup(); }   // v1.08.074: the open popup fades out first
+  if(LP_OPEN&&LP_OPEN!==w) popNote();
   LP_OPEN=w;
-  const L1=lpEl("lpL"), C1=lpEl("lpC"); if(L1) L1.classList.toggle("open",w==="layers"); const A1=lpEl("lpArr"); if(A1) A1.classList.toggle("open",w==="layers"); if(C1) C1.classList.toggle("open",w==="charts");
+  const L1=lpEl("lpL"), C1=lpEl("lpC"); lpFadeSet(L1,w==="layers"); const A1=lpEl("lpArr"); lpFadeSet(A1,w==="layers"); lpFadeSet(C1,w==="charts");
   const mb=lpEl("mbox"); if(mb) mb.classList.toggle("pl-open",!!w);
   if(w==="layers") lpPlace();
   if(w!=="charts") cpPopSet(false);
@@ -4715,7 +4731,7 @@ function alog(t){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.073 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.074 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5120,8 +5136,8 @@ function mbTimeGo(){ try{gisPanelToggle(false);}catch(_){} toggleFlightDlg(); }
 function mbListGo(){ setView(currentView==="list"?"map":"list"); mbSync(); }
 let MP_T=null;
 function mbPillArm(){ clearTimeout(MP_T); MP_T=setTimeout(mbPillClose,4000); }
-function mbPillOpen(){ try{gisPanelToggle(false);}catch(_){} const p=document.getElementById("mbPill"); p.classList.add("open"); document.getElementById("mpCl").setAttribute("aria-expanded","true"); mbPillArm(); }
-function mbPillClose(){ clearTimeout(MP_T); const p=document.getElementById("mbPill"); if(!p) return; p.classList.remove("open"); document.getElementById("mpCl").setAttribute("aria-expanded","false"); }
+function mbPillOpen(){ if(seqOpen("pill",mbPillOpen)) return; try{gisPanelToggle(false);}catch(_){} const p=document.getElementById("mbPill"); p.classList.add("open"); document.getElementById("mpCl").setAttribute("aria-expanded","true"); mbPillArm(); }
+function mbPillClose(){ clearTimeout(MP_T); const p=document.getElementById("mbPill"); if(!p) return; if(p.classList.contains("open")) popNote(); p.classList.remove("open"); document.getElementById("mpCl").setAttribute("aria-expanded","false"); }
 // v1.08.073: the pill closes when the tap is finished (finger lifted), not on touch-down, so the screen does not change under the finger and the tapped button always gets its press
 document.addEventListener("click",e=>{ const p=document.getElementById("mbPill"); if(p&&p.classList.contains("open")&&!p.contains(e.target)) mbPillClose(); },true);
 function mbFam(k){
