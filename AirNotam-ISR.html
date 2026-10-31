@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.066 · built by eligrt
+     AirNotam-ISR · v1.08.067 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1669,7 +1669,13 @@ body.lv #list{padding-top:62px;}
 .lcur::-webkit-scrollbar{width:0;height:0;}
 .lcur.open{display:block;}
 .lp-st.lpf{position:absolute;left:54px;width:214px;z-index:5;}
+.lcur{--pc:#1c3d6e;}
 .lcur .lp-li{border-bottom:1px solid var(--paper-edge);}
+/* v1.08.067: route rows: the opacity bar sits under the row while it is on */
+.lcur .lp-li.rt:has(input:checked){border-bottom:0;}
+.lp-sl{display:none;padding:0 2px 7px;border-bottom:1px solid var(--paper-edge);direction:ltr;}
+.lp-li.rt:has(input:checked)+.lp-sl{display:flex;}
+.lp-sl .lp-rs{margin:0;}
 .lcur .lp-li:last-of-type{border-bottom:0;}
 .lp-tg::after{left:20px;}
 .lp-li:has(input:checked) .lp-tg{background:#1c3d6e;}
@@ -1991,7 +1997,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.066 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.067 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2132,7 +2138,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.066 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.067 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -4253,7 +4259,7 @@ function lsaInit(){
 let LP_OPEN=null;   // "charts" | "layers" | null
 const GIS_OP=(()=>{ try{ return JSON.parse(localStorage.getItem("airnotam_gis_op")||"{}")||{}; }catch(e){ return {}; } })();   // route line transparency, per route
 const lpEl=id=>document.getElementById(id);
-const lpOp=id=> id in GIS_OP ? Math.max(0,Math.min(1,+GIS_OP[id]||0)) : (gisOn(id)?1:0);
+const lpOp=id=> id in GIS_OP ? Math.max(.1,Math.min(1,+GIS_OP[id]||1)) : 1;   // v1.08.067: the toggle switches a route on or off, the bar only softens it (10% to 100%)
 // the route lines (sport = LSA, cvfr) get their own transparency; the CVFR outline keeps its slightly softer edge
 function gisRouteOpApply(id){
   const g=GIS.lay[id]; if(!g||(id!=="sport"&&id!=="cvfr")) return; const v=lpOp(id);
@@ -4262,14 +4268,11 @@ function gisRouteOpApply(id){
 }
 // the slider handle fades with the value: solid at the right end, see-through at the left end
 function lpFade(el){ if(!el) return; const rgb=el.getAttribute("data-rgb")||"28,61,110"; el.style.setProperty("--tb","rgba("+rgb+","+Math.max(.12,el.value/100).toFixed(2)+")"); }
-// routes: one at a time (LSA, CVFR or none); the slider belongs to the one that is on, and each route keeps its own transparency
-const RT_IDS=["sport","cvfr"]; let RT_SEL="sport";
-const rtShown=id=>{ const c=lpEl("gis_"+id); return !!(c&&c.checked); };
+// v1.08.067: the two route rows (CVFR, LSA) sit in the Layers popup: a toggle, and an opacity bar under it while the row is on
+const RT_IDS=["cvfr","sport"];
 function lpSync(){
-  RT_IDS.forEach(id=>{ const b=lpEl("lp_b_"+id); if(b){ b.classList.toggle("on",id===RT_SEL); b.classList.toggle("hid",!rtShown(id)); } });
-  const o=lpEl("lp_o_rt"); if(o){ o.value=Math.round((rtShown(RT_SEL)?lpOp(RT_SEL):0)*100); lpFade(o); }
+  RT_IDS.forEach(id=>{ const o=lpEl("lp_o_"+id); if(o){ o.value=Math.round(lpOp(id)*100); lpFade(o); } });
 }
-function rtPick(id){ RT_SEL=id; lpSync(); }   // the chip only picks which route the slider controls
 function lpStatus(id,txt,err){
   ["lpSt","lpSt2"].forEach(n=>{ const s=lpEl(n); if(!s) return; s.textContent=txt||""; s.style.display=txt?"block":"none"; s.classList.toggle("er",!!err); });
   lpPlace();
@@ -4302,40 +4305,35 @@ function lpSetBase(k){
 }
 function gisPanel(){
   const host=lpEl("mbox"); if(!host) return;
-  RT_IDS.forEach(id=>{ if(!gisOn(id)) GIS_OP[id]=0; }); RT_SEL=RT_IDS.find(id=>gisOn(id))||"sport";   // a route that is off counts as slid to zero
+  RT_IDS.forEach(id=>{ if(!(GIS_OP[id]>=.1)) GIS_OP[id]=1; });   // v1.08.067: an older "slid to zero" value means full strength now
   const item=(id,sw,tx)=>'<label class="lp-li" id="gc_'+id+'"><input type="checkbox" id="gis_'+id+'">'+sw+'<span class="lp-nm">'+tx+'</span><small id="gst_'+id+'"></small><span class="lp-tg"></span></label>';
+  const slider=id=>'<div class="lp-sl" id="lp_sl_'+id+'"><input type="range" class="lp-rs" id="lp_o_'+id+'" min="10" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות"></div>';
   const lay='<div class="lcur mb-m" id="lpL">'
+      +item("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")
+      +item("cvfr",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"נתיבי CVFR").replace('class="lp-li"','class="lp-li rt"')+slider("cvfr")
+      +item("sport",'<i class="gsw ln" style="border-color:#1f7a3f"></i>',"נתיבי LSA").replace('class="lp-li"','class="lp-li rt"')+slider("sport")
       +item("ctr",'<i class="gsw" style="background:#2a221814;border-color:#2a2218"></i>',"CTR/ATZ/CTA")
       +item("tma",'<i class="gsw dsh" style="border-color:#4a3f33"></i>',"TMA")
       +item("prd",'<i class="gsw" style="background:#c0267e22;border-color:#c0267e"></i>',"P/R/D")
       +item("ratag",'<i class="gsw" style="background:#7cb34255;border-color:#5d8f2f"></i>',"שמורות טבע")
       +item("ifr",'<i class="gsw dsh" style="border-color:#4d5a1f;border-style:dotted"></i>',"IFR")
       +item("rwy",'<i class="gsw ln" style="border-color:#1a1308"></i>',"מסלולי נחיתה")
-      +item("borders",'<i class="gsw ln gsw-brd"></i>',"גבולות מדינה")
       +item("bubbles",'<i class="gsw" style="background:#7a4fb522;border-color:#7a4fb5;border-style:dashed"></i>','בועות אז"מ')
     +'</div><div class="lp-st lpf mb-m" id="lpSt2"></div>';   // the status line floats under the popup, so the popup never changes size
   const bo=BASE_LIST.map(b=>'<div class="lp-bo'+(b.k===MAP_BASE?' on':'')+'" role="button" data-b="'+b.k+'"><span class="lp-bsw '+b.k+'"></span>'+b.n+'</div>').join("");
   const bcur=BASE_LIST.find(x=>x.k===MAP_BASE)||BASE_LIST[0];
   const icMap='<svg class="lp-pic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
-  const icRt='<svg class="lp-pic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg>';
+  const icRt_unused='<svg class="lp-pic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg>';
   const cha='<div class="lp mb-m" id="lpC" style="--pc:#1c3d6e">'
     +'<div class="lp-row lp-bp" id="cpBase" role="button" tabindex="0" style="--pc:#44505c" aria-label="מפת רקע"><span class="lp-bsw '+bcur.k+'" id="cpBsw"></span><span class="lp-bnm"><i>מפת רקע</i><b id="cpBnm">'+bcur.n+'</b></span>'
       +'<svg class="lp-bi" viewBox="0 0 24 24" aria-hidden="true"><g class="a"><rect x="4" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.2"/></g><g class="b"><path d="M6 6l12 12M18 6L6 18"/></g></svg><div class="lp-bpop" id="cpPop">'+bo+'</div></div>'
     +'<div class="lp-pill" id="cpOp"><button type="button" class="lp-ck emp" id="lsaBtn">LSA</button><button type="button" class="lp-ck emp" id="cpCvfr">CVFR</button>'
       +'<input type="range" class="lp-rs" id="lsaOp" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המפה"><span id="lsaOpv" hidden></span>'+icMap+'</div>'
-    +'<div class="lp-pill" id="lp_rt"><button type="button" class="lp-ck" id="lp_b_sport">LSA</button><button type="button" class="lp-ck" id="lp_b_cvfr">CVFR</button>'
-      +'<input type="range" class="lp-rs" id="lp_o_rt" min="0" max="100" value="100" data-rgb="28,61,110" aria-label="שקיפות המסלולים">'
-      +'<input type="checkbox" id="gis_sport" hidden><input type="checkbox" id="gis_cvfr" hidden>'+icRt+'</div>'
     +'<div class="lp-lks" id="cpLinks"><button type="button" class="lp-lk" id="lsaRe">החלף LSA</button><button type="button" class="lp-lk" id="lsaDel">מחק LSA</button></div>'
     +'<div class="lp-st" id="lsaSt"></div><div class="lp-st" id="lpSt"></div></div>';
   host.insertAdjacentHTML("beforeend",lay+cha);
-  RT_IDS.forEach(id=>lpEl("lp_b_"+id).addEventListener("click",()=>rtPick(id)));
-  const ro=lpEl("lp_o_rt");
-  ro.addEventListener("input",()=>{
-    const id=RT_SEL, v=ro.value/100; GIS_OP[id]=v; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){}
-    lpFade(ro); const cb=lpEl("gis_"+id), want=v>0.01;
-    if(want!==cb.checked){ cb.checked=want; cb.dispatchEvent(new Event("change")); } else gisRouteOpApply(id);
-    lpSync();
+  RT_IDS.forEach(id=>{ const o=lpEl("lp_o_"+id);
+    o.addEventListener("input",()=>{ GIS_OP[id]=o.value/100; try{localStorage.setItem("airnotam_gis_op",JSON.stringify(GIS_OP));}catch(_){} lpFade(o); gisRouteOpApply(id); });
   });
   // charts panel: base map pill with its menu of swatches (the menu stays open, so the pilot sees the real effect on the map)
   lpEl("cpBase").addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".lp-bo"); if(o){ lpSetBase(o.getAttribute("data-b")); return; } cpPopSet(!lpEl("cpPop").classList.contains("show")); });
@@ -4697,7 +4695,7 @@ function alog(t){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.066 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.067 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
