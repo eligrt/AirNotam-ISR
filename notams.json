@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T07:01:05.941Z",
+  "generatedAt": "2026-10-31T07:49:49.449Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
@@ -125,6 +125,10 @@
                 34.93693
               ],
               [
+                32.719722,
+                34.875556
+              ],
+              [
                 32.600278,
                 34.805278
               ]
@@ -132,7 +136,9 @@
             "leg": "HOTRM-LLLV",
             "layer": "cvfr",
             "t": "",
-            "straight": true
+            "via": [
+              "FOMMA"
+            ]
           },
           {
             "type": "line",
@@ -148,21 +154,29 @@
             ],
             "leg": "FRDIS-LLLV",
             "layer": "cvfr",
-            "t": "",
-            "straight": true
+            "t": ""
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.49667,
+                34.885
+              ],
+              [
+                32.600278,
+                34.805278
+              ]
+            ],
+            "leg": "SDTYM-LLLV",
+            "layer": "cvfr",
+            "t": ""
           }
         ],
         "anchor": [
-          32.677044,
-          34.871104
-        ],
-        "outsideQ": [
-          "SDTYM-LLLV"
+          32.687811,
+          34.85678
         ]
-      },
-      "geometryFlag": {
-        "kind": "outside Q",
-        "reason": "route legs reach outside the NOTAM's Q circle, not drawn: SDTYM-LLLV"
       }
     },
     {
