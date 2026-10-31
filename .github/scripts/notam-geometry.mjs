@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.018 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.019 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -83,8 +83,23 @@
  *   - a code with several GIS areas: every area that passes the Q check is drawn (the Q circle picks the right one
  *     when different airfields share a code, e.g. LLNV)
  *   - relative wording ("S OF LLBG TMA", "WI LLHA CTR") is not the whole area and keeps the Q circle
- *   - a named area that is not in the GIS (e.g. "LLER TRG AREA HAR BERECH CLSD", training areas are not published
- *     as GIS) keeps the Q circle and is flagged "area missing"
+ *   - a named area that is not in the GIS keeps the Q circle and is flagged "area missing"
+ *
+ * TRAINING AREAS (v1.00.019, Eli 2026-10-31; outlines traced and checked by Eli on the CVFR chart in the training area tracing
+ *   tool, file gis/manual/training-areas.json; the official GIS has none). Same place in the order as the named airspace above:
+ *   only when field E has no coordinates (coordinates written in the text always win), and the sentence STARTS with the area:
+ *     "LLER TRG AREA HAR BERECH CLSD ..."   "LLIB TRG AREA NR A AND B CLSD."   "LLHA TRG AREA NR A,B,C AND ZVULUN ULTRALIGHT
+ *     BUBBLE N, S (BZVUL AND BZVUN) CLSD ..."   "LLMG TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB) CLSD ..."
+ *   - the airfield code (LLHA) and each name (A, B, C / A-WEST / 12 / HAR BERECH) are looked up in the file, every area on its own;
+ *     "NR" is ignored. An area is used only when Eli ticked it as checked in the tool. One name can have several shapes
+ *     (LLIB B = two shapes, the lower and the upper altitude band printed on the chart): all of them are drawn.
+ *   - bubble codes in brackets in the same sentence are drawn from gis/bubbles.json together with the areas (one closure, one NOTAM)
+ *   - all or nothing: a name or a bubble code that is not in the files, or a shape that reaches outside the NOTAM's Q circle
+ *     (+1.5 NM), means no shape at all (Q circle) and the flag "area missing", never half a closure
+ *   - the vertical limits and "EXC BY ATC" in the rest of the sentence do not change the footprint: the whole outline is drawn
+ *     and the NOTAM text in the popup says the rest. Sentences with another verb ("LTD TO MAX 1,600FT") and wording like
+ *     "WITHDRAWN" are not read (Q circle, no flag), exactly as before.
+ *   - drawn as "source":"named", "areas":[{"code":"LLIB B","kind":"TRG","name":"Rosh Pina B (2000-3500)"}, ...]
  *
  * ULTRALIGHT BUBBLES (v1.00.015, Eli 2026-10-22; polygons traced by Eli in the bubble calibration tool, gis/bubbles.json)
  *   Only when field E has no coordinates and is none of the cases above. A sentence "ULTRALIGHT BUBBLE CLSD HAHULA (BHULA),
@@ -712,6 +727,51 @@ const RX_NAMED = [
   { kind: "PRD", rx: new RegExp(String.raw`^(?:THE\s+)?(LL[PRD]\s?\d+)` + RX_AREA_VERB) },
   { kind: "TRG", rx: new RegExp(String.raw`^(?:THE\s+)?((?:LL[A-Z0-9]{2}\s+)?TRG\s+AREA\b[^.]*?)` + RX_AREA_VERB) },
 ];
+// ── training areas (v1.00.019): gis/manual/training-areas.json, traced and checked by Eli on the CVFR chart ──
+let TRAIN = null;                                                                 // "LLHA A" -> [{name, ring [[lat,lon],...]}]  (several shapes under one name are all kept)
+const RX_TRG_NOTAM = /^(LL[A-Z0-9]{2})\s+TRG\s+AREA\s+(?:NR\s+)?(.+)$/;
+const trainKey = (af, nm) => `${af} ${String(nm).replace(/\s+/g, " ").trim()}`;
+export function loadTraining(dir) {
+  TRAIN = new Map();
+  const fc = JSON.parse(readFileSync(`${dir}/training-areas.json`, "utf8"));
+  for (const f of fc.features || []) {
+    const p = f.properties || {}, g = f.geometry;
+    if (!p.checked) continue;                                                     // only areas Eli ticked as checked in the tool
+    const m = String(p.notam || "").toUpperCase().match(RX_TRG_NOTAM);            // the name as written in the NOTAM; an empty name (Eilat west coast) is never matched
+    if (!m || !g || g.type !== "Polygon" || !g.coordinates?.[0] || g.coordinates[0].length < 4) continue;
+    const k = trainKey(m[1], m[2]);
+    if (!TRAIN.has(k)) TRAIN.set(k, []);
+    TRAIN.get(k).push({ name: String(p.name || "").trim(), ring: g.coordinates[0].map(([lon, lat]) => [lat, lon]) });
+  }
+}
+function trainingArea(notam, raw) {
+  const miss = why => ({ reject: `named area not in the GIS layers: ${raw}${why ? " (" + why + ")" : ""}`, missingArea: raw });
+  if (!TRAIN) return miss("training areas file not available");
+  const m = raw.match(/^(LL[A-Z0-9]{2})\s+TRG\s+AREA\s*(.*)$/);
+  if (!m) return miss("no airfield code");
+  const af = m[1], rest = m[2].trim();
+  const codes = [];                                                               // bubble codes in brackets: "(BZVUL AND BZVUN)", "(BMGEB)"
+  for (const b of rest.matchAll(/\(([^)]*)\)/g)) for (const c of b[1].matchAll(/\bB[A-Z]{4}\b/g)) if (!codes.includes(c[0])) codes.push(c[0]);
+  const mb = rest.match(/^AND\s+(?:ULTRALIGHT\s+)?BUBBLES?\s+(.*?)\s*(?:\(|$)/);  // "TRG AREA AND ULTRALIGHT BUBBLE NR B-EAST (BMGEB)": the name follows the bubble words
+  const nameStr = mb ? mb[1] : rest.split(/\s+AND\s+(?:[A-Z]+\s+)*?ULTRALIGHT\b|\s+(?:ULTRALIGHT\s+)?BUBBLES?\b|\s*\(/)[0];
+  const names = nameStr.replace(/^NR\s+/, "").split(/\s*(?:,|&|\bAND\b)\s*/).map(s => s.trim()).filter(Boolean);
+  if (!names.length || names.some(s => !/^[A-Z0-9]+(?:[ -][A-Z0-9]+)*$/.test(s))) return miss("area names not understood");
+  const areas = [], rings = [];
+  for (const nm of names) {
+    const hit = TRAIN.get(trainKey(af, nm));
+    if (!hit) return miss(`${af} ${nm} is not in gis/manual/training-areas.json`);
+    for (const h of hit) { areas.push({ code: trainKey(af, nm), kind: "TRG", name: h.name }); rings.push(h.ring); }
+  }
+  const noBubble = codes.filter(c => !BUBBLES || !BUBBLES.has(c));
+  if (noBubble.length) return miss(`bubble ${noBubble.join(", ")} is not in gis/manual/bubbles.json`);   // all or nothing, never half a closure
+  for (const c of codes) { const b = BUBBLES.get(c); areas.push({ code: c, kind: "BUBBLE", name: b.name }); rings.push(b.ring); }
+  const qp = notam.qLine?.position || notam.position;
+  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null && rings.some(r => r.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)))
+    return { reject: `named area ${raw} reaches outside the Q-line circle`, missingArea: raw };
+  const parts = rings.map(r => ({ type: "polygon", coords: r.map(RP) }));
+  const main = parts.slice().sort((x, y) => areaNm2(y.coords) - areaNm2(x.coords))[0];
+  return { geometry: { source: "named", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
+}
 function namedArea(notam) {
   const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
   let hit = null;
@@ -721,7 +781,7 @@ function namedArea(notam) {
     if (hit) break;
   }
   if (!hit) return null;
-  if (hit.kind === "TRG") return { reject: `named area not in the GIS layers: ${hit.raw}`, missingArea: hit.raw };
+  if (hit.kind === "TRG") return trainingArea(notam, hit.raw);                    // v1.00.019: gis/manual/training-areas.json
   let code = hit.raw.replace(/\s+/g, "");
   if (!code) code = String(notam.location || "").toUpperCase();                   // "CTR CLSD": the CTR of field A
   const label = `${code || "?"} ${hit.kind === "PRD" ? "" : hit.kind}`.trim();
@@ -932,6 +992,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
   try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
   try { loadCorrections(mdir); } catch (e) { console.log(`notam-geometry: no text corrections (${e.message})`); }
+  try { loadTraining(mdir); } catch (e) { console.log(`notam-geometry: no training areas (${e.message}); training areas stay Q circles`); }
   try { loadAreas(odir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
