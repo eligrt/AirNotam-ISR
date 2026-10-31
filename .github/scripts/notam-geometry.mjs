@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.016 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.017 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -118,9 +118,16 @@
  *   - "patch"        a leg in a chart patch file refused by its distance check (a typo in the patch)
  *   - "Q/E mismatch" (v1.00.012) the NOTAM's own items disagree: the Item E area lies outside the Item Q circle
  *                    (both drawn, linked), or a border strip's direction word points away from Israel
+ *   - "name unknown" (v1.00.017) a closed-route chain holds a name the parser cannot read as a point name (not 4-5 letters)
+ *   - hint           (v1.00.017) a "rejected" / "unfamiliar" flag whose text holds a latitude typed with E instead of N
+ *                    ("315832E0344954E") says so in its reason. Nothing is drawn automatically: Eli decides by eye, and a confirmed
+ *                    typo is added by hand to gis/manual/text-corrections.json (one NOTAM number + the exact wrong text)
  *   - "unfamiliar"   no shape, but the text has words that usually describe an area or a line
  *                    (RADIUS, BOUNDARY, BOUNDED, SEMI-CIRCLE, ARC, CORRIDOR, RTE CLSD, BTN FLW, PSN,
  *                    CENTERED, "WI 5NM", coordinate-like numbers); ATS airways are ignored
+ *   Hand corrections: gis/manual/text-corrections.json lists NOTAMs whose Item E text is read with one fixed piece replaced
+ *   (NOTAM number + the exact wrong text + the right text + date + why). The geometry gets "corrected":<id>.
+ *   Administrative NOTAMs ("administrative": true, hidden in the app everywhere) are never flagged (v1.00.017).
  *   Each flag has a "key" = kind + the exact E text, so a NOTAM re-issued with the same text is not
  *   flagged again (the workflow keeps the keys already reported).
  *
@@ -188,6 +195,8 @@ const ROUTE_Q_SLACK_NM = 3; // route legs: published GIS lines may bend a little
 // style B: N314945E0345822
 const RX_A = /(?<![\dA-Z])(\d{4}|\d{6})(\.\d+)?N\s?(\d{5}|\d{7})(\.\d+)?E?(?![\d.])/g;
 const RX_B = /(?<![\dA-Z])N(\d{4}|\d{6})(\.\d+)?E(\d{5}|\d{7})(\.\d+)?(?![\d.])/g;
+// v1.00.017: a latitude typed with E instead of N ("315832E0344954E") is NEVER guessed; see TYPO_HINT and gis/manual/text-corrections.json
+const RX_TYPO = /(?<![\dA-Z])(3[1-3]\d{2}(?:\d{2})?)(\.\d+)?E\s?(03[4-6]\d{2}(?:\d{2})?)(\.\d+)?E(?![\d.A-Z])/;
 // anything that looks like a coordinate: used to catch typos that the strict patterns skip
 const RX_LOOSE = /\d{4,}(\.\d+)?N\s?\d{5,}|N\d{4,}E\d{5,}/g;
 
@@ -388,6 +397,12 @@ function buildStrip(id, km, dirWord) {
 // ROUTES[layer] = { seg: Map "A|B" -> [[lat,lon],...] from A to B, adj: Map A -> Set(B) }
 let ROUTES = null;
 let IFR_PTS = null;                                                                // v1.00.014: IFR point positions only (no airways)
+let CORRECTIONS = [];                                                              // v1.00.017: hand corrections (gis/manual/text-corrections.json)
+let IFR_ALIAS = {};                                                                // v1.00.017: other names of an extra point (LLLV -> LVTAN)
+// v1.00.017 (Eli): spellings the NOTAM writers use that mean a published point. Whole words, applied inside RTE CLSD NOTAMs only.
+//   YREHO / UREHO = YRIHO (Mitzpe Yericho), ENGDE = ENGDI (Ein Gedi), DUMIN = DUMIM, BGN = LLBG (Ben Gurion; this one spelling only)
+const SPELL = { YREHO: "YRIHO", UREHO: "YRIHO", ENGDE: "ENGDI", DUMIN: "DUMIM", BGN: "LLBG" };
+const RX_SPELL = new RegExp(String.raw`\b(?:${Object.keys(SPELL).join("|")})\b`, "g");
 const ROUTE_LAYERS = ["cvfr", "sport"];
 export const PATCH_ERRORS = [];                                                   // refused patch legs, reported as flags
 // ── GIS patch (gis/<layer>-patch-*.json laid over gis/<layer>.json) ──
@@ -476,6 +491,13 @@ export function loadRoutes(dir, patchDir = dir) {
   IFR_PTS = new Map();
   try { for (const f of JSON.parse(readFileSync(`${dir}/ifr.json`, "utf8")).p.features) { const [lon, lat] = f.geometry.coordinates; IFR_PTS.set(f.properties.c, [lat, lon]); } }
   catch (e) { IFR_PTS = new Map(); }
+  // v1.00.017: gis/manual/extra-points.json = points missing from the official files, read from a chart (INBAR, FOMMA, LVTAN, MARIB)
+  IFR_ALIAS = {};
+  try {
+    const x = JSON.parse(readFileSync(`${patchDir}/extra-points.json`, "utf8"));
+    for (const q of x.points || []) if (q.c && Number.isFinite(q.lat) && Number.isFinite(q.lon) && !IFR_PTS.has(q.c)) IFR_PTS.set(q.c, [q.lat, q.lon]);
+    IFR_ALIAS = x.aliases || {};
+  } catch (e) { if (e.code !== "ENOENT") PATCH_ERRORS.push(`extra-points.json: could not be read (${e.message})`); }
 }
 const al = (layer, c) => ROUTES[layer].alias[c] || c;                           // chart patch aliases (per layer)
 function lineKm(line) { let d = 0; for (let i = 0; i < line.length - 1; i++) d += Math.hypot(...kmVec(line[i], line[i + 1])); return d; }
@@ -491,11 +513,12 @@ function findLeg(layer, a, b) {
     for (const n of adj.get(last)) if (!p.includes(n)) walk(p.concat(n));
   };
   walk([a]);
-  if (paths.length !== 1) return null;                                           // none, or ambiguous
-  const p = paths[0]; let coords = [];
-  for (let i = 0; i < p.length - 1; i++) coords = coords.concat(i ? seg.get(`${p[i]}|${p[i + 1]}`).slice(1) : seg.get(`${p[i]}|${p[i + 1]}`));
-  const straight = Math.hypot(...kmVec(coords[0], coords[coords.length - 1]));
-  if (!(straight > 0) || lineKm(coords) > 1.3 * straight) return null;           // a detour, not the same leg
+  // v1.00.017 (Eli, issues #16 / #17 / #18): paths longer than 1.3 x the straight distance are thrown out FIRST,
+  // then the leg is drawn only if exactly one path is left (a long second chain no longer hides the short one)
+  const build = p => { let c = []; for (let i = 0; i < p.length - 1; i++) c = c.concat(i ? seg.get(`${p[i]}|${p[i + 1]}`).slice(1) : seg.get(`${p[i]}|${p[i + 1]}`)); return c; };
+  const ok = paths.filter(p => { const c = build(p), st = Math.hypot(...kmVec(c[0], c[c.length - 1])); return st > 0 && lineKm(c) <= 1.3 * st; });
+  if (ok.length !== 1) return null;                                              // none, or still ambiguous
+  const p = ok[0], coords = build(p);
   return { coords, via: p.slice(1, -1) };
 }
 const RX_CHAIN = /\b[A-Z][A-Z0-9]{3,4}(?:-[A-Z][A-Z0-9]{3,4})+\b/g;
@@ -542,17 +565,17 @@ function straightLeg(a, b, pref) {
   const vfr = c => { for (const l of order) { const q = ROUTES[l].pts.get(al(l, c)); if (q) return q; } return null; };
   const va = vfr(a), vb = vfr(b);
   if (va && vb) return null;                                                      // both VFR points: not this rule
-  const pa = va || IFR_PTS.get(a), pb = vb || IFR_PTS.get(b);
+  const pa = va || IFR_PTS.get(IFR_ALIAS[a] || a), pb = vb || IFR_PTS.get(IFR_ALIAS[b] || b);
   if (!pa || !pb) return null;
   return { type: "line", coords: [pa, pb].map(RP), leg: `${a}-${b}`, layer: pref[0] || "cvfr", t: "", straight: true };
 }
 const ptName = (layer, c) => ROUTES[layer].names.get(al(layer, c)) || c;
 function routeLegs(notam) {
-  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "").replace(RX_SPELL, w => SPELL[w]);   // v1.00.017: known spellings
   if (!/\bRTE\b/.test(text) || !/\bCLSD\b/.test(text) || /\bATS\s+RTE\b/.test(text)) return null;
   if (!ROUTES) return { reject: "route layers not available" };
   const cut = text.search(/\bDIVERT/), closedPart = cut < 0 ? text : text.slice(0, cut), divPart = cut < 0 ? "" : text.slice(cut);
-  const legs = [], seen = new Set();
+  const legs = [], seen = new Set(), unknown = new Set();
   let layers = null, lastLayers = ["cvfr"];                                      // layers of the last "RTE ... CLSD" sentence
   for (const s of closedPart.split(/\.(?=\s|$|\))/)) {
     const chains = s.match(RX_CHAIN) || [];
@@ -563,6 +586,8 @@ function routeLegs(notam) {
       lastLayers = layers;
     } else if (!(layers && isChainList(s))) { layers = null; continue; }        // some other sentence: stop reading legs
     chainLegs(chains, layers, legs, seen);
+    // v1.00.017 (Eli, issue #18): a name in a closed-route chain that is not 4-5 letters was skipped silently; now it is reported
+    for (const tok of s.replace(/\bFLY-PAST\b/g, " ").match(/[A-Z0-9]+(?:-[A-Z0-9]+)+/g) || []) for (const nm of tok.split("-")) if (!/^[A-Z][A-Z0-9]{3,4}$/.test(nm)) unknown.add(nm);
   }
   // ── the diversion (open) ──
   const divParts = []; let divNames = null;
@@ -638,6 +663,7 @@ function routeLegs(notam) {
   if (divOk && divNames) g.diversionNames = divNames;
   if (missing.length) g.missing = missing;
   if (outQ.length) g.outsideQ = outQ;
+  if (unknown.size) g.unknownNames = [...unknown];
   return { geometry: g };
 }
 
@@ -698,6 +724,15 @@ function namedArea(notam) {
 
 // ── ultralight bubbles (v1.00.015): "ULTRALIGHT BUBBLE CLSD HAHULA (BHULA), KARMIEL (BKRML)." ──
 let BUBBLES = null;                                                               // code -> {name, ring [[lat,lon],...]}
+// v1.00.017 (Eli, 2026-10-31): hand corrections of one NOTAM's text. Applied only when the NOTAM number matches AND the "wrong" text
+// is found exactly in Item E; the stored NOTAM is never changed, only the text the shape is read from. Anything else: no effect.
+export function loadCorrections(dir) {
+  CORRECTIONS = [];
+  try { for (const c of JSON.parse(readFileSync(`${dir}/text-corrections.json`, "utf8")).corrections || []) if (c.id && c.wrong && c.right) CORRECTIONS.push(c); }
+  catch (e) { if (e.code !== "ENOENT") PATCH_ERRORS.push(`text-corrections.json: could not be read (${e.message})`); }
+}
+const correctionFor = n => CORRECTIONS.find(c => c.id === n.id && String(n.eText || "").includes(c.wrong));
+const typoHint = t => RX_TYPO.test(t) ? " (looks like a latitude typed with E instead of N: " + t.match(RX_TYPO)[0] + ")" : "";
 export function loadBubbles(dir) {
   BUBBLES = new Map();
   const fc = JSON.parse(readFileSync(`${dir}/bubbles.json`, "utf8"));
@@ -828,14 +863,17 @@ export function flagsFor(notams) {
   const add = (n, kind, reason) => out.push({ key: kind + "|" + String(n.eText || "").replace(/\s+/g, " ").trim(),
     id: n.id, kind, reason, qLine: n.qLine || null, fromDate: n.fromDate || null, toDate: n.toDate || null, eText: n.eText || "" });
   for (const n of notams) {
+    if (n.administrative) continue;                                              // v1.00.017: administrative NOTAMs are hidden in the app, never flagged
     const t = String(n.eText || "").toUpperCase(), g = n.geometry;
     if (n.geometryReject && /^named area /.test(n.geometryReject)) { add(n, "area missing", n.geometryReject); continue; }
-    if (n.geometryReject) { add(n, "rejected", n.geometryReject); continue; }
+    if (n.geometryReject) { add(n, "rejected", n.geometryReject + typoHint(t)); continue; }
     if (g && g.stripFlag) { add(n, "outward", g.stripFlag); continue; }
+    if (g && g.unknownNames) { add(n, "name unknown", "closed-route chain has a name the parser cannot read as a point: " + g.unknownNames.join(", ") + (g.missing ? "; legs not in the GIS: " + g.missing.join(", ") : "")); continue; }
     if (g && g.missing) { add(n, "legs missing", "route legs not in the GIS: " + g.missing.join(", ")); continue; }
     if (g && g.outsideQ) { add(n, "outside Q", "route legs reach outside the NOTAM's Q circle, not drawn: " + g.outsideQ.join(", ")); continue; }
     const wd = g && g.parts ? [...new Set(g.parts.flatMap(p => p.withdrawn || []))] : [];
     if (wd.length) { add(n, "withdrawn", "uses what the 2025 chart withdrew: " + wd.join(", ")); continue; }
+    if (g && g.corrected && g.mismatch && g.mismatch.kind === "q-e") continue;     // hand-corrected NOTAM: the Q/E gap is the reason for the correction, already reviewed
     if (g && g.mismatch && g.mismatch.kind === "q-e") { const q = n.qLine?.position || n.position || {};
       add(n, "Q/E mismatch", `Item Q position (${q.lat},${q.lon} r=${q.radiusNm}NM) does not cover the Item E area: ${g.mismatch.distNm} NM apart; both drawn, linked`); continue; }
     if (g && g.mismatch && g.mismatch.kind === "e-dir") {
@@ -843,7 +881,7 @@ export function flagsFor(notams) {
     if (g && g.note === "semi-circle drawn as full circle") { add(n, "semi-circle", "semi-circle with no side, drawn as a full circle"); continue; }
     if (g || !t || /\bATS\s+RTE\b/.test(t)) continue;
     const hits = AREA_WORDS.filter(([, rx]) => { rx.lastIndex = 0; return rx.test(t); }).map(([w]) => w);
-    if (hits.length) add(n, "unfamiliar", "no shape, but the text has: " + hits.join(", "));
+    if (hits.length) add(n, "unfamiliar", "no shape, but the text has: " + hits.join(", ") + typoHint(t));
   }
   return out;
 }
@@ -853,7 +891,8 @@ export function addGeometry(notams) {
   for (const n of notams) {
     delete n.geometry; delete n.geometryReject; delete n.geometryFlag;
     let res = null;
-    try { res = geometryFor(n); } catch (e) { res = { reject: "parser error: " + e.message }; }
+    const cor = correctionFor(n);
+    try { res = geometryFor(cor ? Object.assign({}, n, { eText: n.eText.replace(cor.wrong, cor.right) }) : n); if (cor && res.geometry) res.geometry.corrected = cor.id; } catch (e) { res = { reject: "parser error: " + e.message }; }
     if (res?.geometry) { n.geometry = res.geometry; stats.shaped++; }
     else if (res?.reject) { n.geometryReject = res.reject; stats.rejected++; }
     else stats.none++;
@@ -874,6 +913,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const odir = join(dirname(mdir), "rata-official");                              // gis/rata-official: the official Rata files
   try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
   try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
+  try { loadCorrections(mdir); } catch (e) { console.log(`notam-geometry: no text corrections (${e.message})`); }
   try { loadAreas(odir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
