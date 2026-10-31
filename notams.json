@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T06:31:09.611Z",
+  "generatedAt": "2026-10-31T07:00:12.824Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
@@ -116,21 +116,53 @@
             "layer": "cvfr",
             "t": "",
             "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.75381,
+                34.93693
+              ],
+              [
+                32.600278,
+                34.805278
+              ]
+            ],
+            "leg": "HOTRM-LLLV",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.59194,
+                34.94639
+              ],
+              [
+                32.600278,
+                34.805278
+              ]
+            ],
+            "leg": "FRDIS-LLLV",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
           }
         ],
         "anchor": [
-          32.722225,
-          34.99653
+          32.677044,
+          34.871104
         ],
-        "missing": [
-          "HOTRM-LLLV",
-          "FRDIS-LLLV",
+        "outsideQ": [
           "SDTYM-LLLV"
         ]
       },
       "geometryFlag": {
-        "kind": "legs missing",
-        "reason": "route legs not in the GIS: HOTRM-LLLV, FRDIS-LLLV, SDTYM-LLLV"
+        "kind": "outside Q",
+        "reason": "route legs reach outside the NOTAM's Q circle, not drawn: SDTYM-LLLV"
       }
     },
     {
@@ -478,19 +510,29 @@
             "layer": "cvfr",
             "t": "",
             "straight": true
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.84111,
+                34.98111
+              ],
+              [
+                33.090833,
+                34.603056
+              ]
+            ],
+            "leg": "GALIM-INBAR",
+            "layer": "cvfr",
+            "t": "",
+            "straight": true
           }
         ],
         "anchor": [
           32.505275,
           34.486805
-        ],
-        "missing": [
-          "GALIM-INBAR"
         ]
-      },
-      "geometryFlag": {
-        "kind": "legs missing",
-        "reason": "route legs not in the GIS: GALIM-INBAR"
       }
     },
     {
@@ -1342,19 +1384,40 @@
             "leg": "AFULA-EITAN",
             "layer": "cvfr",
             "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.495556,
+                35.533611
+              ],
+              [
+                32.5975,
+                35.54361
+              ],
+              [
+                32.71417,
+                35.54583
+              ],
+              [
+                32.87,
+                35.5325
+              ]
+            ],
+            "leg": "EITAN-DESHE",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL",
+            "via": [
+              "KOYAR",
+              "ALUMT"
+            ]
           }
         ],
         "anchor": [
-          32.549051,
-          35.404196
-        ],
-        "missing": [
-          "EITAN-DESHE"
+          32.682802,
+          35.545233
         ]
-      },
-      "geometryFlag": {
-        "kind": "legs missing",
-        "reason": "route legs not in the GIS: EITAN-DESHE"
       }
     },
     {
@@ -2943,11 +3006,7 @@
       "notamType": "N",
       "replaces": null,
       "rawText": "C2150/26 NOTAMN Q) LLLL/QOATT/IV/BO /AE/000/999/3259N03534E005 A) LLIB B) 2611260001 C) 2612092159 E) TRIGGER NOTAM - AIRAC DOM AIP AMDT 02/26 WEF 26 NOV 2026 COOR VOR PROC EXER, TWR PHONE NR UPDATED, PRKG OF GLD, RESPONSIBILITY OF PILOT/TWR, WING SPAN ON APN M, WINDSOCKS LOCATIONS UPDATED, CTR BOUNDARY UPDATED, NISPACH B UPDATED.)",
-      "rowID": "2069506",
-      "geometryFlag": {
-        "kind": "unfamiliar",
-        "reason": "no shape, but the text has: BOUNDARY"
-      }
+      "rowID": "2069506"
     },
     {
       "id": "C2151/26",

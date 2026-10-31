@@ -98,5 +98,10 @@
     "id": "C2269/26",
     "kind": "legs missing",
     "first": "2026-10-25"
+  },
+  "outside Q|HEL RTE CLSD GALIM-DAROM-ATLIT-HASID. ATLIT-FRDIS. HOTRM-LLLV. FRDIS-LLLV. SDTYM-LLLV.": {
+    "id": "C2269/26",
+    "kind": "outside Q",
+    "first": "2026-10-31"
   }
 }
