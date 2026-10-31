@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.017 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.018 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -497,6 +497,24 @@ export function loadRoutes(dir, patchDir = dir) {
     const x = JSON.parse(readFileSync(`${patchDir}/extra-points.json`, "utf8"));
     for (const q of x.points || []) if (q.c && Number.isFinite(q.lat) && Number.isFinite(q.lon) && !IFR_PTS.has(q.c)) IFR_PTS.set(q.c, [q.lat, q.lon]);
     IFR_ALIAS = x.aliases || {};
+    // v1.00.018 (Eli, issue #21 C2269): published straight legs read from the HEL chart (SDTYM-LVTAN 7.3 NM, FRDIS-LVTAN 7.1, FOMMA-LVTAN 8.0,
+    // HOTRM-FOMMA 3.7). Each joins two named points with a straight line and goes into the CVFR layer (HEL routes use it) as an ordinary published
+    // leg, so a NOTAM leg that skips a point (HOTRM-LLLV = HOTRM-FOMMA-LVTAN) is filled in, and an exact leg is not limited by the Q circle.
+    // The chart prints each leg's length: a leg whose computed length differs by more than 5 percent (min 0.3 NM) is refused and flagged.
+    const R = ROUTES.cvfr;
+    for (const [k, v] of Object.entries(x.aliases || {})) if (!R.alias[k]) R.alias[k] = v;
+    for (const l of x.legs || []) {
+      const pa = R.pts.get(l.a) || IFR_PTS.get(l.a), pb = R.pts.get(l.b) || IFR_PTS.get(l.b);   // only the ends of a leg become route points (INBAR stays a straight IFR leg)
+      if (!pa || !pb) { PATCH_ERRORS.push(`extra-points.json: leg ${l.a}-${l.b}: a point is unknown`); continue; }
+      const len = Math.hypot(...kmVec(pa, pb)) / 1.852;
+      if (Math.abs(len - l.nm) > Math.max(0.3, 0.05 * l.nm)) { PATCH_ERRORS.push(`extra-points.json: leg ${l.a}-${l.b}: ${len.toFixed(1)} NM computed, ${l.nm} NM printed on the chart; not used`); continue; }
+      if (R.seg.has(`${l.a}|${l.b}`)) continue;                                  // the official file already has it
+      if (!R.pts.has(l.a)) R.pts.set(l.a, pa); if (!R.pts.has(l.b)) R.pts.set(l.b, pb);
+      R.seg.set(`${l.a}|${l.b}`, [pa, pb]); R.seg.set(`${l.b}|${l.a}`, [pb, pa]);
+      R.segT.set(`${l.a}|${l.b}`, ""); R.segT.set(`${l.b}|${l.a}`, "");
+      if (!R.adj.has(l.a)) R.adj.set(l.a, new Set()); if (!R.adj.has(l.b)) R.adj.set(l.b, new Set());
+      R.adj.get(l.a).add(l.b); R.adj.get(l.b).add(l.a);
+    }
   } catch (e) { if (e.code !== "ENOENT") PATCH_ERRORS.push(`extra-points.json: could not be read (${e.message})`); }
 }
 const al = (layer, c) => ROUTES[layer].alias[c] || c;                           // chart patch aliases (per layer)
