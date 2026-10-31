@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.074 · built by eligrt
+     AirNotam-ISR · v1.08.075 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1674,9 +1674,15 @@ body.lv #list{padding-top:62px;}
 .lp-arr{left:56px;top:0;display:none;z-index:6;}
 .lp-arr.open{display:block;}
 /* v1.08.074: layers and charts panels fade in, and fade out before the next popup opens */
-@keyframes lpIn{from{opacity:0}to{opacity:1}}
-.lcur.open,.lp.open,.lp-arr.open{animation:lpIn .18s ease;}
-.lcur.fo,.lp.fo,.lp-arr.fo{opacity:0;transition:opacity .16s ease;}
+/* v1.08.075: the same glide as the red pill: the layers panel grows out of the layers button, the charts panel out of the charts button, and each shrinks back */
+@keyframes lcIn{from{opacity:0;transform:translateX(-10px) scale(.72)}to{opacity:1;transform:none}}
+@keyframes lpIn{from{opacity:0;transform:translateX(-50%) translateY(10px) scale(.78)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes laIn{from{opacity:0}to{opacity:1}}
+.lcur{transform-origin:-39px 30px;} .lp{transform-origin:0 100%;}
+.lcur.open{animation:lcIn .32s cubic-bezier(.3,.8,.3,1);} .lp.open{animation:lpIn .32s cubic-bezier(.3,.8,.3,1);} .lp-arr.open{animation:laIn .22s ease;}
+.lcur.fo{opacity:0;transform:translateX(-10px) scale(.72);transition:opacity .2s ease,transform .22s cubic-bezier(.4,0,.6,1);}
+.lp.fo{opacity:0;transform:translateX(-50%) translateY(10px) scale(.78);transition:opacity .2s ease,transform .22s cubic-bezier(.4,0,.6,1);}
+.lp-arr.fo{opacity:0;transition:opacity .2s ease;}
 @media (prefers-reduced-motion:reduce){.lcur.open,.lp.open,.lp-arr.open{animation:none;} .lcur.fo,.lp.fo,.lp-arr.fo{transition:none;}}
 .lp-div{border-top:2px dashed #b9ab86;margin:6px 2px;}   /* v1.08.069: soft beige dashed divider */
 #gc_sport.lp-li.rt,#lp_sl_sport{border-bottom:0 !important;}
@@ -1745,10 +1751,10 @@ body.lv #list{padding-top:62px;}
 /* v1.08.023: stage 2 - route and time popups beside their buttons, new drawing buttons */
 .ppw{display:block;pointer-events:none;position:absolute;inset:0;z-index:1320;direction:rtl;}   /* v1.08.074: always there (never catches taps while no popup is open), so a closing popup can fade out */
 .ppw:has(.pp.show){pointer-events:auto;}
-.pp-scrim{position:absolute;inset:0;background:rgba(14,35,72,.22);opacity:0;transition:opacity .16s ease;}
-.ppw:has(.pp.show) .pp-scrim{opacity:1;}
-.pp{position:absolute;left:68px;top:40px;width:272px;max-width:calc(100% - 78px);box-sizing:border-box;background:#fbf6e8;border:3px solid #1c3d6e;border-radius:20px;box-shadow:0 2px 8px rgba(14,35,72,.35);visibility:hidden;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .16s ease,transform .16s ease,visibility 0s linear .16s;font-family:var(--font-ui);}
-.pp.show{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .16s ease;}
+.pp-scrim{position:absolute;inset:0;background:rgba(14,35,72,.22);opacity:0;transition:opacity .22s ease .12s;}
+.ppw:has(.pp.show) .pp-scrim{opacity:1;transition:opacity .28s ease;}
+.pp{position:absolute;left:68px;top:40px;width:272px;max-width:calc(100% - 78px);box-sizing:border-box;background:#fbf6e8;border:3px solid #1c3d6e;border-radius:20px;box-shadow:0 2px 8px rgba(14,35,72,.35);visibility:hidden;opacity:0;transform:scale(.72);transform-origin:-36px 30px;transition:opacity .2s ease,transform .22s cubic-bezier(.4,0,.6,1),visibility 0s linear .22s;font-family:var(--font-ui);}   /* v1.08.075: closing = shrinks back into its button */
+.pp.show{visibility:visible;opacity:1;transform:none;transition:opacity .22s ease,transform .32s cubic-bezier(.3,.8,.3,1);}   /* v1.08.075: opening = the same glide as the red NOTAM pill */
 /* v1.08.071: the pointer of every popup: a navy triangle with a cream triangle on top, running 3 px into the border, so the frame line flows into it with no notch */
 .pp-arr,.lp-arr{position:absolute;width:13px;height:20px;pointer-events:none;}
 .pp-arr{left:-13px;top:17px;}
@@ -2012,7 +2018,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.074 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.075 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2153,7 +2159,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.074 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.075 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2510,6 +2516,7 @@ function ppPlace(id,btn){
   const cy=br.top+br.height/2-wr.top, h=p.offsetHeight;
   let top=cy-30; top=Math.min(top,wr.height-h-8); top=Math.max(8,top);
   p.style.top=Math.round(top)+"px"; p.style.left=Math.round(br.right-wr.left+14)+"px";
+  p.style.transformOrigin=(-Math.round(br.width/2+14))+"px "+Math.round(cy-top)+"px";   // v1.08.075: grows out of (and shrinks back into) its own button
   const ar=p.querySelector(".pp-arr"); if(ar) ar.style.top=(Math.max(30,Math.min(h-30,Math.round(cy-top)))-13)+"px";   // v1.08.071: pointer centre level with the button; -13 = 10 half height + 3 border
 }
 // v1.08.024: while a popup grows (custom time fields), it slides up frame by frame so it never opens down past the screen
@@ -2530,15 +2537,16 @@ const CURTAINS=["rdy","rte"];
 const TILE_DLGS=["rte","fdlg","rdy"]; let _swT=null;
 // v1.08.074: ONE rule for every popup swap (route, time, readiness, charts, layers, the NOTAM pill, the review): the open one fades out, the new one opens about a third of a second later.
 // A popup that was closed a moment ago (by the dim sheet, or by the tap itself) counts too, so the gap is always the same.
-const POP_SWAP=380; let POP_LASTCLOSE=0;
+const POP_SWAP=140, POP_SLOW=380; let POP_LASTCLOSE=0;   // v1.08.075: the new popup starts while the old one is still shrinking; the readiness curtain and the review need their longer close
 function popNote(){ POP_LASTCLOSE=Date.now(); }
 function seqOpen(id,fn){
   clearTimeout(_swT); let closed=false;
-  if(RV.on){ rvClose(); closed=true; }   // v1.07.036: the review curtain closes itself first, like any other curtain
-  TILE_DLGS.forEach(c=>{ if(c!==id&&document.getElementById(c).classList.contains("show")){ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); closed=true; } });
+  let slow=false;
+  if(RV.on){ rvClose(); closed=true; slow=true; }   // v1.07.036: the review curtain closes itself first, like any other curtain
+  TILE_DLGS.forEach(c=>{ if(c!==id&&document.getElementById(c).classList.contains("show")){ if(c==="fdlg") closeFlightDlg(); else closeCurtain(c); closed=true; if(c==="rdy") slow=true; } });
   if(LP_OPEN&&LP_OPEN!==id){ lyrSet(null); closed=true; }
   const pl=document.getElementById("mbPill"); if(pl&&id!=="pill"&&pl.classList.contains("open")){ mbPillClose(); closed=true; }
-  const wait= closed? POP_SWAP : POP_SWAP-(Date.now()-POP_LASTCLOSE);
+  const gap=slow? POP_SLOW : POP_SWAP, wait= closed? gap : gap-(Date.now()-POP_LASTCLOSE);
   if(wait<=25) return false;
   _swT=setTimeout(fn,wait); return true;
 }
@@ -4318,7 +4326,7 @@ function lpPlace(){   // the layers popup opens right next to its button, at the
   const f=lpEl("lpSt2"); if(f){ f.style.top=(top+c.offsetHeight+8)+"px"; f.style.display=(LP_OPEN==="layers"&&f.textContent)?"block":"none"; }
 }
 function lpFit(){ if(LP_OPEN==="layers") lpPlace(); }
-function lpFadeSet(el,on){ if(!el) return; clearTimeout(el._ft); if(on){ el.classList.remove("fo"); el.classList.add("open"); } else if(el.classList.contains("open")){ el.classList.add("fo"); el._ft=setTimeout(()=>el.classList.remove("open","fo"),170); } }
+function lpFadeSet(el,on){ if(!el) return; clearTimeout(el._ft); if(on){ el.classList.remove("fo"); el.classList.add("open"); } else if(el.classList.contains("open")){ el.classList.add("fo"); el._ft=setTimeout(()=>el.classList.remove("open","fo"),240); } }
 function lyrSet(w){
   w=w||null; if(w===LP_OPEN) return;
   if(w){ if(seqOpen(w,()=>lyrSet(w))) return; try{closeCurtains();}catch(_){} if(MAP) MAP.closePopup(); }   // v1.08.074: the open popup fades out first
@@ -4731,7 +4739,7 @@ function alog(t){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.074 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.075 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
