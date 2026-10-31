@@ -1,0 +1,1097 @@
+{
+ "type": "FeatureCollection",
+ "tool": "training-area-tool v1.00.001",
+ "saved": "2026-10-31T09:38:10.242Z",
+ "areas": [
+  {
+   "id": "LLHA A",
+   "airfield": "LLHA",
+   "area": "A",
+   "name": "Haifa A",
+   "notam": "LLHA TRG AREA NR A",
+   "checked": true
+  },
+  {
+   "id": "LLHA B",
+   "airfield": "LLHA",
+   "area": "B",
+   "name": "Haifa B",
+   "notam": "LLHA TRG AREA NR B",
+   "checked": true
+  },
+  {
+   "id": "LLHA C",
+   "airfield": "LLHA",
+   "area": "C",
+   "name": "Haifa C",
+   "notam": "LLHA TRG AREA NR C",
+   "checked": true
+  },
+  {
+   "id": "LLMG A-WEST",
+   "airfield": "LLMG",
+   "area": "A-WEST",
+   "name": "Megiddo A-West",
+   "notam": "LLMG TRG AREA NR A-WEST",
+   "checked": true
+  },
+  {
+   "id": "LLMG A-EAST",
+   "airfield": "LLMG",
+   "area": "A-EAST",
+   "name": "Megiddo A-East",
+   "notam": "LLMG TRG AREA NR A-EAST",
+   "checked": true
+  },
+  {
+   "id": "LLMG B-WEST",
+   "airfield": "LLMG",
+   "area": "B-WEST",
+   "name": "Megiddo B-West",
+   "notam": "LLMG TRG AREA NR B-WEST",
+   "checked": true
+  },
+  {
+   "id": "LLMG B-EAST",
+   "airfield": "LLMG",
+   "area": "B-EAST",
+   "name": "Megiddo B-East",
+   "notam": "LLMG TRG AREA NR B-EAST",
+   "checked": true
+  },
+  {
+   "id": "LLIB A",
+   "airfield": "LLIB",
+   "area": "A",
+   "name": "Rosh Pina A",
+   "notam": "LLIB TRG AREA NR A",
+   "checked": true
+  },
+  {
+   "id": "LLIB B",
+   "airfield": "LLIB",
+   "area": "B",
+   "name": "Rosh Pina B (2000-3500)",
+   "notam": "LLIB TRG AREA NR B",
+   "checked": true
+  },
+  {
+   "id": "LLIB B-UPPER",
+   "airfield": "LLIB",
+   "area": "B-UPPER",
+   "name": "Rosh Pina B upper (4000-6000)",
+   "notam": "LLIB TRG AREA NR B",
+   "checked": true
+  },
+  {
+   "id": "LLER HAR BERECH",
+   "airfield": "LLER",
+   "area": "HAR BERECH",
+   "name": "Har Berech",
+   "notam": "LLER TRG AREA HAR BERECH",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 3",
+   "airfield": "LLHZ",
+   "area": "3",
+   "name": "Herzliya 3",
+   "notam": "LLHZ TRG AREA NR 3",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 8",
+   "airfield": "LLHZ",
+   "area": "8",
+   "name": "Herzliya 8",
+   "notam": "LLHZ TRG AREA NR 8",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 9",
+   "airfield": "LLHZ",
+   "area": "9",
+   "name": "Herzliya 9",
+   "notam": "LLHZ TRG AREA NR 9",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 11",
+   "airfield": "LLHZ",
+   "area": "11",
+   "name": "Herzliya 11",
+   "notam": "LLHZ TRG AREA NR 11",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 12",
+   "airfield": "LLHZ",
+   "area": "12",
+   "name": "Herzliya 12",
+   "notam": "LLHZ TRG AREA NR 12",
+   "checked": true
+  },
+  {
+   "id": "LLHZ 13",
+   "airfield": "LLHZ",
+   "area": "13",
+   "name": "Herzliya 13",
+   "notam": "LLHZ TRG AREA NR 13",
+   "checked": true
+  },
+  {
+   "id": "EILAT WEST COAST",
+   "airfield": "EILAT",
+   "area": "WEST COAST",
+   "name": "Eilat west coast",
+   "notam": "",
+   "checked": true
+  }
+ ],
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHA A",
+    "airfield": "LLHA",
+    "area": "A",
+    "name": "Haifa A",
+    "notam": "LLHA TRG AREA NR A",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.101644,
+       32.914198
+      ],
+      [
+       35.127462,
+       32.910579
+      ],
+      [
+       35.125454,
+       32.877351
+      ],
+      [
+       35.12412,
+       32.849661
+      ],
+      [
+       35.104202,
+       32.855192
+      ],
+      [
+       35.101644,
+       32.914198
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHA B",
+    "airfield": "LLHA",
+    "area": "B",
+    "name": "Haifa B",
+    "notam": "LLHA TRG AREA NR B",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.153999,
+       32.832097
+      ],
+      [
+       35.134769,
+       32.831904
+      ],
+      [
+       35.134078,
+       32.847754
+      ],
+      [
+       35.137201,
+       32.907907
+      ],
+      [
+       35.168448,
+       32.908482
+      ],
+      [
+       35.180679,
+       32.889384
+      ],
+      [
+       35.153999,
+       32.832097
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHA C",
+    "airfield": "LLHA",
+    "area": "C",
+    "name": "Haifa C",
+    "notam": "LLHA TRG AREA NR C",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.098639,
+       32.965946
+      ],
+      [
+       35.14826,
+       32.963477
+      ],
+      [
+       35.161636,
+       32.947819
+      ],
+      [
+       35.157348,
+       32.917457
+      ],
+      [
+       35.097783,
+       32.923935
+      ],
+      [
+       35.098639,
+       32.965946
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLMG A-WEST",
+    "airfield": "LLMG",
+    "area": "A-WEST",
+    "name": "Megiddo A-West",
+    "notam": "LLMG TRG AREA NR A-WEST",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.290888,
+       32.616809
+      ],
+      [
+       35.293622,
+       32.64316
+      ],
+      [
+       35.301593,
+       32.706169
+      ],
+      [
+       35.326036,
+       32.738221
+      ],
+      [
+       35.346636,
+       32.759961
+      ],
+      [
+       35.372638,
+       32.762784
+      ],
+      [
+       35.403404,
+       32.772466
+      ],
+      [
+       35.4056,
+       32.744199
+      ],
+      [
+       35.407098,
+       32.70734
+      ],
+      [
+       35.414506,
+       32.686892
+      ],
+      [
+       35.402515,
+       32.67794
+      ],
+      [
+       35.364978,
+       32.652037
+      ],
+      [
+       35.32386,
+       32.63262
+      ],
+      [
+       35.290888,
+       32.616809
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLMG A-EAST",
+    "airfield": "LLMG",
+    "area": "A-EAST",
+    "name": "Megiddo A-East",
+    "notam": "LLMG TRG AREA NR A-EAST",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.44751,
+       32.780011
+      ],
+      [
+       35.456349,
+       32.787628
+      ],
+      [
+       35.486198,
+       32.787744
+      ],
+      [
+       35.504467,
+       32.773755
+      ],
+      [
+       35.528849,
+       32.764137
+      ],
+      [
+       35.540078,
+       32.744433
+      ],
+      [
+       35.549488,
+       32.723016
+      ],
+      [
+       35.506068,
+       32.71245
+      ],
+      [
+       35.441711,
+       32.725217
+      ],
+      [
+       35.420411,
+       32.700247
+      ],
+      [
+       35.416817,
+       32.70923
+      ],
+      [
+       35.415985,
+       32.739595
+      ],
+      [
+       35.413133,
+       32.775884
+      ],
+      [
+       35.42241,
+       32.77892
+      ],
+      [
+       35.44751,
+       32.780011
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLMG B-WEST",
+    "airfield": "LLMG",
+    "area": "B-WEST",
+    "name": "Megiddo B-West",
+    "notam": "LLMG TRG AREA NR B-WEST",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.342818,
+       32.630493
+      ],
+      [
+       35.367444,
+       32.642103
+      ],
+      [
+       35.407463,
+       32.669147
+      ],
+      [
+       35.416286,
+       32.675812
+      ],
+      [
+       35.430018,
+       32.658405
+      ],
+      [
+       35.441931,
+       32.637945
+      ],
+      [
+       35.434359,
+       32.590411
+      ],
+      [
+       35.411928,
+       32.549783
+      ],
+      [
+       35.383525,
+       32.555948
+      ],
+      [
+       35.354438,
+       32.56039
+      ],
+      [
+       35.331901,
+       32.572454
+      ],
+      [
+       35.31726,
+       32.590616
+      ],
+      [
+       35.342818,
+       32.630493
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLMG B-EAST",
+    "airfield": "LLMG",
+    "area": "B-EAST",
+    "name": "Megiddo B-East",
+    "notam": "LLMG TRG AREA NR B-EAST",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.424452,
+       32.690117
+      ],
+      [
+       35.445299,
+       32.715088
+      ],
+      [
+       35.478943,
+       32.70794
+      ],
+      [
+       35.506486,
+       32.702328
+      ],
+      [
+       35.548318,
+       32.712516
+      ],
+      [
+       35.520159,
+       32.608525
+      ],
+      [
+       35.518677,
+       32.507888
+      ],
+      [
+       35.467797,
+       32.529605
+      ],
+      [
+       35.421844,
+       32.547279
+      ],
+      [
+       35.444053,
+       32.587525
+      ],
+      [
+       35.452095,
+       32.640213
+      ],
+      [
+       35.436364,
+       32.667367
+      ],
+      [
+       35.423081,
+       32.683819
+      ],
+      [
+       35.424452,
+       32.690117
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLIB A",
+    "airfield": "LLIB",
+    "area": "A",
+    "name": "Rosh Pina A",
+    "notam": "LLIB TRG AREA NR A",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.570303,
+       33.169986
+      ],
+      [
+       35.571196,
+       33.220967
+      ],
+      [
+       35.632108,
+       33.224188
+      ],
+      [
+       35.641622,
+       33.218041
+      ],
+      [
+       35.64908,
+       33.209992
+      ],
+      [
+       35.655135,
+       33.194502
+      ],
+      [
+       35.642997,
+       33.174308
+      ],
+      [
+       35.640893,
+       33.162287
+      ],
+      [
+       35.644959,
+       33.15807
+      ],
+      [
+       35.638544,
+       33.146447
+      ],
+      [
+       35.570303,
+       33.169986
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLIB B",
+    "airfield": "LLIB",
+    "area": "B",
+    "name": "Rosh Pina B (2000-3500)",
+    "notam": "LLIB TRG AREA NR B",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.569848,
+       33.169605
+      ],
+      [
+       35.629004,
+       33.145337
+      ],
+      [
+       35.621845,
+       33.071464
+      ],
+      [
+       35.624964,
+       33.059423
+      ],
+      [
+       35.575119,
+       33.072583
+      ],
+      [
+       35.569848,
+       33.169605
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLIB B-UPPER",
+    "airfield": "LLIB",
+    "area": "B-UPPER",
+    "name": "Rosh Pina B upper (4000-6000)",
+    "notam": "LLIB TRG AREA NR B",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       35.570303,
+       33.169986
+      ],
+      [
+       35.576708,
+       33.072769
+      ],
+      [
+       35.635161,
+       33.057474
+      ],
+      [
+       35.645095,
+       33.139738
+      ],
+      [
+       35.570303,
+       33.169986
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLER HAR BERECH",
+    "airfield": "LLER",
+    "area": "HAR BERECH",
+    "name": "Har Berech",
+    "notam": "LLER TRG AREA HAR BERECH",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.958057,
+       29.833599
+      ],
+      [
+       34.904074,
+       29.724476
+      ],
+      [
+       34.868026,
+       29.710259
+      ],
+      [
+       34.863681,
+       29.764844
+      ],
+      [
+       34.845608,
+       29.799729
+      ],
+      [
+       34.958057,
+       29.833599
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 3",
+    "airfield": "LLHZ",
+    "area": "3",
+    "name": "Herzliya 3",
+    "notam": "LLHZ TRG AREA NR 3",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.940946,
+       32.199808
+      ],
+      [
+       34.950707,
+       32.163732
+      ],
+      [
+       34.935663,
+       32.163515
+      ],
+      [
+       34.903109,
+       32.161924
+      ],
+      [
+       34.895485,
+       32.224164
+      ],
+      [
+       34.972094,
+       32.229649
+      ],
+      [
+       34.95687,
+       32.20881
+      ],
+      [
+       34.940946,
+       32.199808
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 8",
+    "airfield": "LLHZ",
+    "area": "8",
+    "name": "Herzliya 8",
+    "notam": "LLHZ TRG AREA NR 8",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.849232,
+       32.328708
+      ],
+      [
+       34.818148,
+       32.233142
+      ],
+      [
+       34.872796,
+       32.222395
+      ],
+      [
+       34.892217,
+       32.323842
+      ],
+      [
+       34.849232,
+       32.328708
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 9",
+    "airfield": "LLHZ",
+    "area": "9",
+    "name": "Herzliya 9",
+    "notam": "LLHZ TRG AREA NR 9",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.914047,
+       32.320641
+      ],
+      [
+       34.983576,
+       32.312164
+      ],
+      [
+       34.975771,
+       32.285799
+      ],
+      [
+       34.976784,
+       32.240923
+      ],
+      [
+       34.896354,
+       32.232759
+      ],
+      [
+       34.914047,
+       32.320641
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 11",
+    "airfield": "LLHZ",
+    "area": "11",
+    "name": "Herzliya 11",
+    "notam": "LLHZ TRG AREA NR 11",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.838922,
+       32.374324
+      ],
+      [
+       34.833153,
+       32.354257
+      ],
+      [
+       34.758779,
+       32.377338
+      ],
+      [
+       34.780854,
+       32.421331
+      ],
+      [
+       34.790971,
+       32.424989
+      ],
+      [
+       34.799503,
+       32.430743
+      ],
+      [
+       34.805775,
+       32.438399
+      ],
+      [
+       34.809338,
+       32.447576
+      ],
+      [
+       34.856025,
+       32.432994
+      ],
+      [
+       34.838922,
+       32.374324
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 12",
+    "airfield": "LLHZ",
+    "area": "12",
+    "name": "Herzliya 12",
+    "notam": "LLHZ TRG AREA NR 12",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.899927,
+       32.437867
+      ],
+      [
+       34.897583,
+       32.398904
+      ],
+      [
+       34.895876,
+       32.371783
+      ],
+      [
+       34.893522,
+       32.336449
+      ],
+      [
+       34.852336,
+       32.339983
+      ],
+      [
+       34.877395,
+       32.4403
+      ],
+      [
+       34.899927,
+       32.437867
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "LLHZ 13",
+    "airfield": "LLHZ",
+    "area": "13",
+    "name": "Herzliya 13",
+    "notam": "LLHZ TRG AREA NR 13",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.955772,
+       32.442935
+      ],
+      [
+       34.963718,
+       32.420223
+      ],
+      [
+       34.987176,
+       32.404407
+      ],
+      [
+       35.01397,
+       32.40425
+      ],
+      [
+       35.008667,
+       32.35803
+      ],
+      [
+       34.986252,
+       32.321525
+      ],
+      [
+       34.914684,
+       32.332482
+      ],
+      [
+       34.919272,
+       32.375268
+      ],
+      [
+       34.918964,
+       32.401239
+      ],
+      [
+       34.920431,
+       32.435616
+      ],
+      [
+       34.955772,
+       32.442935
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "EILAT WEST COAST",
+    "airfield": "EILAT",
+    "area": "WEST COAST",
+    "name": "Eilat west coast",
+    "notam": "",
+    "checked": true
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34.947116,
+       29.495302
+      ],
+      [
+       34.965546,
+       29.545736
+      ],
+      [
+       34.958116,
+       29.547822
+      ],
+      [
+       34.902371,
+       29.495393
+      ],
+      [
+       34.947116,
+       29.495302
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
