@@ -1,12 +1,58 @@
 {
-  "_readme": "Extra route points that are in none of the official Rata files. Made by us, so it stays safe when Rata publishes new files. Each point was read from a printed position on an official chart. A point already in the official IFR file is never replaced. aliases = other names the NOTAMs use for the same point.",
+  "_readme": "Extra route points and straight legs that are in none of the official Rata files. Made by us, so it stays safe when Rata publishes new files. Each point and leg was read from the HEL routes chart (update 1/26); the length printed on the chart is kept in 'nm' and checked by the parser (a wrong coordinate or a wrong leg is refused and flagged). A point already in the official files is never replaced. aliases = other names the NOTAMs use for the same point.",
   "points": [
-    { "c": "INBAR", "lat": 33.090833, "lon": 34.603056, "source": "HEL routes chart, Mediterranean sea area, update 1/26: 33 05 27 N 034 36 11 E" },
-    { "c": "FOMMA", "lat": 32.719722, "lon": 34.875556, "source": "HEL routes chart, Mediterranean sea area, update 1/26: 32 43 11 N 034 52 32 E" },
-    { "c": "LVTAN", "lat": 32.600278, "lon": 34.805278, "source": "HEL routes chart, Mediterranean sea area, update 1/26: 32 36 01 N 034 48 19 E" },
-    { "c": "MARIB", "lat": 31.740833, "lon": 34.279722, "source": "HEL routes chart, Mediterranean sea area, update 1/26: 31 44 27 N 034 16 47 E" }
+    {
+      "c": "INBAR",
+      "lat": 33.090833,
+      "lon": 34.603056,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26: 33 05 27 N 034 36 11 E"
+    },
+    {
+      "c": "FOMMA",
+      "lat": 32.719722,
+      "lon": 34.875556,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26: 32 43 11 N 034 52 32 E"
+    },
+    {
+      "c": "LVTAN",
+      "lat": 32.600278,
+      "lon": 34.805278,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26: 32 36 01 N 034 48 19 E"
+    },
+    {
+      "c": "MARIB",
+      "lat": 31.740833,
+      "lon": 34.279722,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26: 31 44 27 N 034 16 47 E"
+    }
   ],
   "aliases": {
     "LLLV": "LVTAN"
-  }
+  },
+  "legs": [
+    {
+      "a": "SDTYM",
+      "b": "LVTAN",
+      "nm": 7.3,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26"
+    },
+    {
+      "a": "FRDIS",
+      "b": "LVTAN",
+      "nm": 7.1,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26"
+    },
+    {
+      "a": "FOMMA",
+      "b": "LVTAN",
+      "nm": 8.0,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26"
+    },
+    {
+      "a": "HOTRM",
+      "b": "FOMMA",
+      "nm": 3.7,
+      "source": "HEL routes chart, Mediterranean sea area, update 1/26"
+    }
+  ]
 }
