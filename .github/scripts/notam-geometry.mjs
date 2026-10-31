@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.015 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.016 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -13,9 +13,11 @@
  *   node notam-geometry.mjs notams.json            (updates the file in place)
  *   node notam-geometry.mjs in.json out.json
  *   node notam-geometry.mjs notams.json --flags flags.json   (also writes the list of NOTAMs worth a human look)
- *   (border lines are read from gis/borders.json next to the repo root; --borders <path> overrides;
- *    the route layers cvfr.json and sport.json are read from the same folder, each with its chart patch
- *    gis/<layer>-patch-*.json laid on top: see gisApplyPatch and the patch files' _readme)
+ *   (v1.00.016: the gis folder has two sub-folders. gis/manual = files made by us: borders.json, bubbles.json and the
+ *    chart patches <layer>-patch-*.json. gis/rata-official = the official Rata files: cvfr, sport, ifr, ctr, tma, prd,
+ *    ratag, rwy. Border lines are read from gis/manual/borders.json; --borders <path> overrides it, and the other
+ *    folders are then found next to it. Each route layer cvfr.json / sport.json (official) gets its chart patch
+ *    (manual) laid on top: see gisApplyPatch and the patch files' _readme)
  *
  * WHAT IT RECOGNISES (field E)
  *   polygon : "BTN FLW PSN 314107N0345919E 313846N0345857E ..."   (3+ points)
@@ -174,6 +176,7 @@
  */
 
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const FIR = { latMin: 29.0, latMax: 34.0, lonMin: 33.5, lonMax: 36.5 };
@@ -438,12 +441,13 @@ export function gisApplyPatch(d, P, keepWithdrawn){
   return d;
 }
 
-export function loadRoutes(dir) {
+// v1.00.016: dir = the official Rata files (gis/rata-official), patchDir = our chart patches (gis/manual)
+export function loadRoutes(dir, patchDir = dir) {
   ROUTES = {};
   for (const id of ROUTE_LAYERS) {
     let d = JSON.parse(readFileSync(`${dir}/${id}.json`, "utf8"));
-    for (const pf of readdirSync(dir).filter(f => f.startsWith(`${id}-patch-`) && f.endsWith(".json")).sort()) {
-      try { d = gisApplyPatch(d, JSON.parse(readFileSync(`${dir}/${pf}`, "utf8")), true);
+    for (const pf of readdirSync(patchDir).filter(f => f.startsWith(`${id}-patch-`) && f.endsWith(".json")).sort()) {
+      try { d = gisApplyPatch(d, JSON.parse(readFileSync(`${patchDir}/${pf}`, "utf8")), true);
             d._patchErrors.forEach(e => PATCH_ERRORS.push(`${pf}: ${e}`)); }
       catch (e) { PATCH_ERRORS.push(`${pf}: could not be applied (${e.message}); the layer is used without it`); }
     }
@@ -861,15 +865,16 @@ export function addGeometry(notams) {
 // ── CLI ──────────────────────────────────────────────────────────────────────
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2), bi = args.indexOf("--borders");
-  const bpath = bi >= 0 ? args.splice(bi, 2)[1] : fileURLToPath(new URL("../../gis/borders.json", import.meta.url));
+  const bpath = bi >= 0 ? args.splice(bi, 2)[1] : fileURLToPath(new URL("../../gis/manual/borders.json", import.meta.url));
   const fi = args.indexOf("--flags"), fpath = fi >= 0 ? args.splice(fi, 2)[1] : null;
   const [inp, outp = inp] = args;
-  if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json] [--borders gis/borders.json]"); process.exit(1); }
+  if (!inp) { console.error("usage: node notam-geometry.mjs notams.json [out.json] [--borders gis/manual/borders.json]"); process.exit(1); }
   try { loadBorders(bpath); } catch (e) { console.log(`notam-geometry: no border lines (${e.message}); border strips skipped`); }
-  const gdir = bpath.replace(/[\\/][^\\/]*$/, "");                                // route layers sit next to borders.json
-  try { loadRoutes(gdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
-  try { loadBubbles(gdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
-  try { loadAreas(gdir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
+  const mdir = dirname(bpath);                                                    // gis/manual: borders, bubbles, chart patches (made by us)
+  const odir = join(dirname(mdir), "rata-official");                              // gis/rata-official: the official Rata files
+  try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
+  try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
+  try { loadAreas(odir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
