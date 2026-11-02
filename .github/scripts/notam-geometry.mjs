@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.021 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.022 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -120,6 +120,7 @@
  *   "source":"airfield", part roles "airfield" (the rectangle) and "runway" (the boxes). The airfield is found by POSITION (runway lines within
  *   3 NM of the Q centre; the file's four-letter codes are unreliable); when two airfields qualify, the nearer one. No runway in the file =
  *   the Q circle, as before. "LTD" / "LIMITED" wording is not a closure and keeps the circle.
+ *   (v1.00.022) a runway missing from the official file is added by hand in gis/manual/extra-runways.json (same format as rwy.json), e.g. Ramon/Eilat LLER.
  *
  * GAZA STRIP BORDER STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...", C1825)
  *   A border strip like the ones above, measured from the Gaza Strip boundary line in gis/borders.json ("gaza"),
@@ -862,14 +863,19 @@ function bubbleArea(notam) {
 
 // ── closed airfields (v1.00.021): "AD CLSD" / "AIRSTRIP CLSD" -> one rectangle round the airfield (1 NM margin) with an exact box round each runway ──
 let RUNWAYS = null;                                                               // [{name, coords [[lat,lon],...]}]
-export function loadRunways(dir) {
+export function loadRunways(dir, manualDir) {                                       // v1.00.022: + gis/manual/extra-runways.json (runways missing from the official file)
   RUNWAYS = [];
-  const fc = JSON.parse(readFileSync(`${dir}/rwy.json`, "utf8"));
-  for (const f of fc.features || []) {
-    const g = f.geometry;
-    if (!g || g.type !== "LineString" || !Array.isArray(g.coordinates) || g.coordinates.length < 2) continue;
-    RUNWAYS.push({ name: String(f.properties?.n || "").trim(), coords: g.coordinates.map(([lon, lat]) => [lat, lon]) });
-  }
+  const files = [`${dir}/rwy.json`];
+  if (manualDir) files.push(`${manualDir}/extra-runways.json`);
+  files.forEach((fp, i) => {
+    let fc;
+    try { fc = JSON.parse(readFileSync(fp, "utf8")); } catch (e) { if (i === 0) throw e; return; }   // the extra file is optional
+    for (const f of fc.features || []) {
+      const g = f.geometry;
+      if (!g || g.type !== "LineString" || !Array.isArray(g.coordinates) || g.coordinates.length < 2) continue;
+      RUNWAYS.push({ name: String(f.properties?.n || "").trim(), coords: g.coordinates.map(([lon, lat]) => [lat, lon]) });
+    }
+  });
 }
 const RX_AD_CLSD = /\b(?:AD|AIRSTRIP|AIRSRRIP|AERODROME)\s+CLSD\b/;
 const AD_END_NM = 0.16, AD_HALF_NM = 0.13, AD_MARGIN_NM = 1, AD_MATCH_NM = 3, AD_MAX_Q_NM = 10;   // about 300 m, 240 m, 1 NM margin, runway lines within 3 NM of the Q centre
@@ -1065,7 +1071,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const mdir = dirname(bpath);                                                    // gis/manual: borders, bubbles, chart patches (made by us)
   const odir = join(dirname(mdir), "rata-official");                              // gis/rata-official: the official Rata files
   try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
-  try { loadRunways(odir); } catch (e) { console.log(`notam-geometry: no runway lines (${e.message}); closed airfields stay Q circles`); }
+  try { loadRunways(odir, mdir); } catch (e) { console.log(`notam-geometry: no runway lines (${e.message}); closed airfields stay Q circles`); }
   try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
   try { loadCorrections(mdir); } catch (e) { console.log(`notam-geometry: no text corrections (${e.message})`); }
   try { loadTraining(mdir); } catch (e) { console.log(`notam-geometry: no training areas (${e.message}); training areas stay Q circles`); }
