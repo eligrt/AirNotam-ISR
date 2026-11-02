@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "readme": "Runways that are missing from the official Rata file gis/rata-official/rwy.json. Made by us, so it stays safe when Rata publishes new files. Same format as rwy.json: one LineString per runway, from threshold to threshold, [longitude, latitude]. Used only to draw closed-airfield rectangles (notam-geometry.mjs v1.00.022). Each entry says where its numbers came from.",
+    "added": "2026-11-02"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.009658,
+            29.711397
+          ],
+          [
+            35.018486,
+            29.742947
+          ]
+        ]
+      },
+      "properties": {
+        "n": "Ramon (Eilat)",
+        "c": "LLER",
+        "t": "01-19",
+        "note": "Added by hand 2026-11-02 from the Israel AIP, AD-2-LLER-6, AD 2.12 Runway Physical Characteristics (AIRAC AMDT 003/2024, 31 OCT 2024), screenshot supplied by Eli. THR 01 = 294241.03N 0350034.77E, THR 19 = 294434.61N 0350106.55E, 3,600 x 45 m."
+      }
+    }
+  ]
+}
