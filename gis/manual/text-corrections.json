@@ -7,6 +7,13 @@
       "right": "315832N0344954E",
       "date": "2026-10-31",
       "why": "UAS air show at Rishon LeZion: the latitude was typed with E instead of N. The corrected point is Rishon LeZion, as the NOTAM text says. The Q circle in the header is about 4 NM west of it, so both are drawn and linked (issue #14)."
+    },
+    {
+      "id": "C2335/26",
+      "wrong": "311105N343147E",
+      "right": "311105N0343147E",
+      "date": "2026-11-02",
+      "why": "Area at Tzeelim: the longitude of the third point lost its leading zero (343147E instead of 0343147E). The other three points use 0343..., and with the zero all four corners lie 2.0 to 2.8 NM from the centre of the 3 NM Q circle (issue #22)."
     }
   ]
 }
