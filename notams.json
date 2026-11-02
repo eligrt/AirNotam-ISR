@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T14:30:20.212Z",
+  "generatedAt": "2026-11-02T14:49:27.545Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
@@ -92,10 +92,36 @@
       "rawText": "C2335/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/015/3113N03431E003 A) LLLL B) 2611030600 C) 2611031600 E) AN AREA AT TZEELIM BTN FLW PSN CLSD FM GND UP TO 1,500 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 311548N0343054E 311536N0343157E 311105N343147E 311050N0343052E. CTN ADZ.))",
       "rowID": "2077226",
       "firstSeen": "2026-11-02T13:30:19.070Z",
-      "geometryReject": "unreadable coordinate (typo?)",
-      "geometryFlag": {
-        "kind": "rejected",
-        "reason": "unreadable coordinate (typo?)"
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.263333,
+                34.515
+              ],
+              [
+                31.26,
+                34.5325
+              ],
+              [
+                31.184722,
+                34.529722
+              ],
+              [
+                31.180556,
+                34.514444
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.222153,
+          34.522917
+        ],
+        "corrected": "C2335/26"
       }
     },
     {
