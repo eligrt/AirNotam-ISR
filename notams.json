@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-02T12:00:16.362Z",
+  "generatedAt": "2026-11-02T12:30:13.585Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 113,
+  "count": 111,
   "notams": [
     {
       "id": "C2334/26",
@@ -1151,58 +1151,6 @@
       }
     },
     {
-      "id": "A0869/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-11-02T06:00:00.000Z",
-      "toDate": "2026-11-02T12:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QOBCE",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "AE",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "003",
-        "position": {
-          "lat": 32,
-          "lon": 34.9,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.",
-      "position": {
-        "lat": 32,
-        "lon": 34.9,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0869/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/003/3200N03454E001 A) LLBG B) 2611020600 C) 2611021200 E) CRANE ERECTED WI LLBG CTR, AT EL-AL JUNCTION. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 315941.27N0345429.55E CLSD FM GND UP TO 89M 292FT AMSL. IN CASE OF EMERG LOWERED WI 5MIN. CTN ADZ.)",
-      "rowID": "2076740",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.994797,
-              34.908208
-            ],
-            "radiusNm": 0.3
-          }
-        ],
-        "anchor": [
-          31.994797,
-          34.908208
-        ]
-      }
-    },
-    {
       "id": "C2318/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
@@ -1216,41 +1164,6 @@
       "replaces": "C2297/26",
       "rawText": "C2318/26 NOTAMR C2297/26 Q) LLLL/QKKKK/K /K /K /000/999/3124N03520E999 A) LLLL B) 2610291421 C) 2611291421EST E) CHECKLIST YEAR=2026 0005 0010 0032 0037 0431 1281 1361 1541 1637 1656 1698 1825 1826 1827 1828 1829 1830 1831 1832 1833 1834 1835 1836 1837 1838 1840 1842 1843 1858 1860 1884 1947 1948 2010 2011 2012 2013 2015 2016 2024 2074 2095 2144 2145 2146 2147 2148 2149 2150 2151 2152 2153 2154 2181 2194 2195 2196 2198 2199 2200 2201 2203 2209 2210 2212 2250 2259 2260 2270 2272 2274 2275 2277 2278 2279 2280 2285 2293 2294 2295 2296 LATEST PUBLICATIONS AIP AIRAC AMDT IFR 002/2026 EFFECTIVE DATE 26 NOV 26 AIP AIRAC SUP IFR 004/2026 EFFECTIVE DATE 14 MAY 26 AIC IFR A001/2026 EFFECTIVE DATE 05 FEB 26 AIC CHECKLIST AIP IFR A001/2026 AIP VFR 001/2026 AIP MIL NIL SUP CHECKLIST AIP IFR NIL AIP VFR NIL AIP MIL NIL)",
       "rowID": "2075777",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
-    },
-    {
-      "id": "A0868/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-11-02T06:00:00.000Z",
-      "toDate": "2026-11-02T12:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 12/30 CLSD EXC RWY INT DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0868/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611020600 C) 2611021200 E) RWY 12/30 CLSD EXC RWY INT DUE WIP.)",
-      "rowID": "2075762",
       "firstSeen": "2026-11-02T08:30:15.380Z"
     },
     {
