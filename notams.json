@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T16:32:07.812Z",
+  "generatedAt": "2026-11-02T17:02:00.204Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
@@ -9964,7 +9964,67 @@
       "replaces": null,
       "rawText": "A0851/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/2944N03501E005 A) LLER B) 2611101105 C) 2611101205 E) AD CLSD TO ALL FLT DUE DRILL. IN CASE OF EMERG AVBL WI 5MIN PPR FM ATC.)",
       "rowID": "2075210",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
+      "firstSeen": "2026-11-02T08:30:15.380Z",
+      "geometry": {
+        "source": "airfield",
+        "areas": [
+          {
+            "code": "LLER",
+            "kind": "AIRFIELD",
+            "name": "Ramon (Eilat)"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "role": "airfield",
+            "coords": [
+              [
+                29.688163,
+                35.025476
+              ],
+              [
+                29.757287,
+                35.044817
+              ],
+              [
+                29.766181,
+                35.002668
+              ],
+              [
+                29.697057,
+                34.983327
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "role": "runway",
+            "coords": [
+              [
+                29.709317,
+                35.006508
+              ],
+              [
+                29.74605,
+                35.016787
+              ],
+              [
+                29.745027,
+                35.021636
+              ],
+              [
+                29.708294,
+                35.011357
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          29.727172,
+          35.014072
+        ]
+      }
     },
     {
       "id": "A0850/26",
@@ -9999,7 +10059,67 @@
       "replaces": null,
       "rawText": "A0850/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/2944N03501E005 A) LLER B) 2611161100 C) 2611161300 E) AD CLSD TO ALL FLT DUE UAS/UAV DRILL. IN CASE OF EMERG AVBL WI 5MIN PPR FM ATC.)",
       "rowID": "2074418",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
+      "firstSeen": "2026-11-02T08:30:15.380Z",
+      "geometry": {
+        "source": "airfield",
+        "areas": [
+          {
+            "code": "LLER",
+            "kind": "AIRFIELD",
+            "name": "Ramon (Eilat)"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "role": "airfield",
+            "coords": [
+              [
+                29.688163,
+                35.025476
+              ],
+              [
+                29.757287,
+                35.044817
+              ],
+              [
+                29.766181,
+                35.002668
+              ],
+              [
+                29.697057,
+                34.983327
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "role": "runway",
+            "coords": [
+              [
+                29.709317,
+                35.006508
+              ],
+              [
+                29.74605,
+                35.016787
+              ],
+              [
+                29.745027,
+                35.021636
+              ],
+              [
+                29.708294,
+                35.011357
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          29.727172,
+          35.014072
+        ]
+      }
     },
     {
       "id": "C2270/26",
