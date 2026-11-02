@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.020 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.021 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -112,6 +112,14 @@
  *   carry no qualifier that makes the closure partial or an exception (N/S/E/W OF, ROAD, EXC, EXCEPT, TKOF, LDG, AVBL,
  *   WI, ACT, BTN, FM). Everything else that mentions a bubble keeps the Q circle (no flag). A code that is not in the
  *   file, or a bubble that reaches outside the Q circle (+1.5 NM), means no shape at all (Q circle), never half a closure.
+ *
+ * CLOSED AIRFIELDS (v1.00.021, Eli 2026-11-02): "AD CLSD" / "AIRSTRIP CLSD" (Q code QFA..) with no coordinates in field E. Instead of the 5 NM
+ *   Q circle: ONE RECTANGLE lined up with the airfield's longest runway, 1 NM (AD_MARGIN_NM) beyond the runway boxes on every side, so a route
+ *   within the corridor of the rectangle's edge picks the NOTAM up (corridor 2 / 3 / 5 NM in the app, default 3). Inside it, an exact box round each
+ *   runway (about 300 m past each end, about 240 m each side; runway lines from gis/rata-official/rwy.json), drawn stronger.
+ *   "source":"airfield", part roles "airfield" (the rectangle) and "runway" (the boxes). The airfield is found by POSITION (runway lines within
+ *   3 NM of the Q centre; the file's four-letter codes are unreliable); when two airfields qualify, the nearer one. No runway in the file =
+ *   the Q circle, as before. "LTD" / "LIMITED" wording is not a closure and keeps the circle.
  *
  * GAZA STRIP BORDER STRIP ("... FM GAZA-STRIP BOUNDRAY TO 6KM OUTWARD ...", C1825)
  *   A border strip like the ones above, measured from the Gaza Strip boundary line in gis/borders.json ("gaza"),
@@ -852,6 +860,67 @@ function bubbleArea(notam) {
   return { geometry: { source: "bubble", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
 }
 
+// ── closed airfields (v1.00.021): "AD CLSD" / "AIRSTRIP CLSD" -> one rectangle round the airfield (1 NM margin) with an exact box round each runway ──
+let RUNWAYS = null;                                                               // [{name, coords [[lat,lon],...]}]
+export function loadRunways(dir) {
+  RUNWAYS = [];
+  const fc = JSON.parse(readFileSync(`${dir}/rwy.json`, "utf8"));
+  for (const f of fc.features || []) {
+    const g = f.geometry;
+    if (!g || g.type !== "LineString" || !Array.isArray(g.coordinates) || g.coordinates.length < 2) continue;
+    RUNWAYS.push({ name: String(f.properties?.n || "").trim(), coords: g.coordinates.map(([lon, lat]) => [lat, lon]) });
+  }
+}
+const RX_AD_CLSD = /\b(?:AD|AIRSTRIP|AIRSRRIP|AERODROME)\s+CLSD\b/;
+const AD_END_NM = 0.16, AD_HALF_NM = 0.13, AD_MARGIN_NM = 1, AD_MATCH_NM = 3, AD_MAX_Q_NM = 10;   // about 300 m, 240 m, 1 NM margin, runway lines within 3 NM of the Q centre
+function ptSegNm(q, a, b) {                                                        // distance point to segment, NM
+  const A = nmVec(q, a), B = nmVec(q, b), dx = B[0] - A[0], dy = B[1] - A[1], L2 = dx * dx + dy * dy;
+  const t = L2 ? Math.max(0, Math.min(1, -(A[0] * dx + A[1] * dy) / L2)) : 0;
+  return Math.hypot(A[0] + t * dx, A[1] + t * dy);
+}
+function airfieldClosed(notam) {
+  if (!RUNWAYS || !RUNWAYS.length) return null;
+  const qp = notam.qLine?.position || notam.position;
+  if (!qp || qp.lat == null || qp.lon == null || qp.radiusNm == null || qp.radiusNm > AD_MAX_Q_NM) return null;
+  if (!/^QFA/.test(String(notam.qLine?.qcode || ""))) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+  const sent = text.split(/\.(?=\s|$|\))/).find(s => RX_AD_CLSD.test(s));
+  if (!sent || /\bLTD\b|\bLIMITED\b/.test(sent)) return null;
+  const q = [qp.lat, qp.lon], byName = new Map();
+  for (const r of RUNWAYS) {
+    let d = Infinity;
+    for (let i = 0; i + 1 < r.coords.length; i++) d = Math.min(d, ptSegNm(q, r.coords[i], r.coords[i + 1]));
+    if (d > AD_MATCH_NM) continue;
+    const e = byName.get(r.name) || { name: r.name, d: Infinity, rws: [] };
+    e.d = Math.min(e.d, d); e.rws.push(r); byName.set(r.name, e);
+  }
+  if (!byName.size) return null;
+  const af = [...byName.values()].sort((a, b) => a.d - b.d)[0];                    // two airfields in reach: the nearer one
+  const pts = af.rws.flatMap(r => r.coords), c0 = [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length];
+  const k = Math.cos(c0[0] * Math.PI / 180), back = ([x, y]) => [c0[0] + y / 60, c0[1] + x / (60 * k)];
+  const rw = [];                                                                   // each runway as [a, b] in flat NM around c0
+  for (const r of af.rws) { const a = nmVec(c0, r.coords[0]), b = nmVec(c0, r.coords[r.coords.length - 1]); if (Math.hypot(b[0] - a[0], b[1] - a[1])) rw.push([a, b]); }
+  if (!rw.length) return null;
+  const main = rw.slice().sort((p, q2) => Math.hypot(q2[1][0] - q2[0][0], q2[1][1] - q2[0][1]) - Math.hypot(p[1][0] - p[0][0], p[1][1] - p[0][1]))[0];
+  let mx = main[1][0] - main[0][0], my = main[1][1] - main[0][1]; const ml = Math.hypot(mx, my); mx /= ml; my /= ml;   // the longest runway's direction
+  const boxes = [], allc = [];
+  for (const [a, b] of rw) {
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1]), ux = (b[0] - a[0]) / L, uy = (b[1] - a[1]) / L, nx = -uy, ny = ux;
+    const a2 = [a[0] - ux * AD_END_NM, a[1] - uy * AD_END_NM], b2 = [b[0] + ux * AD_END_NM, b[1] + uy * AD_END_NM];
+    const corners = [[a2[0] + nx * AD_HALF_NM, a2[1] + ny * AD_HALF_NM], [b2[0] + nx * AD_HALF_NM, b2[1] + ny * AD_HALF_NM],
+                     [b2[0] - nx * AD_HALF_NM, b2[1] - ny * AD_HALF_NM], [a2[0] - nx * AD_HALF_NM, a2[1] - ny * AD_HALF_NM]];
+    boxes.push(corners.map(back)); allc.push(...corners);
+  }
+  const us = allc.map(c => c[0] * mx + c[1] * my), vs = allc.map(c => -c[0] * my + c[1] * mx);   // along / across the longest runway
+  const u0 = Math.min(...us) - AD_MARGIN_NM, u1 = Math.max(...us) + AD_MARGIN_NM, v0 = Math.min(...vs) - AD_MARGIN_NM, v1 = Math.max(...vs) + AD_MARGIN_NM;
+  const big = [[u0, v0], [u1, v0], [u1, v1], [u0, v1]].map(([u, v]) => back([u * mx - v * my, u * my + v * mx]));
+  const cu = (u0 + u1) / 2, cv = (v0 + v1) / 2, ctr = back([cu * mx - cv * my, cu * my + cv * mx]);
+  const parts = [{ type: "polygon", role: "airfield", coords: big.map(RP) }];
+  for (const bx of boxes) parts.push({ type: "polygon", role: "runway", coords: bx.map(RP) });
+  if (big.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;   // reaches outside the NOTAM's own circle: keep the circle
+  return { geometry: { source: "airfield", areas: [{ code: String(notam.location || ""), kind: "AIRFIELD", name: af.name }], parts, anchor: RP(ctr) } };
+}
+
 // ── "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": a border strip from the Gaza Strip boundary line (Israeli side) ──
 const RX_OUTWARD = /\bFM\s+([A-Z][A-Z -]*?)\s+BO?UND[AR]{2,3}Y\s+TO\s+(\d+(?:\.\d+)?)\s?(KM|NM)\s+OUTWARDS?\b/;
 function outwardStrip(notam) {
@@ -879,7 +948,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -996,6 +1065,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const mdir = dirname(bpath);                                                    // gis/manual: borders, bubbles, chart patches (made by us)
   const odir = join(dirname(mdir), "rata-official");                              // gis/rata-official: the official Rata files
   try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
+  try { loadRunways(odir); } catch (e) { console.log(`notam-geometry: no runway lines (${e.message}); closed airfields stay Q circles`); }
   try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
   try { loadCorrections(mdir); } catch (e) { console.log(`notam-geometry: no text corrections (${e.message})`); }
   try { loadTraining(mdir); } catch (e) { console.log(`notam-geometry: no training areas (${e.message}); training areas stay Q circles`); }
