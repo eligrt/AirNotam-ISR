@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-02T10:00:22.608Z",
+  "generatedAt": "2026-11-02T10:30:15.583Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 114,
+  "count": 113,
   "notams": [
     {
       "id": "C2334/26",
@@ -1251,22 +1251,6 @@
       "replaces": null,
       "rawText": "A0868/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611020600 C) 2611021200 E) RWY 12/30 CLSD EXC RWY INT DUE WIP.)",
       "rowID": "2075762",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
-    },
-    {
-      "id": "A0867/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-11-02T07:00:00.000Z",
-      "toDate": "2026-11-02T10:00:00.000Z",
-      "qLine": null,
-      "eText": "GP RWY 30 C/S BD CH56X FREQ 331.000MHZ WITHDRAWN FOR MAINT.)",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0867/26 NOTAMN Q) LLLL/QIGAS/I /NBO/A /000/999/3201N03453E005 A) LLBG B) 2611020700 C) 2611021000 E) GP RWY 30 C/S BD CH56X FREQ 331.000MHZ WITHDRAWN FOR MAINT.))",
-      "rowID": "2075761",
       "firstSeen": "2026-11-02T08:30:15.380Z"
     },
     {
