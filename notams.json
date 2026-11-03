@@ -1,11 +1,63 @@
 {
-  "generatedAt": "2026-11-03T10:30:14.978Z",
+  "generatedAt": "2026-11-03T11:00:15.840Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 109,
+  "count": 110,
   "notams": [
+    {
+      "id": "C2343/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-03T11:00:00.000Z",
+      "toDate": "2026-11-05T17:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "010",
+        "position": {
+          "lat": 31.7,
+          "lon": 34.683333,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT JULIS. AN AREA FM GND UP TO 1000FT AMSL CLSD TO ALL FLT BTN FLW PSN 314157N0344054E, RADIUS 0.6NM. OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 650FT AMSL",
+      "position": {
+        "lat": 31.7,
+        "lon": 34.683333,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2343/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/010/3142N03441E001 A) LLLL B) 2611031100 C) 2611051700 D) 03 1100-1700, 04 05 DAILY 0730-1700 E) UAS ACT WILL TAKE PLACE AT JULIS. AN AREA FM GND UP TO 1000FT AMSL CLSD TO ALL FLT BTN FLW PSN 314157N0344054E, RADIUS 0.6NM. OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ. F) GND G) 650FT AMSL)",
+      "rowID": "2077556",
+      "firstSeen": "2026-11-03T11:00:15.840Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.699167,
+              34.681667
+            ],
+            "radiusNm": 0.6
+          }
+        ],
+        "anchor": [
+          31.699167,
+          34.681667
+        ]
+      }
+    },
     {
       "id": "C2342/26",
       "location": "LLLL",
