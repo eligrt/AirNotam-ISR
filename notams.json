@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-03T15:30:46.328Z",
+  "generatedAt": "2026-11-03T16:00:46.081Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 115,
+  "count": 114,
   "notams": [
     {
       "id": "C2347/26",
@@ -10099,102 +10099,6 @@
       "rawText": "A0858/26 NOTAMR A0805/26 Q) LLLL/QKKKK/K /K /K /000/999/3124N03520E999 A) LLLL B) 2610290708 C) 2611290708EST E) CHECKLIST YEAR=2026 0056 0116 0117 0281 0457 0616 0622 0691 0693 0694 0701 0710 0719 0720 0738 0739 0740 0741 0742 0762 0764 0798 0802 0820 0824 0825 0826 0827 0828 0829 0850 0851 0854 0855 0856 0857 LATEST PUBLICATIONS AIP AIRAC AMDT IFR 002/2026 EFFECTIVE DATE 26 NOV 26 AIP AIRAC SUP IFR 004/2026 EFFECTIVE DATE 14 MAY 26 AIC IFR A001/2026 EFFECTIVE DATE 05 FEB 26 AIC CHECKLIST AIP IFR A001/2026 AIP VFR NIL AIP MIL NIL SUP CHECKLIST AIP IFR NIL AIP VFR NIL AIP MIL NIL)",
       "rowID": "2075632",
       "firstSeen": "2026-11-02T08:30:15.380Z"
-    },
-    {
-      "id": "C2296/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-03T07:30:00.000Z",
-      "toDate": "2026-11-03T15:30:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 32.7,
-          "lon": 35.35,
-          "radiusNm": 6,
-          "source": "q_line"
-        }
-      },
-      "eText": "ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.",
-      "position": {
-        "lat": 32.7,
-        "lon": 35.35,
-        "radiusNm": 6,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2296/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3242N03521E006 A) LLLL B) 2611030730 C) 2611031530 D) 0730-0830 1430-1530 E) ULTRALIGHT BUBBLE A-WEST (BMGWA) CLSD.)",
-      "rowID": "2075621",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
-      "geometry": {
-        "source": "bubble",
-        "areas": [
-          {
-            "code": "BMGWA",
-            "kind": "BUBBLE",
-            "name": "בועת מגידו א' מערב"
-          }
-        ],
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                32.771976,
-                35.403099
-              ],
-              [
-                32.706133,
-                35.406876
-              ],
-              [
-                32.686703,
-                35.414343
-              ],
-              [
-                32.652095,
-                35.365162
-              ],
-              [
-                32.616677,
-                35.290489
-              ],
-              [
-                32.706061,
-                35.301304
-              ],
-              [
-                32.738555,
-                35.325851
-              ],
-              [
-                32.759995,
-                35.346622
-              ],
-              [
-                32.762594,
-                35.372629
-              ],
-              [
-                32.771976,
-                35.403099
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.717276,
-          35.362947
-        ]
-      }
     },
     {
       "id": "A0857/26",
