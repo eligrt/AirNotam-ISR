@@ -1,11 +1,201 @@
 {
-  "generatedAt": "2026-11-03T11:00:15.840Z",
+  "generatedAt": "2026-11-03T11:30:13.393Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 110,
+  "count": 113,
   "notams": [
+    {
+      "id": "C2344/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T06:00:00.000Z",
+      "toDate": "2026-11-09T15:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "080",
+        "position": {
+          "lat": 31.483333,
+          "lon": 34.833333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL",
+      "position": {
+        "lat": 31.483333,
+        "lon": 34.833333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2344/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3129N03450E005 A) LLLL B) 2611090600 C) 2611091500 E) PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL)",
+      "rowID": "2077584",
+      "firstSeen": "2026-11-03T11:30:13.393Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.533333,
+                34.888611
+              ],
+              [
+                31.533056,
+                34.7925
+              ],
+              [
+                31.433889,
+                34.791667
+              ],
+              [
+                31.412222,
+                34.84
+              ],
+              [
+                31.433889,
+                34.886389
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.469278,
+          34.839833
+        ]
+      }
+    },
+    {
+      "id": "A0884/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-11-04T11:00:00.000Z",
+      "toDate": "2026-11-04T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QOBCE",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "AE",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "002",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.9,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "CRANE ERECTED WI LLBG CTR, AT Q APRON. ON PSN 320114.84N0345352.36E FM GND UP TO 40M 131FT AGL. CTN ADZ.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.9,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0884/26 NOTAMN Q) LLLL/QOBCE/IV/M /AE/000/002/3201N03454E001 A) LLBG B) 2611041100 C) 2611041400 E) CRANE ERECTED WI LLBG CTR, AT Q APRON. ON PSN 320114.84N0345352.36E FM GND UP TO 40M 131FT AGL. CTN ADZ.)",
+      "rowID": "2077579",
+      "firstSeen": "2026-11-03T11:30:13.393Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "point",
+            "coord": [
+              32.020789,
+              34.897878
+            ]
+          }
+        ],
+        "anchor": [
+          32.020789,
+          34.897878
+        ]
+      }
+    },
+    {
+      "id": "A0883/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-11-04T11:00:00.000Z",
+      "toDate": "2026-11-04T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 26 CLSD FOR LDG, DUE CRANE ON FINAL 26 FOR AIRCRAFT RECOVERY DRILL. IN CASE OF EMERG LOWERED WI 30MIN.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0883/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611041100 C) 2611041400 E) RWY 26 CLSD FOR LDG, DUE CRANE ON FINAL 26 FOR AIRCRAFT RECOVERY DRILL. IN CASE OF EMERG LOWERED WI 30MIN.)",
+      "rowID": "2077578",
+      "firstSeen": "2026-11-03T11:30:13.393Z"
+    },
+    {
+      "id": "A0881/26",
+      "location": "LLBG",
+      "locationDescription": "Ben-Gurion",
+      "fromDate": "2026-11-04T11:00:00.000Z",
+      "toDate": "2026-11-04T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QMRLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.016667,
+          "lon": 34.883333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "RWY 03/21 CLSD EXC RWY INT 03/30, DUE CRANE ON FINAL 26 FOR AIRCRAFT RECOVERY DRILL. IN CASE OF EMERG LOWERED WI 30MIN.",
+      "position": {
+        "lat": 32.016667,
+        "lon": 34.883333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0881/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611041100 C) 2611041400 E) RWY 03/21 CLSD EXC RWY INT 03/30, DUE CRANE ON FINAL 26 FOR AIRCRAFT RECOVERY DRILL. IN CASE OF EMERG LOWERED WI 30MIN.)",
+      "rowID": "2077576",
+      "firstSeen": "2026-11-03T11:30:13.393Z"
+    },
     {
       "id": "C2343/26",
       "location": "LLLL",
@@ -11265,100 +11455,6 @@
       "replaces": null,
       "rawText": "A0825/26 NOTAMN Q) LLLL/QMPLC/IV/BO /A /000/999/3249N03503E005 A) LLHA B) 2611230001 C) 2612312159 E) ACFT STAND A2 CLSD DUE WIP.)",
       "rowID": "2069443"
-    },
-    {
-      "id": "A0824/26",
-      "location": "LLHA",
-      "locationDescription": "Haifa",
-      "fromDate": "2026-11-03T06:25:00.000Z",
-      "toDate": "2026-11-03T11:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QFALC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.816667,
-          "lon": 35.05,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.",
-      "position": {
-        "lat": 32.816667,
-        "lon": 35.05,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0824/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/3249N03503E005 A) LLHA B) 2611030625 C) 2611031100 D) 0625-0825 0930-1100 E) AD CLSD TO ALL FLT INCLUDING HEL, DUE WIP. IN CASE OF EMERG AVBL WI 10MIN.)",
-      "rowID": "2069441",
-      "geometry": {
-        "source": "airfield",
-        "areas": [
-          {
-            "code": "LLHA",
-            "kind": "AIRFIELD",
-            "name": "Haifa"
-          }
-        ],
-        "parts": [
-          {
-            "type": "polygon",
-            "role": "airfield",
-            "coords": [
-              [
-                32.792715,
-                35.074391
-              ],
-              [
-                32.840136,
-                35.053641
-              ],
-              [
-                32.827135,
-                35.011579
-              ],
-              [
-                32.779714,
-                35.032329
-              ]
-            ]
-          },
-          {
-            "type": "polygon",
-            "role": "runway",
-            "coords": [
-              [
-                32.801109,
-                35.044096
-              ],
-              [
-                32.817245,
-                35.037035
-              ],
-              [
-                32.818741,
-                35.041874
-              ],
-              [
-                32.802605,
-                35.048935
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          32.809925,
-          35.042985
-        ]
-      }
     },
     {
       "id": "A0820/26",
