@@ -1,11 +1,203 @@
 {
-  "generatedAt": "2026-11-03T12:00:13.782Z",
+  "generatedAt": "2026-11-03T12:30:16.580Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
   "count": 114,
   "notams": [
+    {
+      "id": "C2346/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-06T04:00:00.000Z",
+      "toDate": "2026-11-06T12:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.016667,
+          "lon": 34.533333,
+          "radiusNm": 16,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT BUBBLE SHIVTA (BSVTA) CLSD .",
+      "position": {
+        "lat": 31.016667,
+        "lon": 34.533333,
+        "radiusNm": 16,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2346/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/020/3101N03432E016 A) LLLL B) 2611060400 C) 2611061200 E) ULTRALIGHT BUBBLE SHIVTA (BSVTA) CLSD .)",
+      "rowID": "2077596",
+      "firstSeen": "2026-11-03T12:30:16.580Z",
+      "geometry": {
+        "source": "bubble",
+        "areas": [
+          {
+            "code": "BSVTA",
+            "kind": "BUBBLE",
+            "name": "בועת שבטה"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.178441,
+                34.313736
+              ],
+              [
+                31.188134,
+                34.390125
+              ],
+              [
+                31.20781,
+                34.406433
+              ],
+              [
+                31.201496,
+                34.425488
+              ],
+              [
+                31.194154,
+                34.431152
+              ],
+              [
+                31.191071,
+                34.434628
+              ],
+              [
+                31.188868,
+                34.43819
+              ],
+              [
+                31.186592,
+                34.444327
+              ],
+              [
+                31.184903,
+                34.450722
+              ],
+              [
+                31.184536,
+                34.457417
+              ],
+              [
+                31.184609,
+                34.463081
+              ],
+              [
+                31.184829,
+                34.469604
+              ],
+              [
+                31.185931,
+                34.476299
+              ],
+              [
+                31.187693,
+                34.481449
+              ],
+              [
+                31.189786,
+                34.48617
+              ],
+              [
+                31.191217,
+                34.488745
+              ],
+              [
+                31.192392,
+                34.490805
+              ],
+              [
+                31.195329,
+                34.493723
+              ],
+              [
+                31.198706,
+                34.520502
+              ],
+              [
+                31.171685,
+                34.565392
+              ],
+              [
+                31.117178,
+                34.633884
+              ],
+              [
+                31.092926,
+                34.672422
+              ],
+              [
+                31.127244,
+                34.796705
+              ],
+              [
+                31.068815,
+                34.826488
+              ],
+              [
+                30.994165,
+                34.751987
+              ],
+              [
+                30.946476,
+                34.767094
+              ],
+              [
+                30.902372,
+                34.768553
+              ],
+              [
+                30.885358,
+                34.776621
+              ],
+              [
+                30.864216,
+                34.764433
+              ],
+              [
+                30.868268,
+                34.627018
+              ],
+              [
+                30.861711,
+                34.559727
+              ],
+              [
+                30.907748,
+                34.422483
+              ],
+              [
+                31.070506,
+                34.352531
+              ],
+              [
+                31.178441,
+                34.313736
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.108047,
+          34.534167
+        ]
+      }
+    },
     {
       "id": "C2345/26",
       "location": "LLLL",
@@ -1356,41 +1548,6 @@
       "replaces": null,
       "rawText": "A0873/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611040700 C) 2611041100 E) RWY 08/26 CLSD EXC RWY INT, DUE WIP.)",
       "rowID": "2076763",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
-    },
-    {
-      "id": "A0872/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-11-03T06:00:00.000Z",
-      "toDate": "2026-11-03T12:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QMRLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "A",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "999",
-        "position": {
-          "lat": 32.016667,
-          "lon": 34.883333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "RWY 03/21 CLSD DUE WIP.",
-      "position": {
-        "lat": 32.016667,
-        "lon": 34.883333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0872/26 NOTAMN Q) LLLL/QMRLC/IV/NBO/A /000/999/3201N03453E005 A) LLBG B) 2611030600 C) 2611031200 E) RWY 03/21 CLSD DUE WIP.)",
-      "rowID": "2076756",
       "firstSeen": "2026-11-02T08:30:15.380Z"
     },
     {
