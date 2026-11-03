@@ -1,11 +1,63 @@
 {
-  "generatedAt": "2026-11-03T09:30:13.924Z",
+  "generatedAt": "2026-11-03T10:00:15.137Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 108,
+  "count": 109,
   "notams": [
+    {
+      "id": "C2342/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T03:40:00.000Z",
+      "toDate": "2026-11-12T15:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "037",
+        "position": {
+          "lat": 30.966667,
+          "lon": 34.933333,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL",
+      "position": {
+        "lat": 30.966667,
+        "lon": 34.933333,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2342/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/037/3058N03456E001 A) LLLL B) 2611090340 C) 2611121530 D) DAILY 0340-1530 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM, FM GND UP TO 600M AGL. AN AREA WI 0.3NM RADIUS CENTERED ON PSN 305819N0345601E CLSD FM GND UP TO 3,700FT AMSL. CTN ADZ. F) GND G) 3700FT AMSL)",
+      "rowID": "2077536",
+      "firstSeen": "2026-11-03T10:00:15.137Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              30.971944,
+              34.933611
+            ],
+            "radiusNm": 0.3
+          }
+        ],
+        "anchor": [
+          30.971944,
+          34.933611
+        ]
+      }
+    },
     {
       "id": "C2341/26",
       "location": "LLLL",
