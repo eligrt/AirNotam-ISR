@@ -1,204 +1,17 @@
 {
-  "generatedAt": "2026-11-03T06:30:17.805Z",
+  "generatedAt": "2026-11-03T07:00:15.478Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 108,
+  "count": 107,
   "notams": [
     {
-      "id": "C2337/26",
+      "id": "C2339/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-04T07:00:00.000Z",
-      "toDate": "2026-11-04T16:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "020",
-        "position": {
-          "lat": 31.633333,
-          "lon": 34.65,
-          "radiusNm": 1,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS ACT WILL TAKE PLACE AT KOHAV-MICHAL. AN AREA WI 0.6NM RADIUS CENTERED ON PSN 313758N0343929E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2000FT AMSL",
-      "position": {
-        "lat": 31.633333,
-        "lon": 34.65,
-        "radiusNm": 1,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2337/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/020/3138N03439E001 A) LLLL B) 2611040700 C) 2611041600 E) UAS ACT WILL TAKE PLACE AT KOHAV-MICHAL. AN AREA WI 0.6NM RADIUS CENTERED ON PSN 313758N0343929E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2000FT AMSL)",
-      "rowID": "2077232",
-      "firstSeen": "2026-11-02T14:00:16.770Z",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "circle",
-            "center": [
-              31.632778,
-              34.658056
-            ],
-            "radiusNm": 0.6
-          }
-        ],
-        "anchor": [
-          31.632778,
-          34.658056
-        ]
-      }
-    },
-    {
-      "id": "C2335/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-03T06:00:00.000Z",
-      "toDate": "2026-11-03T16:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QAELC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "015",
-        "position": {
-          "lat": 31.216667,
-          "lon": 34.516667,
-          "radiusNm": 3,
-          "source": "q_line"
-        }
-      },
-      "eText": "AN AREA AT TZEELIM BTN FLW PSN CLSD FM GND UP TO 1,500 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 311548N0343054E 311536N0343157E 311105N343147E 311050N0343052E. CTN ADZ.)",
-      "position": {
-        "lat": 31.216667,
-        "lon": 34.516667,
-        "radiusNm": 3,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2335/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/015/3113N03431E003 A) LLLL B) 2611030600 C) 2611031600 E) AN AREA AT TZEELIM BTN FLW PSN CLSD FM GND UP TO 1,500 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 311548N0343054E 311536N0343157E 311105N343147E 311050N0343052E. CTN ADZ.))",
-      "rowID": "2077226",
-      "firstSeen": "2026-11-02T13:30:19.070Z",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.263333,
-                34.515
-              ],
-              [
-                31.26,
-                34.5325
-              ],
-              [
-                31.184722,
-                34.529722
-              ],
-              [
-                31.180556,
-                34.514444
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.222153,
-          34.522917
-        ],
-        "corrected": "C2335/26"
-      }
-    },
-    {
-      "id": "C2333/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-10T06:00:00.000Z",
-      "toDate": "2026-11-12T15:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.483333,
-          "lon": 34.833333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.483333,
-        "lon": 34.833333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2333/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3129N03450E005 A) LLLL B) 2611100600 C) 2611121500 D) DAILY 0600-1500 E) PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL)",
-      "rowID": "2077137",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.533333,
-                34.888611
-              ],
-              [
-                31.533056,
-                34.7925
-              ],
-              [
-                31.433889,
-                34.791667
-              ],
-              [
-                31.412222,
-                34.84
-              ],
-              [
-                31.433889,
-                34.886389
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.469278,
-          34.839833
-        ]
-      }
-    },
-    {
-      "id": "C2332/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-09T10:00:00.000Z",
-      "toDate": "2026-11-11T11:00:00.000Z",
+      "fromDate": "2026-11-08T10:00:00.000Z",
+      "toDate": "2026-11-10T11:00:00.000Z",
       "qLine": {
         "fir": "LLLL",
         "qcode": "QARLT",
@@ -224,9 +37,9 @@
       "administrative": false,
       "notamType": "N",
       "replaces": null,
-      "rawText": "C2332/26 NOTAMN Q) LLLL/QARLT/IV/NBO/E /008/012/3155N03446E008 A) LLLL B) 2611091000 C) 2611111100 D) NOV 09 1000-1100 1500-1700, NOV 10 0600-0700 1000-1100 1800-1930, NOV 11 0600-0700 1000-1100 E) CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.)",
-      "rowID": "2077128",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
+      "rawText": "C2339/26 NOTAMN Q) LLLL/QARLT/IV/NBO/E /008/012/3155N03446E008 A) LLLL B) 2611081000 C) 2611101100 D) 08 1000-1100 1500-1700, 09 0600-0700 1000-1100 1800-1930, 10 0600-0700 1000-1100 E) CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.)",
+      "rowID": "2077497",
+      "firstSeen": "2026-11-03T07:00:15.478Z",
       "geometry": {
         "source": "route",
         "parts": [
@@ -474,11 +287,129 @@
       }
     },
     {
-      "id": "C2331/26",
+      "id": "C2337/26",
       "location": "LLLL",
       "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-09T10:00:00.000Z",
-      "toDate": "2026-11-11T11:00:00.000Z",
+      "fromDate": "2026-11-04T07:00:00.000Z",
+      "toDate": "2026-11-04T16:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWULW",
+        "traffic": "IV",
+        "purpose": "BO",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 31.633333,
+          "lon": 34.65,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "UAS ACT WILL TAKE PLACE AT KOHAV-MICHAL. AN AREA WI 0.6NM RADIUS CENTERED ON PSN 313758N0343929E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2000FT AMSL",
+      "position": {
+        "lat": 31.633333,
+        "lon": 34.65,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2337/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/020/3138N03439E001 A) LLLL B) 2611040700 C) 2611041600 E) UAS ACT WILL TAKE PLACE AT KOHAV-MICHAL. AN AREA WI 0.6NM RADIUS CENTERED ON PSN 313758N0343929E CLSD FM GND UP TO 2,000FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 2000FT AMSL)",
+      "rowID": "2077232",
+      "firstSeen": "2026-11-02T14:00:16.770Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              31.632778,
+              34.658056
+            ],
+            "radiusNm": 0.6
+          }
+        ],
+        "anchor": [
+          31.632778,
+          34.658056
+        ]
+      }
+    },
+    {
+      "id": "C2335/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-03T06:00:00.000Z",
+      "toDate": "2026-11-03T16:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 31.216667,
+          "lon": 34.516667,
+          "radiusNm": 3,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT TZEELIM BTN FLW PSN CLSD FM GND UP TO 1,500 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 311548N0343054E 311536N0343157E 311105N343147E 311050N0343052E. CTN ADZ.)",
+      "position": {
+        "lat": 31.216667,
+        "lon": 34.516667,
+        "radiusNm": 3,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2335/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/015/3113N03431E003 A) LLLL B) 2611030600 C) 2611031600 E) AN AREA AT TZEELIM BTN FLW PSN CLSD FM GND UP TO 1,500 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 311548N0343054E 311536N0343157E 311105N343147E 311050N0343052E. CTN ADZ.))",
+      "rowID": "2077226",
+      "firstSeen": "2026-11-02T13:30:19.070Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.263333,
+                34.515
+              ],
+              [
+                31.26,
+                34.5325
+              ],
+              [
+                31.184722,
+                34.529722
+              ],
+              [
+                31.180556,
+                34.514444
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.222153,
+          34.522917
+        ],
+        "corrected": "C2335/26"
+      }
+    },
+    {
+      "id": "C2333/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-10T06:00:00.000Z",
+      "toDate": "2026-11-12T15:00:00.000Z",
       "qLine": {
         "fir": "LLLL",
         "qcode": "QWPLW",
@@ -486,26 +417,26 @@
         "purpose": "M",
         "scope": "W",
         "lowerLimitFl": "000",
-        "upperLimitFl": "024",
+        "upperLimitFl": "080",
         "position": {
-          "lat": 31.05,
-          "lon": 34.7,
-          "radiusNm": 6,
+          "lat": 31.483333,
+          "lon": 34.833333,
+          "radiusNm": 5,
           "source": "q_line"
         }
       },
-      "eText": "PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL",
+      "eText": "PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL",
       "position": {
-        "lat": 31.05,
-        "lon": 34.7,
-        "radiusNm": 6,
+        "lat": 31.483333,
+        "lon": 34.833333,
+        "radiusNm": 5,
         "source": "q_line"
       },
       "administrative": false,
       "notamType": "N",
       "replaces": null,
-      "rawText": "C2331/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/024/3103N03442E006 A) LLLL B) 2611091000 C) 2611111100 D) 09 1000-1100 1500-1700, 10 0600-0800 1000-1100 1800-1900, 11 0600-0700 1000-1100 E) PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL)",
-      "rowID": "2077118",
+      "rawText": "C2333/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3129N03450E005 A) LLLL B) 2611100600 C) 2611121500 D) DAILY 0600-1500 E) PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL)",
+      "rowID": "2077137",
       "firstSeen": "2026-11-02T08:30:15.380Z",
       "geometry": {
         "source": "e_text",
@@ -514,35 +445,31 @@
             "type": "polygon",
             "coords": [
               [
-                31.12,
-                34.763889
+                31.533333,
+                34.888611
               ],
               [
-                31.086389,
-                34.655556
+                31.533056,
+                34.7925
               ],
               [
-                31.081944,
-                34.615278
+                31.433889,
+                34.791667
               ],
               [
-                30.991944,
-                34.6375
+                31.412222,
+                34.84
               ],
               [
-                31.009722,
-                34.735833
-              ],
-              [
-                31.066389,
-                34.788889
+                31.433889,
+                34.886389
               ]
             ]
           }
         ],
         "anchor": [
-          31.059398,
-          34.699491
+          31.469278,
+          34.839833
         ]
       }
     },
@@ -13303,6 +13230,361 @@
         ]
       },
       "cancelledAt": "2026-11-02T14:00:16.770Z"
+    },
+    {
+      "id": "C2332/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T10:00:00.000Z",
+      "toDate": "2026-11-11T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLT",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "008",
+        "upperLimitFl": "012",
+        "position": {
+          "lat": 31.916667,
+          "lon": 34.766667,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.",
+      "position": {
+        "lat": 31.916667,
+        "lon": 34.766667,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2332/26 NOTAMN Q) LLLL/QARLT/IV/NBO/E /008/012/3155N03446E008 A) LLLL B) 2611091000 C) 2611111100 D) NOV 09 1000-1100 1500-1700, NOV 10 0600-0700 1000-1100 1800-1930, NOV 11 0600-0700 1000-1100 E) CVFR AND HEL RTE CLSD AT 1,200FT, AVBL BIDIRECTIONAL AT 800FT AMSL ONLY TYONA-SUPER-NTAIM-BOVED-NAGID-YAVNE-ZASHD.)",
+      "rowID": "2077128",
+      "firstSeen": "2026-11-02T08:30:15.380Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.00472,
+                34.72722
+              ],
+              [
+                31.97634,
+                34.7416
+              ]
+            ],
+            "leg": "TYONA-SUPER",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.97634,
+                34.7416
+              ],
+              [
+                31.94436,
+                34.77393
+              ],
+              [
+                31.94423,
+                34.77409
+              ],
+              [
+                31.94411,
+                34.77425
+              ],
+              [
+                31.94399,
+                34.77441
+              ],
+              [
+                31.94388,
+                34.77458
+              ],
+              [
+                31.94378,
+                34.77476
+              ],
+              [
+                31.94368,
+                34.77494
+              ],
+              [
+                31.94359,
+                34.77512
+              ],
+              [
+                31.9435,
+                34.77531
+              ],
+              [
+                31.94342,
+                34.7755
+              ],
+              [
+                31.94334,
+                34.77569
+              ],
+              [
+                31.94327,
+                34.77589
+              ],
+              [
+                31.94321,
+                34.77609
+              ],
+              [
+                31.94315,
+                34.7763
+              ],
+              [
+                31.9431,
+                34.7765
+              ],
+              [
+                31.94306,
+                34.77671
+              ],
+              [
+                31.94302,
+                34.77692
+              ],
+              [
+                31.94299,
+                34.77713
+              ],
+              [
+                31.94297,
+                34.77734
+              ],
+              [
+                31.94296,
+                34.77755
+              ],
+              [
+                31.94295,
+                34.77777
+              ],
+              [
+                31.94294,
+                34.77798
+              ],
+              [
+                31.94295,
+                34.77819
+              ],
+              [
+                31.94296,
+                34.77841
+              ],
+              [
+                31.94298,
+                34.77862
+              ],
+              [
+                31.943,
+                34.77883
+              ],
+              [
+                31.94303,
+                34.77904
+              ],
+              [
+                31.94307,
+                34.77925
+              ],
+              [
+                31.94312,
+                34.77946
+              ],
+              [
+                31.94317,
+                34.77966
+              ],
+              [
+                31.94323,
+                34.77987
+              ],
+              [
+                31.94329,
+                34.78007
+              ],
+              [
+                31.94336,
+                34.78026
+              ],
+              [
+                31.94344,
+                34.78046
+              ],
+              [
+                31.94352,
+                34.78065
+              ],
+              [
+                31.94361,
+                34.78083
+              ]
+            ],
+            "leg": "SUPER-NTAIM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.94361,
+                34.78083
+              ],
+              [
+                31.92028,
+                34.77
+              ]
+            ],
+            "leg": "NTAIM-BOVED",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.92028,
+                34.77
+              ],
+              [
+                31.88972,
+                34.75583
+              ]
+            ],
+            "leg": "BOVED-NAGID",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.88972,
+                34.75583
+              ],
+              [
+                31.87194,
+                34.75694
+              ]
+            ],
+            "leg": "NAGID-YAVNE",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.87194,
+                34.75694
+              ],
+              [
+                31.82611,
+                34.70833
+              ]
+            ],
+            "leg": "YAVNE-ZASHD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          31.849025,
+          34.732635
+        ]
+      },
+      "cancelledAt": "2026-11-03T07:00:15.478Z"
+    },
+    {
+      "id": "C2331/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T10:00:00.000Z",
+      "toDate": "2026-11-11T11:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QWPLW",
+        "traffic": "IV",
+        "purpose": "M",
+        "scope": "W",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "024",
+        "position": {
+          "lat": 31.05,
+          "lon": 34.7,
+          "radiusNm": 6,
+          "source": "q_line"
+        }
+      },
+      "eText": "PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL",
+      "position": {
+        "lat": 31.05,
+        "lon": 34.7,
+        "radiusNm": 6,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2331/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/024/3103N03442E006 A) LLLL B) 2611091000 C) 2611111100 D) 09 1000-1100 1500-1700, 10 0600-0800 1000-1100 1800-1900, 11 0600-0700 1000-1100 E) PJE WILL TAKE PLACE AT REVIVIM. AN AREA BTN FLW PSN CLSD FM GND UP 2,400FT AMSL 310712N0344550E 310511N0343920E 310455N0343655E 305931N0343815E 310035N0344409E 310359N0344720E 310712N0344550E. OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC CTN ADZ. F) GND G) 2400FT AMSL)",
+      "rowID": "2077118",
+      "firstSeen": "2026-11-02T08:30:15.380Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                31.12,
+                34.763889
+              ],
+              [
+                31.086389,
+                34.655556
+              ],
+              [
+                31.081944,
+                34.615278
+              ],
+              [
+                30.991944,
+                34.6375
+              ],
+              [
+                31.009722,
+                34.735833
+              ],
+              [
+                31.066389,
+                34.788889
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          31.059398,
+          34.699491
+        ]
+      },
+      "cancelledAt": "2026-11-03T07:00:15.478Z"
     }
   ]
 }
