@@ -1,11 +1,63 @@
 {
-  "generatedAt": "2026-11-03T12:30:16.580Z",
+  "generatedAt": "2026-11-03T13:00:15.403Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 114,
+  "count": 115,
   "notams": [
+    {
+      "id": "C2347/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T05:00:00.000Z",
+      "toDate": "2026-11-09T15:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "022",
+        "position": {
+          "lat": 32.616667,
+          "lon": 35,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT BAT-SHLOMO WI 0.54NM RADIUS CENTERED ON PSN 323721N0350002E CLSD FM GND UP TO 2,200FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.",
+      "position": {
+        "lat": 32.616667,
+        "lon": 35,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2347/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/022/3237N03500E001 A) LLLL B) 2611090500 C) 2611091500 E) AN AREA AT BAT-SHLOMO WI 0.54NM RADIUS CENTERED ON PSN 323721N0350002E CLSD FM GND UP TO 2,200FT AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. CTN ADZ.)",
+      "rowID": "2077603",
+      "firstSeen": "2026-11-03T13:00:15.403Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "circle",
+            "center": [
+              32.6225,
+              35.000556
+            ],
+            "radiusNm": 0.54
+          }
+        ],
+        "anchor": [
+          32.6225,
+          35.000556
+        ]
+      }
+    },
     {
       "id": "C2346/26",
       "location": "LLLL",
