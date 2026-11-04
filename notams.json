@@ -1,11 +1,193 @@
 {
-  "generatedAt": "2026-11-04T06:30:41.767Z",
+  "generatedAt": "2026-11-04T07:00:46.578Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 113,
+  "count": 115,
   "notams": [
+    {
+      "id": "C2349/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-04T08:00:00.000Z",
+      "toDate": "2026-11-04T14:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "022",
+        "position": {
+          "lat": 32.783333,
+          "lon": 35.3,
+          "radiusNm": 1,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT BEIT-RIMON FM GND UP TO 2,200FT AMSL CLSD TO ALL FLT BTN FLW PSN 324620N0351807E 324702N0351803E 324704N0351840E 324621N0351847E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ.",
+      "position": {
+        "lat": 32.783333,
+        "lon": 35.3,
+        "radiusNm": 1,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2349/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/022/3247N03518E001 A) LLLL B) 2611040800 C) 2611041400 E) AN AREA AT BEIT-RIMON FM GND UP TO 2,200FT AMSL CLSD TO ALL FLT BTN FLW PSN 324620N0351807E 324702N0351803E 324704N0351840E 324621N0351847E OPS OF AGRICULTURE FLT WI 15MIN PPR FM ATC. CTN ADZ.)",
+      "rowID": "2077879",
+      "firstSeen": "2026-11-04T07:00:46.578Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                32.772222,
+                35.301944
+              ],
+              [
+                32.783889,
+                35.300833
+              ],
+              [
+                32.784444,
+                35.311111
+              ],
+              [
+                32.7725,
+                35.313056
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.778264,
+          35.306736
+        ]
+      }
+    },
+    {
+      "id": "C2348/26",
+      "location": "LLIB",
+      "locationDescription": "Rosh-Pina",
+      "fromDate": "2026-11-22T07:00:00.000Z",
+      "toDate": "2026-11-22T10:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALT",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 32.983333,
+          "lon": 35.566667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AD CLSD TO ALL FLT, DUE WIP. OPS OF HEL AVBL BY PPR FM ATC. IN CASE OF EMERG OR MEDEVAC HEL AVBL WI 10MIN.",
+      "position": {
+        "lat": 32.983333,
+        "lon": 35.566667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2348/26 NOTAMN Q) LLLL/QFALT/IV/NBO/A /000/999/3259N03534E005 A) LLIB B) 2611220700 C) 2611221000 E) AD CLSD TO ALL FLT, DUE WIP. OPS OF HEL AVBL BY PPR FM ATC. IN CASE OF EMERG OR MEDEVAC HEL AVBL WI 10MIN.)",
+      "rowID": "2077869",
+      "firstSeen": "2026-11-04T07:00:46.578Z",
+      "geometry": {
+        "source": "airfield",
+        "areas": [
+          {
+            "code": "LLIB",
+            "kind": "AIRFIELD",
+            "name": "Rosh-Pina"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "role": "airfield",
+            "coords": [
+              [
+                33.014971,
+                35.573864
+              ],
+              [
+                32.984903,
+                35.527993
+              ],
+              [
+                32.946951,
+                35.563347
+              ],
+              [
+                32.977019,
+                35.609217
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "role": "runway",
+            "coords": [
+              [
+                32.989499,
+                35.568492
+              ],
+              [
+                32.977024,
+                35.576957
+              ],
+              [
+                32.974881,
+                35.572468
+              ],
+              [
+                32.987356,
+                35.564003
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "role": "runway",
+            "coords": [
+              [
+                32.982405,
+                35.578985
+              ],
+              [
+                32.972861,
+                35.564425
+              ],
+              [
+                32.976275,
+                35.561245
+              ],
+              [
+                32.985819,
+                35.575805
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          32.980961,
+          35.568605
+        ]
+      }
+    },
     {
       "id": "C2347/26",
       "location": "LLLL",
