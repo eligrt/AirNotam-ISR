@@ -1,6 +1,6 @@
 {
  "type": "FeatureCollection",
- "tool": "road-calibration-tool v1.00.006",
+ "tool": "road-calibration-tool v1.00.006 (road 25 doubled stretch near 34.74-34.78E removed by hand-check)",
  "saved": "2026-11-04T14:29:36.611Z",
  "meta": {
   "source": "OpenStreetMap contributors (ODbL), openstreetmap.org/copyright",
@@ -10,7 +10,7 @@
   {
    "ref": "91",
    "name": "כביש 91",
-   "checked": false,
+   "checked": true,
    "src": "osm",
    "downloaded": "2026-11-02",
    "bbox": [
@@ -23,7 +23,7 @@
   {
    "ref": "85",
    "name": "כביש 85",
-   "checked": false,
+   "checked": true,
    "src": "osm+edited",
    "downloaded": "2026-11-02",
    "bbox": [
@@ -36,7 +36,7 @@
   {
    "ref": "25",
    "name": "כביש 25",
-   "checked": false,
+   "checked": true,
    "src": "osm",
    "downloaded": "2026-11-02",
    "bbox": [
@@ -49,7 +49,7 @@
   {
    "ref": "34",
    "name": "כביש 34",
-   "checked": false,
+   "checked": true,
    "src": "osm+edited",
    "downloaded": "2026-11-02",
    "bbox": [
@@ -66,7 +66,7 @@
    "properties": {
     "ref": "91",
     "name": "כביש 91",
-    "checked": false,
+    "checked": true,
     "src": "osm",
     "downloaded": "2026-11-02"
    },
@@ -563,7 +563,7 @@
    "properties": {
     "ref": "85",
     "name": "כביש 85",
-    "checked": false,
+    "checked": true,
     "src": "osm+edited",
     "downloaded": "2026-11-02"
    },
@@ -1008,7 +1008,7 @@
    "properties": {
     "ref": "25",
     "name": "כביש 25",
-    "checked": false,
+    "checked": true,
     "src": "osm",
     "downloaded": "2026-11-02"
    },
@@ -1685,46 +1685,6 @@
        31.250197
       ],
       [
-       34.77218,
-       31.251532
-      ],
-      [
-       34.770402,
-       31.25216
-      ],
-      [
-       34.761011,
-       31.254554
-      ],
-      [
-       34.760271,
-       31.255136
-      ],
-      [
-       34.757958,
-       31.258105
-      ],
-      [
-       34.756154,
-       31.259605
-      ],
-      [
-       34.754267,
-       31.260664
-      ],
-      [
-       34.748855,
-       31.262966
-      ],
-      [
-       34.741399,
-       31.267542
-      ],
-      [
-       34.739583,
-       31.269125
-      ],
-      [
        34.775064,
        31.249664
       ],
@@ -2077,7 +2037,7 @@
    "properties": {
     "ref": "34",
     "name": "כביש 34",
-    "checked": false,
+    "checked": true,
     "src": "osm+edited",
     "downloaded": "2026-11-02"
    },
