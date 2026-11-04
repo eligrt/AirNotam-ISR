@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.022 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.023 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -112,6 +112,13 @@
  *   carry no qualifier that makes the closure partial or an exception (N/S/E/W OF, ROAD, EXC, EXCEPT, TKOF, LDG, AVBL,
  *   WI, ACT, BTN, FM). Everything else that mentions a bubble keeps the Q circle (no flag). A code that is not in the
  *   file, or a bubble that reaches outside the Q circle (+1.5 NM), means no shape at all (Q circle), never half a closure.
+ *
+ * BUBBLE CUT ALONG A ROAD (v1.00.023, Eli 2026-11-04): "ULTRALIGHT BUBBLE RAMAT HAGOLAN (BRGOL) CLSD N OF ROAD NR 91." (C2307). Only this exact
+ *   wording: one bubble code, CLSD, one direction (N S E W NE NW SE SW) and one road number, nothing else in the sentence. The bubble polygon is cut
+ *   along the road line (gis/manual/roads.json, only roads marked "checked"; the road must cross the bubble exactly twice). The part on the closed
+ *   side is the NOTAM shape (red, "source":"bubble"); the open rest of the same bubble is added as "open":[{coords}] and the app draws it purple dashed,
+ *   like the bubbles layer, whenever the NOTAM is shown. The open part is never used for route matching. Anything else (road not in the file, not
+ *   exactly two crossings, a part outside the Q circle) keeps the Q circle. Roads come from OpenStreetMap contributors (ODbL).
  *
  * CLOSED AIRFIELDS (v1.00.021, Eli 2026-11-02): "AD CLSD" / "AIRSTRIP CLSD" (Q code QFA..) with no coordinates in field E. Instead of the 5 NM
  *   Q circle: ONE RECTANGLE lined up with the airfield's longest runway, 1 NM (AD_MARGIN_NM) beyond the runway boxes on every side, so a route
@@ -861,6 +868,81 @@ function bubbleArea(notam) {
   return { geometry: { source: "bubble", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
 }
 
+// ── bubble cut along a road (v1.00.023): "ULTRALIGHT BUBBLE ... (BRGOL) CLSD N OF ROAD NR 91." ──
+let ROADS = null;                                                                 // road number -> [[lat,lon],...] (one line, reviewed = "checked")
+export function loadRoads(dir) {
+  ROADS = new Map();
+  const fc = JSON.parse(readFileSync(`${dir}/roads.json`, "utf8"));
+  for (const f of fc.features || []) {
+    const ref = String(f.properties?.ref || ""), g = f.geometry;
+    if (!ref || !f.properties.checked || !g || g.type !== "MultiLineString" || !g.coordinates?.length) continue;
+    const longest = g.coordinates.slice().sort((a, b) => b.length - a.length)[0];
+    if (longest.length >= 2) ROADS.set(ref, longest.map(([lon, lat]) => [lat, lon]));
+  }
+}
+const CUT_DIR = { N: [0, 1], S: [0, -1], E: [1, 0], W: [-1, 0], NE: [Math.SQRT1_2, Math.SQRT1_2], NW: [-Math.SQRT1_2, Math.SQRT1_2], SE: [Math.SQRT1_2, -Math.SQRT1_2], SW: [-Math.SQRT1_2, -Math.SQRT1_2] };
+// cut a ring along a road: returns { closed, open } (rings, [lat,lon]) or null. Flat plane: x = lon * cos(lat0), y = lat.
+function cutRingAlongRoad(ring0, road0, dir) {
+  const ring = ring0.slice(); if (ring.length > 1 && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1]) ring.pop();
+  if (ring.length < 3 || road0.length < 2) return null;
+  const k = Math.cos(ring[0][0] * Math.PI / 180), X = p => [p[1] * k, p[0]], back = q => [q[1], q[0] / k];   // back(): flat -> [lat,lon]
+  const R = ring.map(X), D = road0.map(X);
+  const ext = (a, b, len) => { const dx = b[0] - a[0], dy = b[1] - a[1], n = Math.hypot(dx, dy) || 1; return [b[0] + dx / n * len, b[1] + dy / n * len]; };
+  const L = 0.3;                                                                  // 0.3 degree (about 33 km): the road line reaches past the bubble on both ends
+  const road = [ext(D[1], D[0], L), ...D, ext(D[D.length - 2], D[D.length - 1], L)];
+  const hits = [];
+  for (let i = 0; i < R.length; i++) {
+    const a = R[i], b = R[(i + 1) % R.length];
+    for (let j = 0; j < road.length - 1; j++) {
+      const c = road[j], d = road[j + 1], rx = b[0] - a[0], ry = b[1] - a[1], sx = d[0] - c[0], sy = d[1] - c[1], den = rx * sy - ry * sx;
+      if (Math.abs(den) < 1e-15) continue;
+      const t = ((c[0] - a[0]) * sy - (c[1] - a[1]) * sx) / den, u = ((c[0] - a[0]) * ry - (c[1] - a[1]) * rx) / den;
+      if (t >= 0 && t < 1 && u >= 0 && u < 1) hits.push({ e: i, t, j, u, pt: [a[0] + t * rx, a[1] + t * ry] });
+    }
+  }
+  if (hits.length !== 2) return null;                                             // the road must go in and out exactly once
+  hits.sort((p, q) => p.e - q.e || p.t - q.t);
+  const [h1, h2] = hits;                                                          // in ring order
+  const viaRoad = (from, to) => {                                                 // road points from one crossing to the other
+    const pts = [from.pt], f = from.j + from.u, t2 = to.j + to.u;
+    if (f <= t2) for (let m = from.j + 1; m <= to.j; m++) pts.push(road[m]);
+    else for (let m = from.j; m >= to.j + 1; m--) pts.push(road[m]);
+    pts.push(to.pt); return pts;
+  };
+  if (h1.e === h2.e) return null;                                                 // both crossings on the same edge: a sliver, not a real cut; keep the circle
+  const n = R.length, arc = (e1, e2) => { const v = []; for (let m = (e1 + 1) % n; ; m = (m + 1) % n) { v.push(R[m]); if (m === e2) break; } return v; };   // vertices after edge e1 up to the start of edge e2
+  const Av = arc(h1.e, h2.e), Bv = arc(h2.e, h1.e);
+  const A = { ring: [h1.pt, ...Av, ...viaRoad(h2, h1)], own: Av };
+  const B = { ring: [h2.pt, ...Bv, ...viaRoad(h1, h2)], own: Bv };
+  const segDist = (p, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy, t = l2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)) : 0, qx = a[0] + t * dx, qy = a[1] + t * dy; return { d: Math.hypot(p[0] - qx, p[1] - qy), v: [p[0] - qx, p[1] - qy] }; };
+  const sideOf = own => {                                                         // the polygon's own vertex farthest from the road: which side of the road is it on
+    let best = null;
+    for (const p of own) { let m = null; for (let j = 0; j < road.length - 1; j++) { const r = segDist(p, road[j], road[j + 1]); if (!m || r.d < m.d) m = r; } if (!best || m.d > best.d) best = m; }
+    return best ? best.v[0] * CUT_DIR[dir][0] + best.v[1] * CUT_DIR[dir][1] : null;
+  };
+  const sa = sideOf(A.own), sb = sideOf(B.own);
+  if (sa == null || sb == null || (sa > 0) === (sb > 0)) return null;             // the two parts must lie on opposite sides
+  const toLL = r => r.map(back);
+  return sa > 0 ? { closed: toLL(A.ring), open: toLL(B.ring) } : { closed: toLL(B.ring), open: toLL(A.ring) };
+}
+const RX_BUBBLE_ROAD = /^ULTRALIGHT\s+BUBBLE\s+[A-Z' -]*?\((B[A-Z]{4})\)\s+CLSD\s+(N|S|E|W|NE|NW|SE|SW)\s+OF\s+ROAD\s+(?:NR\s+)?(\d{1,3})$/;
+function bubbleRoadCut(notam) {
+  if (!BUBBLES || !ROADS) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "").replace(/\s+/g, " ").trim().replace(/\.$/, "");
+  const m = text.match(RX_BUBBLE_ROAD);
+  if (!m) return null;
+  const [, code, dir, ref] = m;
+  const b = BUBBLES.get(code), road = ROADS.get(ref);
+  if (!b || !road) return null;
+  const cut = cutRingAlongRoad(b.ring, road, dir);
+  if (!cut) return null;
+  const qp = notam.qLine?.position || notam.position;
+  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null && [...cut.closed, ...cut.open].some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;
+  const closed = cut.closed.map(RP);
+  return { geometry: { source: "bubble", areas: [{ code, kind: "BUBBLE", name: b.name }], parts: [{ type: "polygon", coords: closed }],
+    open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, anchor: RP(polyAnchor(closed)) } };
+}
+
 // ── closed airfields (v1.00.021): "AD CLSD" / "AIRSTRIP CLSD" -> one rectangle round the airfield (1 NM margin) with an exact box round each runway ──
 let RUNWAYS = null;                                                               // [{name, coords [[lat,lon],...]}]
 export function loadRunways(dir, manualDir) {                                       // v1.00.022: + gis/manual/extra-runways.json (runways missing from the official file)
@@ -954,7 +1036,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -1073,6 +1155,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   try { loadRoutes(odir, mdir); } catch (e) { console.log(`notam-geometry: no route layers (${e.message}); closed route legs skipped`); }
   try { loadRunways(odir, mdir); } catch (e) { console.log(`notam-geometry: no runway lines (${e.message}); closed airfields stay Q circles`); }
   try { loadBubbles(mdir); } catch (e) { console.log(`notam-geometry: no bubble polygons (${e.message}); bubble closures skipped`); }
+  try { loadRoads(mdir); } catch (e) { console.log(`notam-geometry: no roads (${e.message}); bubbles cut along a road stay Q circles`); }
   try { loadCorrections(mdir); } catch (e) { console.log(`notam-geometry: no text corrections (${e.message})`); }
   try { loadTraining(mdir); } catch (e) { console.log(`notam-geometry: no training areas (${e.message}); training areas stay Q circles`); }
   try { loadAreas(odir); } catch (e) { console.log(`notam-geometry: no airspace layers (${e.message}); named areas skipped`); }
