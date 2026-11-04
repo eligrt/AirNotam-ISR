@@ -1,11 +1,92 @@
 {
-  "generatedAt": "2026-11-04T12:30:42.124Z",
+  "generatedAt": "2026-11-04T13:00:43.837Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 117,
+  "count": 118,
   "notams": [
+    {
+      "id": "C2354/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-08T13:10:00.000Z",
+      "toDate": "2026-11-09T13:40:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QAELC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "060",
+        "position": {
+          "lat": 33.15,
+          "lon": 35.783333,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AN AREA AT GOLAN HEIGHTS BTN FLW PSN CLSD FM GND UP TO 6,000 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 330522N0354555E 331306N0354502E 331310N0354852E 331209N0354853E 331125N0355008E 330951N0355026E 330732N0354857E 330638N0354850E. CTN ADZ.",
+      "position": {
+        "lat": 33.15,
+        "lon": 35.783333,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2354/26 NOTAMN Q) LLLL/QAELC/IV/NBO/E /000/060/3309N03547E005 A) LLLL B) 2611081310 C) 2611091340 D) 08 1310-1400, 09 1045-1115 1310-1340 E) AN AREA AT GOLAN HEIGHTS BTN FLW PSN CLSD FM GND UP TO 6,000 AMSL TO ALL FLT, OPS OF AGRICULTURE FLT AVBL WITH 15MIN PPR FM ATC. 330522N0354555E 331306N0354502E 331310N0354852E 331209N0354853E 331125N0355008E 330951N0355026E 330732N0354857E 330638N0354850E. CTN ADZ.)",
+      "rowID": "2077975",
+      "firstSeen": "2026-11-04T13:00:43.837Z",
+      "geometry": {
+        "source": "e_text",
+        "parts": [
+          {
+            "type": "polygon",
+            "coords": [
+              [
+                33.089444,
+                35.765278
+              ],
+              [
+                33.218333,
+                35.750556
+              ],
+              [
+                33.219444,
+                35.814444
+              ],
+              [
+                33.2025,
+                35.814722
+              ],
+              [
+                33.190278,
+                35.835556
+              ],
+              [
+                33.164167,
+                35.840556
+              ],
+              [
+                33.125556,
+                35.815833
+              ],
+              [
+                33.110556,
+                35.813889
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          33.165035,
+          35.806354
+        ]
+      }
+    },
     {
       "id": "C2353/26",
       "location": "LLLL",
