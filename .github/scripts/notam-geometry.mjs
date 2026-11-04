@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.023 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.024 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -119,6 +119,13 @@
  *   side is the NOTAM shape (red, "source":"bubble"); the open rest of the same bubble is added as "open":[{coords}] and the app draws it purple dashed,
  *   like the bubbles layer, whenever the NOTAM is shown. The open part is never used for route matching. Anything else (road not in the file, not
  *   exactly two crossings, a part outside the Q circle) keeps the Q circle. Roads come from OpenStreetMap contributors (ODbL).
+ *
+ * AREA NORTH OF TWO ROADS (v1.00.024, Eli 2026-11-04): "AN AREA N OF ROAD NR 85 AND ROAD NR 91 CLSD TO ALL DOM FLT, EXC ... ." (C2299). Only this wording
+ *   (north, two road numbers, CLSD TO ALL DOM FLT). Drawn as ONE polygon: road 85 and road 91 (gis/manual/roads.json, both "checked") from west to east, joined by a
+ *   straight line where the two roads end (road 90 is not used: the NOTAM does not name it), then north-east along the Syrian ceasefire line and west along the
+ *   Lebanese border (gis/manual/borders.json) back to the west end; the west edge is a straight line. "source":"roads". The exceptions in the text (ultralight bubble,
+ *   emergency, medevac...) are not drawn; the NOTAM text says them. The polygon may go beyond the Q circle (the IAA's circle is only a rough guess); it must only
+ *   have its centre inside the Q circle. Missing road, border, or a polygon that crosses itself keeps the Q circle.
  *
  * CLOSED AIRFIELDS (v1.00.021, Eli 2026-11-02): "AD CLSD" / "AIRSTRIP CLSD" (Q code QFA..) with no coordinates in field E. Instead of the 5 NM
  *   Q circle: ONE RECTANGLE lined up with the airfield's longest runway, 1 NM (AD_MARGIN_NM) beyond the runway boxes on every side, so a route
@@ -943,6 +950,35 @@ function bubbleRoadCut(notam) {
     open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, anchor: RP(polyAnchor(closed)) } };
 }
 
+// ── area north of two roads, up to the border (v1.00.024): "AN AREA N OF ROAD NR 85 AND ROAD NR 91 CLSD TO ALL DOM FLT ..." ──
+const RX_AREA_ROADS = /^AN AREA N OF ROAD NR (\d{1,3}) AND ROAD NR (\d{1,3}) CLSD TO ALL DOM FLT\b/;
+function areaNorthOfRoads(notam) {
+  if (!ROADS || !BORDERS || !BORDERS.syria || !BORDERS.lebanon) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "").replace(/\s+/g, " ").trim();
+  const m = text.match(RX_AREA_ROADS);
+  if (!m) return null;
+  const west = l => l[0][1] <= l[l.length - 1][1] ? l.slice() : l.slice().reverse();      // each road runs west -> east
+  let r1 = ROADS.get(m[1]), r2 = ROADS.get(m[2]);
+  if (!r1 || !r2) return null;
+  r1 = west(r1); r2 = west(r2);
+  if (r1[0][1] > r2[0][1]) [r1, r2] = [r2, r1];                                           // the western road first
+  const syr = BORDERS.syria, leb = BORDERS.lebanon, last = r2[r2.length - 1];
+  let bi = 0; for (let i = 1; i < syr.length; i++) if (distNm(syr[i], last) < distNm(syr[bi], last)) bi = i;
+  if (distNm(syr[bi], last) > 3) return null;                                             // the eastern road must end at the Syrian line
+  const syrNorth = syr[0][0] > syr[syr.length - 1][0] ? syr.slice(0, bi + 1).reverse() : syr.slice(bi);   // from the road's end north along the line
+  const lebWest = leb[0][1] < leb[leb.length - 1][1] ? leb.slice().reverse() : leb.slice();               // from the east end of the Lebanese line to the sea
+  if (distNm(syrNorth[syrNorth.length - 1], lebWest[0]) > 1.5) return null;               // the two border lines must meet
+  const ring = [...r1, ...r2, ...syrNorth, ...lebWest];
+  if (selfCrossing(ring)) return null;
+  const qp = notam.qLine?.position || notam.position;
+  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null) {
+    const cy = ring.reduce((a, q) => a + q[0], 0) / ring.length, cx = ring.reduce((a, q) => a + q[1], 0) / ring.length;
+    if (distNm([qp.lat, qp.lon], [cy, cx]) > qp.radiusNm) return null;                    // sanity: the area is where the Q circle is
+  }
+  const coords = ring.map(RP);
+  return { geometry: { source: "roads", areas: [{ code: `ROAD ${m[1]} + ROAD ${m[2]}`, kind: "ROADS", name: `N of road ${m[1]} and road ${m[2]}` }], parts: [{ type: "polygon", coords }], anchor: RP(polyAnchor(coords)) } };
+}
+
 // ── closed airfields (v1.00.021): "AD CLSD" / "AIRSTRIP CLSD" -> one rectangle round the airfield (1 NM margin) with an exact box round each runway ──
 let RUNWAYS = null;                                                               // [{name, coords [[lat,lon],...]}]
 export function loadRunways(dir, manualDir) {                                       // v1.00.022: + gis/manual/extra-runways.json (runways missing from the official file)
@@ -1036,7 +1072,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
