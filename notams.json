@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-04T09:00:43.210Z",
+  "generatedAt": "2026-11-04T09:30:42.327Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 115,
+  "count": 114,
   "notams": [
     {
       "id": "C2349/26",
@@ -1666,22 +1666,6 @@
           34.839833
         ]
       }
-    },
-    {
-      "id": "A0874/26",
-      "location": "LLBG",
-      "locationDescription": "Ben-Gurion",
-      "fromDate": "2026-11-04T07:00:00.000Z",
-      "toDate": "2026-11-04T09:00:00.000Z",
-      "qLine": null,
-      "eText": "ILS RWY 26 C/S BA FREQ 108.700MHZ WITHDRAWN FOR MAINT.",
-      "position": null,
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "A0874/26 NOTAMN Q) LLLL/QISAS/I /NBO/A /000/999/3201N03451E005 A) LLBG B) 2611040700 C) 2611040900 E) ILS RWY 26 C/S BA FREQ 108.700MHZ WITHDRAWN FOR MAINT.)",
-      "rowID": "2076764",
-      "firstSeen": "2026-11-02T08:30:15.380Z"
     },
     {
       "id": "A0873/26",
