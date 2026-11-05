@@ -1,11 +1,411 @@
 {
-  "generatedAt": "2026-11-05T09:30:42.381Z",
+  "generatedAt": "2026-11-05T10:00:49.999Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 118,
+  "count": 122,
   "notams": [
+    {
+      "id": "C2364/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-10T11:00:00.000Z",
+      "toDate": "2026-11-10T11:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "008",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 31.633333,
+          "lon": 34.833333,
+          "radiusNm": 9,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD DUE IFR ACT WI LLEK MACHZ-MKGAT-NAHLA-NAHEM-GEFFN-ZHRYA.",
+      "position": {
+        "lat": 31.633333,
+        "lon": 34.833333,
+        "radiusNm": 9,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2364/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /008/015/3138N03450E009 A) LLLL B) 2611101100 C) 2611101150 E) ULTRALIGHT RTE CLSD DUE IFR ACT WI LLEK MACHZ-MKGAT-NAHLA-NAHEM-GEFFN-ZHRYA.)",
+      "rowID": "2078310",
+      "firstSeen": "2026-11-05T10:00:49.999Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.51167,
+                34.78222
+              ],
+              [
+                31.51916,
+                34.78332
+              ],
+              [
+                31.53065,
+                34.79205
+              ],
+              [
+                31.53829,
+                34.79603
+              ],
+              [
+                31.58615,
+                34.8081
+              ],
+              [
+                31.59416,
+                34.81139
+              ],
+              [
+                31.59889,
+                34.81222
+              ]
+            ],
+            "leg": "MACHZ-MKGAT",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.59889,
+                34.81222
+              ],
+              [
+                31.63063,
+                34.81507
+              ],
+              [
+                31.65639,
+                34.80917
+              ]
+            ],
+            "leg": "MKGAT-NAHLA",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.65639,
+                34.80917
+              ],
+              [
+                31.67516,
+                34.8055
+              ],
+              [
+                31.70787,
+                34.82015
+              ],
+              [
+                31.74528,
+                34.82222
+              ]
+            ],
+            "leg": "NAHLA-NAHEM",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.74528,
+                34.82222
+              ],
+              [
+                31.74306,
+                34.87028
+              ]
+            ],
+            "leg": "NAHEM-GEFFN",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.74306,
+                34.87028
+              ],
+              [
+                31.7052,
+                34.92151
+              ],
+              [
+                31.70216,
+                34.9374
+              ],
+              [
+                31.69972,
+                34.945
+              ]
+            ],
+            "leg": "GEFFN-ZHRYA",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          31.554226,
+          34.800049
+        ]
+      }
+    },
+    {
+      "id": "C2363/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-10T11:00:00.000Z",
+      "toDate": "2026-11-10T11:50:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 31.65,
+          "lon": 34.85,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD DUE IFR ACT WI LLEK REVAH-NOAAM-GOVRN-ZHRYA.",
+      "position": {
+        "lat": 31.65,
+        "lon": 34.85,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2363/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3139N03451E008 A) LLLL B) 2611101100 C) 2611101150 E) CVFR RTE CLSD DUE IFR ACT WI LLEK REVAH-NOAAM-GOVRN-ZHRYA.)",
+      "rowID": "2078300",
+      "firstSeen": "2026-11-05T10:00:49.999Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.64444,
+                34.73028
+              ],
+              [
+                31.57139,
+                34.77583
+              ]
+            ],
+            "leg": "REVAH-NOAAM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.57139,
+                34.77583
+              ],
+              [
+                31.60611,
+                34.89278
+              ]
+            ],
+            "leg": "NOAAM-GOVRN",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.60611,
+                34.89278
+              ],
+              [
+                31.69972,
+                34.945
+              ]
+            ],
+            "leg": "GOVRN-ZHRYA",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          31.58875,
+          34.834305
+        ]
+      }
+    },
+    {
+      "id": "C2362/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-10T03:40:00.000Z",
+      "toDate": "2026-11-10T05:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "015",
+        "upperLimitFl": "020",
+        "position": {
+          "lat": 32.883333,
+          "lon": 35.133333,
+          "radiusNm": 4,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD EVLYM-AHIUD-AAKKO.",
+      "position": {
+        "lat": 32.883333,
+        "lon": 35.133333,
+        "radiusNm": 4,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2362/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /015/020/3253N03508E004 A) LLLL B) 2611100340 C) 2611100530 E) CVFR RTE CLSD EVLYM-AHIUD-AAKKO.)",
+      "rowID": "2078299",
+      "firstSeen": "2026-11-05T10:00:49.999Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.82389,
+                35.15139
+              ],
+              [
+                32.88436,
+                35.18252
+              ],
+              [
+                32.91194,
+                35.18111
+              ]
+            ],
+            "leg": "EVLYM-AHIUD",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.91194,
+                35.18111
+              ],
+              [
+                32.91861,
+                35.09639
+              ]
+            ],
+            "leg": "AHIUD-AAKKO",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          32.86678,
+          35.17347
+        ]
+      }
+    },
+    {
+      "id": "C2361/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-09T23:00:00.000Z",
+      "toDate": "2026-11-10T03:00:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 32.783333,
+          "lon": 35.483333,
+          "radiusNm": 7,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD TAVOR-DESHE.",
+      "position": {
+        "lat": 32.783333,
+        "lon": 35.483333,
+        "radiusNm": 7,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2361/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3247N03529E007 A) LLLL B) 2611092300 C) 2611100300 E) CVFR RTE CLSD TAVOR-DESHE.)",
+      "rowID": "2078296",
+      "firstSeen": "2026-11-05T10:00:49.999Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                32.69028,
+                35.42
+              ],
+              [
+                32.83984,
+                35.51277
+              ],
+              [
+                32.87,
+                35.5325
+              ]
+            ],
+            "leg": "TAVOR-DESHE",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          32.780318,
+          35.475849
+        ]
+      }
+    },
     {
       "id": "C2360/26",
       "location": "LLLL",
