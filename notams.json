@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-05T03:00:48.982Z",
+  "generatedAt": "2026-11-05T03:30:42.790Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 113,
+  "count": 112,
   "notams": [
     {
       "id": "C2354/26",
@@ -1735,70 +1735,6 @@
         "anchor": [
           31.469278,
           34.839833
-        ]
-      }
-    },
-    {
-      "id": "C2323/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-03T23:00:00.000Z",
-      "toDate": "2026-11-05T03:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QARLC",
-        "traffic": "IV",
-        "purpose": "NBO",
-        "scope": "E",
-        "lowerLimitFl": "025",
-        "upperLimitFl": "030",
-        "position": {
-          "lat": 32.783333,
-          "lon": 35.483333,
-          "radiusNm": 7,
-          "source": "q_line"
-        }
-      },
-      "eText": "CVFR RTE CLSD TAVOR-DESHE.",
-      "position": {
-        "lat": 32.783333,
-        "lon": 35.483333,
-        "radiusNm": 7,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2323/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3247N03529E007 A) LLLL B) 2611032300 C) 2611050300 D) DAILY 2300-0300 E) CVFR RTE CLSD TAVOR-DESHE.)",
-      "rowID": "2076751",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
-      "geometry": {
-        "source": "route",
-        "parts": [
-          {
-            "type": "line",
-            "coords": [
-              [
-                32.69028,
-                35.42
-              ],
-              [
-                32.83984,
-                35.51277
-              ],
-              [
-                32.87,
-                35.5325
-              ]
-            ],
-            "leg": "TAVOR-DESHE",
-            "layer": "cvfr",
-            "t": "OPEN · CIVIL"
-          }
-        ],
-        "anchor": [
-          32.780318,
-          35.475849
         ]
       }
     },
