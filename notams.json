@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-05T15:01:18.787Z",
+  "generatedAt": "2026-11-05T15:30:45.351Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 123,
+  "count": 121,
   "notams": [
     {
       "id": "C2365/26",
@@ -2741,75 +2741,6 @@
         "anchor": [
           33.106111,
           35.581667
-        ]
-      }
-    },
-    {
-      "id": "C2324/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-02T06:00:00.000Z",
-      "toDate": "2026-11-05T15:00:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWPLW",
-        "traffic": "IV",
-        "purpose": "M",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "080",
-        "position": {
-          "lat": 31.483333,
-          "lon": 34.833333,
-          "radiusNm": 5,
-          "source": "q_line"
-        }
-      },
-      "eText": "PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL",
-      "position": {
-        "lat": 31.483333,
-        "lon": 34.833333,
-        "radiusNm": 5,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2324/26 NOTAMN Q) LLLL/QWPLW/IV/M /W /000/080/3129N03450E005 A) LLLL B) 2611020600 C) 2611051500 D) DAILY 0600-1500 E) PJE WILL TAKE PLACE AT KELACH. AN AREA FM GND UP TO 8,000FT AMSL CLSD TO ALL FLT BTN FLW PSN 313200N0345319E 313159N0344733E 312602N0344730E 312444N0345024E 312602N0345311E. OPS OF AGRICULTURE FLT WITH 15MIN PPR FM ATC. CTN ADZ. F) GND G) 8000FT AMSL)",
-      "rowID": "2076810",
-      "firstSeen": "2026-11-02T08:30:15.380Z",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                31.533333,
-                34.888611
-              ],
-              [
-                31.533056,
-                34.7925
-              ],
-              [
-                31.433889,
-                34.791667
-              ],
-              [
-                31.412222,
-                34.84
-              ],
-              [
-                31.433889,
-                34.886389
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          31.469278,
-          34.839833
         ]
       }
     },
@@ -14293,78 +14224,6 @@
         "anchor": [
           32.765913,
           35.028571
-        ]
-      }
-    },
-    {
-      "id": "C2260/26",
-      "location": "LLLL",
-      "locationDescription": "Tel-Aviv FIR",
-      "fromDate": "2026-11-01T03:30:00.000Z",
-      "toDate": "2026-11-05T15:20:00.000Z",
-      "qLine": {
-        "fir": "LLLL",
-        "qcode": "QWULW",
-        "traffic": "IV",
-        "purpose": "BO",
-        "scope": "W",
-        "lowerLimitFl": "000",
-        "upperLimitFl": "032",
-        "position": {
-          "lat": 30.95,
-          "lon": 34.933333,
-          "radiusNm": 2,
-          "source": "q_line"
-        }
-      },
-      "eText": "UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 3,200FT AMSL. CTN ADZ. F) GND G) 3200FT AMSL",
-      "position": {
-        "lat": 30.95,
-        "lon": 34.933333,
-        "radiusNm": 2,
-        "source": "q_line"
-      },
-      "administrative": false,
-      "notamType": "N",
-      "replaces": null,
-      "rawText": "C2260/26 NOTAMN Q) LLLL/QWULW/IV/BO /W /000/032/3057N03456E002 A) LLLL B) 2611010330 C) 2611051520 D) DAILY 0330-1520 E) UAS/UAV ACT WILL TAKE PLACE AT YERUHAM. AN AREA BTN FLW PSN 305830N0345551E 305823N0345644E 305803N0345708E 305709N0345649E 305624N0345614E 305652N0345453E CLSD FM GND UP TO 3,200FT AMSL. CTN ADZ. F) GND G) 3200FT AMSL)",
-      "rowID": "2074064",
-      "geometry": {
-        "source": "e_text",
-        "parts": [
-          {
-            "type": "polygon",
-            "coords": [
-              [
-                30.975,
-                34.930833
-              ],
-              [
-                30.973056,
-                34.945556
-              ],
-              [
-                30.9675,
-                34.952222
-              ],
-              [
-                30.9525,
-                34.946944
-              ],
-              [
-                30.94,
-                34.937222
-              ],
-              [
-                30.947778,
-                34.914722
-              ]
-            ]
-          }
-        ],
-        "anchor": [
-          30.959306,
-          34.937917
         ]
       }
     },
