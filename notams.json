@@ -1,11 +1,267 @@
 {
-  "generatedAt": "2026-11-05T08:00:42.163Z",
+  "generatedAt": "2026-11-05T08:30:42.265Z",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 113,
+  "count": 115,
   "notams": [
+    {
+      "id": "C2356/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-08T12:50:00.000Z",
+      "toDate": "2026-11-08T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "025",
+        "upperLimitFl": "030",
+        "position": {
+          "lat": 31.65,
+          "lon": 34.85,
+          "radiusNm": 8,
+          "source": "q_line"
+        }
+      },
+      "eText": "CVFR RTE CLSD DUE IFR ACT WI LLEK REVAH-NOAAM-GOVRN-ZHRYA.",
+      "position": {
+        "lat": 31.65,
+        "lon": 34.85,
+        "radiusNm": 8,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2356/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /025/030/3139N03451E008 A) LLLL B) 2611081250 C) 2611081330 E) CVFR RTE CLSD DUE IFR ACT WI LLEK REVAH-NOAAM-GOVRN-ZHRYA.)",
+      "rowID": "2078274",
+      "firstSeen": "2026-11-05T08:30:42.265Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.64444,
+                34.73028
+              ],
+              [
+                31.57139,
+                34.77583
+              ]
+            ],
+            "leg": "REVAH-NOAAM",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.57139,
+                34.77583
+              ],
+              [
+                31.60611,
+                34.89278
+              ]
+            ],
+            "leg": "NOAAM-GOVRN",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.60611,
+                34.89278
+              ],
+              [
+                31.69972,
+                34.945
+              ]
+            ],
+            "leg": "GOVRN-ZHRYA",
+            "layer": "cvfr",
+            "t": "OPEN · CIVIL"
+          }
+        ],
+        "anchor": [
+          31.58875,
+          34.834305
+        ]
+      }
+    },
+    {
+      "id": "C2357/26",
+      "location": "LLLL",
+      "locationDescription": "Tel-Aviv FIR",
+      "fromDate": "2026-11-08T12:50:00.000Z",
+      "toDate": "2026-11-08T13:30:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QARLC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "E",
+        "lowerLimitFl": "008",
+        "upperLimitFl": "015",
+        "position": {
+          "lat": 31.633333,
+          "lon": 34.833333,
+          "radiusNm": 9,
+          "source": "q_line"
+        }
+      },
+      "eText": "ULTRALIGHT RTE CLSD DUE IFR ACT WI LLEK MACHZ-MKGAT-NAHLA-NAHEM-GEFFN-ZHRYA.",
+      "position": {
+        "lat": 31.633333,
+        "lon": 34.833333,
+        "radiusNm": 9,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "C2357/26 NOTAMN Q) LLLL/QARLC/IV/NBO/E /008/015/3138N03450E009 A) LLLL B) 2611081250 C) 2611081330 E) ULTRALIGHT RTE CLSD DUE IFR ACT WI LLEK MACHZ-MKGAT-NAHLA-NAHEM-GEFFN-ZHRYA.)",
+      "rowID": "2078276",
+      "firstSeen": "2026-11-05T08:30:42.265Z",
+      "geometry": {
+        "source": "route",
+        "parts": [
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.51167,
+                34.78222
+              ],
+              [
+                31.51916,
+                34.78332
+              ],
+              [
+                31.53065,
+                34.79205
+              ],
+              [
+                31.53829,
+                34.79603
+              ],
+              [
+                31.58615,
+                34.8081
+              ],
+              [
+                31.59416,
+                34.81139
+              ],
+              [
+                31.59889,
+                34.81222
+              ]
+            ],
+            "leg": "MACHZ-MKGAT",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.59889,
+                34.81222
+              ],
+              [
+                31.63063,
+                34.81507
+              ],
+              [
+                31.65639,
+                34.80917
+              ]
+            ],
+            "leg": "MKGAT-NAHLA",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.65639,
+                34.80917
+              ],
+              [
+                31.67516,
+                34.8055
+              ],
+              [
+                31.70787,
+                34.82015
+              ],
+              [
+                31.74528,
+                34.82222
+              ]
+            ],
+            "leg": "NAHLA-NAHEM",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.74528,
+                34.82222
+              ],
+              [
+                31.74306,
+                34.87028
+              ]
+            ],
+            "leg": "NAHEM-GEFFN",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          },
+          {
+            "type": "line",
+            "coords": [
+              [
+                31.74306,
+                34.87028
+              ],
+              [
+                31.7052,
+                34.92151
+              ],
+              [
+                31.70216,
+                34.9374
+              ],
+              [
+                31.69972,
+                34.945
+              ]
+            ],
+            "leg": "GEFFN-ZHRYA",
+            "layer": "sport",
+            "t": "OPEN · AllWeek"
+          }
+        ],
+        "anchor": [
+          31.554226,
+          34.800049
+        ]
+      }
+    },
     {
       "id": "A0885/26",
       "location": "LLER",
