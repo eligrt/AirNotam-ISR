@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.029 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.030 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -875,6 +875,16 @@ function bubbleArea(notam) {
   return { geometry: { source: "bubble", areas, parts, anchor: RP(polyAnchor(main.coords)) } };
 }
 
+// v1.00.030: the stretch of a road that touches a shape (inside the shape's bounding box + about 1 NM), for drawing the road line and its tag. tether:false = the road is the shape's own edge.
+function roadNear(ref, road, ring) {
+  const m = 0.02, lat = ring.map(q => q[0]), lon = ring.map(q => q[1]);
+  const lo = [Math.min(...lat) - m, Math.min(...lon) - m], hi = [Math.max(...lat) + m, Math.max(...lon) + m];
+  const idx = []; road.forEach((q, i) => { if (q[0] >= lo[0] && q[0] <= hi[0] && q[1] >= lo[1] && q[1] <= hi[1]) idx.push(i); });
+  if (idx.length < 2) return null;
+  const a = Math.max(0, idx[0] - 1), z = Math.min(road.length - 1, idx[idx.length - 1] + 1);
+  return { ref, coords: road.slice(a, z + 1).map(RP), tether: false };
+}
+
 // ── bubble cut along a road (v1.00.023): "ULTRALIGHT BUBBLE ... (BRGOL) CLSD N OF ROAD NR 91." ──
 let ROADS = null;                                                                 // road number -> [[lat,lon],...] (one line, reviewed = "checked")
 export function loadRoads(dir) {
@@ -947,7 +957,7 @@ function bubbleRoadCut(notam) {
   if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null && [...cut.closed, ...cut.open].some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;
   const closed = cut.closed.map(RP);
   return { geometry: { source: "bubble", areas: [{ code, kind: "BUBBLE", name: b.name }], parts: [{ type: "polygon", coords: closed }],
-    open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, anchor: RP(polyAnchor(closed)) } };
+    open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, roads: [roadNear(ref, road, b.ring)].filter(Boolean), anchor: RP(polyAnchor(closed)) } };
 }
 
 // join two rings that touch along a common edge into one ring (v1.00.028): no line is drawn between the two pieces. Returns null if they do not join cleanly.
@@ -996,7 +1006,7 @@ function bubbleTwoRoads(notam) {
   const closed = joined ? [joined.map(RP)] : [cutA.closed.map(RP), cutB.closed.map(RP)];
   const main = closed.slice().sort((x, y) => areaNm2(y) - areaNm2(x))[0];
   return { geometry: { source: "bubble", areas: [{ code, kind: "BUBBLE", name: b.name }], parts: closed.map(coords => ({ type: "polygon", coords })),
-    open: [{ coords: cutB.open.map(RP) }], road: { ref: `${r1} + ${r2}`, dir: `${o1} + ${o2}` }, anchor: RP(polyAnchor(main)) } };
+    open: [{ coords: cutB.open.map(RP) }], road: { ref: `${r1} + ${r2}`, dir: `${o1} + ${o2}` }, roads: [roadNear(r1, road1, b.ring), roadNear(r2, road2, b.ring)].filter(Boolean), anchor: RP(polyAnchor(main)) } };
 }
 
 // ── glider area south of two roads (v1.00.029): "GLD ACT AVBL S OF ROAD NR 85 AND ROAD NR 91, MAX 10 GLIDERS ..." ──
@@ -1047,7 +1057,7 @@ function areaNorthOfRoads(notam) {
     if (distNm([qp.lat, qp.lon], [cy, cx]) > qp.radiusNm) return null;                    // sanity: the area is where the Q circle is
   }
   const coords = ring.map(RP);
-  return { geometry: { source: "roads", areas: [{ code: `ROAD ${m[1]} + ROAD ${m[2]}`, kind: "ROADS", name: `N of road ${m[1]} and road ${m[2]}` }], parts: [{ type: "polygon", coords }], anchor: RP(polyAnchor(coords)) } };
+  return { geometry: { source: "roads", areas: [{ code: `ROAD ${m[1]} + ROAD ${m[2]}`, kind: "ROADS", name: `N of road ${m[1]} and road ${m[2]}` }], parts: [{ type: "polygon", coords }], roads: [roadNear(m[1], ROADS.get(m[1]), ring), roadNear(m[2], ROADS.get(m[2]), ring)].filter(Boolean), anchor: RP(polyAnchor(coords)) } };
 }
 
 // ── closed airfields (v1.00.021): "AD CLSD" / "AIRSTRIP CLSD" -> one rectangle round the airfield (1 NM margin) with an exact box round each runway ──
@@ -1278,7 +1288,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.029";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.030";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
