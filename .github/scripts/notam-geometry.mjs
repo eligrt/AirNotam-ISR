@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.027 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.028 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -950,6 +950,28 @@ function bubbleRoadCut(notam) {
     open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, anchor: RP(polyAnchor(closed)) } };
 }
 
+// join two rings that touch along a common edge into one ring (v1.00.028): no line is drawn between the two pieces. Returns null if they do not join cleanly.
+function joinRings(A0, B0) {
+  const E = 1e-7, key = p => `${Math.round(p[0] / E)},${Math.round(p[1] / E)}`;
+  const open = r => { const q = r.slice(); if (q.length > 1 && key(q[0]) === key(q[q.length - 1])) q.pop(); return q; };
+  const area = r => r.reduce((a, p, i) => { const q = r[(i + 1) % r.length]; return a + (p[1] * q[0] - q[1] * p[0]); }, 0);
+  const ccw = r => area(r) >= 0 ? r : r.slice().reverse();
+  let A = ccw(open(A0)), B = ccw(open(B0));
+  const onEdge = (p, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy; if (!l2) return null; const t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2; if (t <= 1e-9 || t >= 1 - 1e-9) return null;
+    return Math.hypot(a[0] + t * dx - p[0], a[1] + t * dy - p[1]) < E ? t : null; };
+  const split = (R, pts) => { const out = []; for (let i = 0; i < R.length; i++) { const a = R[i], b = R[(i + 1) % R.length], ins = [];
+    out.push(a); for (const p of pts) { const t = onEdge(p, a, b); if (t != null) ins.push({ t, p }); } ins.sort((x, y) => x.t - y.t); for (const x of ins) out.push(x.p); } return out; };
+  const A2 = split(A, B), B2 = split(B, A);
+  const edges = new Map();                                                          // start key -> {from,to}
+  const addAll = (R, other) => { const ok = new Set(); for (let i = 0; i < other.length; i++) ok.add(key(other[i]) + ">" + key(other[(i + 1) % other.length]));
+    for (let i = 0; i < R.length; i++) { const a = R[i], b = R[(i + 1) % R.length]; if (ok.has(key(b) + ">" + key(a))) continue; if (edges.has(key(a))) return false; edges.set(key(a), { a, b }); } return true; };
+  if (!addAll(A2, B2) || !addAll(B2, A2)) return null;
+  if (edges.size === A2.length + B2.length) return null;                            // nothing was shared
+  const first = edges.values().next().value, ring = [first.a]; let cur = first, n = 0;
+  while (n++ <= edges.size) { const nx = edges.get(key(cur.b)); if (!nx) return null; if (nx === first) break; ring.push(nx.a); cur = nx; }
+  return ring.length === edges.size ? ring : null;
+}
+
 // ── bubble cut by TWO roads (v1.00.027): "... (BDRTS) AVBL E OF ROAD NR 34 AND NE OF ROAD NR 25 UP TO 1,000FT AMSL AND CLSD W OF ROAD NR 34 AND SW OF ROAD NR 25." ──
 // Open = on the named side of BOTH roads (purple, not clickable). Everything else in the bubble = closed (red). No grey: a piece is open only if both conditions hold.
 const OPPOSITE = { N: "S", S: "N", E: "W", W: "E", NE: "SW", SW: "NE", NW: "SE", SE: "NW" };
@@ -970,7 +992,8 @@ function bubbleTwoRoads(notam) {
   const qp = notam.qLine?.position || notam.position;
   const all = [...cutA.closed, ...cutB.closed, ...cutB.open];
   if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null && all.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;
-  const closed = [cutA.closed.map(RP), cutB.closed.map(RP)];
+  const joined = joinRings(cutA.closed, cutB.closed);                // one closed shape if the two red pieces touch along the road, else two
+  const closed = joined ? [joined.map(RP)] : [cutA.closed.map(RP), cutB.closed.map(RP)];
   const main = closed.slice().sort((x, y) => areaNm2(y) - areaNm2(x))[0];
   return { geometry: { source: "bubble", areas: [{ code, kind: "BUBBLE", name: b.name }], parts: closed.map(coords => ({ type: "polygon", coords })),
     open: [{ coords: cutB.open.map(RP) }], road: { ref: `${r1} + ${r2}`, dir: `${o1} + ${o2}` }, anchor: RP(polyAnchor(main)) } };
@@ -1233,7 +1256,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.027";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.028";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
