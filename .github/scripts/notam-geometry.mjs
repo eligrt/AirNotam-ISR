@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.028 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.029 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -999,6 +999,28 @@ function bubbleTwoRoads(notam) {
     open: [{ coords: cutB.open.map(RP) }], road: { ref: `${r1} + ${r2}`, dir: `${o1} + ${o2}` }, anchor: RP(polyAnchor(main)) } };
 }
 
+// ── glider area south of two roads (v1.00.029): "GLD ACT AVBL S OF ROAD NR 85 AND ROAD NR 91, MAX 10 GLIDERS ..." ──
+// The Q circle stays as the NOTAM's own shape; the two road lines come along so the app can draw them and tie them to the circle with a dashed tether.
+const RX_GLD_ROADS = /^GLD ACT AVBL S OF ROAD NR (\d{1,3}) AND ROAD NR (\d{1,3})\b/;
+function gliderRoads(notam) {
+  if (!ROADS) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "").replace(/\s+/g, " ").trim();
+  const m = text.match(RX_GLD_ROADS);
+  if (!m) return null;
+  const qp = notam.qLine?.position || notam.position;
+  if (!qp || qp.lat == null || qp.lon == null || qp.radiusNm == null || qp.radiusNm > 25) return null;
+  const roads = [];
+  for (const ref of [m[1], m[2]]) {
+    const road = ROADS.get(ref);
+    if (!road) return null;
+    if (Math.min(...road.map(q => distNm([qp.lat, qp.lon], q))) > 40) return null;          // sanity: the road is in the area of the Q circle
+    roads.push({ ref, coords: road.map(RP) });
+  }
+  const c = RP([qp.lat, qp.lon]);
+  return { geometry: { source: "qroads", areas: [{ code: `ROAD ${m[1]} + ROAD ${m[2]}`, kind: "ROADS", name: `S of road ${m[1]} and road ${m[2]}` }],
+    parts: [{ type: "circle", center: c, radiusNm: qp.radiusNm }], roads, anchor: c } };
+}
+
 // ── area north of two roads, up to the border (v1.00.024): "AN AREA N OF ROAD NR 85 AND ROAD NR 91 CLSD TO ALL DOM FLT ..." ──
 const RX_AREA_ROADS = /^AN AREA N OF ROAD NR (\d{1,3}) AND ROAD NR (\d{1,3}) CLSD TO ALL DOM FLT\b/;
 function areaNorthOfRoads(notam) {
@@ -1130,7 +1152,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || bubbleTwoRoads(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam) || airfieldInfo(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || bubbleTwoRoads(notam) || areaNorthOfRoads(notam) || gliderRoads(notam) || airfieldClosed(notam) || airfieldInfo(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -1256,7 +1278,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.028";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.029";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
