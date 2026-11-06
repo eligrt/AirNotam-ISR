@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.025 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.026 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -1207,6 +1207,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.026";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
