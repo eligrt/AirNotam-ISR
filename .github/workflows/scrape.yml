@@ -1,4 +1,4 @@
-# scrape.yml · v1.00.005 · AirNotam-ISR · built by eligrt
+# scrape.yml · v1.00.006 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
 # No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
@@ -55,6 +55,8 @@ jobs:
            *   light - step 2 only for numbers not stored yet. Stored numbers still on the list are
            *           kept exactly as saved (no re-fetch); numbers gone from the list are dropped.
            *           If notams.json is missing or unreadable, light falls back to full.
+           *
+           * Scraper version (v1.00.006): the feed carries "scraperVersion" so the app can show which scraper wrote it (Settings).
            *
            * News for the app's bell (v1.00.005):
            *   - firstSeen: the moment a NOTAM number was first seen on the list (accurate to about 30 minutes).
@@ -331,6 +333,7 @@ jobs:
 
             const payload = {
               generatedAt,
+              scraperVersion: "v1.00.006",   // v1.00.006: the app shows this in Settings. Keep it equal to the number in the first line of this file
               source: LIST_URL,
               disclaimer: "Informational only. Not a substitute for an official pre-flight briefing.",
               tlsVerified: !tlsError,
