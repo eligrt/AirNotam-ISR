@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.026 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.027 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -950,6 +950,32 @@ function bubbleRoadCut(notam) {
     open: [{ coords: cut.open.map(RP) }], road: { ref, dir }, anchor: RP(polyAnchor(closed)) } };
 }
 
+// ── bubble cut by TWO roads (v1.00.027): "... (BDRTS) AVBL E OF ROAD NR 34 AND NE OF ROAD NR 25 UP TO 1,000FT AMSL AND CLSD W OF ROAD NR 34 AND SW OF ROAD NR 25." ──
+// Open = on the named side of BOTH roads (purple, not clickable). Everything else in the bubble = closed (red). No grey: a piece is open only if both conditions hold.
+const OPPOSITE = { N: "S", S: "N", E: "W", W: "E", NE: "SW", SW: "NE", NW: "SE", SE: "NW" };
+const RX_BUBBLE_2ROADS = /^(?:ULTRALIGHT BUBBLE [A-Z' -]*?\(B[A-Z]{4}\) AVBL UP TO [\d,]+ ?FT AMSL, )?(?:ULTRALIGHT BUBBLE )?[A-Z' -]*?\((B[A-Z]{4})\) AVBL (N|S|E|W|NE|NW|SE|SW) OF ROAD NR (\d{1,3}) AND (N|S|E|W|NE|NW|SE|SW) OF ROAD NR (\d{1,3}) UP TO [\d,]+ ?FT AMSL AND CLSD (N|S|E|W|NE|NW|SE|SW) OF ROAD NR (\d{1,3}) AND (N|S|E|W|NE|NW|SE|SW) OF ROAD NR (\d{1,3})(?:\. CTN ADZ)?$/;
+function bubbleTwoRoads(notam) {
+  if (!BUBBLES || !ROADS) return null;
+  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "").replace(/\s+/g, " ").trim().replace(/\.$/, "");
+  const m = text.match(RX_BUBBLE_2ROADS);
+  if (!m) return null;
+  const [, code, o1, r1, o2, r2, c1, cr1, c2, cr2] = m;
+  if (cr1 !== r1 || cr2 !== r2 || OPPOSITE[o1] !== c1 || OPPOSITE[o2] !== c2) return null;   // the closed sides must be the exact opposites of the open sides
+  const b = BUBBLES.get(code), road1 = ROADS.get(r1), road2 = ROADS.get(r2);
+  if (!b || !road1 || !road2) return null;
+  const cutA = cutRingAlongRoad(b.ring, road1, c1);                  // closed = side c1 of road 1, open = the rest
+  if (!cutA) return null;
+  const cutB = cutRingAlongRoad(cutA.open, road2, c2);               // inside the open rest: closed = side c2 of road 2, open = what is left
+  if (!cutB) return null;
+  const qp = notam.qLine?.position || notam.position;
+  const all = [...cutA.closed, ...cutB.closed, ...cutB.open];
+  if (qp && qp.lat != null && qp.lon != null && qp.radiusNm != null && all.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;
+  const closed = [cutA.closed.map(RP), cutB.closed.map(RP)];
+  const main = closed.slice().sort((x, y) => areaNm2(y) - areaNm2(x))[0];
+  return { geometry: { source: "bubble", areas: [{ code, kind: "BUBBLE", name: b.name }], parts: closed.map(coords => ({ type: "polygon", coords })),
+    open: [{ coords: cutB.open.map(RP) }], road: { ref: `${r1} + ${r2}`, dir: `${o1} + ${o2}` }, anchor: RP(polyAnchor(main)) } };
+}
+
 // ── area north of two roads, up to the border (v1.00.024): "AN AREA N OF ROAD NR 85 AND ROAD NR 91 CLSD TO ALL DOM FLT ..." ──
 const RX_AREA_ROADS = /^AN AREA N OF ROAD NR (\d{1,3}) AND ROAD NR (\d{1,3}) CLSD TO ALL DOM FLT\b/;
 function areaNorthOfRoads(notam) {
@@ -1081,7 +1107,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam) || airfieldInfo(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || bubbleTwoRoads(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam) || airfieldInfo(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
@@ -1207,7 +1233,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.026";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.027";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
