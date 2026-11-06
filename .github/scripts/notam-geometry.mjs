@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.024 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.025 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -1002,14 +1002,23 @@ function ptSegNm(q, a, b) {                                                     
   const t = L2 ? Math.max(0, Math.min(1, -(A[0] * dx + A[1] * dy) / L2)) : 0;
   return Math.hypot(A[0] + t * dx, A[1] + t * dy);
 }
-function airfieldClosed(notam) {
+function airfieldClosed(notam) { return airfieldShape(notam, false); }
+// v1.00.025 (Eli, 2026-11-06): any other airfield notice (stand, taxiway, frequency, runway info ...) that would stay a Q circle gets the same rectangle,
+// marked source "adinfo" so the app shows it under its own filter group ("הודעות שדה"). Only notams that name an airfield (LL...) with a small Q circle.
+function airfieldInfo(notam) { return airfieldShape(notam, true); }
+function airfieldShape(notam, info) {
   if (!RUNWAYS || !RUNWAYS.length) return null;
   const qp = notam.qLine?.position || notam.position;
   if (!qp || qp.lat == null || qp.lon == null || qp.radiusNm == null || qp.radiusNm > AD_MAX_Q_NM) return null;
-  if (!/^QFA/.test(String(notam.qLine?.qcode || ""))) return null;
-  const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
-  const sent = text.split(/\.(?=\s|$|\))/).find(s => RX_AD_CLSD.test(s));
-  if (!sent || /\bLTD\b|\bLIMITED\b/.test(sent)) return null;
+  if (info) {
+    if (notam.administrative || !/^LL[A-Z]{2}$/.test(String(notam.location || ""))) return null;
+    if (/^Q[WO]/.test(String(notam.qLine?.qcode || ""))) return null;                // activities (parachuting) and trigger/info notams are not airfield facts
+  } else {
+    if (!/^QFA/.test(String(notam.qLine?.qcode || ""))) return null;
+    const text = String(notam.eText || "").toUpperCase().replace(/\s+F\)\s.*$/s, "");
+    const sent = text.split(/\.(?=\s|$|\))/).find(s => RX_AD_CLSD.test(s));
+    if (!sent || /\bLTD\b|\bLIMITED\b/.test(sent)) return null;
+  }
   const q = [qp.lat, qp.lon], byName = new Map();
   for (const r of RUNWAYS) {
     let d = Infinity;
@@ -1042,7 +1051,7 @@ function airfieldClosed(notam) {
   const parts = [{ type: "polygon", role: "airfield", coords: big.map(RP) }];
   for (const bx of boxes) parts.push({ type: "polygon", role: "runway", coords: bx.map(RP) });
   if (big.some(q => distNm([qp.lat, qp.lon], q) > qp.radiusNm + Q_SLACK_NM)) return null;   // reaches outside the NOTAM's own circle: keep the circle
-  return { geometry: { source: "airfield", areas: [{ code: String(notam.location || ""), kind: "AIRFIELD", name: af.name }], parts, anchor: RP(ctr) } };
+  return { geometry: { source: info ? "adinfo" : "airfield", areas: [{ code: String(notam.location || ""), kind: "AIRFIELD", name: af.name }], parts, anchor: RP(ctr) } };
 }
 
 // ── "FM GAZA-STRIP BOUNDRAY TO N KM OUTWARD": a border strip from the Gaza Strip boundary line (Israeli side) ──
@@ -1072,7 +1081,7 @@ export function geometryFor(notam) {
   const r = parseE(notam.eText);
   if (r.reject) return { reject: r.reject };
   const parts = r.parts;
-  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam);   // no coordinates: border strip, route legs or a named area
+  if (!parts.length) return borderStrip(notam.eText) || routeLegs(notam) || namedArea(notam) || bubbleArea(notam) || bubbleRoadCut(notam) || areaNorthOfRoads(notam) || airfieldClosed(notam) || airfieldInfo(notam);   // no coordinates: border strip, route legs or a named area
   for (const p of parts) {
     for (const q of allPoints(p)) {
       if (q[0] < FIR.latMin || q[0] > FIR.latMax || q[1] < FIR.lonMin || q[1] > FIR.lonMax) return { reject: "point outside the FIR" };
