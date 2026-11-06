@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.079 · built by eligrt
+     AirNotam-ISR · v1.08.080 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1984,6 +1984,27 @@ html.full #mbBell{top:calc(114px + env(safe-area-inset-top,0px)) !important;}
 html.full .mb-info{top:calc(10px + env(safe-area-inset-top,0px));}
 html.full .leaflet-top{padding-top:env(safe-area-inset-top,0px);}
 body.wide #mbFull{display:none !important;}
+
+/* v1.08.080: ADMIN sheet (three quick taps on the version line). Dark card, red header, right to left. */
+.adm{position:fixed;left:0;right:0;bottom:0;z-index:3500;direction:rtl;background:#0f1724;color:#e8edf5;border-radius:14px 14px 0 0;border-top:3px solid #b94a3a;box-shadow:0 -8px 30px rgba(0,0,0,.45);overflow:hidden;transform:translateY(105%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s;padding-bottom:max(18px,env(safe-area-inset-bottom));}
+.adm.show{transform:none;visibility:visible;transition:transform .22s ease;}
+.adm-hd{background:#b94a3a;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;color:#fff;}
+.adm-hd b{font-size:19px;margin-inline-end:10px;}
+.adm-st{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#b94a3a;background:#fff;border-radius:6px;padding:3px 9px;letter-spacing:.14em;direction:ltr;display:inline-block;}
+.adm-x{background:none;border:0;color:#fff;font:inherit;font-weight:600;font-size:15px;padding:6px 2px;cursor:pointer;}
+.adm-bd{padding:12px 14px 0;}
+.adm-note{font-size:12.5px;color:#9fb0cc;margin:0 2px 10px;}
+.adm-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#18233a;border:1px solid #2b3b5c;border-radius:8px;padding:14px;margin-bottom:10px;}
+.adm-row b{display:block;font-size:16px;color:#e8edf5;}
+.adm-row small{font-size:13px;color:#9fb0cc;}
+.adm-btn{background:#3d7be0;color:#fff;font:inherit;font-weight:700;font-size:15px;border:0;border-radius:8px;padding:10px 22px;cursor:pointer;flex:none;}
+.adm-sw{position:relative;flex:none;width:50px;height:28px;}
+.adm-sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1;}
+.adm-sw i{position:absolute;inset:0;border-radius:14px;background:#3a4a6a;transition:background .15s;}
+.adm-sw i::after{content:"";position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:right .15s;}
+.adm-sw input:checked + i{background:#3d7be0;}
+.adm-sw input:checked + i::after{right:25px;}
+.adm-ver{text-align:center;direction:ltr;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7d8fb0;margin-top:6px;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -2023,7 +2044,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.079 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.080 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2050,7 +2071,6 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-body"><div class="sp-ttl" id="setTtl">הגדרות</div>
       <button type="button" class="sp-row sp-irow" id="spUpd" onclick="setRefreshData()"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></span><span class="sp-tx"><b id="spUpdT">בדוק NOTAMים חדשים</b><small><span class="rt2">נבדק לאחרונה: <span class="rtime" id="refreshTime">--:--</span> · נתוני הבסיס מ-<span class="rtime" id="dataTime">--:--</span></span></small></span><span class="sp-bar"><i></i></span></button>
       <div class="sp-row sp-irow sp-static" id="rteCorrBox"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/></svg></span><span class="sp-tx"><b>רוחב המסלול</b></span><div class="fgrace sp-corr" id="corrSeg"><button type="button" data-c="2">2NM</button><button type="button" data-c="3">3NM</button><button type="button" data-c="5">5NM</button></div></div>
-      <label class="sp-row sp-irow sp-swrow r-sw"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><rect x="11" y="11" width="9" height="9" rx="1.5"/></svg></span><span class="sp-tx"><b>מסנן צורות במפה</b><small>בחירה לפי סוג הצורה. למתקדמים</small></span><input type="checkbox" id="famSet"></label>
       <a class="sp-row sp-irow" href="mailto:eligrt@gmail.com?subject=AirNotam%20-%20משוב"><span class="sp-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg></span><span class="sp-tx"><b>יש תקלה או רעיון? כתוב לי</b></span></a>
       <div class="sp-sep"></div>
       <button type="button" class="sp-row sp-irow sp-red" onclick="setFullReset()"><span class="sp-ic r"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg></span><span class="sp-tx"><b>איפוס מלא של האפליקציה</b></span></button>
@@ -2164,7 +2184,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.079 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.080 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -3163,7 +3183,7 @@ function shapeRouteGap(shape){          // NM between the shape's edge and the r
 // ── v1.05.002T: show one shape family at a time; unbuilt families are greyed ──
 // v1.05.005T: one flat list by what you see on the map. [key, label, built?]  (v1.05.012T: רצועת גבול, מקטע נתיב)
 const FAMS=[["all","הכל",1],["poly","פוליגון",1],["ringE","טבעת E",1],["ringQ","טבעת Q",1],["half","חצי טבעת",1],
-            ["linked","אזורים מקושרים",1],["point","נקודה",1],["strip","רצועת גבול",1],["leg","מקטע נתיב",1],["bubble","בועה",1],["airfield","שדה סגור",1],["mism","אי התאמה Q/E",1],["flag","לבדיקה",1]];   // v1.06.036: אי התאמה Q/E = the NOTAM's own items disagree (issue #7)   // v1.05.008T: לבדיקה = what the scraper flags as an issue
+            ["linked","אזורים מקושרים",1],["point","נקודה",1],["strip","רצועת גבול",1],["leg","מקטע נתיב",1],["bubble","בועה",1],["airfield","שדה סגור",1],["adinfo","הודעות שדה",1],["mism","אי התאמה Q/E",1],["flag","לבדיקה",1]];   // v1.06.036: אי התאמה Q/E = the NOTAM's own items disagree (issue #7)   // v1.05.008T: לבדיקה = what the scraper flags as an issue
 let FAM="all", FAM_I=-1;
 function famOf(e){ if(!e.shape) return "ring"; return ({e_text:"coord"})[e.shape.source]||"ring"; }
 function famIs(e,k){
@@ -3173,6 +3193,7 @@ function famIs(e,k){
   if(k==="strip") return !!sh && (sh.source==="border" || P.some(p=>p.role==="strip"));   // v1.05.013T: + the Gaza border strip (C1825)
   if(k==="leg") return !!sh && sh.source==="route";      // v1.05.006T
   if(k==="bubble") return !!sh && sh.source==="bubble";   // v1.07.063: ultralight bubble polygons (gis/bubbles.json)
+  if(k==="adinfo") return !!sh && sh.source==="adinfo";   // v1.08.080: other airfield notices (stand, taxiway, frequency ...), same rectangle
   if(k==="airfield") return !!sh && sh.source==="airfield";   // v1.08.077: closed airfields (one rectangle + a box per runway)
   if(k==="flag") return !!(e.raw&&e.raw.geometryFlag);    // v1.05.008T
   if(k==="mism") return !!(sh&&sh.mismatch);              // v1.06.036
@@ -3229,7 +3250,7 @@ function famStep(d){                        // fly to the next / previous one an
 let FAM_ON=false; try{FAM_ON=localStorage.getItem("airnotam_famctl")==="1";}catch(e){}
 let FAM_CTL=null;
 function famInit(){
-  const cb=document.getElementById("famSet"); if(cb){ cb.checked=FAM_ON; if(!cb._on){ cb._on=1; cb.addEventListener("change",()=>famSet(cb.checked)); } }
+  const cb=document.getElementById("famSetA"); if(cb){ cb.checked=FAM_ON; if(!cb._on){ cb._on=1; cb.addEventListener("change",()=>famSet(cb.checked)); } }
   if(!FAM_ON||!MAP){ if(FAM_CTL){ FAM_CTL.remove(); FAM_CTL=null; } return; }
   if(FAM_CTL) return;
   FAM_CTL=L.control({position:"bottomright"});
@@ -4745,10 +4766,31 @@ function alog(t){
   if(ALOG.length>ALOG_MAX) ALOG=ALOG.slice(-ALOG_MAX);
   try{localStorage.setItem(ALOG_KEY,JSON.stringify(ALOG));}catch(e){}
 }
+// ── v1.08.080: ADMIN sheet. Three quick taps on the version line open it: shape filter switch + copy the event log ──
+function admOpen(){
+  const a=document.getElementById("adm"); if(!a) return;
+  const cb=document.getElementById("famSetA"); if(cb){ cb.checked=FAM_ON; if(!cb._on){ cb._on=1; cb.addEventListener("change",()=>famSet(cb.checked)); } }
+  const v=document.querySelector(".lsa-foot-ver"); document.getElementById("admVer").textContent=(v&&v.textContent||"").replace(/\s*·\s*built by eligrt/,"");
+  document.getElementById("admCopy").textContent="העתק"; a.classList.add("show"); alog("admin opened");
+}
+function admClose(){ const a=document.getElementById("adm"); if(a) a.classList.remove("show"); }
+function admCopy(){
+  const t=ALOG.join("\n"), b=document.getElementById("admCopy");
+  const done=ok=>{ b.textContent=ok?"הועתק ✓":"לא הועתק"; alog("admin: log "+(ok?"copied":"copy FAILED")); };
+  const old=()=>{ try{ const x=document.createElement("textarea"); x.value=t; x.style.cssText="position:fixed;top:0;opacity:0"; document.body.appendChild(x); x.select(); const ok=document.execCommand("copy"); x.remove(); done(ok); }catch(e){ done(false); } };
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(()=>done(true),old); else old();
+}
+(function(){ let taps=[];
+  document.addEventListener("click",e=>{
+    if(!e.target.closest||!e.target.closest(".lsa-foot-ver")) return;
+    const n=Date.now(); taps=taps.filter(t=>n-t<1500); taps.push(n);
+    if(taps.length>=3){ taps=[]; admOpen(); }
+  },true);
+})();
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.079 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.080 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5245,5 +5287,14 @@ setInterval(()=>load(false), 15*60*1000);
 splashRun();maybeAskFlight();
 </script>
 <script>(function(){var l=document.querySelector('link[rel=apple-touch-icon]');var i=document.getElementById('nIcon');if(l&&i)i.src=l.href})();</script>
+<div class="adm" id="adm" role="dialog" aria-label="ניהול">
+  <div class="adm-hd"><span><b>ניהול</b><span class="adm-st">ADMIN</span></span><button type="button" class="adm-x" onclick="admClose()">סגור &#10005;</button></div>
+  <div class="adm-bd">
+    <div class="adm-note">כלי פיתוח. לא מיועד לטייסים</div>
+    <div class="adm-row"><span><b>מסנן צורות במפה</b><small>מופיע במפה בצד ימין למטה כשהוא פעיל</small></span><label class="adm-sw"><input type="checkbox" id="famSetA"><i></i></label></div>
+    <div class="adm-row"><span><b>העתק יומן אירועים</b><small>200 האירועים האחרונים, להדבקה כשיש תקלה</small></span><button type="button" class="adm-btn" id="admCopy" onclick="admCopy()">העתק</button></div>
+    <div class="adm-ver" id="admVer"></div>
+  </div>
+</div>
 </body>
 </html>
