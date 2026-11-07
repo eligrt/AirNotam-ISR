@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.091 · built by eligrt
+     AirNotam-ISR · v1.08.093 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -1986,9 +1986,9 @@ html.full .leaflet-top{padding-top:env(safe-area-inset-top,0px);}
 body.wide #mbFull{display:none !important;}
 
 /* v1.08.080: ADMIN sheet (three quick taps on the version line). Dark card, red header, right to left. */
-.adm-wrap{position:absolute;left:0;right:0;bottom:0;top:var(--adm-top,0px);z-index:3500;overflow:hidden;pointer-events:none;}   /* v1.08.084: the sheet slides out from under the navy bar; this box starts at the bar's lower edge and clips it */
+.adm-wrap{position:absolute;left:0;right:0;bottom:var(--adm-bot,0px);top:var(--adm-top,0px);z-index:3500;overflow:hidden;pointer-events:none;}   /* v1.08.084: the sheet slides out from under the navy bar; this box starts at the bar's lower edge and clips it */
 .adm-wrap.show{pointer-events:auto;}
-.adm{position:absolute;left:0;right:0;top:0;direction:rtl;background:#0f1724;color:#e8edf5;border-radius:0 0 14px 14px;border-bottom:3px solid #b94a3a;box-shadow:0 10px 28px rgba(0,0,0,.4);transform:translateY(-102%);transition:transform .32s cubic-bezier(.22,.8,.3,1);padding-bottom:0;max-height:100%;overflow-y:auto;}
+.adm{position:absolute;left:0;right:0;top:0;direction:rtl;background:#0f1724;color:#e8edf5;border-radius:0 0 14px 14px;border-bottom:3px solid #b94a3a;box-shadow:0 10px 28px rgba(0,0,0,.4);transform:translateY(-102%);transition:transform .32s cubic-bezier(.22,.8,.3,1);padding-bottom:0;max-height:calc(100% - 72px);overflow-y:auto;}   /* v1.08.093: a strip of map stays visible under the curtain; a tap there closes it */
 .adm-grip{cursor:pointer;margin-top:6px;}
 .adm-grip>i{background:#3a4a6a;}
 .adm .cg-x{color:#9fb0cc;}   /* v1.08.085: close = the same grip strip as the other curtains (pill + ×סגור), at the pulled edge, which is the bottom here */
@@ -2021,7 +2021,7 @@ body.wide #mbFull{display:none !important;}
 .adm-vt span{color:#7fb0ff;font-weight:700;}
 .adm-vr small{display:block;font-size:12px;color:#9fb0cc;margin-top:2px;font-family:system-ui,sans-serif;}
 
-/* v1.08.091: the review curtain, shorter - the "7 of 21" sits in the title row, the arrows sit beside the NOTAM number, the card shows the status, the altitude and the real distance to the route */
+/* v1.08.093: the review curtain, shorter - the "7 of 21" sits in the title row, the arrows sit beside the NOTAM number, the card shows the status, the altitude and the real distance to the route */
 .rvc-cnt{position:absolute;top:2px;right:14px;height:32px;display:flex;align-items:center;z-index:2;pointer-events:none;font-size:15px;font-weight:700;color:var(--ink-dark);}
 .rvc.news .rvc-cnt{top:2px;}
 .rvc-grip{height:34px;}
@@ -2043,8 +2043,8 @@ body.wide #mbFull{display:none !important;}
 .rvc .c-acts.c2 .c-act{height:40px;min-height:40px;}
 .rvbox .cue-f{background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi));}
 .rvbox .card>.c-text.more,.rvbox .card>.diff.more{-webkit-mask-image:none !important;mask-image:none !important;}   /* the fade strip of the cue replaces the old mask */
-/* v1.08.091: ADMIN > ADVANCED (data path, needs a look, counts) */
-.adm-adv{background:#18233a;border:1px solid #3d7be0;border-radius:8px;margin:10px 0;overflow:hidden;direction:ltr;text-align:left;}
+/* v1.08.093: ADMIN > ADVANCED (data path, needs a look, counts) */
+.adm-adv{background:#18233a;border:1px solid #3d7be0;border-radius:8px;margin:10px 0;overflow:visible;direction:ltr;text-align:left;}
 .adm-ah{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;color:inherit;font:inherit;padding:13px 14px;cursor:pointer;text-align:left;}
 .adm-at{display:flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.14em;color:#e8edf5;}
 .adm-ind{width:13px;height:13px;border-radius:50%;background:#4cc28a;box-shadow:0 0 0 3px rgba(76,194,138,.2);flex:none;}
@@ -2120,7 +2120,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.091 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.093 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2261,7 +2261,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.091 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.093 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2940,7 +2940,7 @@ function card(e,st,rv,keep,lst){
   const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
   const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
-  const rt= routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";   // v1.08.091: the real distance ("חוצה את המסלול" / "2.3NM מהמסלול"), no more fixed label
+  const rt= routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";   // v1.08.093: the real distance ("חוצה את המסלול" / "2.3NM מהמסלול"), no more fixed label
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
   const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span></button>`
@@ -3324,11 +3324,11 @@ function famPlace(){
   ls.style.maxHeight=listH+"px";
   const h=box.offsetHeight, gap=(free-h)/2;
   box.style.marginRight="10px"; box.style.marginBottom="0px"; const b0=box.getBoundingClientRect().bottom;
-  box.style.marginBottom=Math.max(0, b0-(bot-Math.max(24,gap-45)))+"px";   // v1.08.088: a little lower than centred (45 px), never closer than 24 px to the red NOTAM button, so its lower part still shows under the admin curtain
+  box.style.marginBottom=Math.max(0, b0-(bot-24))+"px";   // v1.08.093: as low as is safe, 24 px above the red NOTAM button, so the most of it shows below the admin curtain
   ls.scrollTop=keep; famFade();
 }
 window.addEventListener("resize",()=>{ try{famPlace();}catch(_){} });
-// v1.08.091: when a curtain opens or closes the buttons move; the filter panel fits itself again right away (before it only did so once a second)
+// v1.08.093: when a curtain opens or closes the buttons move; the filter panel fits itself again right away (before it only did so once a second)
 let _famT=0; function famSoon(){ if(_famT) return; _famT=requestAnimationFrame(()=>{ _famT=0; try{ if(FAM_CTL) famPlace(); }catch(_){} }); }
 document.addEventListener("transitionend",famSoon,true); document.addEventListener("animationend",famSoon,true);
 function famFollow(ms){ const t0=performance.now(); (function f(){ try{ if(FAM_CTL) famPlace(); }catch(_){} if(performance.now()-t0<ms) requestAnimationFrame(f); })(); }   // follows a curtain while it slides
@@ -4867,12 +4867,12 @@ function alog(t){
 function admOpen(){
   const a=document.getElementById("adm"); if(!a) return;
   const w=document.getElementById("admWrap"), host=document.getElementById("app"); if(host&&w.parentNode!==host) host.appendChild(w);
-  { const hr=host.getBoundingClientRect(); let bt=0; document.querySelectorAll(".lsa-hdr,#meta").forEach(x=>{ const r=x.getBoundingClientRect(); if(r.height) bt=Math.max(bt,r.bottom-hr.top); }); w.style.setProperty("--adm-top",bt+"px"); }   // v1.08.082: stays inside the phone-width app column on a wide screen
+  { const hr=host.getBoundingClientRect(); let bt=0; document.querySelectorAll(".lsa-hdr,#meta").forEach(x=>{ const r=x.getBoundingClientRect(); if(r.height) bt=Math.max(bt,r.bottom-hr.top); }); w.style.setProperty("--adm-top",bt+"px"); const ft=document.querySelector(".lsa-foot:not(.sp)"); let bb=0; if(ft){ const fr=ft.getBoundingClientRect(); if(fr.height) bb=Math.max(0,hr.bottom-fr.top); } w.style.setProperty("--adm-bot",bb+"px"); }   // v1.08.093: the curtain stops above the footer   // v1.08.082: stays inside the phone-width app column on a wide screen
   const cb=document.getElementById("famSetA"); if(cb){ cb.checked=FAM_ON; if(!cb._on){ cb._on=1; cb.addEventListener("change",()=>famSet(cb.checked)); } }
   const v=document.querySelector(".lsa-foot-ver"), m=/v\d+\.\d+\.\d+/.exec(v&&v.textContent||""); document.getElementById("vApp").textContent=m?m[0]:"--"; document.getElementById("vScr").textContent=(SNAP&&SNAP.scraperVersion)||"--"; document.getElementById("vGeo").textContent=(SNAP&&SNAP.geometryVersion)||"--";
   document.getElementById("admCopy").textContent="העתק"; ADM_ALL=false; ADM_PEEK={}; { const ad=document.getElementById("admAdv"); if(ad&&ad.classList.contains("open")) admAdvToggle(); } w.classList.add("show"); alog("admin opened"); admAdvCheck();
 }
-// v1.08.091: ADMIN > ADVANCED: a health check of the whole data path, the NOTAMs that need a look, and a few counts
+// v1.08.093: ADMIN > ADVANCED: a health check of the whole data path, the NOTAMs that need a look, and a few counts
 let ADM_ALL=false, ADM_PEEK={};
 const ADM_LBL={"Q/E mismatch":"Q/E mismatch","area missing":"Area missing","name unknown":"Name unknown","legs missing":"Legs missing","outside Q":"Outside Q","rejected":"Shape rejected","outward":"Strip outward","withdrawn":"Withdrawn point","semi-circle":"Semi-circle","unfamiliar":"Unfamiliar text"};
 function admAgo(ms){ const m=Math.max(0,Math.round(ms/60000)); return m<2?"just now":m<60?m+" min ago":m<120?"1 h ago":m<2880?Math.floor(m/60)+" h ago":Math.floor(m/1440)+" days ago"; }
@@ -4902,7 +4902,7 @@ function admAdvRender(chk){
   el.innerHTML=`<div class="adm-sub">DATA PATH</div><div class="adm-path">${st.map(x=>`<div class="adm-st1"><div class="d ${x[2][0]==="g"?"":x[2][0]}"></div><b>${x[0]}</b>${x[1]?`<em>${x[1]}</em>`:""}<small class="${x[2][0]==="g"?"":x[2][0]}">${esc(x[2][1])}</small></div>`).join("")}</div>
 <div class="adm-help">Green = fine. Amber = take a look. Red = stuck. If red, check Cloudflare and GitHub.</div>
 <div class="adm-sub">NEEDS A LOOK${n?" ("+n+")":""}</div>${n?rows+(n>3?`<button type="button" class="adm-all" onclick="ADM_ALL=!ADM_ALL;admAdvRender()">${ADM_ALL?"Show fewer &#9652;":"Show all "+n+" &#9662;"}</button>`:"")+`<div class="adm-tip">Tap a row to read the reason.</div>`:`<div class="adm-tip">Nothing to look at.</div>`}
-<div class="adm-sub">COUNTS</div>${kv("NOTAMs read from IAA",SNAP.count!=null?SNAP.count:ALL.length)}${kv("On the map",act.filter(e=>e.geo).length)}${kv("No location",act.filter(e=>!e.geo).length)}${kv("Hidden (administrative)",ALL.filter(x=>x.administrative).length)}${kv("Cancelled, last 72 hours",CANC.length)}`;
+<div class="adm-sub">COUNTS</div>${kv("NOTAMs read from IAA",SNAP.count!=null?SNAP.count:ALL.length)}${kv("On the map",act.filter(e=>e.geo).length)}${kv("No location",act.filter(e=>!e.geo).length)}${kv("Hidden (administrative)",ALL.filter(x=>x.administrative).length)}${kv("Cancelled, last 72 hours",CANC.length)}${kv("Corrected, handled by rule",act.filter(e=>{ const m=e.shape&&e.shape.mismatch; return (m&&m.kind==="e-dir")||(e.shape&&e.shape.corrected); }).length)}`;
 }
 function admAdvToggle(){ const a=document.getElementById("admAdv"), o=!a.classList.contains("open"); a.classList.toggle("open",o); a.querySelector(".adm-ah").setAttribute("aria-expanded",o); document.getElementById("admChev").innerHTML=o?"&#9652;":"&#9662;"; if(o) alog("admin: advanced opened"); }
 async function admAdvCheck(){   // the phone step: look at the feed now; a newer file is taken in like a normal refresh
@@ -4940,7 +4940,7 @@ function admCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.091 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.093 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -5061,7 +5061,7 @@ function rvVis(){
 function rvFit(){   // the NOTAM card has a fixed height, so the buttons never move; shorter on a short screen so the map stays visible
   const st=document.getElementById("stage"), H=st&&st.clientHeight||600;
   const tt=RV.news?22:0;   // v1.08.045: the news panel has a title line, the card gives that much
-  RV.th=Math.max(190-tt,Math.min(258,Math.round(H*.5-90))-tt);   // v1.08.091: about 7 lines of text (80% of the NOTAMים need no scroll), shorter only on a short screen
+  RV.th=Math.max(190-tt,Math.min(258,Math.round(H*.5-90))-tt);   // v1.08.093: about 7 lines of text (80% of the NOTAMים need no scroll), shorter only on a short screen
   document.getElementById("rvc").style.setProperty("--rvch",RV.th+"px");
 }
 function rvUi(){
@@ -5311,7 +5311,7 @@ function rvDoneShow(){   // everything is marked: a short message, the button on
 }
 function rvCardFade(){   // NOTAM text scrolls inside a fixed height: fade at the bottom while more text exists
   const tx=document.querySelector("#rvMid .card>.c-text,#rvMid .card>.diff"); if(!tx) return;
-  const cue=document.createElement("div"); cue.className="cue hide";   // v1.08.091: the same cue as the list and the curtains
+  const cue=document.createElement("div"); cue.className="cue hide";   // v1.08.093: the same cue as the list and the curtains
   cue.innerHTML='<i class="cue-f"></i><button type="button" class="scroll-btn" aria-label="גלול למטה"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>';
   tx.appendChild(cue);
   cue.querySelector("button").addEventListener("click",ev=>{ ev.stopPropagation(); tx.scrollBy({top:tx.clientHeight*.8,behavior:"smooth"}); });
