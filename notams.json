@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-07T09:30:39.915Z",
-  "scraperVersion": "v1.00.006",
+  "generatedAt": "2026-11-07T10:00:39.344Z",
+  "scraperVersion": "v1.00.007",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
