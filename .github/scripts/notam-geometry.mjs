@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.030 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.031 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -1243,8 +1243,7 @@ export function flagsFor(notams) {
     if (g && g.corrected && g.mismatch && g.mismatch.kind === "q-e") continue;     // hand-corrected NOTAM: the Q/E gap is the reason for the correction, already reviewed
     if (g && g.mismatch && g.mismatch.kind === "q-e") { const q = n.qLine?.position || n.position || {};
       add(n, "Q/E mismatch", `Item Q position (${q.lat},${q.lon} r=${q.radiusNm}NM) does not cover the Item E area: ${g.mismatch.distNm} NM apart; both drawn, linked`); continue; }
-    if (g && g.mismatch && g.mismatch.kind === "e-dir") {
-      add(n, "Q/E mismatch", `Item E: "${g.mismatch.width} ${g.mismatch.dir}" from the ${g.mismatch.border.toUpperCase()} boundary points away from Israel; strip drawn on the Israeli side`); continue; }
+    if (g && g.mismatch && g.mismatch.kind === "e-dir") continue;                    // v1.00.031: handled by rule (the strip is drawn on the Israeli side for flight safety); not flagged. The app counts these as "Corrected, handled by rule" in the admin card
     if (g && g.note === "semi-circle drawn as full circle") { add(n, "semi-circle", "semi-circle with no side, drawn as a full circle"); continue; }
     if (g || !t || /\bATS\s+RTE\b/.test(t)) continue;
     const hits = AREA_WORDS.filter(([, rx]) => { rx.lastIndex = 0; return rx.test(t); }).map(([w]) => w);
@@ -1288,7 +1287,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.030";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.031";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
