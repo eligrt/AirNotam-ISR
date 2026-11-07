@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T10:00:39.344Z",
+  "generatedAt": "2026-11-07T10:09:47.544Z",
   "scraperVersion": "v1.00.007",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
@@ -8085,10 +8085,6 @@
           "width": "6KM",
           "dir": "WB"
         }
-      },
-      "geometryFlag": {
-        "kind": "Q/E mismatch",
-        "reason": "Item E: \"6KM WB\" from the EGYPT boundary points away from Israel; strip drawn on the Israeli side"
       }
     },
     {
@@ -20790,5 +20786,5 @@
     }
   ],
   "cancelled": [],
-  "geometryVersion": "v1.00.030"
+  "geometryVersion": "v1.00.031"
 }
