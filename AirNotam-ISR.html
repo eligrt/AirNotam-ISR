@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════
-     AirNotam-ISR · v1.08.089 · built by eligrt
+     AirNotam-ISR · v1.08.090 · built by eligrt
      ═══════════════════════════════════════ -->
 <html lang="he" dir="rtl">
 <head>
@@ -2020,6 +2020,29 @@ body.wide #mbFull{display:none !important;}
 .adm-vt b{font-weight:700;}
 .adm-vt span{color:#7fb0ff;font-weight:700;}
 .adm-vr small{display:block;font-size:12px;color:#9fb0cc;margin-top:2px;font-family:system-ui,sans-serif;}
+
+/* v1.08.090: the review curtain, shorter - the "7 of 21" sits in the title row, the arrows sit beside the NOTAM number, the card shows the status, the altitude and the real distance to the route */
+.rvc-cnt{position:absolute;top:2px;right:14px;height:32px;display:flex;align-items:center;z-index:2;pointer-events:none;font-size:15px;font-weight:700;color:var(--ink-dark);}
+.rvc.news .rvc-cnt{top:2px;}
+.rvc-grip{height:34px;}
+.rvq{margin-bottom:8px;}
+.rvq>div small{margin-top:9px;}
+.rvc-mw{position:relative;flex:none;}
+.rvc-mw>.rvp-a{position:absolute;top:0;z-index:3;width:46px;height:44px;margin:0;}
+.rvc-mw>.rvp-prev{right:0;}
+.rvc-mw>.rvp-next{left:0;}
+.rvc-mw>.rvp-a svg{width:26px;height:26px;}
+.rvbox .c-top{justify-content:center;margin-bottom:0;padding:0 40px;}
+.rvbox .c-top .c-head{justify-content:center;flex:0 1 auto;margin-bottom:0;}
+.rvbox .c-badges{direction:rtl;flex-wrap:nowrap;justify-content:flex-start;gap:6px;margin-top:6px;}
+.rvbox .c-badges .b{font-size:11px;padding:3px 10px;}
+.rvbox .c-badges .c-st{font-size:12px;padding:3px 10px;}
+.rvbox .card>.c-text,.rvbox .card>.diff{margin-top:6px;}
+.rvbox .c-when{margin-top:4px;}
+.rvc .c-acts.c2{margin-top:6px;padding-top:0;border-top:none;}
+.rvc .c-acts.c2 .c-act{height:40px;min-height:40px;}
+.rvbox .cue-f{background:linear-gradient(to bottom,rgba(251,246,232,0),var(--paper-hi));}
+.rvbox .card>.c-text.more,.rvbox .card>.diff.more{-webkit-mask-image:none !important;mask-image:none !important;}   /* the fade strip of the cue replaces the old mask */
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -2059,7 +2082,7 @@ body.wide #mbFull{display:none !important;}
     <div class="sp-title">AirNotam</div><div class="sp-tag">Only what matters</div>
     <div class="sp-line1"><span id="splL1"></span></div><div class="sp-line2">WHERE · WHEN · REVIEW</div></div>
     <div class="lsa-skip">tap to skip</div>
-    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.089 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
+    <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver" id="splVer">AirNotam-ISR · v1.08.090 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();setReloadApp()">טען מחדש</button></div></div>
   <div class="disc lnch" id="lnch"><div class="dcard">
     <div class="dbanner"><img id="lnchImg" alt=""><div class="dname">AirNotam-ISR</div></div>
     <div class="dbody"><div class="dbd">
@@ -2137,8 +2160,9 @@ body.wide #mbFull{display:none !important;}
     <div class="rvc-ttl" id="rvTtl2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span>NOTAM חדשים ב-72 שעות האחרונות</span></div>
     <div class="rvq" id="rvQ"><div id="rvQm"><div class="bar"><i id="rvBm"></i><b class="rv-cur" id="rvCm"></b><span class="rv-pl" id="rvPm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15l-8-4.5V5a1.5 1.5 0 0 0-3 0v5.5L2 15v2l8-2.2V19l-2 1.5V22l4-1 4 1v-1.5L14 19v-4.2l7 2.2z"/></svg></span></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>על המפה <b id="rvNm">0/0</b></small></div>
       <div id="rvQn"><div class="bar"><i id="rvBn"></i><b class="rv-cur" id="rvCn"></b><span class="rv-pl" id="rvPn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15l-8-4.5V5a1.5 1.5 0 0 0-3 0v5.5L2 15v2l8-2.2V19l-2 1.5V22l4-1 4 1v-1.5L14 19v-4.2l7 2.2z"/></svg></span></div><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M3 3l18 18"/></svg>ללא מיקום <b id="rvNn">0/0</b></small></div></div>
-    <div class="rvp-row"><button type="button" class="rvp-a" id="rvPrevA" aria-label="הקודם" onclick="rvNav(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button><div class="rvp-c"><b id="rvCnt"></b></div><button type="button" class="rvp-a" id="rvNextA" aria-label="הבא" onclick="rvNav(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
-    <div class="rvc-mid rvbox" id="rvMid"></div>
+    <span class="rvc-cnt"><b id="rvCnt"></b></span>
+    <div class="rvc-mw"><button type="button" class="rvp-a rvp-prev" id="rvPrevA" aria-label="הקודם" onclick="rvNav(-1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button><button type="button" class="rvp-a rvp-next" id="rvNextA" aria-label="הבא" onclick="rvNav(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div class="rvc-mid rvbox" id="rvMid"></div></div>
   </div>
   <div class="stage" id="stage">
   <div class="draw-bar" id="drawBar">
@@ -2199,7 +2223,7 @@ body.wide #mbFull{display:none !important;}
   </div>
   </div>
 
-  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.089 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
+  <div class="lsa-foot" dir="ltr"><button type="button" class="lsa-foot-slot nt-set" onclick="toggleSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> הגדרות</button><span class="lsa-foot-ver">AirNotam-ISR · v1.08.090 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="setReloadApp()">טען מחדש</button></div>
 </div>
 <div id="mapside"><div id="msDim"></div></div>   <!-- v1.06.005: holds the map on a wide screen -->
 
@@ -2878,7 +2902,7 @@ function card(e,st,rv,keep,lst){
   const rad=e.radiusNm!=null?`<span class="b rad">r=${e.radiusNm}NM</span>`:"";
   const cat=`<span class="b cat">${esc(catLabel(e.cat))}</span>`;
   const geoB=e.geo?`<span class="b geo">במפה</span>`:(e.big?`<span class="b nogeo">אזור רחב, לא במפה</span>`:`<span class="b nogeo">ללא מיקום</span>`);
-  const rt= rv&&e.geo&&ROUTE.length>=2? `<span class="b rt">בקרבת המסלול</span>` : routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";
+  const rt= routeTag(e)?`<span class="b rt">${routeTag(e)}</span>`:"";   // v1.08.090: the real distance ("חוצה את המסלול" / "2.3NM מהמסלול"), no more fixed label
   const repl=e.type==="R"&&e.replaces?`<span class="b">↻ ${esc(e.replaces)}</span>`:"";
   const id=esc(e.id);
   const mapBtn= e.geo ? `<button class="c-act c-go" onclick="focusOnMap('${id}')">${MAP_ICO}<span><span class="nw">הצג ה-NOTAM</span> <span class="nw">במפה</span></span></button>`
@@ -2900,9 +2924,9 @@ function card(e,st,rv,keep,lst){
     <div class="c-top">
       <div class="c-head"><span class="c-id">${id}</span>${rv&&RV.news&&RV.nitems[e.id]&&RV.nitems[e.id].t==="new"?'<span class="u-tag u-new">חדש</span>':""}
         ${e.loc?`<span class="c-loc">${esc(e.loc)}${e.airfield?" · "+esc(e.airfield):""}</span>`:""}</div>
-      <span class="c-st">${ST_LBL[st]}</span>
+      ${rv?"":`<span class="c-st">${ST_LBL[st]}</span>`}
     </div>
-    <div class="c-badges">${cat}${alt}${rad}${geoB}${rt}${repl}</div>
+    <div class="c-badges">${rv?`<span class="c-st">${ST_LBL[st]}</span>${alt}${rt}`:`${cat}${alt}${rad}${geoB}${rt}${repl}`}</div>
     <div class="c-text">${qHl(e.text)}</div>
     <div class="c-when">${fmtUTC(e.start)} → ${fmtUTC(e.end)}</div>
     ${acts?`<div class="c-acts ${rv?"c2":keep?"c3":lst?"lk":"c1"}">${acts}</div>`:""}
@@ -3266,6 +3290,10 @@ function famPlace(){
   ls.scrollTop=keep; famFade();
 }
 window.addEventListener("resize",()=>{ try{famPlace();}catch(_){} });
+// v1.08.090: when a curtain opens or closes the buttons move; the filter panel fits itself again right away (before it only did so once a second)
+let _famT=0; function famSoon(){ if(_famT) return; _famT=requestAnimationFrame(()=>{ _famT=0; try{ if(FAM_CTL) famPlace(); }catch(_){} }); }
+document.addEventListener("transitionend",famSoon,true); document.addEventListener("animationend",famSoon,true);
+function famFollow(ms){ const t0=performance.now(); (function f(){ try{ if(FAM_CTL) famPlace(); }catch(_){} if(performance.now()-t0<ms) requestAnimationFrame(f); })(); }   // follows a curtain while it slides
 function famFit(){                          // zoom to everything the chosen option shows
   const ls=Object.values(CIRCLES); if(!ls.length) return;
   const bb=L.featureGroup(ls).getBounds(); if(bb.isValid()) MAP.fitBounds(bb,{padding:[30,30],maxZoom:13});
@@ -4824,7 +4852,7 @@ function admCopy(){
 // start-up: was the previous session cut off (page killed / reloaded while open) or ended normally?
 (function(){
   let prev=null; try{prev=localStorage.getItem("airnotam_alive");}catch(e){}
-  alog("START v1.08.089 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
+  alog("START v1.08.090 · previous session: "+(prev==="1"?"CUT OFF while visible (crash / forced reload)":prev==="h"?"ended in background":"ended normally"));
   try{alog(diagLine());}catch(e){}
   const set=v=>{try{localStorage.setItem("airnotam_alive",v);}catch(e){}};
   set("1"); let closed=false;
@@ -4945,7 +4973,7 @@ function rvVis(){
 function rvFit(){   // the NOTAM card has a fixed height, so the buttons never move; shorter on a short screen so the map stays visible
   const st=document.getElementById("stage"), H=st&&st.clientHeight||600;
   const tt=RV.news?22:0;   // v1.08.045: the news panel has a title line, the card gives that much
-  RV.th=Math.max(190-tt,Math.min(300,Math.round(H*.5-120))-tt);
+  RV.th=Math.max(190-tt,Math.min(258,Math.round(H*.5-90))-tt);   // v1.08.090: about 7 lines of text (80% of the NOTAMים need no scroll), shorter only on a short screen
   document.getElementById("rvc").style.setProperty("--rvch",RV.th+"px");
 }
 function rvUi(){
@@ -5009,7 +5037,7 @@ function rvClose(){
   const r=document.getElementById("rvc"); r.classList.remove("show","pend");
   setTimeout(()=>{ if(!RV.on){ document.getElementById("rvMid").innerHTML=""; r.classList.remove("news"); } },480);
   document.getElementById("stage").classList.remove("rv-on");
-  topStack(); alog("review close"); rvVis();
+  topStack(); alog("review close"); rvVis(); famFollow(700);
   if(wasNews){ NEWS_PIN.clear(); render(); }   // v1.08.045: the news NOTAMים go back to the pilot's own choices
   else if(!SHOW_IRR && MAP) renderMap();
   try{mbSync();}catch(_){}
@@ -5195,8 +5223,12 @@ function rvDoneShow(){   // everything is marked: a short message, the button on
 }
 function rvCardFade(){   // NOTAM text scrolls inside a fixed height: fade at the bottom while more text exists
   const tx=document.querySelector("#rvMid .card>.c-text,#rvMid .card>.diff"); if(!tx) return;
-  const f=()=>tx.classList.toggle("more",tx.scrollTop+tx.clientHeight<tx.scrollHeight-4);
-  tx.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f);
+  const cue=document.createElement("div"); cue.className="cue hide";   // v1.08.090: the same cue as the list and the curtains
+  cue.innerHTML='<i class="cue-f"></i><button type="button" class="scroll-btn" aria-label="גלול למטה"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>';
+  tx.appendChild(cue);
+  cue.querySelector("button").addEventListener("click",ev=>{ ev.stopPropagation(); tx.scrollBy({top:tx.clientHeight*.8,behavior:"smooth"}); });
+  const f=()=>{ const more=tx.scrollTop+tx.clientHeight<tx.scrollHeight-4; tx.classList.toggle("more",more); cue.classList.toggle("hide",!more); };
+  tx.addEventListener("scroll",f,{passive:true}); requestAnimationFrame(f); setTimeout(f,120);
 }
 window.addEventListener("resize",()=>{ if(RV.on) rvFit(); });
 function rvRingClear(){ if(RV.lay) RV.lay.clearLayers(); if(RV.glow) RV.glow.clearLayers(); }
