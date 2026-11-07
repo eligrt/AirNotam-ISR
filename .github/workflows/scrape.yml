@@ -1,4 +1,4 @@
-# scrape.yml · v1.00.006 · AirNotam-ISR · built by eligrt
+# scrape.yml · v1.00.007 · AirNotam-ISR · built by eligrt
 name: Scrape NOTAMs
 
 # No schedule here on purpose: GitHub's own timer fired only every 3-7 hours.
@@ -56,7 +56,10 @@ jobs:
            *           kept exactly as saved (no re-fetch); numbers gone from the list are dropped.
            *           If notams.json is missing or unreadable, light falls back to full.
            *
-           * Scraper version (v1.00.006): the feed carries "scraperVersion" so the app can show which scraper wrote it (Settings).
+           * Scraper version (v1.00.007): the feed carries "scraperVersion" so the app can show which scraper wrote it (Settings).
+           * v1.00.007: when a run cannot read the IAA site, the stored notams.json is kept as it was and gets one extra field,
+           *   lastReadFailure {at, reason}, saved by the last step. The next good run writes a fresh file without it. The app's
+           *   Admin page turns the "IAA NOTAM source" light red when this field is present.
            *
            * News for the app's bell (v1.00.005):
            *   - firstSeen: the moment a NOTAM number was first seen on the list (accurate to about 30 minutes).
@@ -75,7 +78,7 @@ jobs:
            * is relaxed and tlsVerified is true. Remove getInsecure() once IAA has fixed the certificate.
            */
 
-          import { writeFileSync, readFileSync } from "fs";
+          import { writeFileSync, readFileSync, existsSync } from "fs";
           import { join } from "path";
           import https from "https";
           
@@ -333,7 +336,7 @@ jobs:
 
             const payload = {
               generatedAt,
-              scraperVersion: "v1.00.006",   // v1.00.006: the app shows this in Settings. Keep it equal to the number in the first line of this file
+              scraperVersion: "v1.00.007",   // v1.00.007: the app shows this in Settings. Keep it equal to the number in the first line of this file
               source: LIST_URL,
               disclaimer: "Informational only. Not a substitute for an official pre-flight briefing.",
               tlsVerified: !tlsError,
@@ -346,7 +349,18 @@ jobs:
             console.error(`✓ Wrote ${notams.length} NOTAMs → ${OUT}`);
           }
           
-          main().catch(err => { console.error("✗ Scrape failed:", why(err)); process.exit(1); });
+          main().catch(err => {
+            console.error("✗ Scrape failed:", why(err));
+            // v1.00.007: leave a short note in the stored file (data untouched) so the app can show that IAA was not reachable.
+            try {
+              if (existsSync(OUT)) {
+                const cur = JSON.parse(readFileSync(OUT, "utf8"));
+                cur.lastReadFailure = { at: new Date().toISOString(), reason: String(why(err)).slice(0, 200) };
+                writeFileSync(OUT, JSON.stringify(cur, null, 2), "utf-8");
+              }
+            } catch (e) { console.error("could not write the failure note:", e.message); }
+            process.exit(1);
+          });
           SCRAPER_EOF
 
       # Real shapes (polygons, circles, border strips, closed route legs) from the NOTAM text.
@@ -409,5 +423,20 @@ jobs:
             echo "No change in notams.json"
           else
             git commit -m "data: refresh notams.json [skip ci]"
+            git push
+          fi
+
+      # v1.00.007: when the scraper could not read IAA, save the failure note it left in notams.json.
+      - name: Save failure note
+        if: failure()
+        run: |
+          git config user.name  "airnotam-bot"
+          git config user.email "airnotam-bot@users.noreply.github.com"
+          git add notams.json
+          if git diff --staged --quiet; then
+            echo "Nothing to save"
+          else
+            git commit -m "data: IAA not reachable, note saved [skip ci]"
+            git pull --rebase || true
             git push
           fi
