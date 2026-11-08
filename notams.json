@@ -1,12 +1,107 @@
 {
-  "generatedAt": "2026-11-08T05:30:41.957Z",
+  "generatedAt": "2026-11-08T06:00:40.008Z",
   "scraperVersion": "v1.00.007",
   "source": "https://brin.iaa.gov.il/MobileAeroinfo/maiNotam.aspx",
   "disclaimer": "Informational only. Not a substitute for an official pre-flight briefing.",
   "tlsVerified": true,
   "tlsError": null,
-  "count": 116,
+  "count": 117,
   "notams": [
+    {
+      "id": "A0886/26",
+      "location": "LLER",
+      "locationDescription": "Ramon",
+      "fromDate": "2026-11-09T11:05:00.000Z",
+      "toDate": "2026-11-09T12:10:00.000Z",
+      "qLine": {
+        "fir": "LLLL",
+        "qcode": "QFALC",
+        "traffic": "IV",
+        "purpose": "NBO",
+        "scope": "A",
+        "lowerLimitFl": "000",
+        "upperLimitFl": "999",
+        "position": {
+          "lat": 29.733333,
+          "lon": 35.016667,
+          "radiusNm": 5,
+          "source": "q_line"
+        }
+      },
+      "eText": "AD CLSD TO ALL FLT DUE WIP. IN CASE OF EMERG AVBL WI 5MIN PPR FM ATC.",
+      "position": {
+        "lat": 29.733333,
+        "lon": 35.016667,
+        "radiusNm": 5,
+        "source": "q_line"
+      },
+      "administrative": false,
+      "notamType": "N",
+      "replaces": null,
+      "rawText": "A0886/26 NOTAMN Q) LLLL/QFALC/IV/NBO/A /000/999/2944N03501E005 A) LLER B) 2611091105 C) 2611091210 E) AD CLSD TO ALL FLT DUE WIP. IN CASE OF EMERG AVBL WI 5MIN PPR FM ATC.)",
+      "rowID": "2079357",
+      "firstSeen": "2026-11-08T06:00:40.008Z",
+      "geometry": {
+        "source": "airfield",
+        "areas": [
+          {
+            "code": "LLER",
+            "kind": "AIRFIELD",
+            "name": "Ramon (Eilat)"
+          }
+        ],
+        "parts": [
+          {
+            "type": "polygon",
+            "role": "airfield",
+            "coords": [
+              [
+                29.688163,
+                35.025476
+              ],
+              [
+                29.757287,
+                35.044817
+              ],
+              [
+                29.766181,
+                35.002668
+              ],
+              [
+                29.697057,
+                34.983327
+              ]
+            ]
+          },
+          {
+            "type": "polygon",
+            "role": "runway",
+            "coords": [
+              [
+                29.709317,
+                35.006508
+              ],
+              [
+                29.74605,
+                35.016787
+              ],
+              [
+                29.745027,
+                35.021636
+              ],
+              [
+                29.708294,
+                35.011357
+              ]
+            ]
+          }
+        ],
+        "anchor": [
+          29.727172,
+          35.014072
+        ]
+      }
+    },
     {
       "id": "C2365/26",
       "location": "LLLL",
