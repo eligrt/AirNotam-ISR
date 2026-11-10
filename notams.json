@@ -20881,5 +20881,9 @@
     }
   ],
   "cancelled": [],
-  "geometryVersion": "v1.00.031"
+  "geometryVersion": "v1.00.031",
+  "lastReadFailure": {
+    "at": "2026-11-10T09:30:57.106Z",
+    "reason": "blocked by bot-wall"
+  }
 }
