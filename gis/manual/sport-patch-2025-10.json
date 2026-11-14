@@ -1,5 +1,5 @@
 {
-  "_file": "gis/sport-patch-2025-10.json · v1.00.004 · AirNotam-ISR · built by eligrt",
+  "_file": "gis/sport-patch-2025-10.json · v1.00.005 · AirNotam-ISR · built by eligrt",
   "_readme": [
     "WHY THIS FILE EXISTS (three sources, one answer per point):",
     "1. BASE = IAA GIS 2023a (gis/sport.json). The only machine-readable source: points, route lines, status. It is never edited.",
@@ -20,7 +20,14 @@
     "   but the NOTAM parser still knows them: a NOTAM that names one is still DRAWN (hiding a closure is worse than showing it)",
     "   AND FLAGGED 'לבדיקה' (+ GitHub issue), because either this patch is wrong (the point still exists: bring it back,",
     "   one line) or the IAA used an old name.",
-    "Checked by Eli against the chart, 2026-09-29."
+    "Checked by Eli against the chart, 2026-09-29.",
+    "",
+    "2026-11-14 FIX (Eli, Oct 2025 sport chart, north sheet; the CVFR chart is not involved):",
+    "   - NEW LEG KKANA-ZGLNI (Kfar Kana - Zomet Golani), solid green, all week, printed 3.2 NM. The GIS 2023a has no such leg, so the",
+    "     route Hamovil - Kfar Kana - Golani stopped at Kfar Kana on the map. No other official Rata file has it either.",
+    "   - STATUS CHANGE MOVIL-KKANA: the GIS says BR (dotted), the Oct 2025 chart draws it solid: now OPEN. Shape and length (6.1 NM) were already right.",
+    "   - Reason: the official GIS is older than the chart. This is a gap between the two official sources, not a drawing problem in the app.",
+    "   - Needs app v1.08.107 and parser v1.00.032 or newer (new instruction 'legs.status'). The full chart-against-data review is a separate step."
   ],
   "source": { "chart": "IAA sport (ultralight) chart, north + south, updated October 2025", "base": "IAA GIS 2023a" },
 
@@ -75,7 +82,11 @@
       { "leg": "KEDUM-IZHRW", "status": "BR · Weekend",   "nm": 1.5,  "chart": "dotted brown" },
       { "leg": "IZHRW-IZHRE", "status": "BR · Weekend",   "nm": 4.2,  "chart": "dotted brown" },
       { "leg": "IZHRE-MCORA", "status": "BR · Weekend",   "nm": 8.2,  "chart": "dotted brown" },
-      { "leg": "MCORA-ZADAM", "status": "BR · Weekend",   "nm": 4.6,  "chart": "dotted brown" }
+      { "leg": "MCORA-ZADAM", "status": "BR · Weekend",   "nm": 4.6,  "chart": "dotted brown" },
+      { "leg": "KKANA-ZGLNI", "status": "OPEN · AllWeek", "nm": 3.2,  "chart": "solid green" }
+    ],
+    "status": [
+      { "leg": "MOVIL-KKANA", "status": "OPEN · AllWeek", "was": "BR · AllWeek", "chart": "solid green (Oct 2025)" }
     ],
     "withdraw": [
       { "leg": "AAKKO-KRYON", "note": "gone from the 2025 chart (checked by Eli, Haifa crop)" },
