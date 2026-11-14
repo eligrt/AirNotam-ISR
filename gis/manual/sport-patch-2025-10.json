@@ -1,5 +1,5 @@
 {
-  "_file": "gis/sport-patch-2025-10.json · v1.00.005 · AirNotam-ISR · built by eligrt",
+  "_file": "gis/sport-patch-2025-10.json · v1.00.006 · AirNotam-ISR · built by eligrt",
   "_readme": [
     "WHY THIS FILE EXISTS (three sources, one answer per point):",
     "1. BASE = IAA GIS 2023a (gis/sport.json). The only machine-readable source: points, route lines, status. It is never edited.",
@@ -27,7 +27,9 @@
     "     route Hamovil - Kfar Kana - Golani stopped at Kfar Kana on the map. No other official Rata file has it either.",
     "   - STATUS CHANGE MOVIL-KKANA: the GIS says BR (dotted), the Oct 2025 chart draws it solid: now OPEN. Shape and length (6.1 NM) were already right.",
     "   - Reason: the official GIS is older than the chart. This is a gap between the two official sources, not a drawing problem in the app.",
-    "   - Needs app v1.08.107 and parser v1.00.032 or newer (new instruction 'legs.status'). The full chart-against-data review is a separate step."
+    "   - Needs app v1.08.107 and parser v1.00.032 or newer (new instruction 'legs.status'). The full chart-against-data review is a separate step.",
+    "",
+    "2026-11-14 NOTE (build 006): added the internal list _not_on_chart (11 legs drawn from the GIS but not on the Oct 2025 sport chart, kept on purpose so NOTAMs naming them still draw). No change to the map, the app or the parser."
   ],
   "source": { "chart": "IAA sport (ultralight) chart, north + south, updated October 2025", "base": "IAA GIS 2023a" },
 
@@ -71,6 +73,26 @@
     "GEFEN: the GIS 2023a code; the 2025 chart writes GEFFN."
   ],
 
+  "_not_on_chart": {
+    "_about": "INTERNAL NOTE FOR DEVELOPMENT ONLY (Eli, 2026-11-14). Ignored by the app and the parser. Nothing here changes the map.",
+    "_why_kept": "These legs are drawn on the map from the GIS 2023a but are NOT printed on the Oct 2025 sport chart (north sheet). They are KEPT on purpose, drawn as today, so a NOTAM that names any of them can still be drawn and flagged.",
+    "_haifa_bay": "Checked by Eli against the chart: no sport route there (CVFR only, or nothing).",
+    "_rosh_pina": "Checked by Eli: entry and exit points of the Rosh Pina control zone (LLIB), not sport routes.",
+    "legs": [
+      "DAROM-GALIM",
+      "GALIM-LLHA",
+      "LLHA-GILAM",
+      "AAKKO-GALIM",
+      "DUGIT-AAKKO",
+      "LLHA-DUGIT",
+      "LLHA-AFEK",
+      "LLIB-ZBTZD",
+      "ZBTZD-ZBTMS",
+      "LLIB-ZBTMS",
+      "LLIB-SELZR"
+    ],
+    "_still_open": "Not yet checked, so NOT listed above: LLIB-ZAMID, LLIB-ZETIM, the five old Samaria legs, the Gush Dan inset legs, TAALL-YASIF. Colour and style differences are a separate step."
+  },
   "legs": {
     "add": [
       { "leg": "HOMMA-MRSBA", "status": "OPEN · Weekend", "nm": 5.7,  "chart": "solid brown" },
