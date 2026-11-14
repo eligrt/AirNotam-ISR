@@ -1,5 +1,5 @@
 /*
- * notam-geometry.mjs · v1.00.031 · AirNotam-ISR · built by eligrt
+ * notam-geometry.mjs · v1.00.032 · AirNotam-ISR · built by eligrt
  *
  * WHAT THIS FILE DOES
  *   scrape.yml fetches the NOTAMs from the IAA and writes notams.json.
@@ -18,6 +18,8 @@
  *    ratag, rwy. Border lines are read from gis/manual/borders.json; --borders <path> overrides it, and the other
  *    folders are then found next to it. Each route layer cvfr.json / sport.json (official) gets its chart patch
  *    (manual) laid on top: see gisApplyPatch and the patch files' _readme)
+ *   (v1.00.032, Eli 2026-11-14: a chart patch may also CHANGE the status of a leg the GIS already has: "legs":{"status":[...]},
+ *    first use: sport MOVIL-KKANA BR -> OPEN, plus the new leg KKANA-ZGLNI; the Oct 2025 chart is newer than the GIS 2023a)
  *
  * WHAT IT RECOGNISES (field E)
  *   polygon : "BTN FLW PSN 314107N0345919E 313846N0345857E ..."   (3+ points)
@@ -490,6 +492,10 @@ export function gisApplyPatch(d, P, keepWithdrawn){
     if(l.nm != null && Math.abs(len - l.nm) > 0.3){ d._patchErrors.push(`${l.leg}: ${len.toFixed(2)} NM from the coordinates, chart says ${l.nm} NM`); return; }
     d.r.features.push({ type: "Feature", geometry: { type: "MultiLineString", coordinates: [line] },
       properties: { n: `${A ? A.properties.n : a}-${B ? B.properties.n : b}`, c: `${a} - ${b}`, t: l.status || "", patch: 1 } }); });
+  (lg.status || []).forEach(l => {   // v1.08.107 / v1.00.032: change the status of a leg the GIS already has (e.g. BR -> OPEN) where the chart disagrees
+    const [a, b] = l.leg.split("-");
+    d.r.features.filter(r => { const e = ends(r); return (e[0] === a && e[1] === b) || (e[0] === b && e[1] === a); })
+      .forEach(r => { r.properties.t = l.status; }); });
   (lg.withdraw || []).forEach(l => {
     const [a, b] = l.leg.split("-");
     d.r.features.filter(r => { const e = ends(r); return (e[0] === a && e[1] === b) || (e[0] === b && e[1] === a); })
@@ -1287,7 +1293,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const data = JSON.parse(readFileSync(inp, "utf8"));
   const list = Array.isArray(data) ? data : data.notams;
   const stats = addGeometry(list);
-  if (!Array.isArray(data)) data.geometryVersion = "v1.00.031";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
+  if (!Array.isArray(data)) data.geometryVersion = "v1.00.032";   // v1.00.026: the app shows it in the admin sheet. Keep equal to the number in the first line of this file
   writeFileSync(outp, JSON.stringify(data, null, 2));
   console.log(`notam-geometry: ${stats.shaped} shaped, ${stats.rejected} rejected, ${stats.none} without a shape`);
   if (fpath) {
